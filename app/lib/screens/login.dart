@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/Widget/login/email_textfield.dart';
 import 'package:app/Widget/login/forgot_password.dart';
 import 'package:app/Widget/login/login_button.dart';
@@ -7,7 +5,7 @@ import 'package:app/Widget/login/login_text.dart';
 import 'package:app/Widget/login/password_textfield.dart';
 import 'package:app/Widget/login/welcome.dart';
 import 'package:app/screens/home_screen.dart';
-import '../Blocs/auth/bloc/auth_bloc.dart';
+import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
   static String routeName = "/login";
@@ -22,37 +20,28 @@ class Login extends StatelessWidget {
     return Material(
       child: Container(
         color: Theme.of(context).accentColor,
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is LoginSuccessState) {
-              Navigator.of(context).pushReplacementNamed(Home.routeName);
-            }
-          },
-          builder: (context, state) {
-            return Column(
-              children: [
-                Welcome(),
-                SizedBox(
-                  height: height * 0.04,
-                ),
-                LoginText(),
-                SizedBox(
-                  height: height * 0.06,
-                ),
-                EmailTextField(),
-                SizedBox(height: height * 0.01),
-                PasswordTextField(),
-                SizedBox(
-                  height: height * 0.06,
-                ),
-                LoginButton(),
-                SizedBox(
-                  height: height * 0.03,
-                ),
-                ResetPasswordOption()
-              ],
-            );
-          },
+        child: Column(
+          children: [
+            Welcome(),
+            SizedBox(
+              height: height * 0.04,
+            ),
+            LoginText(),
+            SizedBox(
+              height: height * 0.06,
+            ),
+            EmailTextField(),
+            SizedBox(height: height * 0.01),
+            PasswordTextField(),
+            SizedBox(
+              height: height * 0.06,
+            ),
+            LoginButton(),
+            SizedBox(
+              height: height * 0.03,
+            ),
+            ResetPasswordOption()
+          ],
         ),
       ),
     );
