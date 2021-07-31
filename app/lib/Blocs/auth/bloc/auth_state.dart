@@ -5,6 +5,19 @@ abstract class AuthState {}
 
 class AuthInitial extends AuthState {}
 
+//Auto Login
+class AutoLoginState extends AuthState {}
+
+class AutoLoginSuccessState extends AuthState {
+   late final LoggedUserInfo user;
+
+  AutoLoginSuccessState({required this.user});
+}
+
+class AutoLoginFailedState extends AuthState {
+  AutoLoginFailedState();
+}
+//Login
 class LoggingState extends AuthState {}
 
 class LoginSuccessState extends AuthState {
