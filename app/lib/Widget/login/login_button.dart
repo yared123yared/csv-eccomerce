@@ -1,8 +1,10 @@
 import 'package:app/constants/login/size.dart';
-import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
+  late final Function onPressed;
+  LoginButton({required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
@@ -12,12 +14,7 @@ class LoginButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
-          },
+          onTap:this.onPressed(),
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(
