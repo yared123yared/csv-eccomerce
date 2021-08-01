@@ -1,9 +1,19 @@
 import 'users.dart';
 
 class LoginInfo {
-  String? email;
-  String? password;
-  LoginInfo({email, password});
+  late String email;
+  late String password;
+  LoginInfo(String email, password) {
+    this.email = email;
+    this.password = password;
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['password'] = this.password;
+
+    return data;
+  }
 }
 
 class LoggedUserInfo {
