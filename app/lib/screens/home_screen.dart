@@ -1,4 +1,5 @@
 import 'package:app/Widget/Auth/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/Auth/Home/search-bar/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import '../constants/constants.dart';
@@ -13,31 +14,35 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('CSV'),
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text('CSV'),
+          backgroundColor: primaryColor,
+          leading: GestureDetector(
+            onTap: () => _scaffoldKey.currentState!.openDrawer(),
+            child: Container(
+              height: 5.0,
+              width: 5.0,
+              child: ImageIcon(
+                AssetImage('assets/images/left-align.png'),
+              ),
             ),
           ),
         ),
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor:
-              primaryColor, //This will change the drawer background to blue.
-          //other styles
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor:
+                primaryColor, //This will change the drawer background to blue.
+            //other styles
+          ),
+          child: Profile(),
         ),
-        child: Profile(),
-      ),
-      drawerEnableOpenDragGesture: true,
-      bottomNavigationBar: HomeBottomNavigation(),
-    );
+        drawerEnableOpenDragGesture: true,
+        bottomNavigationBar: HomeBottomNavigation(),
+        body: Container(
+            color: Color(0xFFf2f6f9),
+            child: Column(children: [
+              SearchBar(),
+            ])));
   }
 }

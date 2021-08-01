@@ -18,7 +18,7 @@ void main() {
       userPreferences: userPreferences,
     ),
   );
-  
+
   runApp(App(
     userPreferences: userPreferences,
     userRepository: userRepository,
