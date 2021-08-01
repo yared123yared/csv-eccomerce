@@ -10,7 +10,18 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => [];
 }
 
-class AutoLoginEvent extends AuthEvent{
+class AutoLoginEvent extends AuthEvent {
   @override
+  List<Object> get props => [];
+}
+
+class UpdatePasswordEvent extends AuthEvent {
+  late final String password;
+  late final String confirmedPassword;
+  UpdatePasswordEvent({
+    required this.password,
+    required this.confirmedPassword,
+  });
+
   List<Object> get props => [];
 }

@@ -35,7 +35,7 @@ class PasswordReset extends StatelessWidget {
             SizedBox(
               height: height * 0.06,
             ),
-            EmailTextField(EmailEditingController: emailController,),
+            // EmailTextField(EmailEditingController: emailController,),
             SizedBox(
               height: height * 0.06,
             ),

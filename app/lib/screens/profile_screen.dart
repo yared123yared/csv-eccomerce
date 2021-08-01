@@ -1,5 +1,9 @@
+import 'package:app/models/login_info.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
+
+UserPreferences pref = UserPreferences();
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -9,132 +13,164 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  // final String baseUrl = 'http://csv.jithvar.com/api/v1';
+
+  // late LoggedUserInfo info;
+  // bool isSet = false;
+
+  @override
+  void initState()  {
+    // if (isSet == false) {
+    //   info = await pref.getUserInformation();
+    // }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 50.0,
-                      backgroundImage: AssetImage(
-                        "assets/images/16.jpg",
-                      ),
+    var photo = 'assets/images/16.jpg';
+    // bool isNull = true;
+    // if (info.user != null) {
+    //   if (info.user!.photo != null) {
+    //     photo = info.user!.photo!;
+    //     isNull = false;
+    //   }
+    // }
+    return Container(
+      width: MediaQuery.of(context).size.width*0.80,
+      // decoration: BoxDecoration(
+      //   color: Colors.transparent,
+      // ),
+      child: Drawer(
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.0,
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child:
+                      //  (isNull == false)
+                      //     ? CircleAvatar(
+                      //         radius: 50.0,
+                      //         backgroundImage: NetworkImage(baseUrl +photo),
+                      //       )
+                      //     :
+                           CircleAvatar(
+                              radius: 50.0,
+                              backgroundImage: AssetImage(photo),
+                            ),
+                    ),
 
-                  Text(
-                    'Crm Admistratora',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(right: 25),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
+                    Text(
+                      'Crm Admistratora',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
                       ),
                     ),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.home,
-                        size: 40.0,
-                        color: Colors.black,
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 25),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                        ),
                       ),
-                      title: Text(
-                        'Dashboard',
-                        style: TextStyle(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.home,
+                          size: 40.0,
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                        ),
+                        title: Text(
+                          'Dashboard',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  DrawerListTile('Categories', 0, Icons.list_alt),
-                  DrawerListTile('Products', 4, Icons.shop),
-                  DrawerListTile('Product Catalog', 4,
-                      Icons.production_quantity_limits_sharp),
-                  DrawerExpansionTile(
-                    'Orders',
-                    [
-                      ExapandedListItem('Sales Report', () {}),
-                      ExapandedListItem('Collection Report', () {}),
-                      ExapandedListItem('Order by debt', () {}),
-                      ExapandedListItem('Customer by debt', () {}),
-                    ],
-                    4,
-                    Icons.shopping_bag,
-                  ),
-                  DrawerExpansionTile(
-                    'Client Management',
-                    [
-                      ExapandedListItem('Clients', () {}),
-                      ExapandedListItem('Invoices', () {}),
-                      ExapandedListItem('Add Money', () {}),
-                    ],
-                    4,
-                    Icons.handyman,
-                  ),
-                  DrawerExpansionTile(
-                      'User Management',
+                    DrawerListTile('Categories', 0, Icons.list_alt),
+                    DrawerListTile('Products', 4, Icons.shop),
+                    DrawerListTile('Product Catalog', 4,
+                        Icons.production_quantity_limits_sharp),
+                    DrawerExpansionTile(
+                      'Orders',
                       [
-                        ExapandedListItem('Users', () {}),
-                        ExapandedListItem('Roles', () {}),
+                        ExapandedListItem('Sales Report', () {}),
+                        ExapandedListItem('Collection Report', () {}),
+                        ExapandedListItem('Order by debt', () {}),
+                        ExapandedListItem('Customer by debt', () {}),
                       ],
                       4,
-                      Icons.supervised_user_circle_sharp),
-                  DrawerExpansionTile(
-                      'Master',
+                      Icons.shopping_bag,
+                    ),
+                    DrawerExpansionTile(
+                      'Client Management',
                       [
-                        ExapandedListItem('Countries', () {}),
-                        ExapandedListItem('States', () {}),
+                        ExapandedListItem('Clients', () {}),
+                        ExapandedListItem('Invoices', () {}),
+                        ExapandedListItem('Add Money', () {}),
                       ],
-                      0,
-                      Icons.folder_open_outlined)
+                      4,
+                      Icons.handyman,
+                    ),
+                    DrawerExpansionTile(
+                        'User Management',
+                        [
+                          ExapandedListItem('Users', () {}),
+                          ExapandedListItem('Roles', () {}),
+                        ],
+                        4,
+                        Icons.supervised_user_circle_sharp),
+                    DrawerExpansionTile(
+                        'Master',
+                        [
+                          ExapandedListItem('Countries', () {}),
+                          ExapandedListItem('States', () {}),
+                        ],
+                        0,
+                        Icons.folder_open_outlined)
 
-                  // DrawerHeader(child: )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 60.0,
-            width: MediaQuery.of(context).size.width * 3.1 / 4,
-            child: ListTile(
-              tileColor: primaryDark,
-              leading: Icon(
-                Icons.logout,
-                color: Colors.white,
-                size: 20.0,
-              ),
-              title: Text(
-                'Sign out',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 18,
+                    // DrawerHeader(child: )
+                  ],
                 ),
               ),
             ),
-          ),
-        ],
+            Container(
+              height: 60.0,
+              width: MediaQuery.of(context).size.width * 3.1 / 4,
+              child: ListTile(
+                tileColor: primaryDark,
+                leading: Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
+                title: Text(
+                  'Sign out',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
