@@ -36,9 +36,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       u = await userRepository.login(user);
       yield LoginSuccessState(user: u);
+      print('0---------');
+      print(u);
     } on HttpException catch (e) {
+      print('1------------------');
+      print(e.message);
       yield LoginFailedState(message: e.message);
     } catch (e) {
+      print('2------------------');
+      print(e.toString());
       yield LoginFailedState(message: 'Login Failed');
     }
   }
