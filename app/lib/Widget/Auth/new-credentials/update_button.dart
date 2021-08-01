@@ -3,6 +3,9 @@ import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class UpdateButton extends StatelessWidget {
+  final Function onPressed;
+  UpdateButton({required this.onPressed});
+
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();

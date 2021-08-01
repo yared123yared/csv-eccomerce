@@ -28,7 +28,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (event is AutoLoginEvent) {
       yield* _mapAutoLoginEventToState();
     }
+     else if (event is UpdatePasswordEvent) {
+      yield* _mapUpdatePasswordEventToState(event.password, event.confirmedPassword);
+    }
   }
+  
 
   Stream<AuthState> _mapLoginEventToState(LoginInfo user) async* {
     yield LoggingState();
@@ -72,6 +76,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     } catch (e) {
       yield AutoLoginFailedState();
+    }
+  }
+  Stream<AuthState> _mapUpdatePasswordEventToState(String password, confirmedPassword) async* {
+    yield UpdatingPasswordState();
+    try {
+       await userRepository.updatepassword(password, confirmedPassword);
+      yield UpdatingPasswordSuccessState();
+
+    } on HttpException catch (e) {
+
+      print(e.message);
+      yield UpdatingPasswordFailedState(message: e.message);
+    } catch (e) {
+      print(e.toString());
+      yield UpdatingPasswordFailedState(message: 'Login Failed');
     }
   }
 }
