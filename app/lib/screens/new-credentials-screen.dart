@@ -1,14 +1,4 @@
-import 'package:app/Widget/login/email_textfield.dart';
-import 'package:app/Widget/login/forgot_password.dart';
-import 'package:app/Widget/login/login_button.dart';
-
-import 'package:app/Widget/login/password_textfield.dart';
-import 'package:app/Widget/login/welcome.dart';
-import 'package:app/Widget/new-credentials/confirm-password-textfield.dart';
-import 'package:app/Widget/new-credentials/new-password-textfield.dart';
-import 'package:app/Widget/new-credentials/new_credential_text.dart';
-import 'package:app/Widget/new-credentials/update_button.dart';
-
+import 'package:app/Widget/Auth/auth-export.dart';
 import 'package:flutter/material.dart';
 
 class NewCredentialsScreen extends StatelessWidget {

@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'custom_textfield.dart';
+import '../Common/custom_textfield.dart';
 
-class ConfirmPasswordTextField extends StatelessWidget {
+class PasswordTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mypasswordController = TextEditingController();
     return CustomTextField(
-      textFieldName: "Confirm Password",
+      textFieldName: "Enter Passowrd",
       controller: _mypasswordController,
-      icon: Icon(
-        Icons.lock,
-        color: Colors.black,
-      ),
+      icon: Icon(Icons.lock, color: Colors.black),
     );
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'custom_textfield.dart';
+import '../Common/custom_textfield.dart';
 
-class NewPasswordTextField extends StatelessWidget {
+class EmailTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _myemailController = TextEditingController();
     return CustomTextField(
-        textFieldName: "New Password",
+        textFieldName: "Enter Email",
         controller: _myemailController,
         icon: Icon(
-          Icons.lock,
+          Icons.email,
           color: Colors.black,
         ));
   }

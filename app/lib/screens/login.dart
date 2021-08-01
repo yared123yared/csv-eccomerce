@@ -1,9 +1,4 @@
-import 'package:app/Widget/login/email_textfield.dart';
-import 'package:app/Widget/login/forgot_password.dart';
-import 'package:app/Widget/login/login_button.dart';
-import 'package:app/Widget/login/login_text.dart';
-import 'package:app/Widget/login/password_textfield.dart';
-import 'package:app/Widget/login/welcome.dart';
+import 'package:app/Widget/Auth/auth-export.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
