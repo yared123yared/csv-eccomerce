@@ -1,11 +1,4 @@
-import 'package:app/Widget/login/email_textfield.dart';
-import 'package:app/Widget/passowrd-reset/description_text.dart';
-
-import 'package:app/Widget/passowrd-reset/forgot_password.dart';
-import 'package:app/Widget/passowrd-reset/next_button.dart';
-
-import 'package:app/Widget/passowrd-reset/welcome.dart';
-
+import 'package:app/Widget/Auth/auth-export.dart';
 import 'package:flutter/material.dart';
 
 class PasswordReset extends StatelessWidget {

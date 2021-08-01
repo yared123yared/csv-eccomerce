@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'custom_textfield.dart';
+import '../Common/custom_textfield.dart';
 
 class NewPasswordTextField extends StatelessWidget {
   @override

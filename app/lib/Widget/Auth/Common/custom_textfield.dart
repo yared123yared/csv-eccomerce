@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String textFieldName;
+  final Icon icon;
   final TextEditingController controller;
 
-  CustomTextField({required this.textFieldName, required this.controller});
+  CustomTextField(
+      {required this.textFieldName,
+      required this.controller,
+      required this.icon});
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
@@ -25,7 +29,7 @@ class CustomTextField extends StatelessWidget {
           style: TextStyle(fontSize: 18, color: Colors.grey),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 14),
-            prefixIcon: Icon(Icons.email),
+            prefixIcon: this.icon,
             border: InputBorder.none,
             // suffixIcon: IconButton(
             //   icon: Icon(ispassshow

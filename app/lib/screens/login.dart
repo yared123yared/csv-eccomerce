@@ -1,6 +1,10 @@
+import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
+import 'package:app/Widget/Auth/auth-export.dart';
 import 'package:app/models/login_info.dart';
+import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+<<<<<<< HEAD
 import 'package:app/Widget/login/custom_textfield.dart';
 import 'package:app/Widget/login/forgot_password.dart';
 import 'package:app/Widget/login/login_button.dart';
@@ -8,6 +12,8 @@ import 'package:app/Widget/login/login_text.dart';
 import 'package:app/Widget/login/welcome.dart';
 import 'package:app/screens/home_screen.dart';
 import '../Blocs/auth/bloc/auth_bloc.dart';
+=======
+>>>>>>> 64d86357796780782e031da3ea8f1b019771ae81
 
 class Login extends StatefulWidget {
   static String routeName = "/login";
@@ -23,17 +29,34 @@ class _LoginState extends State<Login> {
 
   TextEditingController passwordController = TextEditingController();
 
+<<<<<<< HEAD
 
+=======
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+>>>>>>> 64d86357796780782e031da3ea8f1b019771ae81
 
   void loginHandler() {
     bool isValid = formKey.currentState!.validate();
     if (!isValid) {
       return;
     }
+<<<<<<< HEAD
     print("-----");
     print(isValid);
     late LoginInfo info = new LoginInfo(
       emailController.text.toString(),
+=======
+    if (passwordController.text.isEmpty) {
+      return;
+    }
+    late String email = emailController.text.toString();
+    late LoginInfo info = new LoginInfo(
+      email,
+>>>>>>> 64d86357796780782e031da3ea8f1b019771ae81
       passwordController.text.toString(),
     );
 
@@ -96,6 +119,7 @@ class _LoginState extends State<Login> {
             return Form(
               key: formKey, //key for form
 
+<<<<<<< HEAD
               child: Column(
                 children: [
                   Welcome(),
@@ -147,6 +171,40 @@ class _LoginState extends State<Login> {
                   ),
                   ResetPasswordOption()
                 ],
+=======
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Welcome(),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                    LoginText(),
+                    label,
+                    SizedBox(
+                      height: height * 0.06,
+                    ),
+                    EmailTextField(
+                      EmailEditingController: emailController,
+                    ),
+                    SizedBox(height: height * 0.01),
+                    PasswordTextField(
+                      passwordEditingController: passwordController,
+                    ),
+                    SizedBox(
+                      height: height * 0.06,
+                    ),
+                    LoginButton(
+                      onPressed: () => loginHandler,
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    ResetPasswordOption()
+                  ],
+                ),
+>>>>>>> 64d86357796780782e031da3ea8f1b019771ae81
               ),
             );
           },
