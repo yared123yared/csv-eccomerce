@@ -1,4 +1,5 @@
 import 'package:app/Widget/Auth/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/Auth/Home/product-category/productCategory.dart';
 import 'package:app/Widget/Auth/Home/search-bar/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
@@ -43,6 +44,30 @@ class Home extends StatelessWidget {
             color: Color(0xFFf2f6f9),
             child: Column(children: [
               SearchBar(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ProductCategory(title: "All"),
+                      ProductCategory(
+                        title: "Shoes",
+                      ),
+                      ProductCategory(title: "Phone"),
+                      ProductCategory(title: "Chair"),
+                      ProductCategory(title: "Watch"),
+                      ProductCategory(title: "All"),
+                      ProductCategory(
+                        title: "Shoes",
+                      ),
+                      ProductCategory(title: "Phone"),
+                      ProductCategory(title: "Chair"),
+                      ProductCategory(title: "Watch"),
+                    ],
+                  ),
+                ),
+              ),
             ])));
   }
 }

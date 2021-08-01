@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ProductCategory extends StatefulWidget {
+  final String title;
+  ProductCategory({required this.title});
   @override
   _ProductCategoryState createState() => _ProductCategoryState();
 }
 
 class _ProductCategoryState extends State<ProductCategory> {
   Color _color = Color(0xFF015777).withOpacity(0.05);
-  Color _fontColor = Colors.black.withOpacity(0.8);
+  Color _fontColor = Colors.black.withOpacity(0.6);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,11 @@ class _ProductCategoryState extends State<ProductCategory> {
           child: Container(
               decoration: BoxDecoration(
                   color: this._color, borderRadius: BorderRadius.circular(15)),
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.height * 0.035,
               child: Center(
                 child: Text(
-                  "All",
+                  widget.title,
                   // textAlign: TextAlign.center,
                   style: TextStyle(color: this._fontColor),
                 ),
