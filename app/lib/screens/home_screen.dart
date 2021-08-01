@@ -1,3 +1,4 @@
+import 'package:app/Widget/Auth/Home/bottom-navigation/bottomNavigation.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import '../constants/constants.dart';
@@ -36,6 +37,7 @@ class Home extends StatelessWidget {
         child: Profile(),
       ),
       drawerEnableOpenDragGesture: true,
+      bottomNavigationBar: HomeBottomNavigation(),
     );
   }
 }
