@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class PasswordReset extends StatelessWidget {
   static String routeName = "/passowrd-reset";
   TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
