@@ -71,7 +71,8 @@ class App extends StatelessWidget {
                     color: Color.fromRGBO(20, 31, 51, 1),
                   ),
                   headline6:
-                      TextStyle(fontSize: 24, fontFamily: 'RobotoCondensed'),
+                      TextStyle(fontSize: 24,
+                      fontFamily: 'RobotoCondensed',),
                 ),
           ),
           initialRoute: '/',

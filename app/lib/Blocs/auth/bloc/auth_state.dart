@@ -29,3 +29,12 @@ class LoginFailedState extends AuthState {
   late final String message;
   LoginFailedState({required this.message});
 }
+
+class UpdatingPasswordState extends AuthState {}
+
+class UpdatingPasswordSuccessState extends AuthState {}
+
+class UpdatingPasswordFailedState extends AuthState {
+  late final String message;
+  UpdatingPasswordFailedState({required this.message});
+}

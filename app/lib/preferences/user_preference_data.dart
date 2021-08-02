@@ -23,6 +23,11 @@ class UserPreferences {
     await prefs.setString('expiry', expiry);
   }
 
+  Future<void> storeToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
   Future<String?> getUserToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -38,7 +43,7 @@ class UserPreferences {
   }
 
   bool isExpired(String expiry) {
-    var date =  DateTime.parse(expiry);
+    var date = DateTime.parse(expiry);
     if (date.isAfter(DateTime.now())) return false;
     return true;
   }

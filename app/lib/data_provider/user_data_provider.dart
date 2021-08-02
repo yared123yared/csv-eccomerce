@@ -15,26 +15,16 @@ class UserDataProvider {
   final String baseUrl = 'http://csv.jithvar.com/api/v1';
 
   Future<LoggedUserInfo> login(LoginInfo loginInfo) async {
-    print('-----f');
     LoggedUserInfo loggedUserInfo;
     final urlLogin = Uri.parse('${baseUrl}/login');
-    print('-----e');
     try {
-      print(loginInfo.toJson());
       final response = await http.post(
         urlLogin,
         body: loginInfo.toJson(),
       );
-      print(loginInfo.email);
-      print(loginInfo.password);
-      print('-a--------');
-      print(response.statusCode);
-      print(response.body);
       if (response.statusCode != 201) {
-        print('-b--------');
         throw HttpException('Incorrect email or password');
       } else {
-        print('-c--------');
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
         loggedUserInfo = LoggedUserInfo.fromJson(extractedData);
@@ -45,10 +35,37 @@ class UserDataProvider {
             .storeTokenAndExpiration(loggedUserInfo.token!, expiry);
       }
     } catch (e) {
-      print('-d--------');
-      print(e);
       throw e;
     }
     return loggedUserInfo;
+  }
+
+  Future<void> updatePassword(String password, confirmedPassword) async {
+    final urlUpdatePassword = Uri.parse('${baseUrl}/change-password');
+
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['password'] = password;
+    data['password_confirmation'] = confirmedPassword;
+    try {
+      String? token = await this.userPreferences.getUserToken();
+      final response = await http.post(
+        urlUpdatePassword,
+        body: data,
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        },
+      );
+      if (response.statusCode != 201) {
+        throw HttpException('Error Occured');
+      } else {
+        final extractedData =json.decode(response.body) as Map<String, dynamic>;
+        await this
+            .userPreferences
+            .storeToken(extractedData['token'].token!);
+      }
+    } catch (e) {
+      throw e;
+    }
   }
 }
