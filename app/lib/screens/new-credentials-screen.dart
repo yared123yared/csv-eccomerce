@@ -1,15 +1,10 @@
-<<<<<<< HEAD
+import 'package:app/Widget/Auth/Common/welcome.dart';
+import 'package:app/Widget/Auth/new-credentials/new_credential_text.dart';
+import 'package:app/Widget/Auth/new-credentials/update_button.dart';
 import 'package:app/Widget/login/custom_textfield.dart';
-import 'package:app/Widget/login/welcome.dart';
-import 'package:app/Widget/new-credentials/confirm-password-textfield.dart';
-import 'package:app/Widget/new-credentials/new-password-textfield.dart';
-import 'package:app/Widget/new-credentials/new_credential_text.dart';
-import 'package:app/Widget/new-credentials/update_button.dart';
+
 import '../Blocs/auth/bloc/auth_bloc.dart';
 
-=======
-import 'package:app/Widget/Auth/auth-export.dart';
->>>>>>> 64d86357796780782e031da3ea8f1b019771ae81
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
