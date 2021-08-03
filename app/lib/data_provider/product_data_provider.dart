@@ -13,27 +13,34 @@ class ProductDataProvider {
 
   ProductDataProvider({required this.httpClient}) : assert(httpClient != null);
 
-  Future<Products> getProducts() async {
-    Products products_return = new Products();
+  Future<Products> getProducts(int page) async {
+    late Products products_return;
     try {
-      final url =
-          Uri.parse('http://csv.jithvar.com/api/v1/paginated-products?page=1');
-      print(url);
-      final response = await http.post(
-        url,
-        headers: {
-          // 'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          "Content-Length": '<calculated when request is sent>',
-          "Host": '<calculated when request is sent>',
-          'Authorization': 'Bearer $token',
-        },
-      );
-      print("Http response ${response.statusCode}");
-      if (response.statusCode == 200) {
-        final products = jsonDecode(response.body) as Map<String, dynamic>;
-        products_return = Products.fromJson(products);
+      final url = Uri.parse(
+          'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
 
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode({
+            "draw": 0,
+            "length": 10,
+            "search": "",
+            "column": 0,
+            "dir": "asc"
+          }));
+      // print("Http response ${response.statusCode}");
+      if (response.statusCode == 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+        // print(extractedData);
+        // final products = json.decode(response.body) as Map<String, dynamic>;
+        products_return = Products.fromJson(extractedData['products']);
+        print(response.body);
+        print("product current page ${products_return.currentPage}");
         return products_return;
       } else {
         print(response.body);

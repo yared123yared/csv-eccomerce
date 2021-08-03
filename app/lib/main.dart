@@ -1,6 +1,8 @@
+import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
@@ -18,6 +20,14 @@ void main() {
       userPreferences: userPreferences,
     ),
   );
+  final ProductRepository productRepository = ProductRepository(
+    productDataProvider: ProductDataProvider(
+      httpClient: httpClient,
+    ),
+  );
+
+  // Products products = await productRepository.getProducts();
+  // print(products.currentPage);
 
   runApp(App(
     userPreferences: userPreferences,

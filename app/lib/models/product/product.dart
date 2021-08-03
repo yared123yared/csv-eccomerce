@@ -9,10 +9,10 @@ class Products {
   int? lastPage;
   String? lastPageUrl;
   List<Links>? links;
-  Null? nextPageUrl;
+  StringSink? nextPageUrl;
   String? path;
   int? perPage;
-  Null? prevPageUrl;
+  String? prevPageUrl;
   int? to;
   int? total;
 
@@ -32,13 +32,16 @@ class Products {
       this.total});
 
   Products.fromJson(Map<String, dynamic> json) {
+    // print("data commes from the json ${json['products']['data']}");
     currentPage = json['current_page'];
     if (json['data'] != null) {
+      print("There is a data inside a product");
       data = <Data>[];
       json['data'].forEach((v) {
         data!.add(new Data.fromJson(v));
       });
     }
+    print("completed data");
     firstPageUrl = json['first_page_url'];
     from = json['from'];
     lastPage = json['last_page'];
