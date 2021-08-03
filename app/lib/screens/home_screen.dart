@@ -1,4 +1,3 @@
-import 'package:app/models/login_info.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import '../constants/constants.dart';
