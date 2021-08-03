@@ -96,71 +96,64 @@ class _LoginState extends State<Login> {
             return Form(
               key: formKey, //key for form
 
-              child: Column(
-                children: [
-                  Welcome(),
-                  SizedBox(
-                    height: height * 0.04,
+              child: Scaffold(
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Welcome(),
+                      SizedBox(
+                        height: height * 0.04,
+                      ),
+                      LoginText(),
+                      label,
+                      SizedBox(
+                        height: height * 0.06,
+                      ),
+                      CustomTextField(
+                        textFieldName: 'Email',
+                        controller: emailController,
+                        icon: Icons.email,
+                        validator: (value) {
+                          if (value.isEmpty ||
+                              !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value)) {
+                            return "Enter Correct Email Address";
+                          } else {
+                            return null;
+                          }
+                        },
+                        obsecureText: false,
+                      ),
+                      SizedBox(height: height * 0.01),
+                      CustomTextField(
+                        textFieldName: 'Password',
+                        controller: passwordController,
+                        icon: Icons.lock,
+                        validator: (value) {
+                          if (value.isEmpty || value.toString().length < 5) {
+                            return "Password Too Short";
+                          } else {
+                            return null;
+                          }
+                        },
+                        obsecureText: true,
+                      ),
+                      SizedBox(
+                        height: height * 0.06,
+                      ),
+                      LoginButton(
+                        onPressed: () => loginHandler,
+                      ),
+                      SizedBox(
+                        height: height * 0.03,
+                      ),
+                      ResetPasswordOption(
+                        onPressed: () => Navigator.of(context)
+                            .pushNamed(SendOtpScreen.routeName),
+                      )
+                    ],
                   ),
-                  LoginText(),
-                  label,
-                  SizedBox(
-                    height: height * 0.06,
-                  ),
-                  CustomTextField(
-                    textFieldName: 'Email',
-                    controller: emailController,
-                    icon: Icons.email,
-                    validator: (value) {
-                      if (value.isEmpty ||
-                          !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                              .hasMatch(value)) {
-                        return "Enter Correct Email Address";
-                      } else {
-                        return null;
-                      }
-                    },
-                    obsecureText: false,
-                  ),
-                  SizedBox(height: height * 0.01),
-                  CustomTextField(
-                    textFieldName: 'Password',
-                    controller: passwordController,
-                    icon: Icons.lock,
-                    validator: (value) {
-                      if (value.isEmpty || value.toString().length < 5) {
-                        return "Password Too Short";
-                      } else {
-                        return null;
-                      }
-                    },
-                    obsecureText: true,
-                  ),
-                  SizedBox(
-                    height: height * 0.06,
-                  ),
-                  LoginButton(
-                    onPressed: () => loginHandler,
-                  ),
-                  SizedBox(
-                    height: height * 0.03,
-                  ),
-                  // ResetPasswordOption(
-                  //   onPressed: ()=> Navigator.of(context).pushNamed(SendOtpScreen.routeName),
-                  // )
-                  InkWell(
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(SendOtpScreen.routeName),
-                    child: Text(
-                      'Forgot Passowrd?',
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                          color: Colors.black,),
-                    ),
-                  ),
-                ],
+                ),
               ),
             );
           },

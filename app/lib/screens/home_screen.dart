@@ -1,3 +1,7 @@
+import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/Home/product-category/productCategory.dart';
+import 'package:app/Widget/Home/product-item/product-item.dart';
+import 'package:app/Widget/Home/search-bar/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import '../constants/constants.dart';
@@ -7,35 +11,109 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 class Home extends StatelessWidget {
   static const routeName = 'home';
 
-  const Home({Key? key }) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('CSV'),
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text('CSV'),
+          backgroundColor: primaryColor,
+          leading: GestureDetector(
+            onTap: () => _scaffoldKey.currentState!.openDrawer(),
+            child: Container(
+              height: 5.0,
+              width: 5.0,
+              child: ImageIcon(
+                AssetImage('assets/images/left-align.png'),
+              ),
             ),
           ),
         ),
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor:
-              primaryColor, //This will change the drawer background to blue.
-          //other styles
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+            canvasColor:
+                primaryColor, //This will change the drawer background to blue.
+            //other styles
+          ),
+          child: Profile(),
         ),
-        child: Profile(),
-      ),
-      drawerEnableOpenDragGesture: true,
-    );
+        drawerEnableOpenDragGesture: true,
+        bottomNavigationBar: HomeBottomNavigation(),
+        body: Container(
+            color: Color(0xFFf2f6f9),
+            child: Column(children: [
+              SearchBar(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      ProductCategory(title: "All"),
+                      ProductCategory(
+                        title: "Shoes",
+                      ),
+                      ProductCategory(title: "Phone"),
+                      ProductCategory(title: "Chair"),
+                      ProductCategory(title: "Watch"),
+                      ProductCategory(title: "All"),
+                      ProductCategory(
+                        title: "Shoes",
+                      ),
+                      ProductCategory(title: "Phone"),
+                      ProductCategory(title: "Chair"),
+                      ProductCategory(title: "Watch"),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ])));
   }
 }

@@ -62,6 +62,7 @@ class UserDataProvider {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
         await this.userPreferences.storeToken(extractedData['token'].token!);
+<<<<<<< HEAD
       }
     } catch (e) {
       throw e;
@@ -108,6 +109,8 @@ class UserDataProvider {
             json.decode(response.body) as Map<String, dynamic>;
 
         throw HttpException(extractedData['message']);
+=======
+>>>>>>> 1ef40f54ddba0cfcf77c99400328e5bbea676394
       }
     } catch (e) {
       throw e;
