@@ -1,3 +1,7 @@
+import 'package:app/models/navigation/navigation.dart';
+import 'package:app/screens/reset_password_screen.dart';
+import 'package:app/screens/verify-otp-screen.dart';
+import 'package:app/screens/send_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,6 +33,21 @@ class AppRoutes {
     }
     else if(settings.name==Home.routeName){
       return MaterialPageRoute(builder: (context) => Home());
+    }
+    else if (settings.name == SendOtpScreen.routeName) {
+      return MaterialPageRoute(builder: (context) => SendOtpScreen());
+    }
+    else if (settings.name == ResetPasswordScreen.routeName) {
+      return MaterialPageRoute(builder: (context) => ResetPasswordScreen(
+        email: settings.arguments.toString(),
+      ));
+    }
+    else if (settings.name == VerifyOtpScreen.routeName) {
+
+      return MaterialPageRoute(builder: (context) => VerifyOtpScreen(
+        otpScreenData: settings.arguments as OtpScreenData,
+      ));
+
     }
     return MaterialPageRoute(builder: (context) => Login());
   }

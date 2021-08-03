@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class DescriptionText extends StatelessWidget {
+class EmailOtpSentText extends StatelessWidget {
   final String text;
-  DescriptionText({required this.text});
+  EmailOtpSentText({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +10,9 @@ class DescriptionText extends StatelessWidget {
       this.text,
       style: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.bold,
         // fontFamily: 'Raleway',
-        color: Colors.black,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }

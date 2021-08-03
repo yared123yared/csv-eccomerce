@@ -1,6 +1,7 @@
 import 'package:app/Widget/Auth/Common/welcome.dart';
-import 'package:app/Widget/Auth/Common/welcome.dart';
+
 import 'package:app/models/login_info.dart';
+import 'package:app/screens/send_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/Widget/login/custom_textfield.dart';
@@ -144,7 +145,21 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: height * 0.03,
                   ),
-                  ResetPasswordOption()
+                  // ResetPasswordOption(
+                  //   onPressed: ()=> Navigator.of(context).pushNamed(SendOtpScreen.routeName),
+                  // )
+                  InkWell(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed(SendOtpScreen.routeName),
+                    child: Text(
+                      'Forgot Passowrd?',
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 20,
+                          color: Colors.black,),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -153,4 +168,8 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+void Navigate(BuildContext context) {
+  print('pressed');
 }

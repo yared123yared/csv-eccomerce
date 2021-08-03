@@ -1,19 +1,17 @@
 import 'package:app/constants/login/size.dart';
-import 'package:app/screens/password_reset_screen.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordOption extends StatelessWidget {
+  final Function onPressed;
+  ResetPasswordOption({
+    required this.onPressed,
+  });
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => PasswordReset()),
-        );
-      },
+    return InkWell(
+      onTap: () => this.onPressed,
       child: Text(
         'Forgot Passowrd?',
         // textAlign: TextAlign.center,

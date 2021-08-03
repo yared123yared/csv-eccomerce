@@ -1,9 +1,11 @@
 import 'package:app/constants/login/size.dart';
 
-import 'package:app/screens/new-credentials-screen.dart';
 import 'package:flutter/material.dart';
 
 class NextButton extends StatelessWidget {
+  final Function onPressed;
+
+  NextButton({required this.onPressed});
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
@@ -13,12 +15,7 @@ class NextButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewCredentialsScreen()),
-            );
-          },
+          onTap: this.onPressed(),
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(

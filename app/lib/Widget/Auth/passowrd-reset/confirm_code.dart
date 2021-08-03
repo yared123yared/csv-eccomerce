@@ -1,10 +1,10 @@
 import 'package:app/constants/login/size.dart';
+
 import 'package:flutter/material.dart';
 
-class UpdateButton extends StatelessWidget {
+class ConfirmCode extends StatelessWidget {
   final Function onPressed;
-  UpdateButton({required this.onPressed});
-
+  ConfirmCode({required this.onPressed});
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
@@ -15,7 +15,6 @@ class UpdateButton extends StatelessWidget {
         child: InkWell(
           splashColor: Colors.white,
           onTap: this.onPressed(),
-
           // onTap: () => _pushPage(context, Register()),
           child: Material(
             color: Theme.of(context).primaryColor,
@@ -29,7 +28,7 @@ class UpdateButton extends StatelessWidget {
 
               child: Center(
                   child: Text(
-                'Update',
+                'Confirm Code',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

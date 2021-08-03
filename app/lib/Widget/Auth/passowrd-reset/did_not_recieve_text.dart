@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class DescriptionText extends StatelessWidget {
+class DidnotRecieveText extends StatelessWidget {
   final String text;
-  DescriptionText({required this.text});
+  DidnotRecieveText({required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       this.text,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: FontWeight.w300,
         // fontFamily: 'Raleway',
-        color: Colors.black,
+        color: Color(0xFF494949),
       ),
     );
   }

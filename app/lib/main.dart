@@ -23,6 +23,7 @@ void main() {
     userPreferences: userPreferences,
     userRepository: userRepository,
   ));
+  // runApp(MyApp());
 }
 
 class App extends StatelessWidget {
@@ -59,7 +60,8 @@ class App extends StatelessWidget {
             primarySwatch: Colors.blue,
             primaryColor: Color(0xFF015777),
             // primaryColor: Color.fromRGBO(146, 40, 105, 1),
-            accentColor: Color(0xFFf2f6f9),
+            accentColor: Color(0xFFF2F6F9),
+            // accentColor: Color(0xFFf2f6f9),
             canvasColor: Color.fromRGBO(225, 254, 229, 1),
             errorColor: Colors.redAccent,
             fontFamily: 'Raleway',
@@ -70,9 +72,10 @@ class App extends StatelessWidget {
                   bodyText2: TextStyle(
                     color: Color.fromRGBO(20, 31, 51, 1),
                   ),
-                  headline6:
-                      TextStyle(fontSize: 24,
-                      fontFamily: 'RobotoCondensed',),
+                  headline6: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'RobotoCondensed',
+                  ),
                 ),
           ),
           initialRoute: '/',

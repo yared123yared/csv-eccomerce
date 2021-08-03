@@ -37,15 +37,13 @@ class CustomTextField extends StatelessWidget {
             contentPadding: EdgeInsets.only(top: 14),
             prefixIcon: Icon(this.icon),
             border: InputBorder.none,
-            hintText: 'Enter ${this.textFieldName}',
+            hintText: '${this.textFieldName}',
             errorStyle: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
               textBaseline: TextBaseline.alphabetic,
-
             ),
             errorMaxLines: 1,
-
           ),
           validator: (value) => validator(value),
         ),

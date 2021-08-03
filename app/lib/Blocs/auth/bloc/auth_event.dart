@@ -25,3 +25,25 @@ class UpdatePasswordEvent extends AuthEvent {
 
   List<Object> get props => [];
 }
+
+class SendOTPEvent extends AuthEvent {
+  late final String email;
+  SendOTPEvent({required this.email});
+  @override
+  List<Object> get props => [];
+}
+
+class ConfirmOTPEvent extends AuthEvent {
+  late final String email;
+  late final String otp;
+  late final String password;
+  late final String confirmed_password;
+  ConfirmOTPEvent({
+    required this.email,
+    required this.otp,
+    required this.password,
+    required this.confirmed_password,
+  });
+  @override
+  List<Object> get props => [];
+}
