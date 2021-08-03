@@ -1,5 +1,5 @@
 class Links {
-  Null? url;
+  String? url;
   String? label;
   bool? active;
 

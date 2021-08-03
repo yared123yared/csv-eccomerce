@@ -3,12 +3,12 @@ import 'package:app/models/product/product.dart';
 import 'package:app/preferences/user_preference_data.dart';
 
 class ProductRepository {
-  final ProductDataProvider? productDataProvider;
+  late final ProductDataProvider productDataProvider;
   ProductRepository({
     required this.productDataProvider,
   });
 
-  Future<Products> getProducts() async {
-    return await productDataProvider!.getProducts();
+  Future<Products> getProducts(int page) async {
+    return await productDataProvider.getProducts(page);
   }
 }

@@ -1,6 +1,27 @@
-part of 'produt_bloc.dart';
+import 'package:app/models/product/product.dart';
+import 'package:equatable/equatable.dart';
 
-@immutable
-abstract class ProdutState {}
+class ProductState extends Equatable {
+  const ProductState();
 
-class ProdutInitial extends ProdutState {}
+  @override
+  List<Object> get props => [];
+}
+
+class ProductInitial {}
+
+class ProductLoading extends ProductState {}
+
+class ProductLoadSuccess extends ProductState {
+  final Products products;
+
+  ProductLoadSuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
+class ProductOperationFailure extends ProductState {
+  final String message;
+  ProductOperationFailure({required this.message});
+}

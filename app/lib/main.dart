@@ -21,13 +21,14 @@ Future<void> main() async {
       userPreferences: userPreferences,
     ),
   );
-  // final ProductRepository prodcutRepository = ProductRepository(
-  //   productDataProvider: ProductDataProvider(
-  //     httpClient: httpClient,
-  //   ),
-  // );
-  // Products products = await prodcutRepository.getProducts();
-  // print(products.data);
+  final ProductRepository productRepository = ProductRepository(
+    productDataProvider: ProductDataProvider(
+      httpClient: httpClient,
+    ),
+  );
+
+  // Products products = await productRepository.getProducts();
+  // print(products.currentPage);
 
   runApp(App(
     userPreferences: userPreferences,
