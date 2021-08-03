@@ -1,5 +1,6 @@
 import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
 import 'package:app/Widget/Home/product-category/productCategory.dart';
+import 'package:app/Widget/Home/product-item/product-item.dart';
 import 'package:app/Widget/Home/search-bar/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
@@ -64,6 +65,51 @@ class Home extends StatelessWidget {
                       ProductCategory(title: "Phone"),
                       ProductCategory(title: "Chair"),
                       ProductCategory(title: "Watch"),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            ProductItem(),
+                            ProductItem(),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
