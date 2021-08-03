@@ -1,6 +1,6 @@
-import 'package:app/Widget/Auth/Home/bottom-navigation/bottomNavigation.dart';
-import 'package:app/Widget/Auth/Home/product-category/productCategory.dart';
-import 'package:app/Widget/Auth/Home/search-bar/searchBar.dart';
+import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/Home/product-category/productCategory.dart';
+import 'package:app/Widget/Home/search-bar/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import '../constants/constants.dart';

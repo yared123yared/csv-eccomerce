@@ -1,6 +1,9 @@
+import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'data_provider/product_data_provider.dart';
+import 'models/product/product.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
@@ -8,7 +11,7 @@ import 'repository/user_repository.dart';
 import 'preferences/user_preference_data.dart';
 import 'Blocs/auth/bloc/auth_bloc.dart';
 
-void main() {
+Future<void> main() async {
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
@@ -18,6 +21,13 @@ void main() {
       userPreferences: userPreferences,
     ),
   );
+  // final ProductRepository prodcutRepository = ProductRepository(
+  //   productDataProvider: ProductDataProvider(
+  //     httpClient: httpClient,
+  //   ),
+  // );
+  // Products products = await prodcutRepository.getProducts();
+  // print(products.data);
 
   runApp(App(
     userPreferences: userPreferences,
@@ -70,9 +80,10 @@ class App extends StatelessWidget {
                   bodyText2: TextStyle(
                     color: Color.fromRGBO(20, 31, 51, 1),
                   ),
-                  headline6:
-                      TextStyle(fontSize: 24,
-                      fontFamily: 'RobotoCondensed',),
+                  headline6: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'RobotoCondensed',
+                  ),
                 ),
           ),
           initialRoute: '/',

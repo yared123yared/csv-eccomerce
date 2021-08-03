@@ -59,10 +59,9 @@ class UserDataProvider {
       if (response.statusCode != 201) {
         throw HttpException('Error Occured');
       } else {
-        final extractedData =json.decode(response.body) as Map<String, dynamic>;
-        await this
-            .userPreferences
-            .storeToken(extractedData['token'].token!);
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+        await this.userPreferences.storeToken(extractedData['token'].token!);
       }
     } catch (e) {
       throw e;
