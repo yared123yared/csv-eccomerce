@@ -1,3 +1,4 @@
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,20 +28,24 @@ Future<void> main() async {
     ),
   );
 
-  // Products products = await productRepository.getProducts();
+  // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
   runApp(App(
     userPreferences: userPreferences,
+    productRepository: productRepository,
     userRepository: userRepository,
   ));
 }
 
 class App extends StatelessWidget {
   final UserRepository userRepository;
+  final ProductRepository productRepository;
   final UserPreferences userPreferences;
+
   App({
     required this.userRepository,
+    required this.productRepository,
     required this.userPreferences,
   });
 
@@ -50,6 +55,9 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider<UserRepository>(
           create: (_) => this.userRepository,
+        ),
+        RepositoryProvider<ProductRepository>(
+          create: (_) => this.productRepository,
         ),
         RepositoryProvider<UserPreferences>(
           create: (_) => this.userPreferences,
@@ -62,6 +70,11 @@ class App extends StatelessWidget {
               userRepository: this.userRepository,
               userPreference: this.userPreferences,
             )..add(AutoLoginEvent()),
+          ),
+          BlocProvider<ProductBloc>(
+            create: (_) => ProductBloc(
+              productRepository: this.productRepository,
+            ),
           ),
         ],
         child: MaterialApp(

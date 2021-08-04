@@ -1,5 +1,4 @@
-import 'package:app/models/product/product.dart';
-import 'package:equatable/equatable.dart';
+part of 'produt_bloc.dart';
 
 class ProductState extends Equatable {
   const ProductState();
@@ -13,7 +12,7 @@ class ProductInitial {}
 class ProductLoading extends ProductState {}
 
 class ProductLoadSuccess extends ProductState {
-  final Products products;
+  final List<Data> products;
 
   ProductLoadSuccess({required this.products});
 

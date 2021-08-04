@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
+  final String name;
+  final String image;
+  ProductItem({required this.name, required this.image});
   @override
   Widget build(BuildContext context) {
-    String image =
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg';
+    String image = 'https://csv.jithvar.com/storage/${this.image}';
+
+    print(image);
     return InkWell(
       onTap: () {},
       child: SizedBox(
@@ -27,8 +31,8 @@ class ProductItem extends StatelessWidget {
                     (15),
                   ),
                 ),
-                child: Image.asset(
-                  "assets/images/16.jpg",
+                child: Image.network(
+                  image,
                   height: MediaQuery.of(context).size.height * 0.19,
                   width: double.infinity,
                   fit: BoxFit.fill,
@@ -44,7 +48,7 @@ class ProductItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nike Shoes New',
+                        Text(this.name,
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.height * 0.017,
