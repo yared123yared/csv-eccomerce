@@ -53,7 +53,7 @@ class _ClientProfileState extends State<ClientProfile> {
         data: Theme.of(context).copyWith(
           canvasColor: Colors.blue.shade700,
         ),
-        child: AppDrawer(user:widget.user),
+        child: AppDrawer(),
       ),
       drawerEnableOpenDragGesture: true,
       body: SingleChildScrollView(

@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
                 primaryColor, //This will change the drawer background to blue.
             //other styles
           ),
-          child: AppDrawer(user:this.user),
+          child: AppDrawer(),
         ),
         drawerEnableOpenDragGesture: true,
         bottomNavigationBar: HomeBottomNavigation(),

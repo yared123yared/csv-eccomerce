@@ -11,7 +11,7 @@ class ResetPasswordOption extends StatelessWidget {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
     return InkWell(
-      onTap: () => this.onPressed,
+      onTap: this.onPressed(),
       child: Text(
         'Forgot Passowrd?',
         // textAlign: TextAlign.center,
