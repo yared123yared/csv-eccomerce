@@ -14,9 +14,18 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
   List<Data> productList = [];
   int page = 0;
-  ProductBloc({required this.productRepository})
-      : assert(productRepository != null),
-        super(ProductLoading());
+
+  StreamController<List<Data>> _prodcutListController = StreamController();
+
+  Stream<List<Data>> get productListStream => _prodcutListController.stream;
+
+  // ProductBloc({required this.productRepository})
+  //     : assert(productRepository != null),
+  //       super(ProductLoading());
+  ProductBloc(this.productRepository) : super(ProductLoading()) {
+    _prodcutListController.add(productList);
+  }
+
   @override
   Stream<ProductState> mapEventToState(
     ProductEvent event,
@@ -38,6 +47,22 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           // print(productList[0].firstPageUrl);
         }
       } catch (e) {}
+    } else if (event is AddProduct) {
+      int id = event.id;
+      print("This is the id ${id}");
+      Data product = new Data();
+      for (int i = 0; i < productList.length; i++) {
+        if (productList[i].id == id) {
+          //  const product=[...productList];
+          print("Updated to this ${productList[i].id}");
+          // productList[i].order += 1;
+          product = productList[i];
+        }
+      }
+      product.order += 1;
+      print("This is the add method");
+      print(product.order);
+      yield ProductUpdated(product: product);
     }
   }
 }

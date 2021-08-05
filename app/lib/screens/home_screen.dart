@@ -12,7 +12,14 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  static const routeName = 'home';
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   late ProductBloc productBloc;
 
   @override
@@ -21,10 +28,10 @@ class Home extends StatelessWidget {
     // super.initState();
   }
 
-  static const routeName = 'home';
-
   @override
   Widget build(BuildContext context) {
+    List<ProductItem> productList = [];
+
     productBloc = BlocProvider.of<ProductBloc>(context);
     productBloc.add(FetchProduct());
     return Scaffold(
@@ -82,144 +89,65 @@ class Home extends StatelessWidget {
                 ),
               ),
               Expanded(child: BlocBuilder<ProductBloc, ProductState>(
-                builder: (context, state) {
-                  print("Entered to the bloc builder");
-                  if (state is ProductLoadSuccess) {
-                    // ProductLoadSuccess
-                    print("fetched sucessfully");
-                    // print(state.products);
-                    for (int i = 0; i < state.products.length; i++) {
-                      print(state.products[i].name);
-                    }
-                    return LazyLoadScrollView(
-                      onEndOfPage: () {
-                        if (state is ProductLoading) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Loading"),
-                          ));
-                        }
-                        if (state is ProductLoadSuccess) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Successfully loaded"),
-                          ));
-                          if (state is ProductOperationFailure) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("There is no data"),
-                            ));
-                          }
-                        }
-                      },
-                      child: GridView.builder(
-                          //                  width: MediaQuery.of(context).size.width * 0.5,
-                          // height: MediaQuery.of(context).size.width * 0.7,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width * 0.6,
-                            mainAxisExtent:
-                                MediaQuery.of(context).size.width * 0.7,
-                            // childAspectRatio: 3 / 2,
-                            // crossAxisSpacing: 40,
-                            // mainAxisSpacing: 40
-                          ),
-                          itemCount: state.products.length,
-                          itemBuilder: (BuildContext ctx, index) {
-                            return ProductItem(
-                              name: state.products[index].name.toString(),
-                              image: state.products[index].photos![0].filePath
-                                  .toString(),
-                            );
-                          }),
-                    );
-                    // return ListView.separated(
-                    //     itemBuilder: (context, index) {
-                    //       // return Row(
-                    //       //   children: [
-                    //       //     ProductItem(
-                    //       //       name: state.products[index].name.toString(),
-                    //       //       image: state.products[index].photos![0].filePath
-                    //       //           .toString(),
-                    //       //     ),
-                    //       //     ProductItem(
-                    //       //       name: state.products[index + 1].name.toString(),
-                    //       //       image: state.products[index].photos![0].filePath
-                    //       //           .toString(),
-                    //       //     ),
-                    //       //   ],
-                    //       // );
-                    //       return GridView(
-
-                    //         scrollDirection: Axis.horizontal,
-                    //         gridDelegate:
-                    //             SliverGridDelegateWithMaxCrossAxisExtent(
-
-                    //                 maxCrossAxisExtent: 200,
-                    //                 childAspectRatio: 3 / 2,
-                    //                 crossAxisSpacing: 20,
-                    //                 mainAxisSpacing: 20),
-                    //         children: [
-                    //           // Some widgets
-                    //         ],
-                    //       );
-                    //     },
-                    //     separatorBuilder: (context, index) => Divider(),
-                    //     itemCount: state.products.length);
-                  } else if (state is ProductLoading) {
-                    // ProductLoading
-                    print("loading to fetch the data");
-                  } else if (state is ProductOperationFailure) {
-                    print(state.message);
-                  } else {
-                    // error
-                    print("error");
+                  builder: (context, state) {
+                print("Entered to the bloc builder");
+                if (state is ProductLoadSuccess) {
+                  // state.products.map((product) {});
+                  for (int i = 0; i < state.products.length; i++) {
+                    productList.add(ProductItem(
+                        product: state.products[i],
+                        onTapped: () {
+                          productBloc.add(AddProduct(id: state.products[i].id));
+                          // productBloc.add(FetchProduct());
+                          // productBloc.add(FetchProduct());
+                        }));
                   }
-                  return Container();
-                },
-              )
-                  // child: SingleChildScrollView(
-                  //   scrollDirection: Axis.vertical,
-                  //   child: Column(
-                  //     children: [
-                  //       SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: Row(
-                  //           children: [
-                  //             ProductItem(),
-                  //             ProductItem(),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: Row(
-                  //           children: [
-                  //             ProductItem(),
-                  //             ProductItem(),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: Row(
-                  //           children: [
-                  //             ProductItem(),
-                  //             ProductItem(),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: Row(
-                  //           children: [
-                  //             ProductItem(),
-                  //             ProductItem(),
-                  //           ],
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                  ),
+                  // ProductLoadSuccess
+                  print("fetched sucessfully");
+                  print(
+                      "This i the length of the product item ${productList.length}");
+                } else if (state is ProductLoading) {
+                  // ProductLoading
+                  print("loading to fetch the data");
+                } else if (state is ProductOperationFailure) {
+                  print(state.message);
+                } else if (state is ProductUpdated) {
+                  // productList = [];
+                  for (int i = 0; i < productList.length; i++) {
+                    // productList.add(productList[i]);
+                    if (productList[i].product.id == state.product.id) {
+                      // ProductItem updatedItem = productList[i];
+
+                      productList[i].product = state.product;
+                      // productList.add(productList[i]);
+                      print(
+                          "This is teh product list data ${productList[i].product.order}");
+                    }
+                    // if (productList[i].key == 1) ;
+                  }
+
+                  // updated product will render here.
+
+                  print(
+                      "This is he updated value order ${state.product.order}");
+                }
+
+                return LazyLoadScrollView(
+                    onEndOfPage: () {},
+                    child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent:
+                              MediaQuery.of(context).size.width * 0.6,
+                          mainAxisExtent:
+                              MediaQuery.of(context).size.height * 0.35,
+                        ),
+                        itemCount: productList.length,
+                        itemBuilder: (BuildContext ctx, index) {
+                          print(
+                              "This is the key for the widget ${productList[index].key}");
+                          return Container(child: productList[index]);
+                        }));
+              })),
             ])));
   }
 }

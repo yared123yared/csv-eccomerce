@@ -35,6 +35,7 @@ flutter:
 #     - assets/images/login/
 #     # - images/a_dot_ham.jpeg
   assets:
+    - assets/icons/
     - assets/images/
     - assets/images/login/
 

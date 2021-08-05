@@ -11,3 +11,11 @@ class FetchProduct extends ProductEvent {
   @override
   List<Object> get props => [];
 }
+
+class AddProduct extends ProductEvent {
+  final id;
+  AddProduct({required this.id});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

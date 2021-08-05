@@ -4,12 +4,23 @@ class ProductState extends Equatable {
   const ProductState();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [Object];
+
+  get products => null;
 }
 
 class ProductInitial {}
 
 class ProductLoading extends ProductState {}
+
+class ProductUpdated extends ProductState {
+  final Data product;
+
+  ProductUpdated({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}
 
 class ProductLoadSuccess extends ProductState {
   final List<Data> products;
