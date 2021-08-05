@@ -70,7 +70,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               Colors.blue, //This will change the drawer background to blue.
           //other styles
         ),
-        child: AppDrawer(user: widget.user),
+        child: AppDrawer(),
       ),
       drawerEnableOpenDragGesture: true,
       bottomNavigationBar: HomeBottomNavigation(),
