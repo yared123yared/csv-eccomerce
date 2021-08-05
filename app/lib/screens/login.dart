@@ -150,10 +150,10 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      ResetPasswordOption(
-                        onPressed: () => Navigator.of(context)
-                            .pushNamed(SendOtpScreen.routeName),
-                      )
+                      // ResetPasswordOption(
+                      //   onPressed: () => Navigator.of(context)
+                      //       .pushNamed(SendOtpScreen.routeName),
+                      // )
                     ],
                   ),
                 ),

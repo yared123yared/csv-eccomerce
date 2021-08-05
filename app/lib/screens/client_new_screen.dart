@@ -158,16 +158,16 @@ class _NewClientScreenState extends State<NewClientScreen> {
               obsecureText: false,
               isRequired: true,
             ),
-            // CustomTextField(
-            //   textFieldName: 'Photo',
-            //   controller: photoController,
-            //   validator: (value) {},
-            //   obsecureText: false,
-            //   isRequired: true,
-            // ),
-            CustomFileButton(
-              title: 'Photo',
-            )
+            CustomTextField(
+              textFieldName: 'Photo',
+              controller: photoController,
+              validator: (value) {},
+              obsecureText: false,
+              isRequired: true,
+            ),
+            // CustomFileButton(
+            //   title: 'Photo',
+            // )
           ],
         ),
         currentStep >= 0,
@@ -249,7 +249,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             obsecureText: false,
             isRequired: false,
           ),
-          fileInput: CustomFileButton(title: 'Choose file',),
+          // fileInput: CustomFileButton(title: 'Choose file',),
         ),
         currentStep >= 2,
         currentStep == 2
