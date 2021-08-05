@@ -1,46 +1,47 @@
 import 'package:app/models/login_info.dart';
 import 'package:app/preferences/user_preference_data.dart';
+import 'package:app/screens/client_profile.dart';
+import 'package:app/screens/clients_screen.dart';
+import 'package:app/screens/login.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 
 UserPreferences pref = UserPreferences();
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class AppDrawer extends StatefulWidget {
+  final LoggedUserInfo user;
+
+  const AppDrawer({
+    required this.user,
+  });
 
   @override
-  _ProfileState createState() => _ProfileState();
+  _AppDrawerState createState() => _AppDrawerState();
 }
 
-class _ProfileState extends State<Profile> {
-  // final String baseUrl = 'http://csv.jithvar.com/api/v1';
-
-  // late LoggedUserInfo info;
-  // bool isSet = false;
-
+class _AppDrawerState extends State<AppDrawer> {
   @override
-  void initState()  {
-    // if (isSet == false) {
-    //   info = await pref.getUserInformation();
-    // }
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    var photo = 'assets/images/16.jpg';
-    // bool isNull = true;
-    // if (info.user != null) {
-    //   if (info.user!.photo != null) {
-    //     photo = info.user!.photo!;
-    //     isNull = false;
-    //   }
+    // String? photo;
+    // ImageProvider provider;
+    if (widget.user.user != null) {
+      Navigator.of(context).pushReplacementNamed(Login.routeName);
+      // if (widget.user.user!.photo != null) {
+      //   photo = widget.user.user!.photo;
+      // }
+    }
+    // if (photo == null) {
+    //   photo = 'assets/images/16.jpg';
     // }
+    // provider=(photo==null)?
+
     return Container(
-      width: MediaQuery.of(context).size.width*0.80,
-      // decoration: BoxDecoration(
-      //   color: Colors.transparent,
-      // ),
+      width: MediaQuery.of(context).size.width * 0.80,
       child: Drawer(
         child: Column(
           children: [
@@ -49,31 +50,39 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 30.0,
+                      height: 20,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                      //  (isNull == false)
-                      //     ? CircleAvatar(
-                      //         radius: 50.0,
-                      //         backgroundImage: NetworkImage(baseUrl +photo),
-                      //       )
-                      //     :
-                           CircleAvatar(
-                              radius: 50.0,
-                              backgroundImage: AssetImage(photo),
-                            ),
-                    ),
-
-                    Text(
-                      'Crm Admistratora',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25.0,
+                    DrawerHeader(
+                      padding: EdgeInsets.all(16.0),
+                      child: InkWell(
+                        onTap: () => Navigator.of(context).pushNamed(
+                          ClientProfile.routeName,
+                          arguments: widget.user,
+                        ),
+                        child: Container(
+                          child: Column(
+                            children: [
+                              widget.user.user!.photo==null?CircleAvatar(
+                                radius: 50.0,
+                                backgroundImage: AssetImage('assets/images/16.jpg'),
+                              ): CircleAvatar(
+                                      radius: 50.0,
+                                      backgroundImage: NetworkImage(widget.user.user!.photo!),
+                                    ),
+                              Text(
+                                'Crm Admistratora',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
+
                     SizedBox(
                       height: 20.0,
                     ),
@@ -102,10 +111,30 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    DrawerListTile('Categories', 0, Icons.list_alt),
-                    DrawerListTile('Products', 4, Icons.shop),
-                    DrawerListTile('Product Catalog', 4,
-                        Icons.production_quantity_limits_sharp),
+                    DrawerListTile(
+                      'Categories',
+                      0,
+                      Icons.list_alt,
+                      () => {},
+                    ),
+                    DrawerListTile('Products', 4, Icons.shop, () => {}),
+                    DrawerListTile(
+                      'Clients',
+                      4,
+                      Icons.person,
+                      () => Navigator.of(context).pushNamed(
+                        ClientsScreen.routeName,
+                        arguments: widget.user,
+                      ),
+                    ),
+
+                    DrawerListTile(
+                      'Product Catalog',
+                      4,
+                      Icons.production_quantity_limits_sharp,
+                      () => Navigator.of(context)
+                          .pushNamed(ClientsScreen.routeName),
+                    ),
                     DrawerExpansionTile(
                       'Orders',
                       [
@@ -126,32 +155,14 @@ class _ProfileState extends State<Profile> {
                       ],
                       4,
                       Icons.handyman,
-                    ),
-                    DrawerExpansionTile(
-                        'User Management',
-                        [
-                          ExapandedListItem('Users', () {}),
-                          ExapandedListItem('Roles', () {}),
-                        ],
-                        4,
-                        Icons.supervised_user_circle_sharp),
-                    DrawerExpansionTile(
-                        'Master',
-                        [
-                          ExapandedListItem('Countries', () {}),
-                          ExapandedListItem('States', () {}),
-                        ],
-                        0,
-                        Icons.folder_open_outlined)
-
-                    // DrawerHeader(child: )
+                    ), // DrawerHeader(child: )
                   ],
                 ),
               ),
             ),
             Container(
               height: 60.0,
-              width: MediaQuery.of(context).size.width * 3.1 / 4,
+              width: MediaQuery.of(context).size.width * 4 / 5,
               child: ListTile(
                 tileColor: primaryDark,
                 leading: Icon(
@@ -179,6 +190,7 @@ class _ProfileState extends State<Profile> {
     String title,
     int count,
     IconData data,
+    Function onTap,
   ) {
     Text text = Text(
       // '',
@@ -190,33 +202,35 @@ class _ProfileState extends State<Profile> {
       ),
     );
     return ListTile(
-        leading: Icon(
-          data,
-          size: 35.0,
-          color: Colors.white,
-        ),
-        title: count > 0
-            ? Row(
-                children: [
-                  text,
-                  SizedBox(
-                    width: 5,
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.red,
-                    radius: 10,
-                    child: Text(
-                      '$count',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
+      leading: Icon(
+        data,
+        size: 35.0,
+        color: Colors.white,
+      ),
+      onTap: () => onTap(),
+      title: count > 0
+          ? Row(
+              children: [
+                text,
+                SizedBox(
+                  width: 5,
+                ),
+                CircleAvatar(
+                  backgroundColor: Colors.red,
+                  radius: 10,
+                  child: Text(
+                    '$count',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
                     ),
                   ),
-                ],
-              )
-            : text);
+                ),
+              ],
+            )
+          : text,
+    );
   }
 
   ExpansionTile DrawerExpansionTile(

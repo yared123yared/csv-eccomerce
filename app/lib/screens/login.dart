@@ -62,7 +62,10 @@ class _LoginState extends State<Login> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              Navigator.of(context).pushReplacementNamed(Home.routeName);
+              Navigator.of(context).pushReplacementNamed(
+                Home.routeName,
+                arguments: state.user,
+              );
             }
           },
           builder: (context, state) {

@@ -1,10 +1,13 @@
 import 'package:app/constants/login/size.dart';
 import 'package:flutter/material.dart';
 
-class LoginButton extends StatelessWidget {
-  final Function loginHandler;
-
-  LoginButton({required this.loginHandler});
+class StepperButton extends StatelessWidget {
+  final Function? onPressed;
+  final String title;
+  StepperButton({
+    required this.onPressed,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,7 @@ class LoginButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap:this.loginHandler(),
+          onTap: this.onPressed!(),
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(
@@ -30,7 +33,7 @@ class LoginButton extends StatelessWidget {
 
               child: Center(
                   child: Text(
-                'Login',
+                '${this.title}',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

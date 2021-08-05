@@ -2,8 +2,9 @@ import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
 import 'package:app/Widget/Home/product-category/productCategory.dart';
 import 'package:app/Widget/Home/product-item/product-item.dart';
 import 'package:app/Widget/Home/search-bar/searchBar.dart';
+import 'package:app/models/login_info.dart';
 import 'package:flutter/material.dart';
-import 'profile_screen.dart';
+import 'drawer.dart';
 import '../constants/constants.dart';
 
 final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -11,7 +12,11 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 class Home extends StatelessWidget {
   static const routeName = 'home';
 
-  const Home({Key? key}) : super(key: key);
+  final LoggedUserInfo user;
+
+  const Home({
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,7 @@ class Home extends StatelessWidget {
                 primaryColor, //This will change the drawer background to blue.
             //other styles
           ),
-          child: Profile(),
+          child: AppDrawer(user:this.user),
         ),
         drawerEnableOpenDragGesture: true,
         bottomNavigationBar: HomeBottomNavigation(),

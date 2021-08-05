@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'Common/pill_text.dart';
+import 'pill_text.dart';
 
-class ProductDataRow extends StatelessWidget {
+class ClientDataRow extends StatelessWidget {
   final String property;
   final String value;
-  const ProductDataRow({
+  const ClientDataRow({
     required this.property,
     required this.value,
     Key? key,

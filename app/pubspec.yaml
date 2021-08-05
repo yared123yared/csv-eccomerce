@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +25,9 @@ dev_dependencies:
   flutter_bloc: ^7.1.0
   shared_preferences: ^2.0.6
   otp_text_field: ^1.1.1
+  file_picker: ^3.0.4
+  dio: ^4.0.0
+
 flutter:
 
   uses-material-design: true
