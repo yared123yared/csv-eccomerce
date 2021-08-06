@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'badge.dart';
+import 'cart.dart';
 
 class HomeBottomNavigation extends StatefulWidget {
   @override
@@ -13,44 +14,35 @@ class _HomeBottomNavigationState extends State<HomeBottomNavigation> {
   Widget build(BuildContext context) {
     return BottomAppBar(
       child: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            child: IconButton(
-              icon: Image.asset(
-                'assets/icons/home.png',
-                color: Colors.grey,
-              ),
-              onPressed: () {},
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/home.png',
+              color: Colors.grey,
             ),
+            onPressed: () {},
           ),
-          Expanded(
-            child: IconButton(
-              icon: Image.asset(
-                'assets/icons/categories.png',
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {},
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/categories.png',
+              color: Theme.of(context).primaryColor,
             ),
+            onPressed: () {},
           ),
           // Expanded(child: new Text('')),
-          Expanded(
-            child: IconButton(
-              icon: Image.asset(
-                'assets/icons/cart2.png',
-                color: Colors.grey,
-              ),
-              onPressed: () {},
+          IconButton(
+            icon: Cart(
+              value: 1,
             ),
+            onPressed: () {},
           ),
-          Expanded(
-            child: IconButton(
-              icon: Image.asset(
-                'assets/icons/um2.png',
-                color: Colors.grey,
-              ),
-              onPressed: () {},
+          IconButton(
+            icon: Image.asset(
+              'assets/icons/um2.png',
+              color: Colors.grey,
             ),
+            onPressed: () {},
           ),
         ],
       ),
