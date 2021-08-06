@@ -123,78 +123,83 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             } else {
               label = SizedBox();
             }
-            return Column(
-              children: [
-                Welcome(),
-                SizedBox(
-                  height: height * 0.04,
-                ),
-                OtpVerificationText(),
-                label,
-                SizedBox(
-                  height: height * 0.02,
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Row(
-                    children: [
-                      DescriptionText(
-                        text: 'Enter the OTP sent to',
+            return Scaffold(
+              backgroundColor: Theme.of(context).accentColor,
+              body: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Welcome(),
+                    SizedBox(
+                      height: height * 0.04,
+                    ),
+                    OtpVerificationText(),
+                    label,
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
                       ),
-                      EmailOtpSentText(text: widget.otpScreenData.email)
-                    ],
-                  ),
+                      child: Row(
+                        children: [
+                          DescriptionText(
+                            text: 'Enter the OTP sent to',
+                          ),
+                          EmailOtpSentText(text: widget.otpScreenData.email)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: DescriptionText(
+                        text: 'you want to reset your password',
+                      ),
+                    ),
+                    //
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    Center(
+                      child: OTPTextField(
+                        length: 4,
+                        width: MediaQuery.of(context).size.width * 0.60,
+                        fieldWidth: 40,
+                        style: TextStyle(fontSize: 17),
+                        textFieldAlignment: MainAxisAlignment.spaceAround,
+                        fieldStyle: FieldStyle.underline,
+                        onCompleted: (pin) {
+                          print("Completed: " + pin);
+                          otp = pin;
+                        },
+                        onChanged: (pin) {
+                          print("changing: " + pin);
+                          otp = pin;
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    // EmailTextField(EmailEditingController: emailController,),
+                    ConfirmCode(
+                      onPressed: () => verifyAndUpdate,
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    DidnotRecieveText(
+                      text: 'Did\'t Recieve the OTP',
+                    ),
+                    ResendText(
+                      text: 'Resend Code',
+                      onTap: () => sendOtpHandler,
+                    )
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: DescriptionText(
-                    text: 'you want to reset your password',
-                  ),
-                ),
-                //
-                SizedBox(
-                  height: height * 0.05,
-                ),
-                Center(
-                  child: OTPTextField(
-                    length: 4,
-                    width: MediaQuery.of(context).size.width * 0.60,
-                    fieldWidth: 40,
-                    style: TextStyle(fontSize: 17),
-                    textFieldAlignment: MainAxisAlignment.spaceAround,
-                    fieldStyle: FieldStyle.underline,
-                    onCompleted: (pin) {
-                      print("Completed: " + pin);
-                      otp = pin;
-                    },
-                    onChanged: (pin){
-                       print("changing: " + pin);
-                      otp = pin;
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: height * 0.05,
-                ),
-                // EmailTextField(EmailEditingController: emailController,),
-                ConfirmCode(
-                  onPressed: () => verifyAndUpdate,
-                ),
-                SizedBox(
-                  height: height * 0.03,
-                ),
-                DidnotRecieveText(
-                  text: 'Did\'t Recieve the OTP',
-                ),
-                ResendText(
-                  text: 'Resend Code',
-                  onTap: () => sendOtpHandler,
-                )
-              ],
+              ),
             );
           },
         ),

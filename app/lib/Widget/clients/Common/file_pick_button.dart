@@ -21,12 +21,12 @@ class CustomFileButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),
       ),
-      child: GestureDetector(
-        child: Container(
-          width: loginSize.getTextFieldWidth,
-          child: Row(
-            children: [
-              TextFormField(
+      child: Container(
+        width: loginSize.getTextFieldWidth,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextFormField(
                 decoration: InputDecoration(
                     hintText: '${this.title}', helperText: '${this.title}'),
                 enabled: false,
@@ -37,13 +37,13 @@ class CustomFileButton extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              Container(
-                width: 50,
-                color: Color(0xFFF2F6F9),
-                child: Text('Browse'),
-              )
-            ],
-          ),
+            ),
+            Container(
+              width: 50,
+              color: Color(0xFFF2F6F9),
+              child: Text('Browse'),
+            )
+          ],
         ),
       ),
     );

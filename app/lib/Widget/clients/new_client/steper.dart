@@ -20,13 +20,12 @@ class StepCreateClient extends StatelessWidget {
       controlsBuilder: (BuildContext context,
           {VoidCallback? onStepContinue, VoidCallback? onStepCancel}) {
         return StepperButton(
-          onPressed: ()=>onStepContinue,
+          onPressed: () => onStepContinue,
           title: this.currentStep < 2 ? 'Next' : 'Save',
         );
       },
       steps: steps,
       physics: ScrollPhysics(),
-    
       type: StepperType.horizontal,
       currentStep: this.currentStep,
       onStepContinue: this.onStepContinue(),

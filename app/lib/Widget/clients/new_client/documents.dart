@@ -5,12 +5,12 @@ import '../Common/custom_textfield.dart';
 
 class Documents extends StatelessWidget {
   final CustomTextField documentNameField;
-  final CustomFileButton fileInput;
+  // final CustomFileButton fileInput;
   final Function onAddNewPressed;
   Documents({
     required this.documentNameField,
     required this.onAddNewPressed,
-    required this.fileInput,
+    // required this.fileInput,
   });
   @override
   Widget build(BuildContext context) {
@@ -34,10 +34,10 @@ class Documents extends StatelessWidget {
         SizedBox(
           height: 15.0,
         ),
-        this.fileInput,
-        SizedBox(
-          height: 15.0,
-        ),
+        // this.fileInput,
+        // SizedBox(
+        //   height: 15.0,
+        // ),
       ],
     );
   }

@@ -4,6 +4,8 @@ import 'package:app/Widget/Home/product-category/productCategory.dart';
 import 'package:app/Widget/Home/product-item/product-item.dart';
 import 'package:app/Widget/Home/search-bar/searchBar.dart';
 import 'package:app/models/login_info.dart';
+import 'package:app/models/product/data.dart';
+import 'package:app/models/users.dart';
 import 'package:flutter/material.dart';
 import 'drawer.dart';
 import '../constants/constants.dart';
@@ -14,7 +16,6 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class Home extends StatefulWidget {
   static const routeName = 'home';
-
   final LoggedUserInfo user;
   Home({required this.user});
 

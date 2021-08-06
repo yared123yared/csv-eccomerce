@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'home_screen.dart';
+
 UserPreferences pref = UserPreferences();
 
 class AppDrawer extends StatefulWidget {
@@ -49,7 +51,7 @@ class _AppDrawerState extends State<AppDrawer> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if ((state is LoginSuccessState) ) {
+            if ((state is LoginSuccessState)) {
               return Column(
                 children: [
                   Expanded(
@@ -57,7 +59,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 20,
+                            height: 15,
                           ),
                           DrawerHeader(
                             padding: EdgeInsets.all(16.0),
@@ -69,23 +71,24 @@ class _AppDrawerState extends State<AppDrawer> {
                               child: Container(
                                 child: Column(
                                   children: [
-                                    state.user.user!.photo == null
-                                        ? CircleAvatar(
-                                            radius: 50.0,
-                                            backgroundImage: AssetImage(
-                                                'assets/images/16.jpg'),
-                                          )
-                                        : CircleAvatar(
-                                            radius: 50.0,
-                                            backgroundImage: NetworkImage(
-                                                state.user.user!.photo!),
-                                          ),
+                                    // state.user.user!.photo == null
+                                    // ?
+                                    CircleAvatar(
+                                      radius: 45.0,
+                                      backgroundImage:
+                                          AssetImage('assets/images/16.jpg'),
+                                    ),
+                                    //: CircleAvatar(
+                                    //   radius: 50.0,
+                                    //  backgroundImage: NetworkImage(
+                                    //  state.user.user!.photo!),
+                                    //),
                                     Text(
                                       'Crm Admistratora',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 25.0,
+                                        fontSize: 20.0,
                                       ),
                                     ),
                                   ],
@@ -107,6 +110,9 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
                             ),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.pushNamed(context, Home.routeName);
+                              },
                               leading: Icon(
                                 Icons.home,
                                 size: 40.0,
@@ -131,7 +137,7 @@ class _AppDrawerState extends State<AppDrawer> {
                           DrawerListTile('Products', 4, Icons.shop, () => {}),
                           DrawerListTile(
                             'Clients',
-                            4,
+                            0,
                             Icons.person,
                             () => Navigator.of(context).pushNamed(
                               ClientsScreen.routeName,
@@ -141,7 +147,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
                           DrawerListTile(
                             'Product Catalog',
-                            4,
+                            0,
                             Icons.production_quantity_limits_sharp,
                             () => Navigator.of(context)
                                 .pushNamed(ClientsScreen.routeName),
@@ -193,7 +199,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   ),
                 ],
               );
-            }else if (state is AutoLoginSuccessState){
+            } else if (state is AutoLoginSuccessState) {
               return Column(
                 children: [
                   Expanded(

@@ -24,6 +24,9 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  void forgotPasswordHandler(BuildContext context) {
+    Navigator.of(context).pushNamed(SendOtpScreen.routeName);
+  }
 
   void loginHandler() {
     bool isValid = formKey.currentState!.validate();
@@ -152,8 +155,8 @@ class _LoginState extends State<Login> {
                         height: height * 0.03,
                       ),
                       ResetPasswordOption(
-                        
-                      )
+                          // onPressed: () => forgotPasswordHandler(context),
+                          )
                     ],
                   ),
                 ),
