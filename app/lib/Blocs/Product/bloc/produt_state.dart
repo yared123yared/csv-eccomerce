@@ -1,19 +1,29 @@
-import 'package:app/models/product/product.dart';
-import 'package:equatable/equatable.dart';
+part of 'produt_bloc.dart';
 
 class ProductState extends Equatable {
   const ProductState();
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [Object];
+
+  get products => null;
 }
 
 class ProductInitial {}
 
 class ProductLoading extends ProductState {}
 
+class ProductUpdated extends ProductState {
+  final Data product;
+
+  ProductUpdated({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}
+
 class ProductLoadSuccess extends ProductState {
-  final Products products;
+  final List<Data> products;
 
   ProductLoadSuccess({required this.products});
 
