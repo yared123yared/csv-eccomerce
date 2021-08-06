@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class Cart extends StatelessWidget {
   final int value;
-  Cart({required this.value});
+  final int check;
+  Cart({required this.value, required this.check});
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,7 +15,7 @@ class Cart extends StatelessWidget {
       children: [
         Image.asset(
           'assets/icons/cart2.png',
-          color: Colors.grey,
+          color: check == 2 ? Theme.of(context).primaryColor : Colors.grey,
         ),
         Positioned(
             left: 20,

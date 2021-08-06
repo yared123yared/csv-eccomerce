@@ -13,6 +13,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   Stream<CartState> mapEventToState(
     CartEvent event,
   ) async* {
+    print("Entered to the cart bloc emthod");
     // TODO: implement mapEventToState
+    if (event is AddProduct) {
+      print("Add Product is called");
+      yield CartState(counter: state.counter + 1);
+    }
   }
 }

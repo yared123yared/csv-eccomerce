@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
+import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'data_provider/product_data_provider.dart';
 import 'models/product/product.dart';
 import 'route/route.dart';
@@ -77,7 +78,9 @@ class App extends StatelessWidget {
               this.productRepository,
             ),
           ),
-        
+          BlocProvider<CartBloc>(
+            create: (_) => CartBloc(),
+          ),
         ],
         child: MaterialApp(
           title: 'CSV',

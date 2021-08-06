@@ -1,9 +1,11 @@
 import 'dart:ffi';
 
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'conditional.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductItem extends StatefulWidget {
   Data product;
@@ -17,8 +19,11 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
+  late CartBloc cartBloc;
+
   @override
   Widget build(BuildContext context) {
+    cartBloc = BlocProvider.of<CartBloc>(context);
     String image =
         'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}';
     // print(image);
@@ -27,6 +32,7 @@ class _ProductItemState extends State<ProductItem> {
           setState(() {
             widget.product.order += 1;
           });
+          cartBloc.add(AddProduct());
         },
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
