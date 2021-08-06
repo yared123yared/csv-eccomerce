@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:app/Blocs/single-product/bloc/singleproduct_bloc.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,8 +17,6 @@ class ProductItem extends StatefulWidget {
 }
 
 class _ProductItemState extends State<ProductItem> {
-  late SingleproductBloc singleproductBloc;
-
   @override
   Widget build(BuildContext context) {
     String image =
