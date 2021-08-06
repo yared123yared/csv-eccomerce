@@ -56,57 +56,64 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         color: Theme.of(context).accentColor,
         child: Form(
           key: formKey,
-          child: Column(
-            children: [
-              Welcome(),
-              SizedBox(
-                height: height * 0.04,
+          child: Scaffold(
+            backgroundColor: Theme.of(context).accentColor,
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Welcome(),
+                  SizedBox(
+                    height: height * 0.04,
+                  ),
+                  NewCredentialText(),
+                  SizedBox(
+                    height: height * 0.06,
+                  ),
+                  CustomTextField(
+                    textFieldName: 'New Password',
+                    controller: newPasswordController,
+                    icon: Icons.lock,
+                    validator: (value) {
+                      if (value.isEmpty || value.toString().length < 5) {
+                        return "Password Too Short";
+                      } else if (value.toString() !=
+                          confirmedPasswordController.text.toString()) {
+                        return "Password Not Match";
+                      } else {
+                        return null;
+                      }
+                    },
+                    obsecureText: true,
+                  ),
+                  SizedBox(height: height * 0.01),
+                  CustomTextField(
+                    textFieldName: 'Confirmed Password',
+                    controller: confirmedPasswordController,
+                    icon: Icons.lock,
+                    validator: (value) {
+                      if (value.isEmpty || value.toString().length < 5) {
+                        return "Password Too Short";
+                      } else if (value.toString() !=
+                          newPasswordController.text.toString()) {
+                        return "Password Not Match";
+                      } else {
+                        return null;
+                      }
+                    },
+                    obsecureText: true,
+                  ),
+                  SizedBox(
+                    height: height * 0.06,
+                  ),
+                  UpdateButton(
+                    onPressed: () => resetPasswordHandler,
+                  ),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                ],
               ),
-              NewCredentialText(),
-              SizedBox(
-                height: height * 0.06,
-              ),
-              CustomTextField(
-                textFieldName: 'New Password',
-                controller: newPasswordController,
-                icon: Icons.lock,
-                validator: (value) {
-                  if (value.isEmpty || value.toString().length < 5) {
-                    return "Password Too Short";
-                  } else if (value.toString() != confirmedPasswordController.text.toString()) {
-                    return "Password Not Match";
-                  } else {
-                    return null;
-                  }
-                },
-                obsecureText: true,
-              ),
-              SizedBox(height: height * 0.01),
-              CustomTextField(
-                textFieldName: 'Confirmed Password',
-                controller: confirmedPasswordController,
-                icon: Icons.lock,
-                validator: (value) {
-                  if (value.isEmpty || value.toString().length < 5) {
-                    return "Password Too Short";
-                  } else if (value.toString() != newPasswordController.text.toString()) {
-                    return "Password Not Match";
-                  } else {
-                    return null;
-                  }
-                },
-                obsecureText: true,
-              ),
-              SizedBox(
-                height: height * 0.06,
-              ),
-              UpdateButton(
-                onPressed: () => resetPasswordHandler,
-              ),
-              SizedBox(
-                height: height * 0.03,
-              ),
-            ],
+            ),
           ),
         ),
       ),

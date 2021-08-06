@@ -78,13 +78,13 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                   ),
                 ),
               );
-            }
-            else {
+            } else {
               label = SizedBox();
             }
             return Form(
               key: formKey,
               child: Scaffold(
+                backgroundColor: Theme.of(context).accentColor,
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -139,7 +139,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                       ),
 
                       NextButton(
-                        onPressed: ()=>sendOtpHandler,
+                        onPressed: () => sendOtpHandler,
                       ),
                       SizedBox(
                         height: height * 0.06,

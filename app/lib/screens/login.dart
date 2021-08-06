@@ -24,6 +24,9 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  void forgotPasswordHandler(BuildContext context) {
+    Navigator.of(context).pushNamed(SendOtpScreen.routeName);
+  }
 
   void loginHandler() {
     bool isValid = formKey.currentState!.validate();
@@ -100,6 +103,7 @@ class _LoginState extends State<Login> {
               key: formKey, //key for form
 
               child: Scaffold(
+                backgroundColor: Theme.of(context).accentColor,
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -150,10 +154,9 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      // ResetPasswordOption(
-                      //   onPressed: () => Navigator.of(context)
-                      //       .pushNamed(SendOtpScreen.routeName),
-                      // )
+                      ResetPasswordOption(
+                          // onPressed: () => forgotPasswordHandler(context),
+                          )
                     ],
                   ),
                 ),

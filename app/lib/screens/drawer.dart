@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'home_screen.dart';
+
 UserPreferences pref = UserPreferences();
 
 class AppDrawer extends StatefulWidget {
@@ -108,6 +110,9 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
                             ),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.pushNamed(context, Home.routeName);
+                              },
                               leading: Icon(
                                 Icons.home,
                                 size: 40.0,

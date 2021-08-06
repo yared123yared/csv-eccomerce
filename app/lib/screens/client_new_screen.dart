@@ -48,6 +48,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Create Client'),
@@ -66,10 +67,10 @@ class _NewClientScreenState extends State<NewClientScreen> {
       ),
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor:
-              Colors.blue, //This will change the drawer background to blue.
-          //other styles
-        ),
+            canvasColor: Theme.of(context)
+                .primaryColor //This will change the drawer background to blue.
+            //other styles
+            ),
         child: AppDrawer(),
       ),
       drawerEnableOpenDragGesture: true,
@@ -82,6 +83,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               height: 30,
             ),
             Container(
+              color: Theme.of(context).accentColor,
               child: Text(
                 titles[currentStep],
                 style: TextStyle(
@@ -92,6 +94,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               ),
             ),
             Container(
+              color: Theme.of(context).accentColor,
               height: MediaQuery.of(context).size.height - 50,
               child: StepCreateClient(
                 steps: getSteps(),

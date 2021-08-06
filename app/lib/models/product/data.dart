@@ -16,6 +16,7 @@ class Data {
   Brand? brand;
   List<Photos>? photos;
   Currency? currency;
+  int order = 0;
 
   Data(
       {this.id,

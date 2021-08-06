@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  lazy_load_scrollview: 1.3.0
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -37,6 +39,7 @@ flutter:
 #     - assets/images/login/
 #     # - images/a_dot_ham.jpeg
   assets:
+    - assets/icons/
     - assets/images/
     - assets/images/login/
 
