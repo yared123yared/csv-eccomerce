@@ -12,13 +12,13 @@ import 'package:flutter/material.dart';
 import 'drawer.dart';
 
 class ClientProfile extends StatefulWidget {
-  final LoggedUserInfo user;
+  // final LoggedUserInfo user;
 
-  const ClientProfile({
-    required this.user,
-  });
+  // const ClientProfile({
+  //   required this.user,
+  // });
+  ClientProfile();
   static const routeName = 'client_profile';
-
 
   @override
   _ClientProfileState createState() => _ClientProfileState();
@@ -33,7 +33,6 @@ class _ClientProfileState extends State<ClientProfile> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: HomeBottomNavigation(),
-
       appBar: AppBar(
         title: Text('Client Profile'),
         centerTitle: true,

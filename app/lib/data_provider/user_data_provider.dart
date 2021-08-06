@@ -33,6 +33,9 @@ class UserDataProvider {
         await this
             .userPreferences
             .storeTokenAndExpiration(loggedUserInfo.token!, expiry);
+        print('--------------login');
+        print(loggedUserInfo.token);
+        print('--------------login');
       }
     } catch (e) {
       throw e;

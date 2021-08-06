@@ -1,13 +1,20 @@
 import 'package:app/Widget/clients/clients_list/deleteButton.dart';
 import 'package:app/Widget/clients/clients_list/edit_button.dart';
-import 'package:app/models/navigation/client.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/client_data_row.dart';
 
 class Client extends StatelessWidget {
-  final ClientData client;
-  Client({required this.client});
+  String name;
+  String mobile;
+  String email;
+  String status;
+  Client({
+    required this.email,
+    required this.mobile,
+    required this.name,
+    required this.status,
+  });
   void deletClient() {}
   void editClient() {}
 
@@ -27,12 +34,10 @@ class Client extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ClientDataRow(property: 'NAME', value: this.client.name),
-              ClientDataRow(property: 'Mobile', value: this.client.mobile),
-              ClientDataRow(
-                  property: 'QUANTITY', value: '${this.client.email}'),
-              ClientDataRow(
-                  property: 'STATUS', value: '${this.client.status}'),
+              ClientDataRow(property: 'NAME', value: this.name),
+              ClientDataRow(property: 'Mobile', value: this.mobile),
+              ClientDataRow(property: 'QUANTITY', value: '${this.email}'),
+              ClientDataRow(property: 'STATUS', value: '${this.status}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

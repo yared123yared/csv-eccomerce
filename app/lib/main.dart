@@ -1,4 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/data_provider/clients_data_provider.dart';
+import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +25,12 @@ void main() {
       userPreferences: userPreferences,
     ),
   );
+  final ClientsRepository clientRepository = ClientsRepository(
+    clientsDataProvider: ClientsDataProvider(
+      httpClient: httpClient,
+      userPreferences: userPreferences,
+    ),
+  );
   final ProductRepository productRepository = ProductRepository(
     productDataProvider: ProductDataProvider(
       httpClient: httpClient,
@@ -35,6 +44,7 @@ void main() {
     userPreferences: userPreferences,
     productRepository: productRepository,
     userRepository: userRepository,
+    clientsRepository: clientRepository,
   ));
   // runApp(MyApp());
 }
@@ -43,11 +53,12 @@ class App extends StatelessWidget {
   final UserRepository userRepository;
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
-
+  final ClientsRepository clientsRepository;
   App({
     required this.userRepository,
     required this.productRepository,
     required this.userPreferences,
+    required this.clientsRepository,
   });
 
   @override
@@ -62,6 +73,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<UserPreferences>(
           create: (_) => this.userPreferences,
+        ),
+        RepositoryProvider<ClientsRepository>(
+          create: (_) => this.clientsRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -79,6 +93,9 @@ class App extends StatelessWidget {
           ),
           BlocProvider<SingleproductBloc>(
             create: (_) => SingleproductBloc(),
+          ),
+           BlocProvider<ClientsBloc>(
+            create: (_) => ClientsBloc(clientsRepository: this.clientsRepository,)..add(FetchClientsEvent(page: 1)),
           ),
         ],
         child: MaterialApp(

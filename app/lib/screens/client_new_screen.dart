@@ -13,11 +13,12 @@ import 'package:flutter/material.dart';
 class NewClientScreen extends StatefulWidget {
   static const routeName = 'client_new';
 
-  final LoggedUserInfo user;
+  // final LoggedUserInfo user;
 
-  const NewClientScreen({
-    required this.user,
-  });
+  // const NewClientScreen({
+  //   required this.user,
+  // });
+  NewClientScreen();
 
   @override
   _NewClientScreenState createState() => _NewClientScreenState();
@@ -249,7 +250,9 @@ class _NewClientScreenState extends State<NewClientScreen> {
             obsecureText: false,
             isRequired: false,
           ),
-          fileInput: CustomFileButton(title: 'Choose file',),
+          fileInput: CustomFileButton(
+            title: 'Choose file',
+          ),
         ),
         currentStep >= 2,
         currentStep == 2

@@ -1,17 +1,16 @@
 import 'package:app/constants/login/size.dart';
+import 'package:app/screens/send_otp_screen.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordOption extends StatelessWidget {
-  final Function onPressed;
-  ResetPasswordOption({
-    required this.onPressed,
-  });
+
+  ResetPasswordOption();
   @override
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
     return InkWell(
-      onTap: this.onPressed(),
+      onTap: ()=>Navigator.of(context).pushNamed(SendOtpScreen.routeName),
       child: Text(
         'Forgot Passowrd?',
         // textAlign: TextAlign.center,
