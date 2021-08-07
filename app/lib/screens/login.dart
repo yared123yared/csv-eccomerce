@@ -1,15 +1,16 @@
 import 'package:app/Widget/Auth/Common/welcome.dart';
 
 import 'package:app/models/login_info.dart';
-import 'package:app/screens/send_otp_screen.dart';
+import 'package:app/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/Widget/login/custom_textfield.dart';
 import 'package:app/Widget/Auth/login/forgot_password.dart';
 import 'package:app/Widget/Auth/login/login_button.dart';
 import 'package:app/Widget/Auth/login/login_text.dart';
-import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/category_screen.dart';
 import '../Blocs/auth/bloc/auth_bloc.dart';
+import 'send_otp_screen.dart';
 
 class Login extends StatefulWidget {
   static String routeName = "/login";
@@ -65,10 +66,7 @@ class _LoginState extends State<Login> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              Navigator.of(context).pushReplacementNamed(
-                Home.routeName,
-                arguments: state.user,
-              );
+              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
             }
           },
           builder: (context, state) {

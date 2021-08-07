@@ -61,7 +61,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
       ),
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.blue.shade700,
+          canvasColor: Theme.of(context)
+              .primaryColor, //This will change the drawer background to blue.
+          //other styles
         ),
         child: AppDrawer(),
       ),
@@ -72,11 +74,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
           builder: (context, state) {
             if (state is ClientFetchingSuccessState) {
               // state.products.map((product) {});
-             
 
               return Column(
                 children: [
-                  SearchBar(),
+                  // SearchBar(),
                   SizedBox(
                     height: 8.0,
                   ),
@@ -93,7 +94,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     child: LazyLoadScrollView(
                       onEndOfPage: () {},
                       child: ListView.builder(
-
                         itemCount: state.clients!.length,
                         itemBuilder: (BuildContext ctx, index) {
                           return Client(

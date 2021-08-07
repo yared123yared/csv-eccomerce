@@ -1,15 +1,19 @@
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
+import 'package:app/screens/cart_screen.dart';
 import 'package:app/screens/client_new_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
+import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
-import 'package:app/screens/verify-otp-screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
+import 'package:app/screens/setting_screen.dart';
+import 'package:app/screens/verify-otp-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../screens/home_screen.dart';
+import '../screens/category_screen.dart';
 import '../screens/login.dart';
 import '../screens/splash_screen.dart';
 
@@ -27,7 +31,8 @@ class AppRoutes {
               return SplashScreen(title: 'Authenticating');
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
-              return Home(user: state.user);
+              print("Login success state with user ${state.user}");
+              return MainScreen();
             } else if (state is AutoLoginFailedState) {
               isAuthenticated = false;
               return Login();
@@ -36,27 +41,27 @@ class AppRoutes {
           },
         ),
       );
-    } else if (settings.name == Home.routeName) {
+    } else if (settings.name == MainScreen.routeName) {
       return MaterialPageRoute(
-          builder: (context) => Home(
-                user: settings.arguments as LoggedUserInfo,
+          builder: (context) => MainScreen(
+              // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
     } else if (settings.name == ClientProfile.routeName) {
       return MaterialPageRoute(
           builder: (context) => ClientProfile(
-                // user: settings.arguments as LoggedUserInfo,
+              // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == ClientsScreen.routeName) {
       return MaterialPageRoute(
           builder: (context) => ClientsScreen(
-                // user: settings.arguments as LoggedUserInfo,
+              // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == NewClientScreen.routeName) {
       return MaterialPageRoute(
           builder: (context) => NewClientScreen(
-                // user: settings.arguments as LoggedUserInfo,
+              // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(

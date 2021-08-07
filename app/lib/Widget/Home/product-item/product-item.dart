@@ -1,25 +1,39 @@
 import 'dart:ffi';
 
-import 'package:app/Blocs/single-product/bloc/singleproduct_bloc.dart';
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'conditional.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends StatefulWidget {
   Data product;
-  final VoidCallback onTapped;
-  // final VoidCallback onPressed;
-  late SingleproductBloc singleproductBloc;
 
-  ProductItem({required this.product, required this.onTapped});
+  // final VoidCallback onPressed;
+
+  ProductItem({required this.product});
+
+  @override
+  _ProductItemState createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  late CartBloc cartBloc;
+
   @override
   Widget build(BuildContext context) {
+    cartBloc = BlocProvider.of<CartBloc>(context);
     String image =
-        'https://csv.jithvar.com/storage/${this.product.photos![0].filePath.toString()}';
+        'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}';
     // print(image);
     return InkWell(
-        onTap: this.onTapped,
+        onTap: () {
+          setState(() {
+            widget.product.order += 1;
+          });
+          cartBloc.add(AddProduct());
+        },
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
             height: MediaQuery.of(context).size.width * 0.9,
@@ -30,9 +44,9 @@ class ProductItem extends StatelessWidget {
               elevation: 1,
               margin: EdgeInsets.all(10),
               child: Conditional(
-                  name: this.product.name.toString(),
+                  name: this.widget.product.name.toString(),
                   image: image,
-                  value: this.product.order),
+                  value: this.widget.product.order),
             )));
   }
 }

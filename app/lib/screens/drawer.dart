@@ -4,6 +4,7 @@ import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/login.dart';
+import 'package:app/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -102,16 +103,17 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                           Container(
                             margin: EdgeInsets.only(right: 25),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(30),
-                                bottomRight: Radius.circular(30),
-                              ),
-                            ),
+                            // decoration: BoxDecoration(
+                            //   color: Colors.white,
+                            //   borderRadius: BorderRadius.only(
+                            //     topRight: Radius.circular(30),
+                            //     bottomRight: Radius.circular(30),
+                            //   ),
+                            // ),
                             child: ListTile(
                               onTap: () {
-                                Navigator.pushNamed(context, Home.routeName);
+                                Navigator.pushNamed(
+                                    context, MainScreen.routeName);
                               },
                               leading: Icon(
                                 Icons.home,
@@ -177,22 +179,27 @@ class _AppDrawerState extends State<AppDrawer> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 60.0,
-                    width: MediaQuery.of(context).size.width * 4 / 5,
-                    child: ListTile(
-                      tileColor: primaryDark,
-                      leading: Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                        size: 20.0,
-                      ),
-                      title: Text(
-                        'Sign out',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Login.routeName);
+                    },
+                    child: Container(
+                      height: 60.0,
+                      width: MediaQuery.of(context).size.width * 4 / 5,
+                      child: ListTile(
+                        tileColor: primaryDark,
+                        leading: Icon(
+                          Icons.logout,
                           color: Colors.white,
-                          fontSize: 18,
+                          size: 20.0,
+                        ),
+                        title: Text(
+                          'Sign out',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),

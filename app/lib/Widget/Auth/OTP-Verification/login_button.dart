@@ -15,7 +15,7 @@ class LoginButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap:this.loginHandler(),
+          onTap: this.loginHandler(),
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(

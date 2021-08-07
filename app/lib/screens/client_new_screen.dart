@@ -89,7 +89,6 @@ class _NewClientScreenState extends State<NewClientScreen> {
           child: AppDrawer(),
         ),
         drawerEnableOpenDragGesture: true,
-        bottomNavigationBar: HomeBottomNavigation(),
         body: BlocBuilder<ClientsBloc, ClientsState>(builder: (context, state) {
           return SingleChildScrollView(
             child: Column(
@@ -119,7 +118,9 @@ class _NewClientScreenState extends State<NewClientScreen> {
                       setState(() => currentStep = step);
                     },
                     onStepContinue: () => () {
-                      currentStep < 2 ? setState(() => currentStep += 1) : Navigator.pop(context);
+                      currentStep < 2
+                          ? setState(() => currentStep += 1)
+                          : Navigator.pop(context);
                     },
                   ),
                 ),
@@ -154,7 +155,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               controller: firstNameController,
               validator: (value) {},
               obsecureText: false,
-              isRequired: true,
+              isRequired: false,
             ),
             CustomTextField(
               textFieldName: 'Last Name',

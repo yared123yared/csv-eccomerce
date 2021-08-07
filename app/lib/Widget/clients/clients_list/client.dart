@@ -23,7 +23,7 @@ class Client extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Material(
-        elevation: 5,
+        elevation: 1,
         borderRadius: BorderRadius.circular(30),
         child: Container(
           height: 200,

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class ProductDataProvider {
   final _baseUrl = 'http://csv.jithvar.com/api/v1';
   final http.Client httpClient;
-  final token = '501|x2IWmxxwn9mmBX2ADFV4LzK8CxkP6jB3QyjHY6qB';
+  final token = '628|uESSMWAkhzp5igcBdc93thXMR8Qm8CbrPQwPVTy7';
 
   ProductDataProvider({required this.httpClient}) : assert(httpClient != null);
 

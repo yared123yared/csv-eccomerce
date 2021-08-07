@@ -6,7 +6,8 @@ import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'Blocs/single-product/bloc/singleproduct_bloc.dart';
+
+import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
@@ -87,12 +88,11 @@ class App extends StatelessWidget {
             )..add(AutoLoginEvent()),
           ),
           BlocProvider<ProductBloc>(
-            create: (_) => ProductBloc(
-              this.productRepository,
-            ),
+            create: (_) =>
+                ProductBloc(productRepository: this.productRepository),
           ),
-          BlocProvider<SingleproductBloc>(
-            create: (_) => SingleproductBloc(),
+          BlocProvider<CartBloc>(
+            create: (_) => CartBloc(),
           ),
            BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(clientsRepository: this.clientsRepository,)..add(FetchClientsEvent(page: 1)),
