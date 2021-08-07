@@ -29,13 +29,16 @@ class CustomTextField extends StatelessWidget {
           controller: this.controller,
           obscureText: this.obsecureText,
           keyboardType: TextInputType.text,
+
           textInputAction: TextInputAction.done,
           onEditingComplete: () => FocusScope.of(context).unfocus(),
-          style: TextStyle(fontSize: 18, color: Colors.grey),
+          style: TextStyle(fontSize: 18, color: Colors.black),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(top: 14),
             border: InputBorder.none,
             hintText: 'Enter ${this.textFieldName}',
+            focusColor: Colors.black,
+
             errorStyle: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,

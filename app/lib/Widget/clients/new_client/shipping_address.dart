@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../Common/custom_textfield.dart';
 
 class Shipping extends StatelessWidget {
-  final List<CustomTextField> textInput;
+  final List<Widget> textInput;
   final Function onNextPressed;
   final Function onDefaultAddressPressed;
   final Function onAddNewPressed;

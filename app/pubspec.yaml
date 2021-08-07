@@ -24,6 +24,9 @@ dependencies:
   shared_preferences: ^2.0.6
   otp_text_field: ^1.1.1
   file_picker: ^3.0.4
+  flash: ^2.0.1
+  image_picker: ^0.8.3
+  flutter_progress_hud: ^2.0.0
 
 dev_dependencies:
   flutter_test:

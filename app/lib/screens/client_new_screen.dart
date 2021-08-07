@@ -1,4 +1,6 @@
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/clients/Common/custom_file_input.dart';
 import 'package:app/Widget/clients/Common/custom_textfield.dart';
 import 'package:app/Widget/clients/Common/file_pick_button.dart';
 import 'package:app/Widget/clients/new_client/documents.dart';
@@ -9,6 +11,9 @@ import 'package:app/constants/constants.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flash/flash.dart';
 
 class NewClientScreen extends StatefulWidget {
   static const routeName = 'client_new';
@@ -46,72 +51,82 @@ class _NewClientScreenState extends State<NewClientScreen> {
     'Shipping Address',
     'Documents'
   ];
+
+  void _createClient() {}
+
+  void _onPhotoButtonPressed() async {
+    ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    photoController.text = image!.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).accentColor,
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('Create Client'),
-        centerTitle: true,
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
+        backgroundColor: Theme.of(context).accentColor,
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text('Create Client'),
+          centerTitle: true,
+          backgroundColor: primaryColor,
+          leading: GestureDetector(
+            onTap: () => _scaffoldKey.currentState!.openDrawer(),
+            child: Container(
+              height: 5.0,
+              width: 5.0,
+              child: ImageIcon(
+                AssetImage('assets/images/left-align.png'),
+              ),
             ),
           ),
         ),
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-            canvasColor: Theme.of(context)
-                .primaryColor //This will change the drawer background to blue.
-            //other styles
-            ),
-        child: AppDrawer(),
-      ),
-      drawerEnableOpenDragGesture: true,
-      bottomNavigationBar: HomeBottomNavigation(),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              color: Theme.of(context).accentColor,
-              child: Text(
-                titles[currentStep],
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+        drawer: Theme(
+          data: Theme.of(context).copyWith(
+              canvasColor: Theme.of(context)
+                  .primaryColor //This will change the drawer background to blue.
+              //other styles
               ),
-            ),
-            Container(
-              color: Theme.of(context).accentColor,
-              height: MediaQuery.of(context).size.height - 50,
-              child: StepCreateClient(
-                steps: getSteps(),
-                currentStep: currentStep,
-                onStepTapped: (int step) {
-                  setState(() => currentStep = step);
-                },
-                onStepContinue: () => () {
-                  currentStep < 2 ? setState(() => currentStep += 1) : null;
-                },
-              ),
-            ),
-          ],
+          child: AppDrawer(),
         ),
-      ),
-    );
+        drawerEnableOpenDragGesture: true,
+        bottomNavigationBar: HomeBottomNavigation(),
+        body: BlocBuilder<ClientsBloc, ClientsState>(builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  color: Theme.of(context).accentColor,
+                  child: Text(
+                    titles[currentStep],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Theme.of(context).accentColor,
+                  height: MediaQuery.of(context).size.height - 50,
+                  child: StepCreateClient(
+                    steps: getSteps(),
+                    currentStep: currentStep,
+                    onStepTapped: (int step) {
+                      setState(() => currentStep = step);
+                    },
+                    onStepContinue: () => () {
+                      currentStep < 2 ? setState(() => currentStep += 1) : Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }));
   }
 
   Step getClientAddStep(
@@ -162,16 +177,15 @@ class _NewClientScreenState extends State<NewClientScreen> {
               obsecureText: false,
               isRequired: true,
             ),
-            CustomTextField(
+            CustomFileInput(
               textFieldName: 'Photo',
               controller: photoController,
-              validator: (value) {},
-              obsecureText: false,
-              isRequired: true,
+              isRequired: false,
+              onPressed: () {},
             ),
-            // CustomFileButton(
-            //   title: 'Photo',
-            // )
+            SizedBox(
+              height: 15,
+            ),
           ],
         ),
         currentStep >= 0,
@@ -253,6 +267,13 @@ class _NewClientScreenState extends State<NewClientScreen> {
             obsecureText: false,
             isRequired: false,
           ),
+          documentPicker: CustomFileInput(
+            textFieldName: 'Choose file',
+            controller: photoController,
+            isRequired: false,
+            onPressed: () => _onPhotoButtonPressed,
+          ),
+
           // fileInput: CustomFileButton(title: 'Choose file',),
         ),
         currentStep >= 2,

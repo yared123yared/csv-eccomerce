@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:app/models/client.dart';
 import 'package:app/repository/clients_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -20,6 +19,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   ) async* {
     if (event is FetchClientsEvent) {
       yield* _mapFetchClientsToState(event.page);
+    } else if (event is CreateClientEvent) {
+      yield* _mapCreateClientToState(event.data);
     }
   }
 
@@ -36,16 +37,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           start: reqData.clients.from,
           total: reqData.clients.total,
         );
-        print("--bloc--");
-        print(jsonEncode(reqData.clients.client));
-        print('----------');
-        print(jsonEncode(reqData.clients.to));
-        print('----------');
-
-        print(jsonEncode(reqData.clients.from));
-        print('----------');
-
-        print(jsonEncode(reqData.clients.total));
         yield ClientFetchingSuccessState(
           clients: reqData.clients.client,
           end: reqData.clients.to,
@@ -62,6 +53,16 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       );
     } catch (e) {
       yield ClientFetchingFailedState(message: e.toString());
+    }
+  }
+
+  Stream<ClientsState> _mapCreateClientToState(CreateClientData data) async* {
+    yield ClientCreatingState();
+    try {
+      await clientsRepository.createClient(data);
+      ClientCreateSuccesstate();
+    } catch (e) {
+      yield ClientCreateFailedState(message: e.toString());
     }
   }
 }

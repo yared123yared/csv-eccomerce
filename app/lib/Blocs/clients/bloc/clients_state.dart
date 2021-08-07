@@ -27,13 +27,10 @@ class ClientFetchingFailedState extends ClientsState {
   ClientFetchingFailedState({required this.message});
 }
 
-class ClientCreatinState extends ClientsState{
+class ClientCreatingState extends ClientsState{}
 
-}
+class ClientCreateSuccesstate extends ClientsState{}
 
-class ClientCreateSuccesstate extends ClientsState{
-
-}
 class ClientCreateFailedState extends ClientsState {
   late final String message;
   ClientCreateFailedState({required this.message});

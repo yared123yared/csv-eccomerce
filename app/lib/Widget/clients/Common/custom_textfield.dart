@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final Function validator;
   final bool obsecureText;
   final bool isRequired;
+
   CustomTextField({
     required this.textFieldName,
     required this.controller,
@@ -22,9 +23,11 @@ class CustomTextField extends StatelessWidget {
     return Material(
       color: Colors.white,
       elevation: 1.0,
+      clipBehavior: Clip.hardEdge,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40),
       ),
+      textStyle: TextStyle(color: Colors.black),
       child: Container(
         width: loginSize.getTextFieldWidth,
         child: TextFormField(
@@ -33,10 +36,7 @@ class CustomTextField extends StatelessWidget {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           onEditingComplete: () => FocusScope.of(context).unfocus(),
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
+          style: TextStyle(fontSize: 18, color: Colors.grey),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(
               top: 6,
@@ -58,8 +58,6 @@ class CustomTextField extends StatelessWidget {
                     : Text(''),
               ],
             ),
-
-            //   ),
 
             // hintText: 'Enter ${this.textFieldName}',
             errorStyle: TextStyle(
