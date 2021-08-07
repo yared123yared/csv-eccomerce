@@ -29,18 +29,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/csv-mobile.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@/home/alefew/.android/avd/Pixel_3a_API_30_x86.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30_x86.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -52,6 +60,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
@@ -104,43 +113,5 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="0" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1627741985478">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state x="0" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.729@0.0.1366.729" timestamp="1627741985478" />
-    <state x="151" y="100" width="681" height="522" key="AVDManager" timestamp="1627742722727">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state x="151" y="100" width="681" height="522" key="AVDManager/0.0.1366.729@0.0.1366.729" timestamp="1627742722727" />
-    <state x="279" y="122" width="424" height="478" key="FileChooserDialogImpl" timestamp="1627741375670">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state x="279" y="122" width="424" height="478" key="FileChooserDialogImpl/0.0.1366.729@0.0.1366.729" timestamp="1627741375670" />
-    <state width="839" height="172" key="GridCell.Tab.0.bottom" timestamp="1627743392152">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state width="839" height="172" key="GridCell.Tab.0.bottom/0.0.1366.729@0.0.1366.729" timestamp="1627743392152" />
-    <state width="839" height="172" key="GridCell.Tab.0.center" timestamp="1627743392150">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state width="839" height="172" key="GridCell.Tab.0.center/0.0.1366.729@0.0.1366.729" timestamp="1627743392150" />
-    <state width="839" height="172" key="GridCell.Tab.0.left" timestamp="1627743392149">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state width="839" height="172" key="GridCell.Tab.0.left/0.0.1366.729@0.0.1366.729" timestamp="1627743392149" />
-    <state width="839" height="172" key="GridCell.Tab.0.right" timestamp="1627743392151">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state width="839" height="172" key="GridCell.Tab.0.right/0.0.1366.729@0.0.1366.729" timestamp="1627743392151" />
-    <state x="0" y="0" key="SettingsEditor" timestamp="1627741872495">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state x="0" y="0" key="SettingsEditor/0.0.1366.729@0.0.1366.729" timestamp="1627741872495" />
-    <state x="244" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1627741393054">
-      <screen x="0" y="0" width="1366" height="729" />
-    </state>
-    <state x="244" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.729@0.0.1366.729" timestamp="1627741393054" />
   </component>
 </project>

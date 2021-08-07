@@ -1,5 +1,5 @@
 import 'package:app/Widget/Auth/Common/welcome.dart';
-import 'package:app/Widget/Auth/Common/welcome.dart';
+
 import 'package:app/models/login_info.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:app/Widget/Auth/login/login_button.dart';
 import 'package:app/Widget/Auth/login/login_text.dart';
 import 'package:app/screens/category_screen.dart';
 import '../Blocs/auth/bloc/auth_bloc.dart';
+import 'send_otp_screen.dart';
 
 class Login extends StatefulWidget {
   static String routeName = "/login";
@@ -24,6 +25,9 @@ class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+  void forgotPasswordHandler(BuildContext context) {
+    Navigator.of(context).pushNamed(SendOtpScreen.routeName);
+  }
 
   void loginHandler() {
     bool isValid = formKey.currentState!.validate();
@@ -148,7 +152,9 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      ResetPasswordOption()
+                      ResetPasswordOption(
+                          // onPressed: () => forgotPasswordHandler(context),
+                          )
                     ],
                   ),
                 ),
@@ -159,4 +165,8 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+}
+
+void Navigate(BuildContext context) {
+  print('pressed');
 }

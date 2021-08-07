@@ -1,4 +1,3 @@
-import 'package:app/preferences/user_preference_data.dart';
 
 import '../data_provider/user_data_provider.dart';
 import '../models/login_info.dart';
@@ -15,5 +14,14 @@ class UserRepository {
 
   Future<void> updatepassword(String password, confirmedPassword) async {
     await userDataProvider.updatePassword(password, confirmedPassword);
+  }
+
+   Future<void> sendOtp(String email) async {
+    await userDataProvider.sendOtp(email);
+  }
+   Future<void> changePassword(
+      String email, otp, password, confirmed_password) async {
+
+    await userDataProvider.changePassword(email, otp, password, confirmed_password);
   }
 }

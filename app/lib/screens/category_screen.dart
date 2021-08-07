@@ -5,7 +5,7 @@ import 'package:app/Widget/Home/product-item/product-item.dart';
 import 'package:app/Widget/Home/search-bar/searchBar.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
-import 'profile_screen.dart';
+
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';

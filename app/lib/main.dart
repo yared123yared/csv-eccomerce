@@ -1,4 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/data_provider/clients_data_provider.dart';
+import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +9,6 @@ import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'data_provider/product_data_provider.dart';
-import 'models/product/product.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
@@ -14,12 +16,18 @@ import 'repository/user_repository.dart';
 import 'preferences/user_preference_data.dart';
 import 'Blocs/auth/bloc/auth_bloc.dart';
 
-Future<void> main() async {
+void main() {
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
+      httpClient: httpClient,
+      userPreferences: userPreferences,
+    ),
+  );
+  final ClientsRepository clientRepository = ClientsRepository(
+    clientsDataProvider: ClientsDataProvider(
       httpClient: httpClient,
       userPreferences: userPreferences,
     ),
@@ -37,18 +45,21 @@ Future<void> main() async {
     userPreferences: userPreferences,
     productRepository: productRepository,
     userRepository: userRepository,
+    clientsRepository: clientRepository,
   ));
+  // runApp(MyApp());
 }
 
 class App extends StatelessWidget {
   final UserRepository userRepository;
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
-
+  final ClientsRepository clientsRepository;
   App({
     required this.userRepository,
     required this.productRepository,
     required this.userPreferences,
+    required this.clientsRepository,
   });
 
   @override
@@ -63,6 +74,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<UserPreferences>(
           create: (_) => this.userPreferences,
+        ),
+        RepositoryProvider<ClientsRepository>(
+          create: (_) => this.clientsRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -80,6 +94,9 @@ class App extends StatelessWidget {
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
           ),
+           BlocProvider<ClientsBloc>(
+            create: (_) => ClientsBloc(clientsRepository: this.clientsRepository,)..add(FetchClientsEvent(page: 1)),
+          ),
         ],
         child: MaterialApp(
           title: 'CSV',
@@ -87,7 +104,8 @@ class App extends StatelessWidget {
             primarySwatch: Colors.blue,
             primaryColor: Color(0xFF015777),
             // primaryColor: Color.fromRGBO(146, 40, 105, 1),
-            accentColor: Color(0xFFf2f6f9),
+            accentColor: Color(0xFFF2F6F9),
+            // accentColor: Color(0xFFf2f6f9),
             canvasColor: Color.fromRGBO(225, 254, 229, 1),
             errorColor: Colors.redAccent,
             fontFamily: 'Raleway',

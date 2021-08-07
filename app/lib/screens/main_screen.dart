@@ -1,8 +1,10 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
+import 'package:app/models/login_info.dart';
 import 'package:app/screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
+import 'package:app/screens/drawer.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,9 @@ import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
+  final LoggedUserInfo user;
+  MainScreen({required this.user});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -49,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                 .primaryColor, //This will change the drawer background to blue.
             //other styles
           ),
-          child: Profile(),
+          child: AppDrawer(),
         ),
         body: this.check == 0
             ? HomeScreen()

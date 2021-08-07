@@ -38,3 +38,22 @@ class UpdatingPasswordFailedState extends AuthState {
   late final String message;
   UpdatingPasswordFailedState({required this.message});
 }
+
+class SendingOtpState extends AuthState {}
+
+class SendingOtpSuccessState extends AuthState {}
+
+class SendingOtpFailedState extends AuthState {
+
+  late final String message;
+  SendingOtpFailedState({required this.message});
+}
+
+class ConfirmingOTPState extends AuthState {}
+
+class ConfirmOTPSuccessState extends AuthState {}
+
+class ConfirmOTPFailedState extends AuthState {
+  late final String message;
+  ConfirmOTPFailedState({required this.message});
+}

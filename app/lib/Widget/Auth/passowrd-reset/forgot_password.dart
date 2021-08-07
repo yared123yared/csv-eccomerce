@@ -8,12 +8,13 @@ class ForgotPassowrdText extends StatelessWidget {
     loginSize.build(context);
     return Center(
       child: Text(
-        'Forgot Passowrd',
+        'Forgot Password',
         // textAlign: TextAlign.center,
         style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: loginSize.getFontSize1,
-            color: Colors.black),
+          fontWeight: FontWeight.bold,
+          fontSize: 35,
+          color: Colors.black,
+        ),
       ),
     );
   }

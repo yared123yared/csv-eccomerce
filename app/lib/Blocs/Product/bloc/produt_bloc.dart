@@ -29,7 +29,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       yield ProductLoading();
       try {
         page++;
-        List<Data> products = await this.productRepository.getProducts(page);
+        List<Data> products =
+            (await this.productRepository.getProducts(page)) as List<Data>;
         print("This is the data that come from the repository $products");
         if (products == null) {
           print("failed to fetch data");

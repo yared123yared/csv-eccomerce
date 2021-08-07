@@ -17,14 +17,18 @@ class UserPreferences {
     return user;
   }
 
-  Future<void> storeTokenAndExpiration(String expiry, String token) async {
+  Future<void> storeTokenAndExpiration(String token, String expiry) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+      print('storing token 1');
+    print(token);
     await prefs.setString('token', token);
     await prefs.setString('expiry', expiry);
   }
 
   Future<void> storeToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('storing token 2');
+    print(token);
     await prefs.setString('token', token);
   }
 

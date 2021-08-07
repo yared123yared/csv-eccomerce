@@ -33,6 +33,9 @@ class UserDataProvider {
         await this
             .userPreferences
             .storeTokenAndExpiration(loggedUserInfo.token!, expiry);
+        print('--------------login');
+        print(loggedUserInfo.token);
+        print('--------------login');
       }
     } catch (e) {
       throw e;
@@ -65,6 +68,52 @@ class UserDataProvider {
       }
     } catch (e) {
       throw e;
+    }
+  }
+
+  Future<void> sendOtp(String email) async {
+    final urlLogin = Uri.parse('${baseUrl}/forgot-password');
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = email;
+
+    try {
+      final response = await http.post(
+        urlLogin,
+        body: data,
+      );
+      if (response.statusCode != 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        throw HttpException(extractedData['message']);
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> changePassword(
+      String email, otp, password, confirmed_password) async {
+    final urlLogin = Uri.parse('${baseUrl}/change-password-otp');
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = email;
+    data['otp'] = otp;
+    data['password'] = password;
+    data['password_confirmation'] = confirmed_password;
+
+    try {
+      final response = await http.post(
+        urlLogin,
+        body: data,
+      );
+      if (response.statusCode != 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        throw HttpException(extractedData['message']);
+      }
+    } catch (e) {
+      throw (e);
     }
   }
 }

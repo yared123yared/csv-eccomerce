@@ -19,7 +19,7 @@ class _ProfileState extends State<Profile> {
   // bool isSet = false;
 
   @override
-  void initState()  {
+  void initState() {
     // if (isSet == false) {
     //   info = await pref.getUserInformation();
     // }
@@ -37,7 +37,7 @@ class _ProfileState extends State<Profile> {
     //   }
     // }
     return Container(
-      width: MediaQuery.of(context).size.width*0.80,
+      width: MediaQuery.of(context).size.width * 0.80,
       // decoration: BoxDecoration(
       //   color: Colors.transparent,
       // ),
@@ -54,16 +54,16 @@ class _ProfileState extends State<Profile> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child:
-                      //  (isNull == false)
-                      //     ? CircleAvatar(
-                      //         radius: 50.0,
-                      //         backgroundImage: NetworkImage(baseUrl +photo),
-                      //       )
-                      //     :
-                           CircleAvatar(
-                              radius: 50.0,
-                              backgroundImage: AssetImage(photo),
-                            ),
+                          //  (isNull == false)
+                          //     ? CircleAvatar(
+                          //         radius: 50.0,
+                          //         backgroundImage: NetworkImage(baseUrl +photo),
+                          //       )
+                          //     :
+                          CircleAvatar(
+                        radius: 50.0,
+                        backgroundImage: AssetImage(photo),
+                      ),
                     ),
 
                     Text(
