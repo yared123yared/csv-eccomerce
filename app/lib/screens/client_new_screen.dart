@@ -155,7 +155,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               controller: firstNameController,
               validator: (value) {},
               obsecureText: false,
-              isRequired: true,
+              isRequired: false,
             ),
             CustomTextField(
               textFieldName: 'Last Name',

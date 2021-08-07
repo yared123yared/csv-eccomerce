@@ -14,8 +14,8 @@ import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
-  final LoggedUserInfo user;
-  MainScreen({required this.user});
+  // final LoggedUserInfo user;
+  // MainScreen({required this.user});
 
   @override
   _MainScreenState createState() => _MainScreenState();

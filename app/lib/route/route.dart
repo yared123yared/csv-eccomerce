@@ -31,8 +31,8 @@ class AppRoutes {
               return SplashScreen(title: 'Authenticating');
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
-              print("Login sucess state with user ${state.user}");
-              return MainScreen(user: state.user);
+              print("Login success state with user ${state.user}");
+              return MainScreen();
             } else if (state is AutoLoginFailedState) {
               isAuthenticated = false;
               return Login();
@@ -44,7 +44,7 @@ class AppRoutes {
     } else if (settings.name == MainScreen.routeName) {
       return MaterialPageRoute(
           builder: (context) => MainScreen(
-                user: settings.arguments as LoggedUserInfo,
+              // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());

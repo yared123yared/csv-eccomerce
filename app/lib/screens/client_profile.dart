@@ -50,7 +50,9 @@ class _ClientProfileState extends State<ClientProfile> {
       ),
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.blue.shade700,
+          canvasColor: Theme.of(context)
+              .primaryColor, //This will change the drawer background to blue.
+          //other styles
         ),
         child: AppDrawer(),
       ),
