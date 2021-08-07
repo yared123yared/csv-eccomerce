@@ -1,5 +1,6 @@
 import 'package:app/constants/login/size.dart';
-import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/category_screen.dart';
+import 'package:app/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class LoginButton extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Home()),
+              MaterialPageRoute(builder: (context) => MainScreen()),
             );
           },
 

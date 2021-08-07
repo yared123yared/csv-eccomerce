@@ -9,10 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductItem extends StatefulWidget {
   Data product;
-  final VoidCallback onTapped;
+
   // final VoidCallback onPressed;
 
-  ProductItem({required this.product, required this.onTapped});
+  ProductItem({required this.product});
 
   @override
   _ProductItemState createState() => _ProductItemState();

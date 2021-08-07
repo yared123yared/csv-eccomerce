@@ -74,9 +74,8 @@ class App extends StatelessWidget {
             )..add(AutoLoginEvent()),
           ),
           BlocProvider<ProductBloc>(
-            create: (_) => ProductBloc(
-              this.productRepository,
-            ),
+            create: (_) =>
+                ProductBloc(productRepository: this.productRepository),
           ),
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),

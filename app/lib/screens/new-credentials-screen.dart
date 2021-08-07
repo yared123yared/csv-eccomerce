@@ -2,13 +2,14 @@ import 'package:app/Widget/Auth/Common/welcome.dart';
 import 'package:app/Widget/Auth/new-credentials/new_credential_text.dart';
 import 'package:app/Widget/Auth/new-credentials/update_button.dart';
 import 'package:app/Widget/login/custom_textfield.dart';
+import 'package:app/screens/main_screen.dart';
 
 import '../Blocs/auth/bloc/auth_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'home_screen.dart';
+import 'category_screen.dart';
 
 class NewCredentialsScreen extends StatefulWidget {
   static String routeName = "/verification";
@@ -56,7 +57,7 @@ class _NewCredentialsScreenState extends State<NewCredentialsScreen> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is UpdatingPasswordSuccessState) {
-              Navigator.of(context).pushReplacementNamed(Home.routeName);
+              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
             }
           },
           builder: (context, state) {

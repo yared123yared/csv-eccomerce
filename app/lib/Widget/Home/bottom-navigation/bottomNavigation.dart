@@ -1,5 +1,6 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +15,7 @@ class HomeBottomNavigation extends StatefulWidget {
 class _HomeBottomNavigationState extends State<HomeBottomNavigation> {
   late CartBloc cartBloc;
   int _selectedIndex = 0;
-  int check = 0;
+  int check = 1;
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -38,6 +39,7 @@ class _HomeBottomNavigationState extends State<HomeBottomNavigation> {
                       setState(() {
                         check = 0;
                       });
+                      Navigator.of(context).pushNamed(HomeScreen.routeName);
                     },
                   ),
                 ),
@@ -90,41 +92,6 @@ class _HomeBottomNavigationState extends State<HomeBottomNavigation> {
           );
         },
       ),
-      // child: BottomAppBar(
-      //   child: new Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: <Widget>[
-      //       IconButton(
-      //         icon: Image.asset(
-      //           'assets/icons/home.png',
-      //           color: Colors.grey,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //       IconButton(
-      //         icon: Image.asset(
-      //           'assets/icons/categories.png',
-      //           color: Theme.of(context).primaryColor,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //       // Expanded(child: new Text('')),
-      //       IconButton(
-      //         icon: Cart(
-      //           value: 1,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //       IconButton(
-      //         icon: Image.asset(
-      //           'assets/icons/um2.png',
-      //           color: Colors.grey,
-      //         ),
-      //         onPressed: () {},
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 

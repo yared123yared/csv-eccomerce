@@ -1,7 +1,11 @@
+import 'package:app/screens/cart_screen.dart';
+import 'package:app/screens/home_screen.dart';
+import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../screens/home_screen.dart';
+import '../screens/category_screen.dart';
 import '../screens/login.dart';
 import '../screens/splash_screen.dart';
 
@@ -22,14 +26,14 @@ class AppRoutes {
             } else if (state is AutoLoginFailedState) {
               isAuthenticated = false;
             }
-            return isAuthenticated ? Home() : Login();
+            return isAuthenticated ? CategoryScreen() : Login();
           },
         ),
       );
+    } else if (settings.name == MainScreen.routeName) {
+      return MaterialPageRoute(builder: (context) => MainScreen());
     }
-    else if(settings.name==Home.routeName){
-      return MaterialPageRoute(builder: (context) => Home());
-    }
+
     return MaterialPageRoute(builder: (context) => Login());
   }
 }
