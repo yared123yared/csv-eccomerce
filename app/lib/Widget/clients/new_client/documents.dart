@@ -24,8 +24,13 @@ class Documents extends StatelessWidget {
         SizedBox(
           height: 20.0,
         ),
+
+        this.documentPicker,
+        SizedBox(
+          height: 15.0,
+        ),
         GestureDetector(
-          onTap: this.onAddNewPressed(),
+          onTap: () => this.onAddNewPressed(),
           child: Text(
             ' Add New',
             style: TextStyle(
@@ -34,10 +39,6 @@ class Documents extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 15.0,
-        ),
-        this.documentPicker,
         SizedBox(
           height: 15.0,
         ),

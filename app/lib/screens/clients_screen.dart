@@ -29,99 +29,59 @@ final _scaffoldKey = GlobalKey<ScaffoldState>();
 class _ClientsScreenState extends State<ClientsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('Clients'),
-        centerTitle: true,
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => Navigator.of(context).pushNamed(
-              NewClientScreen.routeName,
-              // arguments: widget.user,
-            ),
-            icon: Icon(
-              Icons.add_outlined,
-              color: Colors.white,
-            ),
-          )
-        ],
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Theme.of(context)
-              .primaryColor, //This will change the drawer background to blue.
-          //other styles
-        ),
-        child: AppDrawer(),
-      ),
-      drawerEnableOpenDragGesture: true,
-      body: Container(
-        color: Color(0xFFf2f6f9),
-        child: BlocBuilder<ClientsBloc, ClientsState>(
-          builder: (context, state) {
-            if (state is ClientFetchingSuccessState) {
-              // state.products.map((product) {});
+    return Container(
+      color: Color(0xFFf2f6f9),
+      child: BlocBuilder<ClientsBloc, ClientsState>(
+        builder: (context, state) {
+          if (state is ClientFetchingSuccessState) {
+            // state.products.map((product) {});
 
-              return Column(
-                children: [
-                  // SearchBar(),
-                  SizedBox(
-                    height: 8.0,
+            return Column(
+              children: [
+                // SearchBar(),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text(
+                  'showing ${state.start} to ${state.end} of ${state.total} entries',
+                  style: TextStyle(
+                    color: Colors.black54,
                   ),
-                  Text(
-                    'showing ${state.start} to ${state.end} of ${state.total} entries',
-                    style: TextStyle(
-                      color: Colors.black54,
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Expanded(
+                  child: LazyLoadScrollView(
+                    onEndOfPage: () {},
+                    child: ListView.builder(
+                      itemCount: state.clients!.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return Client(
+                          name: state.clients![index].firstName!,
+                          mobile: state.clients![index].mobile!,
+                          email: state.clients![index].email!,
+                          status: state.clients![index].status.toString(),
+                        );
+                      },
                     ),
                   ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Expanded(
-                    child: LazyLoadScrollView(
-                      onEndOfPage: () {},
-                      child: ListView.builder(
-                        itemCount: state.clients!.length,
-                        itemBuilder: (BuildContext ctx, index) {
-                          return Client(
-                            name: state.clients![index].firstName!,
-                            mobile: state.clients![index].mobile!,
-                            email: state.clients![index].email!,
-                            status: state.clients![index].status.toString(),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            } else if (state is ClientFetchingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is ClientFetchingFailedState) {
-              return Center(
-                child: Text('Cient Fetch Failed'),
-              );
-            }
-            return Center(
-              child: Text('Cient Fetch Failed 1'),
+                ),
+              ],
             );
-          },
-        ),
+          } else if (state is ClientFetchingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is ClientFetchingFailedState) {
+            return Center(
+              child: Text('Cient Fetch Failed'),
+            );
+          }
+          return Center(
+            child: Text('Cient Fetch Failed 1'),
+          );
+        },
       ),
     );
   }

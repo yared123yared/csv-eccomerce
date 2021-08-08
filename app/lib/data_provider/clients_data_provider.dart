@@ -66,46 +66,121 @@ class ClientsDataProvider {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse(urlCreate),
-
     );
     // headers: {
-          // HttpHeaders.contentTypeHeader: "application/json",
-          // HttpHeaders.authorizationHeader:,
-        //},
-    request.headers['Authorization']= "Bearer $token";
+    // HttpHeaders.contentTypeHeader: "application/json",
+    // HttpHeaders.authorizationHeader:,
+    //},
+    request.headers['Authorization'] = "Bearer $token";
+    request.headers['Accept'] = "application/json";
+
     try {
+      print("9999");
+
       request.fields['first_name'] = data.firstName;
-      request.fields['lat_name'] = data.lastName;
+      request.fields['last_name'] = data.lastName;
       request.fields['mobile'] = data.mobile;
       request.fields['email'] = data.email;
+      // print(data.uploadedPhoto);
       if (data.uploadedPhoto != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'uploaded_photo', data.uploadedPhoto!));
       }
-      if (data.streetAddress != null) {
-        request.fields['street_address'] = data.streetAddress!;
+      if (data.documents != null) {
+        for (var doc in data.documents!) {
+          request.files.add(await http.MultipartFile.fromPath(
+              'documents[${doc.name}]', doc.path));
+        }
       }
-      if (data.zipCode != null) {
-        request.fields['zip_code'] = data.zipCode!;
+      // print("000");
+
+      String addresses = '';
+      if (data.addresses != null) {
+        for (var address in data.addresses) {
+          // request.fields['addresses[]'] = address.toJson().toString();
+          // print("1");
+          PostClientData pd = new PostClientData(
+            country: address.country,
+            id: "1",
+            administrativeAreaLevel: address.state,
+            is_billing: address.isBilling,
+            is_default: address.isDefault,
+            locality: address.locality,
+            postalCode: address.zipCode,
+            streetNumber: address.streetAddress,
+            sublocality1: address.state,
+          );
+          String x =
+              '{"id":"","street_number":"${address.streetAddress}","sublocality_level_1":"","locality":"SanJose","administrative_area_level_1":"CA","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
+          // print("1");
+          addresses = addresses + ',' + x;
+
+          // print("1");
+        }
       }
-      if (data.locality != null) {
-        request.fields['locality'] = data.locality!;
-      }
-      if (data.city != null) {
-        request.fields['city'] = data.city!;
-      }
-      if (data.state != null) {
-        request.fields['state'] = data.state!;
-      }
-      if (data.country != null) {
-        request.fields['country'] = data.country!;
-      }
+      // print("111");
+
+      // print(request.fields['addresses[]']);
+      // print("222");
+      // print(request.fields);
+      request.fields['addresses[]'] = addresses;
+
       var res = await request.send();
+      final respStr = await res.stream.bytesToString();
+      print('---create client--${res.statusCode}');
+      print(respStr);
+      print("--create client");
       if (res.statusCode != 201) {
-        throw HttpException('Error Occured While Saving User Information');
+        throw HttpException('Error Occured While Creating User');
       }
     } catch (e) {
       throw e;
     }
   }
 }
+
+class PostClientData {
+  String? id;
+  String? streetNumber;
+  String? sublocality1;
+  String? locality;
+  String? administrativeAreaLevel;
+  String country;
+  String? postalCode;
+  bool? is_billing;
+  bool? is_default;
+  PostClientData({
+    required this.country,
+    this.administrativeAreaLevel,
+    this.id,
+    this.is_billing,
+    this.is_default,
+    this.locality,
+    this.postalCode,
+    this.streetNumber,
+    this.sublocality1,
+  });
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['street_number'] = this.streetNumber;
+    data['sublocality_level_1'] = this.sublocality1;
+    data['locality'] = this.locality;
+    data['administrative_area_level_1'] = this.administrativeAreaLevel;
+    data['country'] = this.country;
+    data['postal_code'] = this.postalCode;
+    data['is_billing'] = this.is_billing;
+    data['is_default'] = this.is_default;
+    return data;
+  }
+}
+
+// {"id":"",
+// "street_number":"",
+// "sublocality_level_1":"",
+// "locality":"SanJose",
+// "administrative_area_level_1":"CA",
+// "country":"UnitedStates",
+// "postal_code":"",
+// "is_billing":true,
+// "is_default":false}

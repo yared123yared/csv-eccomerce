@@ -24,102 +24,72 @@ class ClientProfile extends StatefulWidget {
   _ClientProfileState createState() => _ClientProfileState();
 }
 
-final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _ClientProfileState extends State<ClientProfile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      // bottomNavigationBar: HomeBottomNavigation(),
-      appBar: AppBar(
-        title: Text('Client Profile'),
-        centerTitle: true,
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 50,
+          ),
+          ClientBasicProfile(
+            client: ClientProfileData(
+              name: 'Folakam Olivier',
+              credit: 0,
+              level: 'Premiem',
+              email: 'fokamolvier@gmail.com',
+              phone: '237945521',
             ),
           ),
-        ),
-      ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Theme.of(context)
-              .primaryColor, //This will change the drawer background to blue.
-          //other styles
-        ),
-        child: AppDrawer(),
-      ),
-      drawerEnableOpenDragGesture: true,
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            ClientBasicProfile(
-              client: ClientProfileData(
-                name: 'Folakam Olivier',
-                credit: 0,
-                level: 'Premiem',
-                email: 'fokamolvier@gmail.com',
-                phone: '237945521',
+          MenuItem(
+            title: 'Order',
+            childrens: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: TableHeader(start: 1, end: 5, total: 5),
               ),
-            ),
-            MenuItem(
-              title: 'Order',
-              childrens: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TableHeader(start: 1, end: 5, total: 5),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Orderstable(
+                  orders: [],
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Orderstable(
-                    orders: [],
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            MenuItem(
-              title: 'Document',
-              childrens: [],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            MenuItem(
-              title: 'Shipping Addresses',
-              childrens: [],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            MenuItem(
-              title: 'Billing Addresses',
-              childrens: [],
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-          ],
-        ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          MenuItem(
+            title: 'Document',
+            childrens: [],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          MenuItem(
+            title: 'Shipping Addresses',
+            childrens: [],
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          MenuItem(
+            title: 'Billing Addresses',
+            childrens: [],
+          ),
+          SizedBox(
+            height: 30.0,
+          ),
+        ],
       ),
     );
   }

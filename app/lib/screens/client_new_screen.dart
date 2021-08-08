@@ -1,19 +1,21 @@
+import 'dart:io';
+import 'package:app/screens/drawer.dart';
+import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
-import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
 import 'package:app/Widget/clients/Common/custom_file_input.dart';
 import 'package:app/Widget/clients/Common/custom_textfield.dart';
-import 'package:app/Widget/clients/Common/file_pick_button.dart';
 import 'package:app/Widget/clients/new_client/documents.dart';
 import 'package:app/Widget/clients/new_client/general_information.dart';
 import 'package:app/Widget/clients/new_client/shipping_address.dart';
 import 'package:app/Widget/clients/new_client/steper.dart';
 import 'package:app/constants/constants.dart';
-import 'package:app/models/login_info.dart';
-import 'package:app/screens/drawer.dart';
+import 'package:app/models/client.dart';
+import 'package:app/validation/validator.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flash/flash.dart';
 
 class NewClientScreen extends StatefulWidget {
   static const routeName = 'client_new';
@@ -46,50 +48,171 @@ class _NewClientScreenState extends State<NewClientScreen> {
   final TextEditingController cityController = new TextEditingController();
   final TextEditingController stateController = new TextEditingController();
   final TextEditingController countryController = new TextEditingController();
+
+  final TextEditingController documentNameController =
+      new TextEditingController();
+  final TextEditingController docmentPickController =
+      new TextEditingController();
   final List<String> titles = [
     'General Information',
     'Shipping Address',
     'Documents'
   ];
+  List<Docs> documents = [];
+  List<Addresses> addresses = [];
+  bool _isDefault = false;
+  bool _isBilling = false;
 
-  void _createClient() {}
+  void _createClient() {
+    print('---create started--');
 
-  void _onPhotoButtonPressed() async {
+    print('---valid--');
+    CreateClientData data = CreateClientData(
+      firstName: firstNameController.text,
+      lastName: lastNameController.text,
+      mobile: mobileController.text,
+      email: emailController.text,
+      addresses: addresses,
+      documents: documents,
+      uploadedPhoto: photoController.text,
+    );
+    CreateClientEvent loginEvent = new CreateClientEvent(data: data);
+    BlocProvider.of<ClientsBloc>(context).add(loginEvent);
+  }
+
+  void _newAddresshandler() {
+    if (countryController.text == '') {
+      return;
+    }
+
+    addresses.add(
+      Addresses(
+        country: countryController.text,
+        streetAddress: streetController.text,
+        city: cityController.text,
+        isDefault: _isDefault,
+        locality: localityController.text,
+        state: stateController.text,
+        zipCode: zipCodeController.text,
+        isBilling: _isBilling,
+      ),
+    );
+    setState(() {
+      countryController.clear();
+      stateController.clear();
+      streetController.clear();
+      cityController.clear();
+      localityController.clear();
+      zipCodeController.clear();
+      _isDefault = false;
+      _isBilling = false;
+    });
+  }
+
+  void _newDocumentHandler() {
+    if (documentNameController.text == '') {
+      return;
+    }
+    if (docmentPickController.text == '') {
+      return;
+    }
+    documents.add(
+      Docs(
+        name: documentNameController.text,
+        path: docmentPickController.text,
+      ),
+    );
+    setState(() {
+      docmentPickController.clear();
+      documentNameController.clear();
+    });
+  }
+
+  void defaultAddressHandler() {
+    setState(() {
+      _isDefault = !_isDefault;
+    });
+  }
+
+  void billingAddressHandler() {
+    setState(() {
+      _isBilling = !_isBilling;
+    });
+  }
+
+  void _UploadPhotoHandler() async {
     ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    photoController.text = image!.name;
+    setState(() {
+      if (image != null) {
+        photoController.text = image.path;
+      }
+    });
+  }
+
+  bool isShowing = false;
+  void _PickDocumentHandler() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      setState(() {
+        docmentPickController.text = file.path;
+      });
+    } else {
+      // User canceled the picker
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text('Create Client'),
-          centerTitle: true,
-          backgroundColor: primaryColor,
-          leading: GestureDetector(
-            onTap: () => _scaffoldKey.currentState!.openDrawer(),
-            child: Container(
-              height: 5.0,
-              width: 5.0,
-              child: ImageIcon(
-                AssetImage('assets/images/left-align.png'),
+    return ProgressHUD(
+      child: BlocConsumer<ClientsBloc, ClientsState>(
+        listener: (context, state) {
+          final progress = ProgressHUD.of(context);
+          if (state is ClientCreatingState) {
+            if (!isShowing) {
+              if (progress != null) {
+                setState(() {
+                  isShowing = true;
+                });
+                progress.showWithText('Creating Client');
+              }
+            }
+          } else if (state is ClientCreateSuccesstate) {
+            if (isShowing) {
+              if (progress != null) {
+                setState(() {
+                  isShowing = false;
+                });
+                progress.dismiss();
+              }
+            }
+            Navigator.of(context).pop();
+          } else {
+            if (isShowing) {
+              if (progress != null) {
+                setState(() {
+                  isShowing = false;
+                });
+                progress.dismiss();
+                // progress.dispose();
+              }
+            }
+          }
+        },
+        builder: (context, state) {
+          Widget palaceHolder = SizedBox(
+            height: 0,
+          );
+          if (state is ClientCreateFailedState) {
+            palaceHolder = Center(
+              child: Text(
+                state.message,
+                style: TextStyle(color: Colors.red, fontSize: 18),
               ),
-            ),
-          ),
-        ),
-        drawer: Theme(
-          data: Theme.of(context).copyWith(
-              canvasColor: Theme.of(context)
-                  .primaryColor //This will change the drawer background to blue.
-              //other styles
-              ),
-          child: AppDrawer(),
-        ),
-        drawerEnableOpenDragGesture: true,
-        body: BlocBuilder<ClientsBloc, ClientsState>(builder: (context, state) {
+            );
+          }
+
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -117,17 +240,63 @@ class _NewClientScreenState extends State<NewClientScreen> {
                     onStepTapped: (int step) {
                       setState(() => currentStep = step);
                     },
-                    onStepContinue: () => () {
-                      currentStep < 2
-                          ? setState(() => currentStep += 1)
-                          : Navigator.pop(context);
-                    },
+                    onStepContinue:
+                        currentStep < 2 ? updateCounter : _createClient,
                   ),
                 ),
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
+  }
+
+  updateCounter() {
+    print(currentStep);
+    if (currentStep == 0) {
+      if (firstNameController.text == '' ||
+          lastNameController.text == '' ||
+          mobileController.text == '' ||
+          emailController.text == '') {
+        return;
+      }
+    } else if (currentStep == 1) {
+      if (countryController.text != '') {
+        addresses.add(
+          Addresses(
+            country: countryController.text,
+            streetAddress: streetController.text,
+            city: cityController.text,
+            isDefault: _isDefault,
+            locality: localityController.text,
+            state: stateController.text,
+            zipCode: zipCodeController.text,
+            isBilling: _isBilling,
+          ),
+        );
+        if (addresses.length == 0) {
+          return;
+        }
+        setState(() {
+          countryController.clear();
+          stateController.clear();
+          streetController.clear();
+          cityController.clear();
+          localityController.clear();
+          zipCodeController.clear();
+          _isDefault = false;
+          _isBilling = false;
+        });
+      }
+    }
+    setState(
+      () {
+        if (currentStep < 2) {
+          currentStep += 1;
+        }
+      },
+    );
   }
 
   Step getClientAddStep(
@@ -153,28 +322,28 @@ class _NewClientScreenState extends State<NewClientScreen> {
             CustomTextField(
               textFieldName: 'First Name',
               controller: firstNameController,
-              validator: (value) {},
+              validator: (value) => LengthValidator(value, 1),
               obsecureText: false,
-              isRequired: false,
+              isRequired: true,
             ),
             CustomTextField(
               textFieldName: 'Last Name',
               controller: lastNameController,
-              validator: (value) {},
+              validator: (value) => LengthValidator(value, 1),
               obsecureText: false,
               isRequired: true,
             ),
             CustomTextField(
               textFieldName: 'Mobile',
-              controller: firstNameController,
-              validator: (value) {},
+              controller: mobileController,
+              validator: (value) => Validatephone(value),
               obsecureText: false,
               isRequired: true,
             ),
             CustomTextField(
               textFieldName: 'Email',
               controller: emailController,
-              validator: (value) {},
+              validator: (value) => validateEmail(value),
               obsecureText: false,
               isRequired: true,
             ),
@@ -182,7 +351,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               textFieldName: 'Photo',
               controller: photoController,
               isRequired: false,
-              onPressed: () {},
+              onPressed: _UploadPhotoHandler,
             ),
             SizedBox(
               height: 15,
@@ -195,8 +364,11 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         Shipping(
-          onAddNewPressed: () {},
-          onDefaultAddressPressed: () {},
+          onAddNewPressed: _newAddresshandler,
+          onDefaultAddressPressed: defaultAddressHandler,
+          onBillingAddressPressed: billingAddressHandler,
+          isBilling: _isBilling,
+          isDefault: _isDefault,
           textInput: [
             CustomTextField(
               textFieldName: 'Shipping Address',
@@ -260,19 +432,19 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         Documents(
-          onAddNewPressed: () {},
+          onAddNewPressed: _newDocumentHandler,
           documentNameField: CustomTextField(
-            textFieldName: 'Documents',
-            controller: shipAddrController,
+            textFieldName: 'Document Name',
+            controller: documentNameController,
             validator: (value) {},
             obsecureText: false,
             isRequired: false,
           ),
           documentPicker: CustomFileInput(
             textFieldName: 'Choose file',
-            controller: photoController,
+            controller: docmentPickController,
             isRequired: false,
-            onPressed: () => _onPhotoButtonPressed,
+            onPressed: _PickDocumentHandler,
           ),
 
           // fileInput: CustomFileButton(title: 'Choose file',),

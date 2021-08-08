@@ -19,7 +19,7 @@ class CustomFileInput extends StatelessWidget {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
     return InkWell(
-      onTap: this.onPressed(),
+      onTap: ()=>this.onPressed(),
       child: Material(
         color: Colors.white,
         elevation: 1.0,

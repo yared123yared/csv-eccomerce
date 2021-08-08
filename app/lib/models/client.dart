@@ -303,30 +303,79 @@ class CreateClientData {
   String lastName;
   String mobile;
   String email;
-  String? streetAddress;
-  String? zipCode;
-  String? locality;
-  String? city;
-  String? state;
-  String? country;
-  List<String> addresses;
-  List<String>? documents;
-  List<String>? images;
+  List<Addresses> addresses;
+  List<Docs>? documents;
   String? uploadedPhoto;
   CreateClientData({
     required this.firstName,
     required this.lastName,
     required this.mobile,
     required this.email,
+    required this.addresses,
+    this.documents,
+    this.uploadedPhoto,
+  });
+}
+
+class Addresses {
+  String? id;
+  String? streetAddress;
+  String? zipCode;
+  String? locality;
+  String? city;
+  String? state;
+  late String country;
+  bool? isDefault;
+  bool? isBilling;
+  String? companyId;
+
+  Addresses({
+    this.id,
     this.streetAddress,
     this.zipCode,
     this.locality,
     this.city,
     this.state,
     required this.country,
-    required this.addresses,
-    this.documents,
-    this.images,
-    this.uploadedPhoto,
+    this.isDefault,
+    this.isBilling,
+    this.companyId,
+  });
+
+  Addresses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    streetAddress = json['street_address'];
+    zipCode = json['zip_code'];
+    locality = json['locality'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    isDefault = json['is_default'];
+    isBilling = json['is_billing'];
+    companyId = json['company_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['street_address'] = this.streetAddress;
+    data['zip_code'] = this.zipCode;
+    data['locality'] = this.locality;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['is_default'] = this.isDefault;
+    data['is_billing'] = this.isBilling;
+    data['company_id'] = this.companyId;
+    return data;
+  }
+}
+
+class Docs {
+  String name;
+  String path;
+  Docs({
+    required this.name,
+    required this.path,
   });
 }
