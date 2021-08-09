@@ -1,22 +1,21 @@
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/deleteButton.dart';
 import 'package:app/Widget/clients/clients_list/edit_button.dart';
+import 'package:app/models/client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Common/client_data_row.dart';
 
-class Client extends StatelessWidget {
-  String name;
-  String mobile;
-  String email;
-  String status;
-  Client({
-    required this.email,
-    required this.mobile,
-    required this.name,
-    required this.status,
+class ClientCard extends StatelessWidget {
+  Client client;
+  VoidCallback deleteClient;
+  Function editClient;
+  ClientCard({
+    required this.client,
+    required this.deleteClient,
+    required this.editClient,
   });
-  void deletClient() {}
-  void editClient() {}
 
   @override
   Widget build(BuildContext context) {
@@ -34,21 +33,39 @@ class Client extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ClientDataRow(property: 'NAME', value: this.name),
-              ClientDataRow(property: 'Mobile', value: this.mobile),
-              ClientDataRow(property: 'QUANTITY', value: '${this.email}'),
-              ClientDataRow(property: 'STATUS', value: '${this.status}'),
+              ClientDataRow(
+                  property: 'NAME',
+                  value: this.client.firstName == null
+                      ? ""
+                      : this.client.firstName!),
+              ClientDataRow(
+                  property: 'Mobile',
+                  value: this.client.mobile == null ? "" : this.client.mobile!),
+              ClientDataRow(
+                  property: 'QUANTITY',
+                  value: this.client.orders == null
+                      ? "0"
+                      : this.client.orders!.length.toString()),
+              ClientDataRow(
+                  property: 'STATUS',
+                  value: this.client.status == null
+                      ? ""
+                      : this.client.status == 1
+                          ? "ACTIVE"
+                          : "INACTIVE"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   EditButton(
-                    onPressed: () => editClient(),
+                    onPressed: () => this.editClient(),
                   ),
                   SizedBox(
                     width: 10,
                   ),
                   DeleteButton(
-                    onPressed: () => deletClient(),
+                    onPressed: () {
+                      delete(context);
+                    },
                   ),
                 ],
               )
@@ -57,5 +74,12 @@ class Client extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void delete(BuildContext context) {
+    print('delete executing');
+    DeleteClientEvent deleteEvent =
+        new DeleteClientEvent(id: this.client.id.toString());
+    BlocProvider.of<ClientsBloc>(context, listen: false).add(deleteEvent);
   }
 }

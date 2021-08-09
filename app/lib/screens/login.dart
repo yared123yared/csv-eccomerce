@@ -89,15 +89,8 @@ class _LoginState extends State<Login> {
                 child: Container(
                   height: 20.0,
                   width: 20.0,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ],
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
               );

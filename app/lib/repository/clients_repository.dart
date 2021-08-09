@@ -14,4 +14,8 @@ class ClientsRepository {
   Future<void> createClient(CreateClientData data) async {
     return await clientsDataProvider.createClient(data);
   }
+
+  Future<void> deleteClient(String id) async {
+    return await clientsDataProvider.deleteClient(id);
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
 import 'package:app/constants/constants.dart';
 import 'package:app/models/login_info.dart';
@@ -36,6 +37,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
+    FetchClientsEvent fetchClientEvent = new FetchClientsEvent(page: 0);
 
     return Scaffold(
         key: _scaffoldKey,
@@ -348,10 +350,15 @@ class _MainScreenState extends State<MainScreen> {
                                     'Clients',
                                     4,
                                     Icons.person,
-                                    () => Navigator.of(context).pushNamed(
-                                      ClientsScreen.routeName,
-                                      arguments: state.user,
-                                    ),
+                                    () => {
+                                      Navigator.of(context).pushNamed(
+                                        ClientsScreen.routeName,
+                                        arguments: state.user,
+                                      ),
+                                      BlocProvider.of<ClientsBloc>(context,
+                                              listen: false)
+                                          .add(fetchClientEvent),
+                                    },
                                   ),
 
                                   DrawerListTile(
@@ -392,6 +399,10 @@ class _MainScreenState extends State<MainScreen> {
                             height: 60.0,
                             width: MediaQuery.of(context).size.width * 4 / 5,
                             child: ListTile(
+                              onTap: () {
+                                Navigator.popAndPushNamed(
+                                    context, Login.routeName);
+                              },
                               tileColor: primaryDark,
                               leading: Icon(
                                 Icons.logout,
@@ -425,9 +436,15 @@ class _MainScreenState extends State<MainScreen> {
                     : this.check == 5
                         ? ClientProfile()
                         : this.check == 7
-                            ? ClientsScreen()
+                            ? ClientsScreen(
+                                scaffoldKey: _scaffoldKey,
+                              )
                             : this.check == 8
-                                ? NewClientScreen()
+                                ? NewClientScreen(
+                                    onClientAddSuccess: () => setState(() {
+                                      this.check = 7;
+                                    }),
+                                  )
                                 : SettingScreen(),
         bottomNavigationBar: BottomAppBar(
             child: new Row(

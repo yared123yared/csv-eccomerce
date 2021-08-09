@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:app/models/client.dart';
-import 'package:app/models/client.dart';
-import 'package:app/models/client.dart';
 import 'package:app/screens/drawer.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
@@ -13,7 +11,7 @@ import 'package:app/Widget/clients/new_client/general_information.dart';
 import 'package:app/Widget/clients/new_client/shipping_address.dart';
 import 'package:app/Widget/clients/new_client/steper.dart';
 import 'package:app/constants/constants.dart';
-// import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -23,18 +21,18 @@ import 'package:image_picker/image_picker.dart';
 class NewClientScreen extends StatefulWidget {
   static const routeName = 'client_new';
 
-  // final LoggedUserInfo user;
+  final Function onClientAddSuccess;
 
   // const NewClientScreen({
   //   required this.user,
   // });
-  NewClientScreen();
+  NewClientScreen({required this.onClientAddSuccess});
 
   @override
   _NewClientScreenState createState() => _NewClientScreenState();
 }
 
-final _scaffoldKey = GlobalKey<ScaffoldState>();
+// final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _NewClientScreenState extends State<NewClientScreen> {
   int currentStep = 0;
@@ -70,6 +68,22 @@ class _NewClientScreenState extends State<NewClientScreen> {
     print('---create started--');
 
     print('---valid--');
+
+    if (documentNameController.text != '') {
+      if (docmentPickController.text != '') {
+        documents.add(
+          Docs(
+            name: documentNameController.text,
+            path: docmentPickController.text,
+          ),
+        );
+        setState(() {
+          docmentPickController.clear();
+          documentNameController.clear();
+        });
+      }
+    }
+
     CreateClientData data = CreateClientData(
       firstName: firstNameController.text,
       lastName: lastNameController.text,
@@ -80,7 +94,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
       uploadedPhoto: photoController.text,
     );
     CreateClientEvent loginEvent = new CreateClientEvent(data: data);
-    BlocProvider.of<ClientsBloc>(context).add(loginEvent);
+    BlocProvider.of<ClientsBloc>(context, listen: false).add(loginEvent);
   }
 
   void _newAddresshandler() {
@@ -113,22 +127,20 @@ class _NewClientScreenState extends State<NewClientScreen> {
   }
 
   void _newDocumentHandler() {
-    if (documentNameController.text == '') {
-      return;
+    if (documentNameController.text != '') {
+      if (docmentPickController.text != '') {
+        documents.add(
+          Docs(
+            name: documentNameController.text,
+            path: docmentPickController.text,
+          ),
+        );
+        setState(() {
+          docmentPickController.clear();
+          documentNameController.clear();
+        });
+      }
     }
-    if (docmentPickController.text == '') {
-      return;
-    }
-    documents.add(
-      Docs(
-        name: documentNameController.text,
-        path: docmentPickController.text,
-      ),
-    );
-    setState(() {
-      docmentPickController.clear();
-      documentNameController.clear();
-    });
   }
 
   void defaultAddressHandler() {
@@ -172,48 +184,58 @@ class _NewClientScreenState extends State<NewClientScreen> {
       child: BlocConsumer<ClientsBloc, ClientsState>(
         listener: (context, state) {
           final progress = ProgressHUD.of(context);
+          print(state.toString());
           if (state is ClientCreatingState) {
-            if (!isShowing) {
-              if (progress != null) {
-                setState(() {
-                  isShowing = true;
-                });
-                progress.showWithText('Creating Client');
-              }
-            }
+            // if (!isShowing) {
+            //   if (progress != null) {
+            //     setState(() {
+            //       isShowing = true;
+            //     });
+            //     progress.showWithText('Creating Client');
+            //   }
+            // }
           } else if (state is ClientCreateSuccesstate) {
-            if (isShowing) {
-              if (progress != null) {
-                setState(() {
-                  isShowing = false;
-                });
-                progress.dismiss();
-              }
+            // if (isShowing) {
+            print("---success");
+
+            if (progress != null) {
+              setState(() {
+                isShowing = false;
+              });
+              progress.dismiss();
             }
-            Navigator.of(context).pop();
-          } else {
-            if (isShowing) {
-              if (progress != null) {
-                setState(() {
-                  isShowing = false;
-                });
-                progress.dismiss();
-                // progress.dispose();
-              }
-            }
+            // }
+            // print("success");
+            widget.onClientAddSuccess();
+            // Navigator.of(context).pop();
+          } else if (state is ClientCreateFailedState) {
+            // if (isShowing) {
+            //   if (progress != null) {
+            //     setState(() {
+            //       isShowing = false;
+            //     });
+            //     progress.dismiss();
+            //     // progress.dispose();
+            //   }
+            // }
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.INFO,
+              animType: AnimType.BOTTOMSLIDE,
+              title: 'Client Create Fail',
+              desc: 'Error',
+              btnCancelOnPress: () {},
+              btnOkOnPress: () {},
+            )..show();
           }
         },
         builder: (context, state) {
-          Widget palaceHolder = SizedBox(
-            height: 0,
-          );
-          if (state is ClientCreateFailedState) {
-            palaceHolder = Center(
-              child: Text(
-                state.message,
-                style: TextStyle(color: Colors.red, fontSize: 18),
-              ),
-            );
+          if (state is ClientCreateSuccesstate) {
+            widget.onClientAddSuccess();
+            FetchClientsEvent refechEvent = new FetchClientsEvent(page: 0);
+            BlocProvider.of<ClientsBloc>(context, listen: false)
+                .add(refechEvent);
+            print("suscce");
           }
 
           return SingleChildScrollView(
@@ -223,6 +245,8 @@ class _NewClientScreenState extends State<NewClientScreen> {
                 SizedBox(
                   height: 30,
                 ),
+                // Placeholder(),
+
                 Container(
                   color: Theme.of(context).accentColor,
                   child: Text(
