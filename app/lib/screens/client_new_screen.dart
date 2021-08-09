@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
@@ -10,7 +13,7 @@ import 'package:app/Widget/clients/new_client/general_information.dart';
 import 'package:app/Widget/clients/new_client/shipping_address.dart';
 import 'package:app/Widget/clients/new_client/steper.dart';
 import 'package:app/constants/constants.dart';
-import 'package:app/models/client.dart';
+// import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

@@ -34,8 +34,7 @@ void main() {
   );
   final ProductRepository productRepository = ProductRepository(
     productDataProvider: ProductDataProvider(
-      httpClient: httpClient,
-    ),
+        httpClient: httpClient, userPreferences: userPreferences),
   );
 
   // Products products = await productRepository.getProducts(1);
@@ -94,8 +93,10 @@ class App extends StatelessWidget {
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
           ),
-           BlocProvider<ClientsBloc>(
-            create: (_) => ClientsBloc(clientsRepository: this.clientsRepository,)..add(FetchClientsEvent(page: 1)),
+          BlocProvider<ClientsBloc>(
+            create: (_) => ClientsBloc(
+              clientsRepository: this.clientsRepository,
+            )..add(FetchClientsEvent(page: 1)),
           ),
         ],
         child: MaterialApp(

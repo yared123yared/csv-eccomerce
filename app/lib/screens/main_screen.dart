@@ -195,7 +195,7 @@ class _MainScreenState extends State<MainScreen> {
                                     0,
                                     Icons.person,
                                     () => setState(() {
-                                     this.check = 7;
+                                      this.check = 7;
                                     }),
                                   ),
 
@@ -203,8 +203,9 @@ class _MainScreenState extends State<MainScreen> {
                                     'Product Catalog',
                                     0,
                                     Icons.production_quantity_limits_sharp,
-                                    () => Navigator.of(context)
-                                        .pushNamed(ClientsScreen.routeName),
+                                    () => setState(() {
+                                      this.check = 1;
+                                    }),
                                   ),
                                   DrawerExpansionTile(
                                     'Orders',

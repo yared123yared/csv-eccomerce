@@ -38,7 +38,7 @@ class Shipping extends StatelessWidget {
           children: [
             Switch(
               value: this.isBilling,
-              onChanged:(val)=>this.onBillingAddressPressed(),
+              onChanged: (val) => this.onBillingAddressPressed(),
             ),
             Text(
               'Billing Address',
@@ -58,7 +58,7 @@ class Shipping extends StatelessWidget {
               children: [
                 Switch(
                   value: this.isDefault,
-                  onChanged:(val)=>this.onDefaultAddressPressed(),
+                  onChanged: (val) => this.onDefaultAddressPressed(),
                 ),
                 Text(
                   'Default Address',
@@ -69,7 +69,7 @@ class Shipping extends StatelessWidget {
               ],
             ),
             GestureDetector(
-              onTap: ()=>this.onAddNewPressed(),
+              onTap: () => this.onAddNewPressed(),
               child: Text(
                 'Add New',
                 style: TextStyle(
