@@ -15,7 +15,8 @@ class DeleteButton extends StatelessWidget {
           Icons.delete_outline,
           color: Colors.white,
         ),
-        onPressed: this.onPressed(),
+
+        onPressed: ()=>this.onPressed(),
       ),
     );
   }

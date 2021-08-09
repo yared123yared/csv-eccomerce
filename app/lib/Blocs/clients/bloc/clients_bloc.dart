@@ -21,36 +21,40 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       yield* _mapFetchClientsToState(event.page);
     } else if (event is CreateClientEvent) {
       yield* _mapCreateClientToState(event.data);
+    } else if (event is DeleteClientEvent) {
+      yield* _mapDeleteClientToState(event.id);
     }
   }
 
   Stream<ClientsState> _mapFetchClientsToState(
     int page,
   ) async* {
+    yield ClientFetchingState();
     try {
-      ClientData? data = clients[page];
-      if (data == null) {
-        final reqData = await clientsRepository.getClients(page);
-        clients[page] = ClientData(
-          clients: reqData.clients.client,
-          end: reqData.clients.to,
-          start: reqData.clients.from,
-          total: reqData.clients.total,
-        );
-        yield ClientFetchingSuccessState(
-          clients: reqData.clients.client,
-          end: reqData.clients.to,
-          start: reqData.clients.from,
-          total: reqData.clients.total,
-        );
-        return;
-      }
-      yield ClientFetchingSuccessState(
-        clients: data.clients,
-        end: data.end,
-        start: data.start,
-        total: data.total,
+      // ClientData? data = clients[page];
+      // if (data == null) {
+      final reqData = await clientsRepository.getClients(page);
+      clients[page] = ClientData(
+        clients: reqData.clients.client,
+        end: reqData.clients.to,
+        start: reqData.clients.from,
+        total: reqData.clients.total,
       );
+      yield ClientFetchingSuccessState(
+        clients: reqData.clients.client,
+        end: reqData.clients.to,
+        start: reqData.clients.from,
+        total: reqData.clients.total,
+      );
+      return;
+      // }
+      // yield ClientFetchingSuccessState(
+      //   clients: data.clients,
+      //   end: data.end,
+      //   start: data.start,
+      //   total: data.total,
+      // );
+      // return;
     } catch (e) {
       yield ClientFetchingFailedState(message: e.toString());
     }
@@ -61,8 +65,36 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     try {
       await clientsRepository.createClient(data);
       ClientCreateSuccesstate();
+      print("");
+      return;
     } catch (e) {
       yield ClientCreateFailedState(message: e.toString());
+    }
+  }
+
+  Stream<ClientsState> _mapDeleteClientToState(String id) async* {
+    yield ClientDeletingState();
+    try {
+      print("from bloc ---${id}");
+      await clientsRepository.deleteClient(id);
+
+
+      final reqData = await clientsRepository.getClients(1);
+      clients[1] = ClientData(
+        clients: reqData.clients.client,
+        end: reqData.clients.to,
+        start: reqData.clients.from,
+        total: reqData.clients.total,
+      );
+     yield ClientFetchingSuccessState(
+        clients: reqData.clients.client,
+        end: reqData.clients.to,
+        start: reqData.clients.from,
+        total: reqData.clients.total,
+      );
+      return;
+    } catch (e) {
+      yield ClientDeleteFailedState(message: e.toString());
     }
   }
 }

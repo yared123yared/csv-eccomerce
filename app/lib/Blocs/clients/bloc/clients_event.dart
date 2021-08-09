@@ -18,3 +18,10 @@ class CreateClientEvent extends ClientsEvent {
   @override
   List<Object> get props => [data];
 }
+
+class DeleteClientEvent extends ClientsEvent {
+  late final String id ;
+  DeleteClientEvent({required this.id});
+  @override
+  List<Object> get props => [id];
+}

@@ -27,7 +27,7 @@ dependencies:
   flash: ^2.0.1
   image_picker: ^0.8.3
   flutter_progress_hud: ^2.0.0
-
+  awesome_dialog: ^2.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
