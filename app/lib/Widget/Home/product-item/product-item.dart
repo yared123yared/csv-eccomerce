@@ -32,7 +32,7 @@ class _ProductItemState extends State<ProductItem> {
           setState(() {
             widget.product.order += 1;
           });
-          cartBloc.add(AddProduct());
+          cartBloc.add(AddProduct(singleProduct: widget.product));
         },
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,

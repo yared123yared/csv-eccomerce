@@ -24,39 +24,17 @@ class ClientProfile extends StatefulWidget {
   _ClientProfileState createState() => _ClientProfileState();
 }
 
-final _scaffoldKey = GlobalKey<ScaffoldState>();
-
 class _ClientProfileState extends State<ClientProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      resizeToAvoidBottomInset: false,
-      // bottomNavigationBar: HomeBottomNavigation(),
       appBar: AppBar(
-        title: Text('Client Profile'),
+        title: Text(
+          'Clients Profile',
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
-        backgroundColor: primaryColor,
-        leading: GestureDetector(
-          onTap: () => _scaffoldKey.currentState!.openDrawer(),
-          child: Container(
-            height: 5.0,
-            width: 5.0,
-            child: ImageIcon(
-              AssetImage('assets/images/left-align.png'),
-            ),
-          ),
-        ),
       ),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Theme.of(context)
-              .primaryColor, //This will change the drawer background to blue.
-          //other styles
-        ),
-        child: AppDrawer(),
-      ),
-      drawerEnableOpenDragGesture: true,
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(

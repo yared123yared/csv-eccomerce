@@ -121,25 +121,27 @@ class Client {
   int? status;
   int? debts;
   List<Orders>? orders;
-
-  Client(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.email,
-      this.streetAddress,
-      this.zipCode,
-      this.locality,
-      this.city,
-      this.state,
-      this.country,
-      this.createdBy,
-      this.updatedBy,
-      this.companyId,
-      this.status,
-      this.debts,
-      this.orders});
+  List<Addresses>? addresses;
+  Client({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.email,
+    this.streetAddress,
+    this.zipCode,
+    this.locality,
+    this.city,
+    this.state,
+    this.country,
+    this.createdBy,
+    this.updatedBy,
+    this.companyId,
+    this.status,
+    this.debts,
+    this.orders,
+    this.addresses,
+  });
 
   Client.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -164,6 +166,12 @@ class Client {
         orders!.add(new Orders.fromJson(v));
       });
     }
+    if (json['addresses'] != null) {
+      addresses = [];
+      json['addresses'].forEach((v) {
+        addresses!.add(new Addresses.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -186,6 +194,9 @@ class Client {
     Client['debts'] = this.debts;
     if (this.orders != null) {
       Client['orders'] = this.orders!.map((v) => v.toJson()).toList();
+    }
+    if (this.addresses != null) {
+      Client['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
     }
     return Client;
   }
@@ -303,30 +314,79 @@ class CreateClientData {
   String lastName;
   String mobile;
   String email;
-  String? streetAddress;
-  String? zipCode;
-  String? locality;
-  String? city;
-  String? state;
-  String? country;
-  List<String> addresses;
-  List<String>? documents;
-  List<String>? images;
+  List<Addresses> addresses;
+  List<Docs>? documents;
   String? uploadedPhoto;
   CreateClientData({
     required this.firstName,
     required this.lastName,
     required this.mobile,
     required this.email,
+    required this.addresses,
+    this.documents,
+    this.uploadedPhoto,
+  });
+}
+
+class Addresses {
+  String? id;
+  String? streetAddress;
+  String? zipCode;
+  String? locality;
+  String? city;
+  String? state;
+  late String country;
+  bool? isDefault;
+  bool? isBilling;
+  String? companyId;
+
+  Addresses({
+    this.id,
     this.streetAddress,
     this.zipCode,
     this.locality,
     this.city,
     this.state,
     required this.country,
-    required this.addresses,
-    this.documents,
-    this.images,
-    this.uploadedPhoto,
+    this.isDefault,
+    this.isBilling,
+    this.companyId,
+  });
+
+  Addresses.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    streetAddress = json['street_address'];
+    zipCode = json['zip_code'];
+    locality = json['locality'];
+    city = json['city'];
+    state = json['state'];
+    country = json['country'];
+    isDefault = json['is_default'] == 1 ? true : false;
+    isBilling = json['is_billing'] == 1 ? true : false;
+    companyId = json['company_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['street_address'] = this.streetAddress;
+    data['zip_code'] = this.zipCode;
+    data['locality'] = this.locality;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    data['is_default'] = this.isDefault;
+    data['is_billing'] = this.isBilling;
+    data['company_id'] = this.companyId;
+    return data;
+  }
+}
+
+class Docs {
+  String name;
+  String path;
+  Docs({
+    required this.name,
+    required this.path,
   });
 }

@@ -56,13 +56,11 @@ class AppRoutes {
     } else if (settings.name == ClientsScreen.routeName) {
       return MaterialPageRoute(
           builder: (context) => ClientsScreen(
+              // scaffoldKey: settings.arguments as GlobalKey<ScaffoldState>,
               // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == NewClientScreen.routeName) {
-      return MaterialPageRoute(
-          builder: (context) => NewClientScreen(
-              // user: settings.arguments as LoggedUserInfo,
-              ));
+      return MaterialPageRoute(builder: (context) => NewClientScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ResetPasswordScreen(

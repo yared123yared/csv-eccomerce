@@ -8,4 +8,7 @@ abstract class CartEvent {
   List<Object> get props => [];
 }
 
-class AddProduct extends CartEvent {}
+class AddProduct extends CartEvent {
+  final Data singleProduct;
+  AddProduct({required this.singleProduct});
+}
