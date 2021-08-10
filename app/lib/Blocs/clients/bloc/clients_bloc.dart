@@ -64,7 +64,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     yield ClientCreatingState();
     try {
       await clientsRepository.createClient(data);
-      ClientCreateSuccesstate();
+      yield ClientCreateSuccesstate();
       print("");
       return;
     } catch (e) {

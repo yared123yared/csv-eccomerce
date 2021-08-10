@@ -6,6 +6,8 @@ class Shipping extends StatelessWidget {
   final Function onDefaultAddressPressed;
   final Function onBillingAddressPressed;
   final Function onAddNewPressed;
+  // final Function prevAdressHandler;
+  // final Function nextAddressHandler;
   final bool isDefault;
   final bool isBilling;
   Shipping({
@@ -16,6 +18,8 @@ class Shipping extends StatelessWidget {
     required this.onAddNewPressed,
     required this.isDefault,
     required this.isBilling,
+    // required this.nextAddressHandler,
+    // required this.prevAdressHandler,
   });
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class Shipping extends StatelessWidget {
           children: [
             Switch(
               value: this.isBilling,
-              onChanged:(val)=>this.onBillingAddressPressed(),
+              onChanged: (val) => this.onBillingAddressPressed(),
             ),
             Text(
               'Billing Address',
@@ -58,7 +62,7 @@ class Shipping extends StatelessWidget {
               children: [
                 Switch(
                   value: this.isDefault,
-                  onChanged:(val)=>this.onDefaultAddressPressed(),
+                  onChanged: (val) => this.onDefaultAddressPressed(),
                 ),
                 Text(
                   'Default Address',
@@ -68,8 +72,28 @@ class Shipping extends StatelessWidget {
                 )
               ],
             ),
+            // Row(
+            //   children: [
+            //     IconButton(
+            //       onPressed: () => this.prevAdressHandler(),
+            //       icon: Icon(
+            //         Icons.arrow_back_ios,
+            //         color: Colors.black,
+            //       ),
+            //     ),
+
+            //     SizedBox(width: 5,),
+            //     IconButton(
+            //       onPressed: () => this.nextAddressHandler(),
+            //       icon: Icon(
+            //         Icons.arrow_forward_ios,
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             GestureDetector(
-              onTap: ()=>this.onAddNewPressed(),
+              onTap: () => this.onAddNewPressed(),
               child: Text(
                 'Add New',
                 style: TextStyle(

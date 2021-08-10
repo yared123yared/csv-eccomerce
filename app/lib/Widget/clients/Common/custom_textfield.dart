@@ -7,13 +7,14 @@ class CustomTextField extends StatelessWidget {
   final Function validator;
   final bool obsecureText;
   final bool isRequired;
-
+  // final String initialValue;
   CustomTextField({
     required this.textFieldName,
     required this.controller,
     required this.validator,
     required this.obsecureText,
     required this.isRequired,
+    // required this.initialValue,
   });
 
   @override
@@ -33,6 +34,7 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: this.controller,
           obscureText: this.obsecureText,
+          // initialValue: this.initialValue,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           onEditingComplete: () => FocusScope.of(context).unfocus(),

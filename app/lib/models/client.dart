@@ -121,25 +121,27 @@ class Client {
   int? status;
   int? debts;
   List<Orders>? orders;
-
-  Client(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.mobile,
-      this.email,
-      this.streetAddress,
-      this.zipCode,
-      this.locality,
-      this.city,
-      this.state,
-      this.country,
-      this.createdBy,
-      this.updatedBy,
-      this.companyId,
-      this.status,
-      this.debts,
-      this.orders});
+  List<Addresses>? addresses;
+  Client({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.email,
+    this.streetAddress,
+    this.zipCode,
+    this.locality,
+    this.city,
+    this.state,
+    this.country,
+    this.createdBy,
+    this.updatedBy,
+    this.companyId,
+    this.status,
+    this.debts,
+    this.orders,
+    this.addresses,
+  });
 
   Client.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -164,6 +166,12 @@ class Client {
         orders!.add(new Orders.fromJson(v));
       });
     }
+    if (json['addresses'] != null) {
+      addresses = [];
+      json['addresses'].forEach((v) {
+        addresses!.add(new Addresses.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -186,6 +194,9 @@ class Client {
     Client['debts'] = this.debts;
     if (this.orders != null) {
       Client['orders'] = this.orders!.map((v) => v.toJson()).toList();
+    }
+    if (this.addresses != null) {
+      Client['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
     }
     return Client;
   }
@@ -350,8 +361,8 @@ class Addresses {
     city = json['city'];
     state = json['state'];
     country = json['country'];
-    isDefault = json['is_default'];
-    isBilling = json['is_billing'];
+    isDefault = json['is_default'] == 1 ? true : false;
+    isBilling = json['is_billing'] == 1 ? true : false;
     companyId = json['company_id'];
   }
 
