@@ -22,7 +22,7 @@ class ProductDataProvider {
     late List<Data> products_return = [];
     try {
       final url = Uri.parse(
-          'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
+          'http://csv.jithvar.com/api/v1/catalog-products?page=$page');
 
       final response = await http.post(url,
           headers: {
