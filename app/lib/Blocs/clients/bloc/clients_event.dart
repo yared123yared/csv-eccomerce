@@ -20,7 +20,7 @@ class CreateClientEvent extends ClientsEvent {
 }
 
 class DeleteClientEvent extends ClientsEvent {
-  late final String id ;
+  late final String id;
   DeleteClientEvent({required this.id});
   @override
   List<Object> get props => [id];

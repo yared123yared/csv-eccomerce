@@ -78,7 +78,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       print("from bloc ---${id}");
       await clientsRepository.deleteClient(id);
 
-
       final reqData = await clientsRepository.getClients(1);
       clients[1] = ClientData(
         clients: reqData.clients.client,
@@ -86,7 +85,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         start: reqData.clients.from,
         total: reqData.clients.total,
       );
-     yield ClientFetchingSuccessState(
+
+      yield ClientFetchingSuccessState(
         clients: reqData.clients.client,
         end: reqData.clients.to,
         start: reqData.clients.from,
