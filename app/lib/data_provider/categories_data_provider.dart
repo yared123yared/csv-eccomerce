@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/product/product.dart';
 import 'package:app/preferences/user_preference_data.dart';
@@ -12,50 +13,36 @@ class CategoriesDataProvider {
   final _baseUrl = 'http://csv.jithvar.com/api/v1';
   final http.Client httpClient;
   final UserPreferences userPreferences;
-  // final token = '628|uESSMWAkhzp5igcBdc93thXMR8Qm8CbrPQwPVTy7';
 
   CategoriesDataProvider(
       {required this.httpClient, required this.userPreferences})
       : assert(httpClient != null);
 
-  Future<List<Data>> getProducts(int page) async {
+  Future<List<Categories>> getCategories() async {
     String? token = await this.userPreferences.getUserToken();
-    late List<Data> products_return = [];
+    late List<Categories> categories_return = [];
     try {
-      final url = Uri.parse(
-          'http://csv.jithvar.com/api/v1/catalog-products?page=$page');
+      final url = Uri.parse('https://csv.jithvar.com/api/v1/categories');
 
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode({
-            "draw": 0,
-            "length": 10,
-            "search": "",
-            "column": 0,
-            "dir": "asc"
-          }));
-      // print(
-      //     "Http response ${response.statusCode} and response body ${response.body}");
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      // print('Arrived here ${response.body}');
       if (response.statusCode == 200) {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
-        // print("Extracted value $extractedData");
-        // print("This is the data value ${extractedData['products']['data']}");
-        final data = extractedData['products']['data'];
-        // print("Data:${data}");
 
-        return data
-            .map((product) => Data.fromJson(product))
+        final data = extractedData['categories'];
+
+        return (data
+            .map((category) => Categories.fromJson(category))
             .toList()
-            .cast<Data>();
-        // print(products_return.map((e) => e));
-        // print("product current page ${products_return.currentPage}");
-        // print(products_return);
-        // return products_return;
+            .cast<Categories>());
       } else {
         // print(response.body);
         throw Exception('Failed to load courses');
@@ -63,6 +50,6 @@ class CategoriesDataProvider {
     } catch (e) {
       print("Exception throuwn $e");
     }
-    return products_return;
+    return categories_return;
   }
 }

@@ -1,3 +1,6 @@
+import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/repository/categories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +40,10 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
+  final CategoryRepository categoryRepository = CategoryRepository(
+    categoryDataProvider: CategoriesDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
@@ -45,6 +52,7 @@ void main() {
     productRepository: productRepository,
     userRepository: userRepository,
     clientsRepository: clientRepository,
+    categoryRepository: categoryRepository,
   ));
   // runApp(MyApp());
 }
@@ -54,11 +62,13 @@ class App extends StatelessWidget {
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
   final ClientsRepository clientsRepository;
+  final CategoryRepository categoryRepository;
   App({
     required this.userRepository,
     required this.productRepository,
     required this.userPreferences,
     required this.clientsRepository,
+    required this.categoryRepository,
   });
 
   @override
@@ -97,6 +107,11 @@ class App extends StatelessWidget {
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
             )..add(FetchClientsEvent(page: 1)),
+          ),
+          BlocProvider<CategoriesBloc>(
+            create: (_) =>
+                CategoriesBloc(categoryRepository: this.categoryRepository)
+                  ..add(FetchCategories()),
           ),
         ],
         child: MaterialApp(

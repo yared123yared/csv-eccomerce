@@ -2,9 +2,9 @@ import 'attributes.dart';
 import '../parent_category.dart';
 
 class Categories {
-  late int id;
+  int? id;
   late String name;
-  late int parentId;
+  int? parentId;
   late String fullName;
   List<Attributes>? attributes;
   ParentCategory? parentCategory;

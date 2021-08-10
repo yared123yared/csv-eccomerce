@@ -1,16 +1,16 @@
 class Pivot {
-  late int categoryId;
-  late int attributeId;
+  int? categoryId;
+  int? attributeId;
   late String value;
-   int? unitId;
-   String? unitName;
+  int? unitId;
+  String? unitName;
 
   Pivot({
     required this.categoryId,
     required this.attributeId,
     required this.value,
-     this.unitId,
-     this.unitName,
+    this.unitId,
+    this.unitName,
   });
 
   Pivot.fromJson(Map<String, dynamic> json) {

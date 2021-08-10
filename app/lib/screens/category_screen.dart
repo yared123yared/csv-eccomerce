@@ -1,5 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
+import 'package:app/Widget/Home/category/custome_category.dart';
 import 'package:app/Widget/Home/product-category/productCategory.dart';
 import 'package:app/Widget/Home/product-item/product-item.dart';
 import 'package:app/Widget/Home/search-bar/searchBar.dart';
@@ -21,6 +23,7 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   late ProductBloc productBloc;
+  late CategoriesBloc categoriesBloc;
 
   @override
   void init() {
@@ -31,6 +34,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     productBloc = BlocProvider.of<ProductBloc>(context);
+    categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
+    categoriesBloc.add(FetchCategories());
     productBloc.add(FetchProduct());
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
@@ -42,26 +47,35 @@ class _CategoryScreenState extends State<CategoryScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      ProductCategory(title: "All"),
-                      ProductCategory(
-                        title: "Shoes",
-                      ),
-                      ProductCategory(title: "Phone"),
-                      ProductCategory(title: "Chair"),
-                      ProductCategory(title: "Watch"),
-                      ProductCategory(title: "All"),
-                      ProductCategory(
-                        title: "Shoes",
-                      ),
-                      ProductCategory(title: "Phone"),
-                      ProductCategory(title: "Chair"),
-                      ProductCategory(title: "Watch"),
-                    ],
-                  ),
-                ),
+                    scrollDirection: Axis.horizontal,
+                    child: BlocBuilder<CategoriesBloc, CategoriesState>(
+                      // buildWhen: (previous, current) =>
+                      //     previous.selectedCategoryId != current.selectedCategoryId,
+                      builder: (context, state) {
+                        List<Widget> categories = [];
+                        if (state is CategoriesLoading) {
+                          return CircularProgressIndicator();
+                        } else if (state is CategoriesLoadSuccess) {
+                          for (int i = 0; i < state.categories.length; i++) {
+                            print(state.categories[i].name);
+                            categories.add(CustomCategory(
+                              backgroundColor:
+                                  Color(0xFF015777).withOpacity(0.05),
+                              fontColor: Colors.black.withOpacity(0.8),
+                              text: state.categories[i].name,
+                              onPressed: () {
+                                print(
+                                    "This is teh name of the category:${state.categories[i].name}");
+                                // brokerBloc.add(SelectEvent(
+                                //     categoryId: DUMMY_CATEGORIES[i].id, search: ''));
+                              },
+                            ));
+                          }
+                        }
+
+                        return Row(children: categories);
+                      },
+                    )),
               ),
               Expanded(child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
