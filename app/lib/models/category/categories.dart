@@ -1,5 +1,5 @@
 import 'attributes.dart';
-import 'parent_category.dart';
+import '../parent_category.dart';
 
 class Categories {
   late int id;

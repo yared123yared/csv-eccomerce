@@ -1,4 +1,4 @@
-import './pivot.dart';
+import '../pivot.dart';
 
 class Attributes {
   late int id;

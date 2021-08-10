@@ -38,7 +38,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:_scaffoldKey,
+      key: _scaffoldKey,
       drawer: AppDrawer(),
       appBar: AppBar(
         title: Text(
