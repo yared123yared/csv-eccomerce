@@ -32,11 +32,12 @@ class ProductDataProvider {
           },
           body: jsonEncode({
             "draw": 0,
-            "length": 10,
+            "length": 3,
             "search": "",
-            "column": 0,
-            "dir": "asc"
+            "column": 1,
+            "dir": "asc",
           }));
+
       // print(
       //     "Http response ${response.statusCode} and response body ${response.body}");
       if (response.statusCode == 200) {

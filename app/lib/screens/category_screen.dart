@@ -24,6 +24,41 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   late ProductBloc productBloc;
   late CategoriesBloc categoriesBloc;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _scrollController = new ScrollController(initialScrollOffset: 5.0)
+      ..addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  _scrollListener() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      print("Reached to the end of teh page.");
+
+      productBloc.add(LazyFetchProduct());
+      // isLoading = true;
+
+      // if (isLoading) {
+      //   print("RUNNING LOAD MORE");
+
+      // pageCount = pageCount + 1;
+
+      // addItemIntoLisT(pageCount);
+
+    }
+  }
 
   @override
   void init() {
@@ -36,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     productBloc = BlocProvider.of<ProductBloc>(context);
     categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
     categoriesBloc.add(FetchCategories());
-    productBloc.add(FetchProduct());
+    // productBloc.add(FetchProduct(categoryId: 12, isAnotherPageAsked: false));
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
         // bottomNavigationBar: HomeBottomNavigation(),
@@ -64,8 +99,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               fontColor: Colors.black.withOpacity(0.8),
                               text: state.categories[i].name,
                               onPressed: () {
-                                print(
-                                    "This is teh name of the category:${state.categories[i].name}");
+                                productBloc.add(SelectEvent(
+                                    categories: state.categories[i]));
+                                // productBloc.add(FetchProduct(
+                                //     categoryId: state.categories[i].id!.toInt(),
+                                //     isAnotherPageAsked: false));
+                                // print(
+                                //     "This is teh name of the category:${state.categories[i].name}");
                                 // brokerBloc.add(SelectEvent(
                                 //     categoryId: DUMMY_CATEGORIES[i].id, search: ''));
                               },
@@ -83,22 +123,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 if (state is ProductLoadSuccess) {
                   print("load sucess");
                   print(state.products.length);
-                  return LazyLoadScrollView(
-                      onEndOfPage: () {},
-                      child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent:
-                                MediaQuery.of(context).size.width * 0.6,
-                            mainAxisExtent:
-                                MediaQuery.of(context).size.height * 0.35,
-                          ),
-                          itemCount: state.products.length,
-                          itemBuilder: (BuildContext ctx, index) {
-                            return Container(
-                                child: ProductItem(
-                                    product: state.products[index]));
-                          }));
+                  return GridView.builder(
+                      controller: this._scrollController,
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent:
+                            MediaQuery.of(context).size.width * 0.6,
+                        mainAxisExtent:
+                            MediaQuery.of(context).size.height * 0.35,
+                      ),
+                      itemCount: state.products.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return Container(
+                            child: ProductItem(product: state.products[index]));
+                      });
                 } else if (state is ProductLoading) {
                   return Center(
                       child: Container(

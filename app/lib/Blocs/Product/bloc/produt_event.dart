@@ -1,21 +1,24 @@
 part of 'produt_bloc.dart';
 
 @immutable
-abstract class ProductEvent extends Equatable {
+abstract class ProductEvent {
   const ProductEvent();
 }
 
 class FetchProduct extends ProductEvent {
   const FetchProduct();
+}
 
-  @override
-  List<Object> get props => [];
+class LazyFetchProduct extends ProductEvent {
+  const LazyFetchProduct();
+}
+
+class SelectEvent extends ProductEvent {
+  final Categories categories;
+  SelectEvent({required this.categories});
 }
 
 class AddProduct extends ProductEvent {
-  final id;
-  AddProduct({required this.id});
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
+  final Data singleProduct;
+  AddProduct({required this.singleProduct});
 }

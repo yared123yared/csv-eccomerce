@@ -1,3 +1,4 @@
+import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/photo.dart';
 import 'package:app/models/product/product.dart';
 
@@ -16,20 +17,24 @@ class Data {
   Brand? brand;
   List<Photos>? photos;
   Currency? currency;
+  List<Categories>? categories;
   int order = 0;
+  //
 
-  Data(
-      {this.id,
-      this.name,
-      this.model,
-      this.price,
-      this.quantity,
-      this.manufacturerId,
-      this.status,
-      this.currencyId,
-      this.brand,
-      this.photos,
-      this.currency});
+  Data({
+    this.id,
+    this.name,
+    this.model,
+    this.price,
+    this.quantity,
+    this.manufacturerId,
+    this.status,
+    this.currencyId,
+    this.brand,
+    this.photos,
+    this.currency,
+    this.categories,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,6 +56,13 @@ class Data {
     currency = json['currency'] != null
         ? new Currency.fromJson(json['currency'])
         : null;
+
+    if (json['categories'] != null) {
+      categories = <Categories>[];
+      json['categories'].forEach((v) {
+        categories!.add(new Categories.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -71,6 +83,9 @@ class Data {
     }
     if (this.currency != null) {
       data['currency'] = this.currency!.toJson();
+    }
+    if (this.categories != null) {
+      data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }
     return data;
   }

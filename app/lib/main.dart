@@ -98,7 +98,8 @@ class App extends StatelessWidget {
           ),
           BlocProvider<ProductBloc>(
             create: (_) =>
-                ProductBloc(productRepository: this.productRepository),
+                ProductBloc(productRepository: this.productRepository)
+                  ..add(FetchProduct()),
           ),
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
