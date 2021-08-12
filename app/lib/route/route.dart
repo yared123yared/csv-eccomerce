@@ -6,7 +6,10 @@ import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/reports_screens/collection_report.dart';
+import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
+import 'package:app/screens/reports_screens/sales_report_screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
 import 'package:app/screens/setting_screen.dart';
 import 'package:app/screens/verify-otp-screen.dart';
@@ -72,6 +75,18 @@ class AppRoutes {
         builder: (context) => VerifyOtpScreen(
           otpScreenData: settings.arguments as OtpScreenData,
         ),
+      );
+    } else if (settings.name == SalesReportScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => SalesReportScreen(),
+      );
+    } else if (settings.name == CollectionReportScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => CollectionReportScreen(),
+      );
+    }else if (settings.name == CustomerByDebtScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => CustomerByDebtScreen(),
       );
     }
     return MaterialPageRoute(builder: (context) => Login());

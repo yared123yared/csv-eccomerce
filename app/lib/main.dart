@@ -1,3 +1,4 @@
+import 'package:app/Blocs/reports/cubit/report_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -97,6 +98,9 @@ class App extends StatelessWidget {
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
             )..add(FetchClientsEvent(page: 1)),
+          ),
+          BlocProvider<ReportCubit>(
+            create: (BuildContext context) => ReportCubit(),
           ),
         ],
         child: MaterialApp(
