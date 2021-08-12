@@ -1,11 +1,13 @@
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
+import 'package:app/models/product/data.dart';
 import 'package:app/screens/cart_screen.dart';
 import 'package:app/screens/client_new_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/product_detail_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
 import 'package:app/screens/setting_screen.dart';
@@ -48,6 +50,13 @@ class AppRoutes {
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
+    } else if (settings.name == ProductDetail.routeName) {
+      Data product = settings.arguments as Data;
+      return MaterialPageRoute(
+          builder: (context) => ProductDetail(
+                products: product,
+              ));
+      // return MaterialPageRoute(builder: (context) => ProductDetail());
     } else if (settings.name == ClientProfile.routeName) {
       return MaterialPageRoute(
           builder: (context) => ClientProfile(

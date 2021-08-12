@@ -82,9 +82,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         }
 
         // filter from api
-        List<Data> products = (await this
-            .productRepository
-            .getProducts(page, event.categories.id));
+        // List<Data> products = (await this
+        //     .productRepository
+        //     .getProducts(page, event.categories.id));
 
         // for (int i = 0; i < products.length; i++) {
         //   if (this.selectedCategories.contains(products[i])) {
