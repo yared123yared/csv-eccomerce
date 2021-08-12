@@ -15,7 +15,10 @@ part 'produt_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
   List<Data> productList = [];
+  List<Data> selectedCategories = [];
+  int? categoryId = null;
   int page = 0;
+  int categoryPage = 1;
 
   ProductBloc({required this.productRepository})
       : assert(productRepository != null),
@@ -31,7 +34,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       yield ProductLoading();
       //  int page = state.page;
       try {
-        List<Data> products = (await this.productRepository.getProducts(page));
+        List<Data> products =
+            (await this.productRepository.getProducts(page, this.categoryId));
 
         print("This is the data that come from the repository $products");
         if (products == []) {
@@ -63,42 +67,35 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       } catch (e) {}
     } else if (event is SelectEvent) {
       //
+      this.selectedCategories = [];
       print("Select event i scalled");
+      this.categoryId = event.categories.id;
+      this.page = 1;
 
-      List<Data> selected_categories = [];
-      print("Product List:${productList.length}");
-
-      // productList.map((product) {
-      //   print("entered to map");
-      //   List<Categories>? product_cat = product.categories;
-      //   product_cat!.map((category) {
-      //     if (category.id == event.categoryId) {
-      //       print("Category Matched: category.id");
-      //       selected_categories.add(product);
-      //     }
-      //   }).toList();
-      // });
-
+      //  filter from the cache
       for (int i = 0; i < productList.length; i++) {
         Iterable<int> productCatID =
             productList[i].categories!.map((e) => e.id).cast<int>();
         print("This is the category ID for th product: ${productCatID}");
         if (productCatID.contains(event.categories.id)) {
-          selected_categories.add(productList[i]);
+          this.selectedCategories.add(productList[i]);
         }
-        // for (int j = 0; j < product_cat.length; j++) {
-        //   if (product_cat[j].id == event.categoryId) {
-        //     print("Category matched: ${product_cat[i].id}");
-        //     selected_categories.add(productList[i]);
-        //     return;
+
+        // filter from api
+        List<Data> products = (await this
+            .productRepository
+            .getProducts(page, event.categories.id));
+
+        // for (int i = 0; i < products.length; i++) {
+        //   if (this.selectedCategories.contains(products[i])) {
+        //   } else {
+        //     this.selectedCategories.add(products[i]);
         //   }
         // }
-        // }
-        print("These are teh selected category: ${selected_categories}");
 
         yield (ProductLoadSuccess(
-            page: state.page,
-            products: selected_categories,
+            page: page,
+            products: this.selectedCategories,
             selectedCategoryId: event.categories.id!.toInt()));
       }
     } else if (event is AddProduct) {
@@ -119,7 +116,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       try {
         page++;
-        List<Data> products = (await this.productRepository.getProducts(page));
+        print("Selected Cat Id:${state.selectedCategoryId}");
+        List<Data> products = (await this
+            .productRepository
+            .getProducts(page, state.selectedCategoryId));
 
         print("This is the data that come from the repository $products");
         if (products == []) {
@@ -142,11 +142,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           //     paginated_products.add(products[i]);
           //   }
           // }
-
-          productList.addAll(products);
+          for (int i = 0; i < products.length; i++) {
+            if (productList.contains(products[i])) {
+            } else {
+              if (this.categoryId != null) {
+                this.selectedCategories.add(products[i]);
+              } else {
+                productList.add(products[i]);
+              }
+            }
+          }
 
           yield ProductLoadSuccess(
-              products: productList,
+              products: this.categoryId != null
+                  ? this.selectedCategories
+                  : this.productList,
               selectedCategoryId: state.selectedCategoryId,
               page: page);
           print("Finished yielding");

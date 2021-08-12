@@ -17,9 +17,10 @@ class ProductDataProvider {
   ProductDataProvider({required this.httpClient, required this.userPreferences})
       : assert(httpClient != null);
 
-  Future<List<Data>> getProducts(int page) async {
+  Future<List<Data>> getProducts(int page, int? catId) async {
     String? token = await this.userPreferences.getUserToken();
     late List<Data> products_return = [];
+    print("This is the caategory Id");
     try {
       final url = Uri.parse(
           'http://csv.jithvar.com/api/v1/catalog-products?page=$page');
@@ -36,6 +37,7 @@ class ProductDataProvider {
             "search": "",
             "column": 1,
             "dir": "asc",
+            "categoryId": catId
           }));
 
       // print(

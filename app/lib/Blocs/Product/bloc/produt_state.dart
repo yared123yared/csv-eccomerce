@@ -2,13 +2,11 @@ part of 'produt_bloc.dart';
 
 class ProductState {
   final int page;
-  final int selectedCategoryId;
+  final int? selectedCategoryId;
   final List<Data> products;
 
   ProductState(
-      {required this.page,
-      required this.selectedCategoryId,
-      required this.products});
+      {required this.page, this.selectedCategoryId, required this.products});
 
   // @override
   // // TODO: implement props
@@ -18,7 +16,7 @@ class ProductState {
 class ProductInitial {}
 
 class ProductLoading extends ProductState {
-  ProductLoading() : super(products: [], selectedCategoryId: 0, page: 0);
+  ProductLoading() : super(products: [], selectedCategoryId: null, page: 1);
 }
 
 class LazyProductLoading extends ProductState {
@@ -42,7 +40,7 @@ class LazyProductLoading extends ProductState {
 
 class ProductLoadSuccess extends ProductState {
   final List<Data> products;
-  final int selectedCategoryId;
+  final int? selectedCategoryId;
   final int page;
   ProductLoadSuccess(
       {required this.selectedCategoryId,
@@ -59,7 +57,7 @@ class ProductLoadSuccess extends ProductState {
 
 class ProductOperationFailure extends ProductState {
   final String message;
-  final int selectedCategoryId;
+  final int? selectedCategoryId;
   final List<Data> products;
   final int page;
   ProductOperationFailure(
