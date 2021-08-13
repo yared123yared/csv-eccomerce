@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:app/models/product/data.dart';
+import 'package:app/models/product/product.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -16,8 +18,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     print("Entered to the cart bloc emthod");
     // TODO: implement mapEventToState
     if (event is AddProduct) {
+      List<Data> cart_product = state.cartProducts;
+      if (cart_product.contains(event.singleProduct)) {
+        yield CartState(counter: state.counter, cartProducts: cart_product);
+      } else {
+        cart_product.add(event.singleProduct);
+        yield CartState(counter: state.counter + 1, cartProducts: cart_product);
+      }
+
       print("Add Product is called");
-      yield CartState(counter: state.counter + 1);
     }
   }
 }

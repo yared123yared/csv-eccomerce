@@ -166,7 +166,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                 0,
                                 Icons.production_quantity_limits_sharp,
                                 () => Navigator.of(context)
-                                    .pushNamed(ClientsScreen.routeName),
+                                    .pushNamed(MainScreen.routeName),
                               ),
                               DrawerExpansionTile(
                                 'Orders',
