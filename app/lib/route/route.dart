@@ -1,7 +1,8 @@
+import 'package:app/models/client.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/screens/cart_screen.dart';
-import 'package:app/screens/client_new_screen.dart';
+import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/home_screen.dart';
@@ -60,6 +61,13 @@ class AppRoutes {
               // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == NewClientScreen.routeName) {
+      if (settings.arguments != null) {
+        print("--route ----${settings.arguments}");
+        return MaterialPageRoute(
+            builder: (context) => NewClientScreen(
+                  client: settings.arguments as Client,
+                ));
+      }
       return MaterialPageRoute(builder: (context) => NewClientScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
