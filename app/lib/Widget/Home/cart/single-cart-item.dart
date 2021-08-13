@@ -1,14 +1,32 @@
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Widget/Home/cart/image.dart';
+import 'package:app/Widget/Home/cart/minimize-button.dart';
+import 'package:app/Widget/Home/cart/price.dart';
+import 'package:app/Widget/Home/cart/remove-cart.dart';
+import 'package:app/Widget/Home/cart/sub-title.dart';
+import 'package:app/Widget/Home/cart/title.dart';
 import 'package:app/models/product/data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SingleCartItem extends StatelessWidget {
+import 'add-button.dart';
+import 'amount.dart';
+
+class SingleCartItem extends StatefulWidget {
   final Data product;
   SingleCartItem({required this.product});
+
+  @override
+  _SingleCartItemState createState() => _SingleCartItemState();
+}
+
+class _SingleCartItemState extends State<SingleCartItem> {
+  late CartBloc cartBloc;
   @override
   Widget build(BuildContext context) {
     String image =
-        'https://csv.jithvar.com/storage/${product.photos![0].filePath.toString()}';
+        'https://csv.jithvar.com/storage/${widget.product.photos![0].filePath.toString()}';
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
       child: Card(
@@ -21,19 +39,10 @@ class SingleCartItem extends StatelessWidget {
             // margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
             // width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.17,
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
             child: Row(
               children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image(
-                      height: MediaQuery.of(context).size.height * 0.17,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                        image,
-                      ),
-                    )),
+                LeadingImage(image: image),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.05,
                 ),
@@ -44,78 +53,51 @@ class SingleCartItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height: MediaQuery.of(context).size.height * 0.03,
-                          child: AutoSizeText(
-                            "${this.product.name}",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                            maxLines: 2,
-                          ),
-                        ),
+                        ProductTitle(name: this.widget.product.name),
+
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
                         // Text("${product.name}"),
-                        Text(
-                          "${product.categories![0].name}",
-                          style: TextStyle(fontWeight: FontWeight.w300),
+                        ProductCategory(
+                          productCategory: widget.product.categories![0].name,
                         ),
+
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
-                        Text(
-                          "\$${product.price}",
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
+                        ProductPrice(productPrice: widget.product.price),
                       ],
                     ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.0001),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Container(
-                            padding: EdgeInsets.all(2),
-                            // width: MediaQuery.of(context).size.width * 0.07,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).accentColor,
-                            ),
-                            child: Center(
-                              child: IconButton(
-                                alignment: Alignment.center,
-                                icon: Icon(Icons.minimize),
-                                onPressed: () {},
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(children: [
+                              DecreaseProduct(
+                                product: widget.product,
+                                onTapped: this.decrement,
                               ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.04,
+                              ),
+                              ProductAmount(
+                                amount: widget.product.order,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.04,
+                              ),
+                              AddProductButton(
+                                onTapped: this.increment,
+                                product: widget.product,
+                              ),
+                            ]),
+                            RemoveItemFromCart(
+                              product: widget.product,
+                              onTapped: this.removeItem,
                             ),
-                          ),
-                          Text("2"),
-                          IconButton(
-                            icon: Icon(Icons.add),
-                            onPressed: () {},
-                          ),
-                        ]),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.166,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.07,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                          child: IconButton(
-                              alignment: Alignment.center,
-                              onPressed: () {},
-                              icon: Icon(Icons.delete,
-                                  size:
-                                      MediaQuery.of(context).size.width * 0.035,
-                                  color: Colors.white.withOpacity(0.8))),
-                        )
-                      ],
+                          ]),
                     )
                   ],
                 ),
@@ -123,5 +105,25 @@ class SingleCartItem extends StatelessWidget {
             ),
           )),
     );
+  }
+
+  void increment() {
+    setState(() {
+      widget.product.order++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      widget.product.order--;
+    });
+  }
+
+  void removeItem() {
+    cartBloc = BlocProvider.of<CartBloc>(context);
+    cartBloc.add(RemoveProduct(singleProduct: widget.product));
+    setState(() {
+      widget.product.order = 0;
+    });
   }
 }
