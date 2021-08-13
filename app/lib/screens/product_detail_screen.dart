@@ -2,8 +2,11 @@ import 'package:app/Widget/Home/product-detail/add-cart-button.dart';
 import 'package:app/Widget/Home/product-detail/color-container.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
 import 'package:app/Widget/Home/product-detail/detail-container.dart';
+import 'package:app/models/product/attributes.dart';
+
 import 'package:app/models/product/data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
@@ -21,6 +24,16 @@ class ProductDetail extends StatelessWidget {
       photos.add(
           'https://csv.jithvar.com/storage/${products.photos![i].filePath.toString()}');
     }
+
+    // check the size here.
+    List<String?> size = [];
+    for (int i = 0; i < products.attributes!.length; i++) {
+      List<Attributes> attributes = products.attributes as List<Attributes>;
+      if (attributes[i].name!.contains('Size')) {
+        print("Size:  ${attributes[i].pivot!.value}");
+        size.add(attributes[i].pivot!.value);
+      }
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Products", style: TextStyle()),
@@ -34,20 +47,46 @@ class ProductDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: double.infinity,
-                  child: Swiper(
-                    itemBuilder: (BuildContext context, int index) {
-                      return new Image.network(
-                        photos[index],
-                        fit: BoxFit.fill,
-                      );
-                    },
-                    itemCount: photos.length,
-                    pagination: new SwiperPagination(),
-                    control: new SwiperControl(),
-                  ),
-                ),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    child: CarouselSlider.builder(
+                      itemCount: photos.length,
+                      itemBuilder: (context, index, realIndex) => Container(
+                        width: double.infinity,
+                        child: new Image.network(
+                          photos[index],
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      options: CarouselOptions(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        aspectRatio: 1,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        // reverse: true,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 3),
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                        enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                      ),
+                    )
+
+                    // child: Swiper(
+                    // itemBuilder: (BuildContext context, int index) {
+                    //   return new Image.network(
+                    //     photos[index],
+                    //     fit: BoxFit.fill,
+                    //   );
+                    //   },
+                    //   itemCount: photos.length,
+                    //   pagination: new SwiperPagination(),
+                    //   control: new SwiperControl(),
+                    // ),
+                    ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,18 +102,6 @@ class ProductDetail extends StatelessWidget {
                         maxLines: 2,
                       ),
                     ),
-                    // Container(
-                    //   width: MediaQuery.of(context).size.width * 0.7,
-                    //   // height: MediaQuery.of(context).size.height * 0.1,
-                    //   child: AutoSizeText(
-                    //     "${this.products.name}",
-                    //     // textAlign: TextAlign.justify,
-                    //     style: TextStyle(
-                    //         color: Colors.black,
-                    //         fontWeight: FontWeight.w600,
-                    //         fontStyle: FontStyle.normal),
-                    //   ),
-                    // ),
                     Text(
                       "\$${this.products.price}",
                       style: TextStyle(
@@ -85,24 +112,36 @@ class ProductDetail extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                Text(
-                  "Shoes > OUTDOOR SHOES",
-                  // textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: AutoSizeText(
+                    "${products.categories![0].fullName}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                    ),
+                    maxLines: 2,
                   ),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(children: [
-                        Text("Size"),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.09,
-                        ),
-                        CustomeDropDown(),
-                      ]),
+                      // size.length==0? null:CustomeDropDown(product: products,)),
+                      Container(
+                          child: size.length == 0
+                              ? null
+                              : Row(children: [
+                                  Text("Size"),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.09,
+                                  ),
+                                  CustomeDropDown(
+                                    product: products,
+                                  ),
+                                ])),
+                      // CustomeDropDown(product: products,),
+
                       Row(
                         children: [
                           Text("COLOR"),
@@ -128,7 +167,9 @@ class ProductDetail extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                AddToCart()
+                AddToCart(
+                  product: this.products,
+                )
               ],
             ),
           ),

@@ -12,7 +12,22 @@ class CartScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).accentColor,
         body: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
-            return ListView.builder(
+            // return ListTileTheme.merge(
+            //     contentPadding: EdgeInsets.all(0.0),
+            //     dense: true,
+            //     child: ListView.builder(
+            //       padding: EdgeInsets.all(0.0),
+            //       itemBuilder: (context, index) => SingleCartItem(
+            //         product: state.cartProducts[index],
+            //       ),
+            //       itemCount: state.cartProducts.length,
+            //     ));
+            return ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 0,
+                );
+              },
               itemBuilder: (context, index) => SingleCartItem(
                 product: state.cartProducts[index],
               ),

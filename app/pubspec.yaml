@@ -31,6 +31,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   flutter_swiper_null_safety: ^1.0.2
   auto_size_text: ^3.0.0-nullsafety.0
+  carousel_slider: ^4.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

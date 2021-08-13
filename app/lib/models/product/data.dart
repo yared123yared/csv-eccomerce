@@ -2,6 +2,7 @@ import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/photo.dart';
 import 'package:app/models/product/product.dart';
 
+import 'attributes.dart';
 import 'brand.dart';
 import 'currency.dart';
 
@@ -18,6 +19,7 @@ class Data {
   List<Photos>? photos;
   Currency? currency;
   List<Categories>? categories;
+  List<Attributes>? attributes;
   int order = 0;
   //
 
@@ -34,6 +36,7 @@ class Data {
     this.photos,
     this.currency,
     this.categories,
+    this.attributes,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -61,6 +64,12 @@ class Data {
       categories = <Categories>[];
       json['categories'].forEach((v) {
         categories!.add(new Categories.fromJson(v));
+      });
+    }
+    if (json['attributes'] != null) {
+      attributes = <Attributes>[];
+      json['attributes'].forEach((v) {
+        attributes!.add(new Attributes.fromJson(v));
       });
     }
   }

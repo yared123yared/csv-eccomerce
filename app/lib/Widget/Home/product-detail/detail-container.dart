@@ -1,5 +1,6 @@
 import 'package:app/Widget/Home/product-detail/select_option.dart';
 import 'package:app/models/product/data.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class DetailContainer extends StatelessWidget {
@@ -58,13 +59,24 @@ class DetailContainer extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                Text(
-                  "${product.model}",
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: AutoSizeText(
+                    "${product.model}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300),
+                    maxLines: 2,
+                  ),
                 ),
+                // Text(
+                //   "${product.model}",
+                //   style: TextStyle(
+                //       fontSize: 16,
+                //       color: Colors.black,
+                //       fontWeight: FontWeight.w300),
+                // ),
               ],
             ),
             SizedBox(
