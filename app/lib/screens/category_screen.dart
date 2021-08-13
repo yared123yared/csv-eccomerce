@@ -22,11 +22,11 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   late ProductBloc productBloc;
 
-  @override
-  void init() {
-    print("This is the init step");
-    // super.initState();
-  }
+  // @override
+  // void init() {
+  //   // print("This is the init step");
+  //   // super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +65,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
               ),
               Expanded(child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
-                print("Entered to the bloc builder");
+                // print("Entered to the bloc builder");
                 if (state is ProductLoadSuccess) {
-                  print("load sucess");
+                  // print("load sucess");
                   print(state.products.length);
                   return LazyLoadScrollView(
                       onEndOfPage: () {},

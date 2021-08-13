@@ -60,7 +60,6 @@ class App extends StatelessWidget {
     required this.userPreferences,
     required this.clientsRepository,
   });
-
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

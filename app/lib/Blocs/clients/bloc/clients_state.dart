@@ -62,3 +62,17 @@ class ClientDeleteFailedState extends ClientsState {
   late final String message;
   ClientDeleteFailedState({required this.message}) : super(check: false);
 }
+
+
+class ClientUpdatingState extends ClientsState {
+  ClientUpdatingState() : super(check: true);
+}
+
+class ClientUpdateSuccesstate extends ClientsState {
+  ClientUpdateSuccesstate() : super(check: true);
+}
+
+class ClientUpdateFailedState extends ClientsState {
+  late final String message;
+  ClientUpdateFailedState({required this.message}) : super(check: true);
+}

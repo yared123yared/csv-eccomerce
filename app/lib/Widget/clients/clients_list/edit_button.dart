@@ -15,7 +15,7 @@ class EditButton extends StatelessWidget {
           Icons.edit,
           color: Colors.white,
         ),
-        onPressed: this.onPressed(),
+        onPressed: ()=>this.onPressed(),
       ),
     );
   }

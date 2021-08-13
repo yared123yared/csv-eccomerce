@@ -6,8 +6,8 @@ class Shipping extends StatelessWidget {
   final Function onDefaultAddressPressed;
   final Function onBillingAddressPressed;
   final Function onAddNewPressed;
-  // final Function prevAdressHandler;
-  // final Function nextAddressHandler;
+  final Function prevAdressHandler;
+  final Function nextAddressHandler;
   final bool isDefault;
   final bool isBilling;
   Shipping({
@@ -18,8 +18,8 @@ class Shipping extends StatelessWidget {
     required this.onAddNewPressed,
     required this.isDefault,
     required this.isBilling,
-    // required this.nextAddressHandler,
-    // required this.prevAdressHandler,
+    required this.nextAddressHandler,
+    required this.prevAdressHandler,
   });
   @override
   Widget build(BuildContext context) {
@@ -39,17 +39,42 @@ class Shipping extends StatelessWidget {
           height: 10.0,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Switch(
-              value: this.isBilling,
-              onChanged: (val) => this.onBillingAddressPressed(),
+            Row(
+              children: [
+                Switch(
+                  value: this.isBilling,
+                  onChanged: (val) => this.onBillingAddressPressed(),
+                ),
+                Text(
+                  'Billing Address',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                )
+              ],
             ),
-            Text(
-              'Billing Address',
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            )
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => this.prevAdressHandler(),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
+                ),
+
+                SizedBox(width: 5,),
+                IconButton(
+                  onPressed: () => this.nextAddressHandler(),
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         SizedBox(
@@ -72,26 +97,7 @@ class Shipping extends StatelessWidget {
                 )
               ],
             ),
-            // Row(
-            //   children: [
-            //     IconButton(
-            //       onPressed: () => this.prevAdressHandler(),
-            //       icon: Icon(
-            //         Icons.arrow_back_ios,
-            //         color: Colors.black,
-            //       ),
-            //     ),
 
-            //     SizedBox(width: 5,),
-            //     IconButton(
-            //       onPressed: () => this.nextAddressHandler(),
-            //       icon: Icon(
-            //         Icons.arrow_forward_ios,
-            //         color: Colors.black,
-            //       ),
-            //     ),
-            //   ],
-            // ),
             GestureDetector(
               onTap: () => this.onAddNewPressed(),
               child: Text(
