@@ -91,7 +91,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
               listener: (context, state) {
                 if (state is ClientDeleteSuccesstate) {
                   FetchClientsEvent refechEvent =
-                      new FetchClientsEvent(page: 0);
+                      new FetchClientsEvent(page: 1);
                   BlocProvider.of<ClientsBloc>(context, listen: false)
                       .add(refechEvent);
                 } else if (state is ClientDeleteFailedState) {
@@ -140,7 +140,12 @@ class _ClientsScreenState extends State<ClientsScreen> {
                       ),
                       Expanded(
                         child: LazyLoadScrollView(
-                          onEndOfPage: () {},
+                          onEndOfPage: () {
+                            FetchClientsEvent refechEvent =
+                                new FetchClientsEvent(page: 0);
+                            BlocProvider.of<ClientsBloc>(context, listen: false)
+                                .add(refechEvent);
+                          },
                           child: ListView.builder(
                             itemCount: clients!.length,
                             itemBuilder: (BuildContext ctx, index) {

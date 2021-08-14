@@ -10,8 +10,8 @@ part 'clients_state.dart';
 
 class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   final ClientsRepository clientsRepository;
-  Map<int, ClientData> clients = {};
-
+  List<Client> clients = [];
+  // int lastPage = 1;
   ClientsBloc({required this.clientsRepository}) : super(ClientsInitial());
 
   @override
@@ -19,6 +19,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     ClientsEvent event,
   ) async* {
     if (event is FetchClientsEvent) {
+
       SearchData dataX = SearchData(
         draw: 0,
         length: 5,
@@ -59,6 +60,26 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     try {
       // ClientData? data = clients[page];
       // if (data == null) {
+      // if (page <= 0) {
+      //   page = 1;
+      // }
+      // if (5 * page <= clients.length) {
+      //   int start = 5 * page - 5;
+      //   int end = 5 * page;
+      //   int index = start;
+      //   List<Client> tobeFetched = [];
+      //   while (index < end) {
+      //     tobeFetched.add(clients[index]);
+      //     index++;
+      //   }
+      //   yield ClientFetchingSuccessState(
+      //     clients: tobeFetched,
+      //     end: end,
+      //     start: start,
+      //     total: 5,
+      //   );
+      //   return;
+      // }
       final reqData = await clientsRepository.getClients(dataX, page);
       // clients[page] = ClientData(
       //   clients: reqData.clients.client,
@@ -67,6 +88,12 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       //   total: reqData.clients.total,
       // );
       // print(reqData.toJson().toString());
+      // if (reqData.clients.client != null) {
+      //   for (var data in reqData.clients.client!) {
+      //     clients.add(data);
+      //   }
+      // }
+
       yield ClientFetchingSuccessState(
         clients: reqData.clients.client,
         end: reqData.clients.to,
@@ -124,12 +151,12 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         dir: "asc",
       );
       final reqData = await clientsRepository.getClients(dataX, 1);
-      clients[1] = ClientData(
-        clients: reqData.clients.client,
-        end: reqData.clients.to,
-        start: reqData.clients.from,
-        total: reqData.clients.total,
-      );
+      // clients[1] = ClientData(
+      //   clients: reqData.clients.client,
+      //   end: reqData.clients.to,
+      //   start: reqData.clients.from,
+      //   total: reqData.clients.total,
+      // );
 
       yield ClientFetchingSuccessState(
         clients: reqData.clients.client,
