@@ -1,3 +1,5 @@
+import 'package:app/Blocs/location/bloc/location_bloc.dart';
+import 'package:app/repository/location_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +39,7 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
+  final LocationRepository locationRepository = LocationRepository();
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
@@ -45,6 +48,7 @@ void main() {
     productRepository: productRepository,
     userRepository: userRepository,
     clientsRepository: clientRepository,
+    locationRepository: locationRepository,
   ));
   // runApp(MyApp());
 }
@@ -54,11 +58,13 @@ class App extends StatelessWidget {
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
   final ClientsRepository clientsRepository;
+  final LocationRepository locationRepository;
   App({
     required this.userRepository,
     required this.productRepository,
     required this.userPreferences,
     required this.clientsRepository,
+    required this.locationRepository,
   });
   @override
   Widget build(BuildContext context) {
@@ -75,6 +81,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<ClientsRepository>(
           create: (_) => this.clientsRepository,
+        ),
+        RepositoryProvider<LocationRepository>(
+          create: (_) => this.locationRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -96,6 +105,10 @@ class App extends StatelessWidget {
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
             )..add(FetchClientsEvent(page: 1)),
+          ),
+          BlocProvider<LocationBloc>(
+            create: (_) =>
+                LocationBloc(locationRepository: this.locationRepository),
           ),
         ],
         child: MaterialApp(

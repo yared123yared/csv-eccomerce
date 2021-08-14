@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:app/Blocs/location/bloc/location_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -70,6 +71,8 @@ class _NewClientScreenState extends State<NewClientScreen> {
   int currentIdx = 0;
 
   bool isInitialized = false;
+  bool isFetchingAddress = false;
+  Placemark? currentPlace;
   void initialize() {
     print("initial state ---${this.widget.client == null}");
 
@@ -318,18 +321,23 @@ class _NewClientScreenState extends State<NewClientScreen> {
           emailController.text == '') {
         return;
       }
-
+      if (widget.client == null) {
+          var currTime = DateTime.now();
+        var timeStamp = currTime.millisecondsSinceEpoch;
+        FetchCurrentLocationEvent fetchLocationEvent =
+            new FetchCurrentLocationEvent(status: timeStamp.toString());
+        BlocProvider.of<LocationBloc>(context, listen: false)
+            .add(fetchLocationEvent);
+      } else {
+        print("id is not null");
+      }
       setState(
         () {
           if (currentStep < 2) {
-            print("---");
             currentStep += 1;
           }
         },
       );
-    if(widget.client==null){
-      _getAddressFromLatLng();
-    }
     } else if (currentStep == 1) {
       if (countryController.text != '') {
         updateAddressValues();
@@ -434,8 +442,6 @@ class _NewClientScreenState extends State<NewClientScreen> {
     });
   }
 
-  late Position _currentPosition;
-  late String _currentAddress;
   late BuildContext widgetContext;
   @override
   Widget build(BuildContext context) {
@@ -667,10 +673,12 @@ class _NewClientScreenState extends State<NewClientScreen> {
           nextAddressHandler: nextAddresshandler,
           prevAdressHandler: prevAddresshandler,
           onAddNewPressed: _newAddresshandler,
+          onCurrrentAddressFetchSuccessState: onFetchSuccessHandler,
           onDefaultAddressPressed: defaultAddressHandler,
           onBillingAddressPressed: billingAddressHandler,
           isBilling: values['addresses'][currentIdx]['is_billing'],
           isDefault: values['addresses'][currentIdx]['is_default'],
+          isCreating: (widget.client == null),
           // isDefault: _isDefault,
           // isBilling: _isBilling,
           textInput: [
@@ -771,75 +779,46 @@ class _NewClientScreenState extends State<NewClientScreen> {
     ];
   }
 
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
+  void onFetchSuccessHandler(Placemark place) {
+    print("fetch success handler");
+    if (place != null) {
+      print("place is not null");
       setState(() {
-        _currentPosition = position;
-        _getAddressFromLatLng();
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  _getAddressFromLatLng() async {
-    try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-          _currentPosition.latitude, _currentPosition.longitude);
-
-      Placemark place = placemarks[0];
-      if (place != null) {
-        setState(() {
+        if (place.subLocality != null) {
+          print("sublocal");
           values['addresses'][currentIdx]['city'] = place.subLocality;
+          cityController.text = values['addresses'][currentIdx]['city'];
+        }
+
+        if (place.street != null) {
+          print("street");
           values['addresses'][currentIdx]['street_address'] = place.street;
+          streetController.text =
+              values['addresses'][currentIdx]['street_address'].toString();
+        }
+        if (place.postalCode != null || place.postalCode != '') {
+          print("postal");
           values['addresses'][currentIdx]['zip_code'] = place.postalCode;
+          zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
+        }
+        if (place.administrativeArea != null ||
+            place.administrativeArea != '') {
           values['addresses'][currentIdx]['state'] = place.administrativeArea;
+          stateController.text = values['addresses'][currentIdx]['state'];
+        }
+        if (place.locality != null || place.locality != '') {
           values['addresses'][currentIdx]['locality'] = place.locality;
+          localityController.text = values['addresses'][currentIdx]['locality'];
+        }
+        if (place.country != null || place.country != '') {
           values['addresses'][currentIdx]['country'] = place.country;
-          values['addresses'][currentIdx]['is_default'] = _isDefault;
-          values['addresses'][currentIdx]['is_billing'] = _isBilling;
-        });
-      }
-      setState(() {
-        _currentAddress =
-            "${place.locality}, ${place.postalCode}, ${place.country}";
+          countryController.text = values['addresses'][currentIdx]['country'];
+        }
+        values['addresses'][currentIdx]['is_default'] = _isDefault;
+        values['addresses'][currentIdx]['is_billing'] = _isBilling;
       });
-    } catch (e) {
-      print(e);
+    } else {
+      print("place is  null");
     }
   }
 }
-
-
-// Future<LocationData> getCurrentLocation() async {
-//   Location location = new Location();
-
-//   bool _serviceEnabled;
-//   PermissionStatus _permissionGranted;
-//   LocationData _locationData;
-//   try {
-//     _serviceEnabled = await location.serviceEnabled();
-//     if (!_serviceEnabled) {
-//       _serviceEnabled = await location.requestService();
-//       if (!_serviceEnabled) {
-//         throw Exception("location service is not enabled");
-//       }
-//     }
-
-//     _permissionGranted = await location.hasPermission();
-//     if (_permissionGranted == PermissionStatus.denied) {
-//       _permissionGranted = await location.requestPermission();
-//       if (_permissionGranted != PermissionStatus.granted) {
-//         throw Exception("permission denied");
-//       }
-//     }
-//     _locationData = await location.getLocation();
-//   } catch (e) {
-//     throw e;
-//   }
-
-//   return _locationData;
-// }

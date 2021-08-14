@@ -29,6 +29,19 @@ class ClientFetchingSuccessState extends ClientsState {
     required this.end,
     required this.total,
   }) : super(check: true);
+  ClientFetchingSuccessState copyWith({
+    List<Client>? clients,
+    int? start,
+    int? end,
+    int? total,
+  }) {
+    return ClientFetchingSuccessState(
+      clients: clients,
+      start: start,
+      end: end,
+      total: total,
+    );
+  }
 }
 
 class ClientFetchingFailedState extends ClientsState {
@@ -62,7 +75,6 @@ class ClientDeleteFailedState extends ClientsState {
   late final String message;
   ClientDeleteFailedState({required this.message}) : super(check: false);
 }
-
 
 class ClientUpdatingState extends ClientsState {
   ClientUpdatingState() : super(check: true);
