@@ -40,18 +40,18 @@ class _ShippingState extends State<Shipping> {
   Placemark? p;
   bool isSuccess = false;
 
-  @override
-  void initState() {
-    super.initState();
-    if (isSuccess) {
-      if (WidgetsBinding.instance != null) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          print("hi---");
-          widget.onCurrrentAddressFetchSuccessState(p);
-        });
-      }
-    }
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (isSuccess) {
+  //     if (WidgetsBinding.instance != null) {
+  //       WidgetsBinding.instance!.addPostFrameCallback((_) {
+  //         print("hi---");
+  //         widget.onCurrrentAddressFetchSuccessState(p);
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _ShippingState extends State<Shipping> {
               });
               progress.dismiss();
             }
-            // widget.onCurrrentAddressFetchSuccessState(state.p);
+            widget.onCurrrentAddressFetchSuccessState(state.p);
           } else if (state is LocationFetchingFailedState) {
             print("location fetch failed");
 
