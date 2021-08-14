@@ -1,3 +1,4 @@
+// import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Widget/Home/cart/image.dart';
 import 'package:app/Widget/Home/cart/minimize-button.dart';
@@ -25,6 +26,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
   late CartBloc cartBloc;
   @override
   Widget build(BuildContext context) {
+    cartBloc = BlocProvider.of<CartBloc>(context);
     String image =
         'https://csv.jithvar.com/storage/${widget.product.photos![0].filePath.toString()}';
     return Padding(
@@ -111,16 +113,18 @@ class _SingleCartItemState extends State<SingleCartItem> {
     setState(() {
       widget.product.order++;
     });
+    cartBloc.add(AddProduct(singleProduct: widget.product));
   }
 
   void decrement() {
     setState(() {
       widget.product.order--;
     });
+
+    cartBloc.add(AddProduct(singleProduct: widget.product));
   }
 
   void removeItem() {
-    cartBloc = BlocProvider.of<CartBloc>(context);
     cartBloc.add(RemoveProduct(singleProduct: widget.product));
     setState(() {
       widget.product.order = 0;

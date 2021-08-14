@@ -26,11 +26,15 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
           print("Failed to fech");
           yield CategoriesLoadFailed(message: "Failed to Fetch");
         } else {
-          yield CategoriesLoadSuccess(categories: categories);
+          yield CategoriesLoadSuccess(
+              categories: categories, selectedCategoryId: null);
         }
       } catch (e) {
         print(e.toString());
       }
+    } else if (event is SelectCategory) {
+      yield CategoriesLoadSuccess(
+          categories: state.categories, selectedCategoryId: event.categoryId);
     }
   }
 }

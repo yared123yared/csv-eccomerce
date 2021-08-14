@@ -91,23 +91,39 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         if (state is CategoriesLoading) {
                           return CircularProgressIndicator();
                         } else if (state is CategoriesLoadSuccess) {
+                          categories.add(CustomCategory(
+                            backgroundColor: state.selectedCategoryId == null
+                                ? Color(0xFF015777)
+                                : Color(0xFF015777).withOpacity(0.05),
+                            fontColor: state.selectedCategoryId == null
+                                ? Colors.white
+                                : Colors.black.withOpacity(0.8),
+                            text: "All",
+                            onPressed: () {
+                              productBloc.add(FetchProduct());
+
+                              categoriesBloc
+                                  .add(SelectCategory(categoryId: null));
+                            },
+                          ));
                           for (int i = 0; i < state.categories.length; i++) {
                             print(state.categories[i].name);
                             categories.add(CustomCategory(
-                              backgroundColor:
-                                  Color(0xFF015777).withOpacity(0.05),
-                              fontColor: Colors.black.withOpacity(0.8),
+                              backgroundColor: state.selectedCategoryId ==
+                                      state.categories[i].id
+                                  ? Color(0xFF015777)
+                                  : Color(0xFF015777).withOpacity(0.05),
+                              fontColor: state.selectedCategoryId ==
+                                      state.categories[i].id
+                                  ? Colors.white
+                                  : Colors.black.withOpacity(0.8),
                               text: state.categories[i].name,
                               onPressed: () {
                                 productBloc.add(SelectEvent(
                                     categories: state.categories[i]));
-                                // productBloc.add(FetchProduct(
-                                //     categoryId: state.categories[i].id!.toInt(),
-                                //     isAnotherPageAsked: false));
-                                // print(
-                                //     "This is teh name of the category:${state.categories[i].name}");
-                                // brokerBloc.add(SelectEvent(
-                                //     categoryId: DUMMY_CATEGORIES[i].id, search: ''));
+
+                                categoriesBloc.add(SelectCategory(
+                                    categoryId: state.categories[i].id as int));
                               },
                             ));
                           }

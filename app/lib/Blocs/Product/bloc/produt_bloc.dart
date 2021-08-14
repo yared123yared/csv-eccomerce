@@ -30,6 +30,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async* {
     // TODO: implement mapEventToState
     if (event is FetchProduct) {
+      productList = [];
+      selectedCategories = [];
+      categoryId = null;
+      page = 0;
+      categoryPage = 1;
       print("fetch event is called");
       yield ProductLoading();
       //  int page = state.page;
@@ -51,11 +56,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           print("This is the state products.${productList}");
           print("Page number: $page , category Id : ");
           // for (int i = 0; i < products.length; i++) {
-          //   if (paginated_products.contains(products[i])) {
+          //   if (productList.contains(products[i])) {
           //   } else {
-          //     paginated_products.add(products[i]);
+          //     productList.add(products[i]);
           //   }
           // }
+
           productList.addAll(products);
 
           yield ProductLoadSuccess(
@@ -80,18 +86,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         if (productCatID.contains(event.categories.id)) {
           this.selectedCategories.add(productList[i]);
         }
-
-        // filter from api
-        // List<Data> products = (await this
-        //     .productRepository
-        //     .getProducts(page, event.categories.id));
-
-        // for (int i = 0; i < products.length; i++) {
-        //   if (this.selectedCategories.contains(products[i])) {
-        //   } else {
-        //     this.selectedCategories.add(products[i]);
-        //   }
-        // }
 
         yield (ProductLoadSuccess(
             page: page,
@@ -122,7 +116,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             .getProducts(page, state.selectedCategoryId));
 
         print("This is the data that come from the repository $products");
-        if (products == []) {
+        // ignore: unnecessary_null_comparison
+        if (products == null) {
           page--;
           print("failed to fetch data");
 
