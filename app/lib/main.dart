@@ -1,6 +1,9 @@
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
+import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +47,9 @@ void main() {
     categoryDataProvider: CategoriesDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
   );
+  final OrderRepository orderRepository = OrderRepository(
+      orderDataProvider: OrderDataProvider(
+          httpClient: httpClient, userPreferences: userPreferences));
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
@@ -53,6 +59,7 @@ void main() {
     userRepository: userRepository,
     clientsRepository: clientRepository,
     categoryRepository: categoryRepository,
+    orderRepository: orderRepository,
   ));
   // runApp(MyApp());
 }
@@ -63,13 +70,14 @@ class App extends StatelessWidget {
   final UserPreferences userPreferences;
   final ClientsRepository clientsRepository;
   final CategoryRepository categoryRepository;
-  App({
-    required this.userRepository,
-    required this.productRepository,
-    required this.userPreferences,
-    required this.clientsRepository,
-    required this.categoryRepository,
-  });
+  final OrderRepository orderRepository;
+  App(
+      {required this.userRepository,
+      required this.productRepository,
+      required this.userPreferences,
+      required this.clientsRepository,
+      required this.categoryRepository,
+      required this.orderRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +122,8 @@ class App extends StatelessWidget {
                 CategoriesBloc(categoryRepository: this.categoryRepository)
                   ..add(FetchCategories()),
           ),
+          BlocProvider<OrdersBloc>(
+              create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
         ],
         child: MaterialApp(
           title: 'CSV',

@@ -1,15 +1,17 @@
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/models/product/data.dart';
+import 'package:app/models/request/request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Checkout extends StatelessWidget {
-  // late CartBloc cartBloc;
+  late OrdersBloc ordersBloc;
   // List<Data> products;
   // Checkout({required this.products});
   @override
   Widget build(BuildContext context) {
-    // cartBloc = BlocProvider.of<CartBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
@@ -28,8 +30,8 @@ class Checkout extends StatelessWidget {
             ),
           ),
           onTap: () {
-            // cartBloc.add(AddProduct(singleProduct: this.product));
-            Navigator.pop(context);
+            ordersBloc.add(CreateOrderEvent(request: null));
+            // Navigator.pop(context);
           }),
     );
   }

@@ -39,6 +39,7 @@ class CartScreen extends StatelessWidget {
                 ProductPriceInfo(
                   products: state.cartProducts,
                 ),
+                // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               ],
             );
           } else {
