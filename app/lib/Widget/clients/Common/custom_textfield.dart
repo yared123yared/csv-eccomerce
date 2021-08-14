@@ -7,14 +7,14 @@ class CustomTextField extends StatelessWidget {
   final Function validator;
   final bool obsecureText;
   final bool isRequired;
-  // final String initialValue;
+  final String initialValue;
   CustomTextField({
     required this.textFieldName,
     required this.controller,
     required this.validator,
     required this.obsecureText,
     required this.isRequired,
-    // required this.initialValue,
+    required this.initialValue,
   });
 
   @override

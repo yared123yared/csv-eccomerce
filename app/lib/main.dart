@@ -3,12 +3,14 @@ import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
+import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
+import 'Blocs/location/bloc/location_bloc.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
@@ -50,6 +52,7 @@ void main() {
   final OrderRepository orderRepository = OrderRepository(
       orderDataProvider: OrderDataProvider(
           httpClient: httpClient, userPreferences: userPreferences));
+  final LocationRepository locationRepository = LocationRepository();
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
@@ -60,6 +63,7 @@ void main() {
     clientsRepository: clientRepository,
     categoryRepository: categoryRepository,
     orderRepository: orderRepository,
+    locationRepository: locationRepository,
   ));
   // runApp(MyApp());
 }
@@ -77,8 +81,17 @@ class App extends StatelessWidget {
       required this.userPreferences,
       required this.clientsRepository,
       required this.categoryRepository,
-      required this.orderRepository});
+      required this.orderRepository,
+      required this.locationRepository});
 
+  final LocationRepository locationRepository;
+  // App({
+  //   required this.userRepository,
+  //   required this.productRepository,
+  //   required this.userPreferences,
+  //   required this.clientsRepository,
+  //   required this.locationRepository,
+  // });
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -94,6 +107,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<ClientsRepository>(
           create: (_) => this.clientsRepository,
+        ),
+        RepositoryProvider<LocationRepository>(
+          create: (_) => this.locationRepository,
         ),
       ],
       child: MultiBlocProvider(
@@ -124,6 +140,10 @@ class App extends StatelessWidget {
           ),
           BlocProvider<OrdersBloc>(
               create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+          BlocProvider<LocationBloc>(
+            create: (_) =>
+                LocationBloc(locationRepository: this.locationRepository),
+          ),
         ],
         child: MaterialApp(
           title: 'CSV',

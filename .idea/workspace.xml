@@ -29,19 +29,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/android/settings_aar.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,11 +43,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1w5Gki41PV6PMZQFuoZ3seBPtrz" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -88,6 +82,14 @@
       <option name="presentableId" value="Default" />
       <updated>1627741180347</updated>
     </task>
+    <task id="LOCAL-00001" summary="update client">
+      <created>1628841781710</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1628841781710</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,5 +115,10 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="update client" />
+    <option name="LAST_COMMIT_MESSAGE" value="update client" />
   </component>
 </project>
