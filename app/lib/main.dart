@@ -43,13 +43,15 @@ void main() {
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
-  runApp(App(
-    userPreferences: userPreferences,
-    productRepository: productRepository,
-    userRepository: userRepository,
-    clientsRepository: clientRepository,
-    locationRepository: locationRepository,
-  ));
+  runApp(
+    App(
+      userPreferences: userPreferences,
+      productRepository: productRepository,
+      userRepository: userRepository,
+      clientsRepository: clientRepository,
+      locationRepository: locationRepository,
+    ),
+  );
   // runApp(MyApp());
 }
 
@@ -104,7 +106,7 @@ class App extends StatelessWidget {
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
-            )..add(FetchClientsEvent(page: 1)),
+            )..add(FetchClientsEvent(loadMore: true)),
           ),
           BlocProvider<LocationBloc>(
             create: (_) =>

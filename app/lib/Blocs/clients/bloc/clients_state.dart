@@ -20,28 +20,16 @@ class LoadMoreClients extends ClientsState {
 
 class ClientFetchingSuccessState extends ClientsState {
   late final List<Client>? clients;
-  final int? start;
-  final int? end;
-  final int? total;
+  // final int? start;
+  // final int? end;
+  // final int? total;
   ClientFetchingSuccessState({
     required this.clients,
-    required this.start,
-    required this.end,
-    required this.total,
+    // required this.start,
+    // required this.end,
+    // required this.total,
   }) : super(check: true);
-  ClientFetchingSuccessState copyWith({
-    List<Client>? clients,
-    int? start,
-    int? end,
-    int? total,
-  }) {
-    return ClientFetchingSuccessState(
-      clients: clients,
-      start: start,
-      end: end,
-      total: total,
-    );
-  }
+  
 }
 
 class ClientFetchingFailedState extends ClientsState {

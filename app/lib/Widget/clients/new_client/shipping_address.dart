@@ -52,7 +52,14 @@ class _ShippingState extends State<Shipping> {
   //     }
   //   }
   // }
-
+  Map<String, dynamic> initialValues={
+    'state':'',
+    'city':'',
+    'country':'',
+    'street_adress':'',
+    'zip_code':'',
+    'locality':''
+  };
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationBloc, LocationState>(
@@ -81,7 +88,7 @@ class _ShippingState extends State<Shipping> {
               });
               progress.dismiss();
             }
-            widget.onCurrrentAddressFetchSuccessState(state.p);
+            // widget.onCurrrentAddressFetchSuccessState(state.p);
           } else if (state is LocationFetchingFailedState) {
             print("location fetch failed");
 
@@ -107,12 +114,12 @@ class _ShippingState extends State<Shipping> {
           print("not creating");
         }
       },
-      listenWhen: (prevState, currentState) {
-        print("hash codes");
-        print(prevState.hashCode);
-        print(currentState.hashCode);
-        return true;
-      },
+      // listenWhen: (prevState, currentState) {
+      //   print("hash codes");
+      //   print(prevState.hashCode);
+      //   print(currentState.hashCode);
+      //   return true;
+      // },
       builder: (context, state) {
         // if (widget.isCreating) {
         //   // print("creating");
@@ -139,7 +146,7 @@ class _ShippingState extends State<Shipping> {
           //     //   });
           //     //   progress.dismiss();
           //     // }
-          //     // widget.onCurrrentAddressFetchSuccessState(state.p);
+              widget.onCurrrentAddressFetchSuccessState(state.p);
           //   }
           print(state.status);
           p = state.p;

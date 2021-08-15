@@ -11,7 +11,13 @@ class ClientsRepository {
     return data;
   }
 
-  Future<void> createClient(CreateEditData data) async {
+  Future<SearchClientData?> searchClients(String key) async {
+    SearchClientData? data =
+        await clientsDataProvider.searchClients(key);
+    return data;
+  }
+
+  Future<Client?> createClient(CreateEditData data) async {
     return await clientsDataProvider.createClient(data);
   }
 
@@ -19,7 +25,7 @@ class ClientsRepository {
     return await clientsDataProvider.deleteClient(id);
   }
 
-  Future<void> updateClient(CreateEditData data) async {
+  Future<Client?> updateClient(CreateEditData data) async {
     return await clientsDataProvider.updateClient(data);
 
   }

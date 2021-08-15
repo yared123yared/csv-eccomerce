@@ -23,14 +23,14 @@ class SearchBar extends StatelessWidget {
             textInputAction: TextInputAction.done,
             onChanged: (val) {
               print("---value--${val}");
-              if (val != null || val != '') {
+              if (val != null && val != '') {
                 SearchClientsEvent searchClientEvent =
                     new SearchClientsEvent(key: val);
                 BlocProvider.of<ClientsBloc>(context, listen: false)
                     .add(searchClientEvent);
               }else{
                 FetchClientsEvent fetchClientEvent =
-                    new FetchClientsEvent(page: 0);
+                    new FetchClientsEvent(loadMore: false);
                 BlocProvider.of<ClientsBloc>(context, listen: false)
                     .add(fetchClientEvent);
               }

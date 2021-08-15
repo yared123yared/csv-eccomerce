@@ -4,12 +4,12 @@ part of 'clients_bloc.dart';
 abstract class ClientsEvent {}
 
 class FetchClientsEvent extends ClientsEvent {
-  final int page;
+  final bool loadMore;
   FetchClientsEvent({
-    required this.page,
+    required this.loadMore,
   });
-  @override
-  List<Object> get props => [page];
+  // @override
+  // List<Object> get props => [page];
 }
 
 class SearchClientsEvent extends ClientsEvent {
@@ -34,7 +34,6 @@ class UpdateClientEvent extends ClientsEvent {
   @override
   List<Object> get props => [this.data];
 }
-
 
 class DeleteClientEvent extends ClientsEvent {
   late final String id;

@@ -368,6 +368,48 @@ class _NewClientScreenState extends State<NewClientScreen> {
     }
   }
 
+  void onFetchSuccessHandler(Placemark place) {
+    print("fetch success handler");
+    if (place != null) {
+      print("place is not null");
+      // setState(() {
+        if (place.subLocality != null) {
+          print("sublocal");
+          values['addresses'][currentIdx]['city'] = place.subLocality;
+          cityController.text = values['addresses'][currentIdx]['city'];
+        }
+
+        if (place.street != null) {
+          print("street");
+          values['addresses'][currentIdx]['street_address'] = place.street;
+          streetController.text =
+              values['addresses'][currentIdx]['street_address'].toString();
+        }
+        if (place.postalCode != null || place.postalCode != '') {
+          print("postal");
+          values['addresses'][currentIdx]['zip_code'] = place.postalCode;
+          zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
+        }
+        if (place.administrativeArea != null ||
+            place.administrativeArea != '') {
+          values['addresses'][currentIdx]['state'] = place.administrativeArea;
+          stateController.text = values['addresses'][currentIdx]['state'];
+        }
+        if (place.locality != null || place.locality != '') {
+          values['addresses'][currentIdx]['locality'] = place.locality;
+          localityController.text = values['addresses'][currentIdx]['locality'];
+        }
+        if (place.country != null || place.country != '') {
+          values['addresses'][currentIdx]['country'] = place.country;
+          countryController.text = values['addresses'][currentIdx]['country'];
+        }
+        values['addresses'][currentIdx]['is_default'] = _isDefault;
+        values['addresses'][currentIdx]['is_billing'] = _isBilling;
+      // });
+    } else {
+      print("place is  null");
+    }
+  }
   void _UploadPhotoHandler() async {
     ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -392,7 +434,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
   }
 
   void navigateToClientScreen(BuildContext context) {
-    FetchClientsEvent fetchClientEvent = new FetchClientsEvent(page: 0);
+    FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.of(context).pop();
   }
@@ -476,7 +518,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
           ),
           onPressed: () {
             ///
-            FetchClientsEvent fetchClientEvent = new FetchClientsEvent(page: 0);
+            FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
             BlocProvider.of<ClientsBloc>(context, listen: false)
                 .add(fetchClientEvent);
             Navigator.of(context).pop();
@@ -779,46 +821,4 @@ class _NewClientScreenState extends State<NewClientScreen> {
     ];
   }
 
-  void onFetchSuccessHandler(Placemark place) {
-    print("fetch success handler");
-    if (place != null) {
-      print("place is not null");
-      setState(() {
-        if (place.subLocality != null) {
-          print("sublocal");
-          values['addresses'][currentIdx]['city'] = place.subLocality;
-          cityController.text = values['addresses'][currentIdx]['city'];
-        }
-
-        if (place.street != null) {
-          print("street");
-          values['addresses'][currentIdx]['street_address'] = place.street;
-          streetController.text =
-              values['addresses'][currentIdx]['street_address'].toString();
-        }
-        if (place.postalCode != null || place.postalCode != '') {
-          print("postal");
-          values['addresses'][currentIdx]['zip_code'] = place.postalCode;
-          zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
-        }
-        if (place.administrativeArea != null ||
-            place.administrativeArea != '') {
-          values['addresses'][currentIdx]['state'] = place.administrativeArea;
-          stateController.text = values['addresses'][currentIdx]['state'];
-        }
-        if (place.locality != null || place.locality != '') {
-          values['addresses'][currentIdx]['locality'] = place.locality;
-          localityController.text = values['addresses'][currentIdx]['locality'];
-        }
-        if (place.country != null || place.country != '') {
-          values['addresses'][currentIdx]['country'] = place.country;
-          countryController.text = values['addresses'][currentIdx]['country'];
-        }
-        values['addresses'][currentIdx]['is_default'] = _isDefault;
-        values['addresses'][currentIdx]['is_billing'] = _isBilling;
-      });
-    } else {
-      print("place is  null");
-    }
-  }
 }

@@ -55,11 +55,44 @@ class ClientsDataProvider {
         print("getting clients-1---,${extractedData.length}");
       }
     } catch (e) {
-      print("---58");
-      print(e);
+      print("-----58");
       throw e;
     }
     return clientsPaginated;
+  }
+
+  Future<SearchClientData?> searchClients(String searchData) async {
+    print("searching client");
+
+    SearchClientData? clientX;
+    final urlCl = Uri.parse('${baseUrl}/search-clients');
+    String? token = await this.userPreferences.getUserToken();
+
+    try {
+      // print(token);
+      final Map<String, dynamic> data = new Map<String, dynamic>();
+      data['search'] = searchData;
+
+    
+      final response = await http.post(urlCl,
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+            HttpHeaders.authorizationHeader: "Bearer $token",
+          },
+          body: jsonEncode(data));
+
+      print("searching clients---,${response.statusCode}");
+
+      if (response.statusCode != 200) {
+        throw HttpException('200');
+      } else {
+
+        clientX = SearchClientData.fromJson(json.decode(response.body));
+      }
+    } catch (e) {
+      throw e;
+    }
+    return clientX;
   }
 
   Future<void> deleteClient(String id) async {
@@ -83,18 +116,17 @@ class ClientsDataProvider {
     }
   }
 
-  Future<void> createClient(CreateEditData data) async {
+  Future<Client?> createClient(CreateEditData data) async {
     final String urlCreate = '${baseUrl}/clients';
+
     String? token = await this.userPreferences.getUserToken();
     var request = http.MultipartRequest(
       'POST',
       Uri.parse(urlCreate),
     );
-
+    late Client clientX;
     request.headers['Authorization'] = "Bearer $token";
     request.headers['Accept'] = "application/json";
-    print("first_name");
-    print(data.firstName);
     try {
       request.fields['first_name'] = data.firstName;
       request.fields['last_name'] = data.lastName;
@@ -106,11 +138,10 @@ class ClientsDataProvider {
       }
       if (data.documents != null && data.uploadedPhoto != '') {
         for (var doc in data.documents!) {
-          if(doc.path !=''){
+          if (doc.path != '') {
             request.files.add(await http.MultipartFile.fromPath(
                 'documents[${doc.name}]', doc.path));
           }
-
         }
       }
 
@@ -124,20 +155,24 @@ class ClientsDataProvider {
         }
       }
 
-      var res = await request.send();
-      final respStr = await res.stream.bytesToString();
-      print('---create client--${res.statusCode}');
-      print(respStr);
+      // var res = await request.send();
+      // final respStr = await res.stream.bytesToString();
+      // print('---create client--${res.statusCode}');
+      // print(respStr);
+      http.Response res = await http.Response.fromStream(await request.send());
       print("--create client");
       if (res.statusCode != 201) {
         throw HttpException('Error Occured While Creating User');
+      } else {
+        clientX = Client.fromJson(jsonDecode(res.body));
       }
     } catch (e) {
       throw e;
     }
+    return clientX;
   }
 
-  Future<void> updateClient(CreateEditData data) async {
+  Future<Client?> updateClient(CreateEditData data) async {
     final String urlUpdate = '${baseUrl}/clients/${data.id}';
     String? token = await this.userPreferences.getUserToken();
     var request = http.MultipartRequest(
@@ -145,12 +180,12 @@ class ClientsDataProvider {
       Uri.parse(urlUpdate),
     );
 
+    late Client clientX;
+
     request.headers['Authorization'] = "Bearer $token";
     request.headers['Accept'] = "application/json";
 
     try {
-      print("9999");
-
       request.fields['first_name'] = data.firstName;
       request.fields['last_name'] = data.lastName;
       request.fields['mobile'] = data.mobile;
@@ -178,17 +213,17 @@ class ClientsDataProvider {
         }
       }
 
-      var res = await request.send();
-      final respStr = await res.stream.bytesToString();
-      print('---update client--${res.statusCode}');
-      print(respStr);
+      http.Response res = await http.Response.fromStream(await request.send());
       print("--update client");
       if (res.statusCode != 200) {
-        throw HttpException('Error Occured While Updating User');
+        throw HttpException('Error Occured While Creating User');
+      } else {
+        clientX = Client.fromJson(jsonDecode(res.body));
       }
     } catch (e) {
       throw e;
     }
+    return clientX;
   }
 }
 
