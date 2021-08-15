@@ -1,32 +1,31 @@
 class ParentCategory {
-  late int id;
-  late int parentId;
+  int? id;
+  int? parentId;
   late String name;
   late String code;
   late String slug;
-  late int status;
-  late int companyId;
-  late int createdBy;
-  late int updatedBy;
+  int? status;
+  int? companyId;
+  int? createdBy;
+  int? updatedBy;
   late String createdAt;
   late String updatedAt;
   late String fullName;
 
-
-  ParentCategory(
-      {required this.id,
-      required this.parentId,
-      required this.name,
-      required this.code,
-      required this.slug,
-      required this.status,
-      required this.companyId,
-      required this.createdBy,
-      required this.updatedBy,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.fullName,
-      });
+  ParentCategory({
+    required this.id,
+    required this.parentId,
+    required this.name,
+    required this.code,
+    required this.slug,
+    required this.status,
+    required this.companyId,
+    required this.createdBy,
+    required this.updatedBy,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.fullName,
+  });
 
   ParentCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];

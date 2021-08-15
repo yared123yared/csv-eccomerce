@@ -1,10 +1,16 @@
-import 'package:app/Blocs/location/bloc/location_bloc.dart';
+import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/orders_data_provider.dart';
+import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
+import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
+import 'Blocs/location/bloc/location_bloc.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
@@ -39,19 +45,26 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
+  final CategoryRepository categoryRepository = CategoryRepository(
+    categoryDataProvider: CategoriesDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
+  final OrderRepository orderRepository = OrderRepository(
+      orderDataProvider: OrderDataProvider(
+          httpClient: httpClient, userPreferences: userPreferences));
   final LocationRepository locationRepository = LocationRepository();
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
-  runApp(
-    App(
-      userPreferences: userPreferences,
-      productRepository: productRepository,
-      userRepository: userRepository,
-      clientsRepository: clientRepository,
-      locationRepository: locationRepository,
-    ),
-  );
+  runApp(App(
+    userPreferences: userPreferences,
+    productRepository: productRepository,
+    userRepository: userRepository,
+    clientsRepository: clientRepository,
+    categoryRepository: categoryRepository,
+    orderRepository: orderRepository,
+    locationRepository: locationRepository,
+  ));
   // runApp(MyApp());
 }
 
@@ -60,14 +73,25 @@ class App extends StatelessWidget {
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
   final ClientsRepository clientsRepository;
+  final CategoryRepository categoryRepository;
+  final OrderRepository orderRepository;
+  App(
+      {required this.userRepository,
+      required this.productRepository,
+      required this.userPreferences,
+      required this.clientsRepository,
+      required this.categoryRepository,
+      required this.orderRepository,
+      required this.locationRepository});
+
   final LocationRepository locationRepository;
-  App({
-    required this.userRepository,
-    required this.productRepository,
-    required this.userPreferences,
-    required this.clientsRepository,
-    required this.locationRepository,
-  });
+  // App({
+  //   required this.userRepository,
+  //   required this.productRepository,
+  //   required this.userPreferences,
+  //   required this.clientsRepository,
+  //   required this.locationRepository,
+  // });
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -98,7 +122,8 @@ class App extends StatelessWidget {
           ),
           BlocProvider<ProductBloc>(
             create: (_) =>
-                ProductBloc(productRepository: this.productRepository),
+                ProductBloc(productRepository: this.productRepository)
+                  ..add(FetchProduct()),
           ),
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
@@ -108,6 +133,13 @@ class App extends StatelessWidget {
               clientsRepository: this.clientsRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
+          BlocProvider<CategoriesBloc>(
+            create: (_) =>
+                CategoriesBloc(categoryRepository: this.categoryRepository)
+                  ..add(FetchCategories()),
+          ),
+          BlocProvider<OrdersBloc>(
+              create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
           BlocProvider<LocationBloc>(
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),

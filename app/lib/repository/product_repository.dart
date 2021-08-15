@@ -3,12 +3,12 @@ import 'package:app/models/product/data.dart';
 
 class ProductRepository {
   late final ProductDataProvider productDataProvider;
-  ProductRepository({
-    required this.productDataProvider,
-  });
+  final int? categoryId;
 
-  Future<List<Data>> getProducts(int page) async {
-    List<Data> data = await productDataProvider.getProducts(page);
+  ProductRepository({required this.productDataProvider, this.categoryId});
+
+  Future<List<Data>> getProducts(int page, int? catId) async {
+    List<Data> data = await productDataProvider.getProducts(page, catId);
     print("Data arrived at the data provider $data");
     return data;
   }
