@@ -7,7 +7,7 @@ import 'package:app/Widget/Home/cart/remove-cart.dart';
 import 'package:app/Widget/Home/cart/sub-title.dart';
 import 'package:app/Widget/Home/cart/title.dart';
 import 'package:app/models/product/data.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+// import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

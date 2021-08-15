@@ -131,7 +131,7 @@ class App extends StatelessWidget {
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
-            )..add(FetchClientsEvent(page: 1)),
+            )..add(FetchClientsEvent(loadMore: true)),
           ),
           BlocProvider<CategoriesBloc>(
             create: (_) =>
