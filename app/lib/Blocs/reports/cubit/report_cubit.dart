@@ -94,7 +94,7 @@ class ReportCubit extends Cubit<ReportState> {
           },
           body: jsonEncode({
             "tableColumns": [
-              "created_at",
+              "order_number",
               "order_number",
               "client",
               "total",
