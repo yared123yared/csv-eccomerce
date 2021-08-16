@@ -1,10 +1,18 @@
+import 'package:app/models/product/data.dart';
+import 'package:app/models/product/product.dart';
+import 'package:app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class Conditional extends StatelessWidget {
   final int value;
   final String image;
   final String name;
-  Conditional({required this.name, required this.value, required this.image});
+  final Data product;
+  Conditional(
+      {required this.name,
+      required this.value,
+      required this.image,
+      required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -48,36 +56,40 @@ class Conditional extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.fill),
               ),
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Container(
                 // alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Container(
-                    padding: EdgeInsets.all(2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
+                child: Container(
+                  // padding: EdgeInsets.all(2),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, ProductDetail.routeName,
+                              arguments: this.product);
+                        },
+                        child: Container(
                           child: Text(this.name,
                               style: TextStyle(
                                   fontSize: MediaQuery.of(context).size.height *
-                                      0.017,
+                                      0.015,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold)),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.015,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015,
+                      ),
+                      Text(
+                        '\$${this.product.price}',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * 0.013,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w300,
                         ),
-                        Text(
-                          '\$100.00',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               )

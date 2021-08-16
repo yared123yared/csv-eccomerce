@@ -1,5 +1,5 @@
 
-bool isValidPhoneNumber(String string) {
+bool IsValidPhoneNumber(String string) {
   // Null or empty string is invalid phone number
   if (string == null || string.isEmpty) {
     return false;
@@ -15,7 +15,7 @@ bool isValidPhoneNumber(String string) {
   }
   return true;
 }
-bool isValidEmail(String string) {
+bool IsValidEmail(String string) {
   // Null or empty string is invalid
   if (string == null || string.isEmpty) {
     return false;
@@ -30,14 +30,14 @@ bool isValidEmail(String string) {
   return true;
 }
 String? Validatephone(String phone) {
-  if (!isValidPhoneNumber(phone)) {
+  if (!IsValidPhoneNumber(phone)) {
     return 'Invalid Phone Number';
   }
   return null;
 }
 
 String? validateEmail(String enteredEmail) {
-  if (!isValidEmail(enteredEmail)) {
+  if (!IsValidEmail(enteredEmail)) {
     return 'Invalid Email';
   }
   return null;

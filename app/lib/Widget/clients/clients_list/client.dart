@@ -1,16 +1,19 @@
+import 'dart:convert';
+
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/deleteButton.dart';
 import 'package:app/Widget/clients/clients_list/edit_button.dart';
 import 'package:app/models/client.dart';
+import 'package:app/screens/client_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Common/client_data_row.dart';
 
 class ClientCard extends StatelessWidget {
-  Client client;
-  VoidCallback deleteClient;
-  Function editClient;
+  final Client client;
+  final VoidCallback deleteClient;
+  final Function editClient;
   ClientCard({
     required this.client,
     required this.deleteClient,
@@ -57,7 +60,12 @@ class ClientCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   EditButton(
-                    onPressed: () => this.editClient(),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        NewClientScreen.routeName,
+                        arguments: this.client,
+                      );
+                    },
                   ),
                   SizedBox(
                     width: 10,

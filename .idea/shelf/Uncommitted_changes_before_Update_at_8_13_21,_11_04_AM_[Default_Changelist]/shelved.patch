@@ -1,0 +1,84 @@
+Index: app/android/settings_aar.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/android/settings_aar.gradle b/app/android/settings_aar.gradle
+new file mode 100644
+--- /dev/null	(date 1628834780635)
++++ b/app/android/settings_aar.gradle	(date 1628834780635)
+@@ -0,0 +1,1 @@
++include ':app'
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"NONE\" />\n  </component>\n  <component name=\"BranchesTreeState\">\n    <expand>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </expand>\n    <select>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"BRANCH:main\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </select>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"b8f8dca9-3dbd-401d-b9d0-80512f3c9901\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/runConfigurations.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/repository/product_repository.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/repository/product_repository.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/route/route.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/route/route.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/screens/client_new_screen.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/screens/client_new_screen.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/screens/client_profile.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/screens/client_profile.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/screens/clients_screen.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/screens/clients_screen.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/lib/screens/home_screen.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/lib/screens/home_screen.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/app/pubspec.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/app/pubspec.lock\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ExecutionTargetManager\" SELECTED_TARGET=\"device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30_x86.avd]\" />\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1w5Gki41PV6PMZQFuoZ3seBPtrz\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"android.sdk.path\" value=\"$USER_HOME$/Android/Sdk\" />\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\n    <property name=\"io.flutter.reload.alreadyRun\" value=\"true\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\n    <property name=\"show.migrate.to.gradle.popup\" value=\"false\" />\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"main.dart\" type=\"FlutterRunConfigurationType\" factoryName=\"Flutter\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"filePath\" value=\"$PROJECT_DIR$/app/lib/main.dart\" />\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Flutter.main.dart\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"b8f8dca9-3dbd-401d-b9d0-80512f3c9901\" name=\"Default Changelist\" comment=\"\" />\n      <created>1627741180347</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1627741180347</updated>\n    </task>\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"main\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f7475594033847e42bc4c96914f0a8580de2b48e)
++++ b/.idea/workspace.xml	(date 1628840971753)
+@@ -29,19 +29,32 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
++      <change afterPath="$PROJECT_DIR$/app/android/settings_aar.gradle" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/app/lib/models/search.dart" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/app/lib/screens/client_edit_screen.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/src/main/AndroidManifest.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/app/ios/Runner/Info.plist" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_event.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_state.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/Common/custom_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/Common/custom_textfield.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/client.dart" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/product_repository.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/edit_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/edit_button.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/searchBar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/clients_list/searchBar.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/Widget/clients/new_client/shipping_address.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/clients/new_client/shipping_address.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/clients_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/clients_data_provider.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/models/client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/client.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/repository/clients_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/clients_repository.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/client_profile.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/screens/category_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/category_screen.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/lib/screens/client_new_screen.dart" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/clients_screen.dart" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/home_screen.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -53,11 +66,15 @@
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="ProjectId" id="1w5Gki41PV6PMZQFuoZ3seBPtrz" />
++  <component name="ProjectLevelVcsManager">
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+   <component name="PropertiesComponent">
++    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+@@ -114,4 +131,7 @@
+     </option>
+     <option name="oldMeFiltersMigrated" value="true" />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
++  </component>
+ </project>
+\ No newline at end of file

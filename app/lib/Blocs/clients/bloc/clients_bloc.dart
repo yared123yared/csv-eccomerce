@@ -1,16 +1,19 @@
 import 'dart:async';
+import 'package:app/validation/validator.dart';
+import 'package:meta/meta.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/search.dart';
 import 'package:app/repository/clients_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 part 'clients_event.dart';
 part 'clients_state.dart';
 
 class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   final ClientsRepository clientsRepository;
-  Map<int, ClientData> clients = {};
-
+  List<Client> clients = [];
+  int page = 1;
+  bool endOfPage = false;
   ClientsBloc({required this.clientsRepository}) : super(ClientsInitial());
 
   @override
@@ -18,80 +21,155 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     ClientsEvent event,
   ) async* {
     if (event is FetchClientsEvent) {
-      yield* _mapFetchClientsToState(event.page);
+      SearchData dataX = SearchData(
+        draw: 0,
+        length: 5,
+        search: "",
+        column: 0,
+        field: "",
+        relationship: false,
+        relationshipField: "",
+        dir: "asc",
+      );
+      yield* _mapFetchClientsToState(dataX, event.loadMore);
     } else if (event is CreateClientEvent) {
       yield* _mapCreateClientToState(event.data);
+    } else if (event is UpdateClientEvent) {
+      yield* _mapUpdateClientToState(event.data);
     } else if (event is DeleteClientEvent) {
       yield* _mapDeleteClientToState(event.id);
+    } else if (event is SearchClientsEvent) {
+      yield* _mapSearchClientsEventToState(
+        event.key,
+      );
     }
   }
 
   Stream<ClientsState> _mapFetchClientsToState(
-    int page,
+    SearchData dataX,
+    bool loadMore,
+  ) async* {
+    yield ClientFetchingState();
+    int prevPage = page;
+    try {
+      if (page <= 0) {
+        page = 1;
+      }
+      if (loadMore) {
+        if (endOfPage) {
+          yield ClientFetchingSuccessState(
+            clients: this.clients,
+          );
+          return;
+        }
+        final reqData = await clientsRepository.getClients(dataX, page);
+
+        if (reqData.clients.client != null) {
+          for (var i = 0; i < reqData.clients.client!.length; i++) {
+            this.clients.add(reqData.clients.client![i]);
+          }
+          if (reqData.clients.client!.length < 5) {
+            endOfPage = true;
+          }
+          page++;
+        }
+      }
+      yield ClientFetchingSuccessState(
+        clients: this.clients,
+      );
+      return;
+    } catch (e) {
+      if (page > prevPage) {
+        page--;
+      }
+      yield ClientFetchingFailedState(message: e.toString());
+    }
+  }
+
+  Stream<ClientsState> _mapSearchClientsEventToState(
+    String key,
   ) async* {
     yield ClientFetchingState();
     try {
-      // ClientData? data = clients[page];
-      // if (data == null) {
-      final reqData = await clientsRepository.getClients(page);
-      clients[page] = ClientData(
-        clients: reqData.clients.client,
-        end: reqData.clients.to,
-        start: reqData.clients.from,
-        total: reqData.clients.total,
-      );
+      List<Client>? cl = [];
+      final reqData = await clientsRepository.searchClients(key);
+      if (reqData != null) {
+        if (reqData.client != null) {
+          cl.add(reqData.client as Client);
+        }
+      }
+
       yield ClientFetchingSuccessState(
-        clients: reqData.clients.client,
-        end: reqData.clients.to,
-        start: reqData.clients.from,
-        total: reqData.clients.total,
+        clients: cl,
       );
       return;
-      // }
-      // yield ClientFetchingSuccessState(
-      //   clients: data.clients,
-      //   end: data.end,
-      //   start: data.start,
-      //   total: data.total,
-      // );
-      // return;
     } catch (e) {
       yield ClientFetchingFailedState(message: e.toString());
     }
   }
 
-  Stream<ClientsState> _mapCreateClientToState(CreateClientData data) async* {
+  Stream<ClientsState> _mapCreateClientToState(CreateEditData data) async* {
     yield ClientCreatingState();
     try {
-      await clientsRepository.createClient(data);
+      Client? clientX = await clientsRepository.createClient(data);
+
+      int prevPageCount = this.clients.length ~/ 5;
+      if (clientX != null) {
+        this.clients.add(clientX);
+      }
+      int currentPageCount = this.clients.length ~/ 5;
+      if (this.clients.length == 0) {
+        page = 1;
+      } else {
+        if (currentPageCount > prevPageCount) {
+          page++;
+        }
+      }
       yield ClientCreateSuccesstate();
-      print("");
       return;
     } catch (e) {
       yield ClientCreateFailedState(message: e.toString());
     }
   }
 
+  Stream<ClientsState> _mapUpdateClientToState(CreateEditData data) async* {
+    yield ClientUpdatingState();
+    try {
+      Client? clientX = await clientsRepository.updateClient(data);
+      if (clientX != null) {
+        this.clients[this
+            .clients
+            .indexWhere((element) => element.id == clientX.id)] = clientX;
+      }
+
+      yield ClientUpdateSuccesstate();
+      return;
+    } catch (e) {
+      yield ClientUpdateFailedState(message: e.toString());
+    }
+  }
+
   Stream<ClientsState> _mapDeleteClientToState(String id) async* {
     yield ClientDeletingState();
     try {
-      print("from bloc ---${id}");
       await clientsRepository.deleteClient(id);
+      int prevPageCount = clients.length ~/ 5;
+      print("prev -length--${this.clients.length}");
+      this.clients.removeWhere((cl) => cl.id.toString() == id);
+      print("current -length--${this.clients.length}");
 
-      final reqData = await clientsRepository.getClients(1);
-      clients[1] = ClientData(
-        clients: reqData.clients.client,
-        end: reqData.clients.to,
-        start: reqData.clients.from,
-        total: reqData.clients.total,
-      );
-
+      int currentPageCount = clients.length ~/ 5;
+      if (this.clients.length == 0) {
+        page = 1;
+      } else {
+        if (currentPageCount < prevPageCount) {
+          page--;
+        }
+      }
       yield ClientFetchingSuccessState(
-        clients: reqData.clients.client,
-        end: reqData.clients.to,
-        start: reqData.clients.from,
-        total: reqData.clients.total,
+        clients: this.clients,
       );
+
       return;
     } catch (e) {
       yield ClientDeleteFailedState(message: e.toString());

@@ -1,9 +1,9 @@
-import './pivot.dart';
+import 'pivot.dart';
 
 class Attributes {
-  late int id;
+  int? id;
   late String name;
-  late int companyId;
+  int? companyId;
   late String createdAt;
   late String updatedAt;
   Pivot? pivot;

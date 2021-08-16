@@ -1,5 +1,7 @@
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/constants/login/size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBar extends StatelessWidget {
   @override
@@ -19,6 +21,20 @@ class SearchBar extends StatelessWidget {
             // obscureText: !ispassshow,
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.done,
+            onChanged: (val) {
+              print("---value--${val}");
+              if (val != null && val != '') {
+                SearchClientsEvent searchClientEvent =
+                    new SearchClientsEvent(key: val);
+                BlocProvider.of<ClientsBloc>(context, listen: false)
+                    .add(searchClientEvent);
+              }else{
+                FetchClientsEvent fetchClientEvent =
+                    new FetchClientsEvent(loadMore: false);
+                BlocProvider.of<ClientsBloc>(context, listen: false)
+                    .add(fetchClientEvent);
+              }
+            },
             onEditingComplete: () => FocusScope.of(context).unfocus(),
             style: TextStyle(fontSize: 18, color: Colors.grey),
             decoration: InputDecoration(
@@ -35,7 +51,7 @@ class SearchBar extends StatelessWidget {
               //     });
               //   },
               // ),
-              hintText: " Search Csv Products",
+              hintText: "Search By Name Mobile , Email",
               hintStyle: TextStyle(color: Colors.black.withOpacity(0.3)),
             ),
           ),

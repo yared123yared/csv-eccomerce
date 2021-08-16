@@ -1,11 +1,18 @@
 import 'package:app/models/navigation/navigation.dart';
-import 'package:app/screens/client_new_screen.dart';
+// import 'package:app/screens/client_new_screen.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/login_info.dart';
+import 'package:app/models/navigation/navigation.dart';
+import 'package:app/models/product/data.dart';
+import 'package:app/screens/cart_screen.dart';
+import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
+import 'package:app/screens/product_detail_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
 import 'package:app/screens/verify-otp-screen.dart';
@@ -44,6 +51,13 @@ class AppRoutes {
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
+    } else if (settings.name == ProductDetail.routeName) {
+      Data product = settings.arguments as Data;
+      return MaterialPageRoute(
+          builder: (context) => ProductDetail(
+                products: product,
+              ));
+      // return MaterialPageRoute(builder: (context) => ProductDetail());
     } else if (settings.name == ClientProfile.routeName) {
       return MaterialPageRoute(
           builder: (context) => ClientProfile(
@@ -56,6 +70,13 @@ class AppRoutes {
               // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == NewClientScreen.routeName) {
+      if (settings.arguments != null) {
+        print("--route ----${settings.arguments}");
+        return MaterialPageRoute(
+            builder: (context) => NewClientScreen(
+                  client: settings.arguments as Client,
+                ));
+      }
       return MaterialPageRoute(builder: (context) => NewClientScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(

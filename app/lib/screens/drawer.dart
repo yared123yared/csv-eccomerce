@@ -34,7 +34,7 @@ class _AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
-  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(page: 0);
+  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore:false);
 
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {

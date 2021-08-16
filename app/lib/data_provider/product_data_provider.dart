@@ -17,13 +17,13 @@ class ProductDataProvider {
   ProductDataProvider({required this.httpClient, required this.userPreferences})
       : assert(httpClient != null);
 
-  Future<List<Data>> getProducts(int page) async {
+  Future<List<Data>> getProducts(int page, int? catId) async {
     String? token = await this.userPreferences.getUserToken();
     late List<Data> products_return = [];
-
+    print("This is the caategory Id");
     try {
       final url = Uri.parse(
-          'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
+          'http://csv.jithvar.com/api/v1/catalog-products?page=$page');
 
       final response = await http.post(url,
           headers: {
@@ -33,11 +33,13 @@ class ProductDataProvider {
           },
           body: jsonEncode({
             "draw": 0,
-            "length": 10,
+            "length": 3,
             "search": "",
-            "column": 0,
-            "dir": "asc"
+            "column": 1,
+            "dir": "asc",
+            "categoryId": catId
           }));
+
       // print(
       //     "Http response ${response.statusCode} and response body ${response.body}");
       if (response.statusCode == 200) {
@@ -49,8 +51,6 @@ class ProductDataProvider {
         final data = extractedData['products']['data'];
 
         // print("Data:${data}");
-
-    
 
         return data
             .map((product) => Data.fromJson(product))

@@ -44,9 +44,11 @@ class _ProductItemState extends State<ProductItem> {
               elevation: 1,
               margin: EdgeInsets.all(10),
               child: Conditional(
-                  name: this.widget.product.name.toString(),
-                  image: image,
-                  value: this.widget.product.order),
+                name: this.widget.product.name.toString(),
+                image: image,
+                value: this.widget.product.order,
+                product: this.widget.product,
+              ),
             )));
   }
 }
