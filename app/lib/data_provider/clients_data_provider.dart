@@ -12,6 +12,9 @@ class ClientsDataProvider {
 
   ClientsDataProvider(
       {required this.httpClient, required this.userPreferences});
+      
+
+  
 
   final String baseUrl = 'http://csv.jithvar.com/api/v1';
 

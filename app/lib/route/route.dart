@@ -1,25 +1,18 @@
-import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
-import 'package:app/screens/cart_screen.dart';
 import 'package:app/screens/client_new_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
-import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
+import 'package:app/screens/reports_screens/salesReport_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
-import 'package:app/screens/reports_screens/sales_report_screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
-import 'package:app/screens/setting_screen.dart';
 import 'package:app/screens/verify-otp-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../screens/category_screen.dart';
 import '../screens/login.dart';
 import '../screens/splash_screen.dart';
-
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 
 bool isAuthenticated = false;
@@ -76,15 +69,15 @@ class AppRoutes {
           otpScreenData: settings.arguments as OtpScreenData,
         ),
       );
-    } else if (settings.name == SalesReportScreen.routeName) {
+    } else if (settings.name == SalesReportScreens.routeName) {
       return MaterialPageRoute(
-        builder: (context) => SalesReportScreen(),
+        builder: (context) => SalesReportScreens(),
       );
     } else if (settings.name == CollectionReportScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CollectionReportScreen(),
       );
-    }else if (settings.name == CustomerByDebtScreen.routeName) {
+    } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CustomerByDebtScreen(),
       );

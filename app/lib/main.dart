@@ -2,7 +2,6 @@ import 'package:app/Blocs/reports/cubit/report_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
@@ -20,6 +19,7 @@ import 'package:app/repository/product_repository.dart';
 void main() {
   http.Client httpClient = http.Client();
 
+  // SalesReportModel salesReportData = SalesReportModel(orders: null);
   final UserPreferences userPreferences = UserPreferences();
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
@@ -46,6 +46,7 @@ void main() {
     productRepository: productRepository,
     userRepository: userRepository,
     clientsRepository: clientRepository,
+    // salesReportData: salesReportData,
   ));
   // runApp(MyApp());
 }
@@ -55,11 +56,13 @@ class App extends StatelessWidget {
   final ProductRepository productRepository;
   final UserPreferences userPreferences;
   final ClientsRepository clientsRepository;
+  // final SalesReportOrders salesReportData;
   App({
     required this.userRepository,
     required this.productRepository,
     required this.userPreferences,
     required this.clientsRepository,
+    // required this.salesReportData,
   });
 
   @override
@@ -100,7 +103,7 @@ class App extends StatelessWidget {
             )..add(FetchClientsEvent(page: 1)),
           ),
           BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(),
+            create: (BuildContext context) => ReportCubit(userPreferences),
           ),
         ],
         child: MaterialApp(

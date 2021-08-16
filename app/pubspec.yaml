@@ -29,6 +29,7 @@ dependencies:
   flutter_progress_hud: ^2.0.0
   awesome_dialog: ^2.1.0
   font_awesome_flutter: ^9.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

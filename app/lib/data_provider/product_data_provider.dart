@@ -20,6 +20,7 @@ class ProductDataProvider {
   Future<List<Data>> getProducts(int page) async {
     String? token = await this.userPreferences.getUserToken();
     late List<Data> products_return = [];
+
     try {
       final url = Uri.parse(
           'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
@@ -42,10 +43,14 @@ class ProductDataProvider {
       if (response.statusCode == 200) {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
+
         // print("Extracted value $extractedData");
         // print("This is the data value ${extractedData['products']['data']}");
         final data = extractedData['products']['data'];
+
         // print("Data:${data}");
+
+    
 
         return data
             .map((product) => Data.fromJson(product))

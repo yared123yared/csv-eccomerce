@@ -8,7 +8,7 @@ import 'package:app/screens/login.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
-import 'package:app/screens/reports_screens/sales_report_screen.dart';
+import 'package:app/screens/reports_screens/salesReport_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -188,8 +188,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                 'Reports',
                                 [
                                   ExapandedListItem('Sales Report', () {
-                                    Navigator.of(context)
-                                        .pushNamed(SalesReportScreen.routeName);
+                                    Navigator.of(context).pushNamed(
+                                        SalesReportScreens.routeName);
                                   }),
                                   ExapandedListItem('Collection Report', () {
                                     Navigator.of(context).pushNamed(

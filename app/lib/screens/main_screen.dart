@@ -33,7 +33,6 @@ class _MainScreenState extends State<MainScreen> {
         title: Text('CSV'),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: false,
-
         leading: GestureDetector(
           onTap: () {
             _scaffoldKey.currentState!.openDrawer();
@@ -46,7 +45,6 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-
       ),
       drawer: AppDrawer(),
       drawerEnableOpenDragGesture: true,
@@ -57,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
               ? CategoryScreen()
               : this.check == 2
                   ? CartScreen()
-                      : SettingScreen(),
+                  : SettingScreen(),
       bottomNavigationBar: BottomAppBar(
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
