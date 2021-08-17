@@ -26,23 +26,27 @@ class ReportCubit extends Cubit<ReportState> {
   String dateToText = "";
 
   Future<Null> selectFormTimePicker(BuildContext context) async {
-    dateFromText =
-        "${dateForm.day.toString()}-${dateForm.month.toString()}-${dateForm.year.toString()}";
+    isFormDate = true;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: dateForm,
       firstDate: DateTime(1940),
       lastDate: DateTime(2030),
     );
+
     if (picked != null && picked != dateForm) {
       dateForm = picked;
-      isFormDate = true;
+
+      dateFromText =
+          "${dateForm.day.toString()}-${dateForm.month.toString()}-${dateForm.year.toString()}";
+
+      print(dateFromText);
     }
     emit(SelectFormTimePickerState());
   }
 
   Future<Null> selectToTimePicker(BuildContext context) async {
-    dateToText = "${dateForm.day}-${dateForm.month}-${dateForm.year}";
+    isToDate = true;
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: dateTo,
@@ -52,7 +56,10 @@ class ReportCubit extends Cubit<ReportState> {
     if (picked != null && picked != dateTo) {
       dateTo = picked;
 
-      isToDate = true;
+      dateToText =
+          "${dateTo.day.toString()}-${dateTo.month.toString()}-${dateTo.year.toString()}";
+
+      print(dateToText);
     }
     emit(SelectToTimePickerState());
   }
@@ -71,18 +78,22 @@ class ReportCubit extends Cubit<ReportState> {
     searchController.clear();
     isComeData = false;
 
+    postSalesReport(
+      dateFrom: "",
+      nameSearch: "",
+    );
+
     emit(ClearAllButtonState());
   }
 
   late SaleReportModel saleReportModel;
 
   Future postSalesReport({
-    required String searchText,
-    required String getFromDate,
-    required String getToDate,
+    required String nameSearch,
+    required String dateFrom,
   }) async {
     String? token = await this.userPreferences.getUserToken();
-
+    emit(SearchLoadingState());
     try {
       final url =
           Uri.parse('http://csv.jithvar.com/api/v1/orders/sales-report');
@@ -105,16 +116,16 @@ class ReportCubit extends Cubit<ReportState> {
             "length": 10,
             "column": 0,
             "dir": "desc",
-            "created_at": searchText,
+            "created_at": dateFrom,
             "order_number": "",
-            "name": "",
+            "name": nameSearch,
             "total": "",
             "amount_remaining": "",
             "amount_paid": "",
-            "to": getToDate,
-            "from": getFromDate
+            "to": "",
+            "from": ""
           }));
-      if (response.statusCode == 200 && searchController.text.isNotEmpty) {
+      if (response.statusCode == 200) {
         isComeData = true;
 
         final extractedData =
@@ -134,4 +145,41 @@ class ReportCubit extends Cubit<ReportState> {
     }
     emit(FeatchDataSucessState());
   }
+
+  // Infinite Scrolling Pagination code
+
+  // final ScrollController scrollController = ScrollController();
+  // List<String> items = [];
+  // bool loading = false;
+  // bool allLoaded = false;
+
+  // mockFetch() async {
+  //   if (allLoaded) {
+  //     return;
+  //   }
+
+  //   loading = true;
+
+  //   await Future.delayed(Duration(milliseconds: 500));
+  //   List<String> newData = items.length >= 200
+  //       ? []
+  //       : List.generate(20, (index) => "List Walid ${index + items.length}");
+  //   if (newData.isNotEmpty) {
+  //     items.addAll(newData);
+  //   }
+
+  //   loading = false;
+  //   allLoaded = newData.isEmpty;
+  //   emit(pagintionLoadingState());
+  // }
+
+  // scrollcont() {
+  //   scrollController.addListener(() {
+  //     if (scrollController.position.pixels >=
+  //             scrollController.position.maxScrollExtent &&
+  //         !loading) {
+  //       mockFetch();
+  //     }
+  //   });
+  // }
 }

@@ -146,7 +146,10 @@ class App extends StatelessWidget {
                 LocationBloc(locationRepository: this.locationRepository),
           ),
           BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(userPreferences),
+            create: (BuildContext context) => ReportCubit(userPreferences) ..postSalesReport(
+                nameSearch: "",
+                dateFrom: "",
+              ),
           ),
         ],
         child: MaterialApp(

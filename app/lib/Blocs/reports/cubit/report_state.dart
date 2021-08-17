@@ -21,3 +21,6 @@ class FeatchDataErrorState extends ReportState {
 
   FeatchDataErrorState(this.error);
 }
+
+
+class SearchLoadingState extends ReportState {}
