@@ -103,7 +103,10 @@ class App extends StatelessWidget {
             )..add(FetchClientsEvent(page: 1)),
           ),
           BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(userPreferences),
+            create: (BuildContext context) => ReportCubit(userPreferences) ..postSalesReport(
+                nameSearch: "",
+                dateFrom: "",
+              ),
           ),
         ],
         child: MaterialApp(

@@ -18,6 +18,7 @@ class SalesReportScreens extends StatelessWidget {
     return BlocBuilder<ReportCubit, ReportState>(
       builder: (context, state) {
         final cubit = ReportCubit.get(context);
+
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -92,19 +93,8 @@ class SalesReportScreens extends StatelessWidget {
                   : Container(
                       height: MediaQuery.of(context).size.height * 0.51,
                       child: Center(
-                        // ? Text(
-                        //     " Please enter the correct search",
-                        //     style: TextStyle(
-                        //       color: Colors.black,
-                        //       fontSize: 20,
-                        //     ),
-                        //   )
-                        child: Text(
-                          "No Data Yet",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
+                        child: Center(
+                          child: CircularProgressIndicator(),
                         ),
                       ),
                     ),
@@ -116,15 +106,7 @@ class SalesReportScreens extends StatelessWidget {
                     minimumSize: const Size(400, 55),
                     shape: const StadiumBorder(),
                   ),
-                  onPressed: () {
-                    cubit.isComeData = true;
-
-                    cubit.postSalesReport(
-                      searchText: cubit.searchController.text,
-                      getFromDate: cubit.dateFromText,
-                      getToDate: cubit.dateToText,
-                    );
-                  },
+                  onPressed: () {},
                   child: const Text(
                     "Export",
                     style: TextStyle(

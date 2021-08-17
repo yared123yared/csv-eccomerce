@@ -30,7 +30,8 @@ class FromToContainer extends StatelessWidget {
                     children: [
                       cubit.isFormDate
                           ? Text(
-                              "${cubit.dateForm.day.toString()}-${cubit.dateForm.month.toString()}-${cubit.dateForm.year.toString()}",
+                              cubit.dateFromText,
+                              //"${cubit.dateForm.day.toString()}-${cubit.dateForm.month.toString()}-${cubit.dateForm.year.toString()}",
                               //"${cubit.dateFromText}",
                               style: TextStyle(
                                 color: Color(0xff414e79),
@@ -48,6 +49,10 @@ class FromToContainer extends StatelessWidget {
                       TextButton.icon(
                         onPressed: () {
                           cubit.selectFormTimePicker(context);
+                          cubit.postSalesReport(
+                            nameSearch: "",
+                            dateFrom: cubit.dateForm.toString(),
+                          );
                         },
                         icon: Image.asset(
                           'assets/images/date.png',
@@ -79,7 +84,8 @@ class FromToContainer extends StatelessWidget {
                     children: [
                       cubit.isToDate
                           ? Text(
-                              "${cubit.dateTo.day.toString()}-${cubit.dateTo.month.toString()}-${cubit.dateTo.year.toString()}",
+                              cubit.dateToText,
+                              //"${cubit.dateTo.day.toString()}-${cubit.dateTo.month.toString()}-${cubit.dateTo.year.toString()}",
                               //"${cubit.dateToText}",
                               style: TextStyle(
                                 color: Color(0xff414e79),
@@ -96,7 +102,12 @@ class FromToContainer extends StatelessWidget {
                             ),
                       TextButton.icon(
                         onPressed: () {
+                          
                           cubit.selectToTimePicker(context);
+                          cubit.postSalesReport(
+                            nameSearch: "",
+                            dateFrom: cubit.dateForm.toString(),
+                          );
                         },
                         icon: Image.asset(
                           'assets/images/date.png',
