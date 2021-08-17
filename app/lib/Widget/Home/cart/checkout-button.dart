@@ -2,6 +2,7 @@ import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,8 +31,9 @@ class Checkout extends StatelessWidget {
             ),
           ),
           onTap: () {
-            ordersBloc.add(CreateOrderEvent(request: null));
+            // ordersBloc.add(CreateOrderEvent(request: null));
             // Navigator.pop(context);
+            Navigator.pushNamed(context, AddClient.routeName);
           }),
     );
   }

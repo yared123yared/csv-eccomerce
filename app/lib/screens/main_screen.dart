@@ -1,6 +1,6 @@
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
-import 'package:app/screens/cart_screen.dart';
+import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/drawer.dart';

@@ -16,7 +16,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
   List<Data> productList = [];
   List<Data> selectedCategories = [];
+  List<Data> searchedProducts = [];
   int? categoryId = null;
+  String? searchProductName = null;
   int page = 0;
   int categoryPage = 1;
 
@@ -33,6 +35,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       productList = [];
       selectedCategories = [];
       categoryId = null;
+      searchProductName = null;
       page = 0;
       categoryPage = 1;
       print("fetch event is called");
@@ -92,6 +95,33 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             products: this.selectedCategories,
             selectedCategoryId: event.categories.id!.toInt()));
       }
+    } else if (event is SearchEvent) {
+      //
+      this.searchedProducts = [];
+      print("Search event is scalled");
+      this.searchProductName = event.productName;
+      this.page = 1;
+
+      //  filter from the cache
+      for (int i = 0; i < productList.length; i++) {
+        if (productList[i]
+            .name!
+            .toLowerCase()
+            .contains(this.searchProductName.toString().toLowerCase())) {
+          this.searchedProducts.add(productList[i]);
+        }
+      }
+      // if (event.isSubmited) {
+      //   List<Data> products =
+      //       (await this.productRepository.getProducts(page, this.categoryId));
+      // }
+
+      yield (ProductLoadSuccess(
+        page: page,
+        products: this.searchedProducts,
+        selectedCategoryId: this.categoryId,
+        searchProductName: this.searchProductName,
+      ));
     } else if (event is AddProduct) {
       List<Data> cart_product = state.products;
 

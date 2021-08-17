@@ -3,10 +3,14 @@ part of 'produt_bloc.dart';
 class ProductState {
   final int page;
   final int? selectedCategoryId;
+  final String? searchProductName;
   final List<Data> products;
 
   ProductState(
-      {required this.page, this.selectedCategoryId, required this.products});
+      {required this.page,
+      this.selectedCategoryId,
+      required this.products,
+      this.searchProductName});
 
   // @override
   // // TODO: implement props
@@ -23,27 +27,14 @@ class LazyProductLoading extends ProductState {
   LazyProductLoading() : super(products: [], selectedCategoryId: 0, page: 0);
 }
 
-// class ProductUpdated extends ProductState {
-//   final Data product;
-//   final int selectedCategoryId;
-//   final List<Data> products;
-
-//   ProductUpdated(
-//       {required this.selectedCategoryId,
-//       required this.products,
-//       required this.product})
-//       : super(products: products, selectedCategoryId: selectedCategoryId);
-
-//   @override
-//   List<Object> get props => [product];
-// }
-
 class ProductLoadSuccess extends ProductState {
   final List<Data> products;
   final int? selectedCategoryId;
   final int page;
+  final String? searchProductName;
   ProductLoadSuccess(
       {required this.selectedCategoryId,
+      this.searchProductName,
       required this.products,
       required this.page})
       : super(

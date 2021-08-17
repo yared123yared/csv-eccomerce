@@ -13,7 +13,8 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 class ProductDetail extends StatelessWidget {
   static const routeName = '/product/details';
   final Data products;
-  ProductDetail({required this.products});
+  final VoidCallback onClicked;
+  ProductDetail({required this.products, required this.onClicked});
   @override
   Widget build(BuildContext context) {
     // Data? products = ModalRoute.of(context)!.settings.arguments as Data;
@@ -168,6 +169,7 @@ class ProductDetail extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 AddToCart(
+                  onTapped: this.onClicked,
                   product: this.products,
                 )
               ],

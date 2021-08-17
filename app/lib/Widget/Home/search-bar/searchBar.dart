@@ -1,9 +1,13 @@
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/constants/login/size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBar extends StatelessWidget {
+  late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
+    productBloc = BlocProvider.of<ProductBloc>(context);
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
     return Padding(
@@ -15,6 +19,14 @@ class SearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(40)),
           width: loginSize.getTextFieldWidth,
           child: TextField(
+            onChanged: (text) {
+              print("This is the text that have been written $text");
+              productBloc.add(SearchEvent(productName: text));
+            },
+            onSubmitted: (text) {
+              print("This is the text that have been written $text");
+              productBloc.add(SearchEvent(productName: text));
+            },
             controller: null,
             // obscureText: !ispassshow,
             keyboardType: TextInputType.text,

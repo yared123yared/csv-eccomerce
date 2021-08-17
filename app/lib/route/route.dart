@@ -4,7 +4,8 @@ import 'package:app/models/client.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
-import 'package:app/screens/cart_screen.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
+import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
@@ -52,10 +53,14 @@ class AppRoutes {
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
     } else if (settings.name == ProductDetail.routeName) {
-      Data product = settings.arguments as Data;
+      List data = settings.arguments as List<Object>;
+      Data product = data[0] as Data;
+      VoidCallback onClicked = data[1] as VoidCallback;
+
       return MaterialPageRoute(
           builder: (context) => ProductDetail(
                 products: product,
+                onClicked: onClicked,
               ));
       // return MaterialPageRoute(builder: (context) => ProductDetail());
     } else if (settings.name == ClientProfile.routeName) {
@@ -97,6 +102,10 @@ class AppRoutes {
     } else if (settings.name == CollectionReportScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CollectionReportScreen(),
+      );
+    } else if (settings.name == AddClient.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => AddClient(),
       );
     } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(

@@ -5,12 +5,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'checkout-button.dart';
-
-class ProductPriceInfo extends StatelessWidget {
+class ClientInfo extends StatelessWidget {
   final List<Data> products;
 
-  ProductPriceInfo({required this.products});
+  ClientInfo({required this.products});
   @override
   Widget build(BuildContext context) {
     CartLogic cartLogic = new CartLogic(products: this.products);
@@ -112,7 +110,6 @@ class ProductPriceInfo extends StatelessWidget {
               },
             )),
           ),
-          Checkout()
         ],
       ),
     );
