@@ -1,14 +1,14 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FromToContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(
+    return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
-        final cubit = ReportCubit.get(context);
+        final cubit = SalesReportCubit.get(context);
         return Padding(
           padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
           child: Row(

@@ -1,5 +1,5 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:app/Widget/reports/salesReport/data_container.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
@@ -15,9 +15,9 @@ class SalesReportScreens extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(
+    return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
-        final cubit = ReportCubit.get(context);
+        final cubit = SalesReportCubit.get(context);
 
         return Scaffold(
           key: _scaffoldKey,

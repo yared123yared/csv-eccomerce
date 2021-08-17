@@ -1,17 +1,20 @@
 import 'dart:convert';
-import 'package:app/models/repoets_model/sales_report_models.dart';
-import 'package:http/http.dart' as http;
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+
+import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_state.dart';
+import 'package:app/models/repoets_model/collection_report_model.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
-class ReportCubit extends Cubit<ReportState> {
+class CollectionReportCubit extends Cubit<CollectionReportState> {
   final UserPreferences userPreferences;
-  ReportCubit(this.userPreferences) : super(ReportInitialState());
+  CollectionReportCubit(this.userPreferences)
+      : super(CollectionReportInitialState());
 
-  static ReportCubit get(BuildContext context) => BlocProvider.of(context);
+  static CollectionReportCubit get(BuildContext context) =>
+      BlocProvider.of(context);
 
   // DateTime
 
@@ -42,7 +45,7 @@ class ReportCubit extends Cubit<ReportState> {
 
       print(dateFromText);
     }
-    emit(SelectFormTimePickerState());
+    emit(SelectFormTimePickerCollState());
   }
 
   Future<Null> selectToTimePicker(BuildContext context) async {
@@ -61,7 +64,7 @@ class ReportCubit extends Cubit<ReportState> {
 
       print(dateToText);
     }
-    emit(SelectToTimePickerState());
+    emit(SelectToTimePickerCollState());
   }
 
   ////FetchData Here From Post Api and All Controller
@@ -70,33 +73,17 @@ class ReportCubit extends Cubit<ReportState> {
   bool isComeData = false;
   bool isComeDataWrong = false;
 
-  //clear
+  late CollectionReportModel collectionReportModel;
 
-  void clearAll() {
-    isFormDate = false;
-    isToDate = false;
-    searchController.clear();
-    isComeData = false;
-
-    postSalesReport(
-      dateFrom: "",
-      nameSearch: "",
-    );
-
-    emit(ClearAllButtonState());
-  }
-
-  late SaleReportModel saleReportModel;
-
-  Future postSalesReport({
+  Future postCollectionReport({
     required String nameSearch,
     required String dateFrom,
   }) async {
     String? token = await this.userPreferences.getUserToken();
-    emit(SearchLoadingState());
+    emit(SearchLoadingCollState());
     try {
-      final url =
-          Uri.parse('http://csv.jithvar.com/api/v1/orders/sales-report');
+      final url = Uri.parse(
+          'http://csv.jithvar.com/api/v1/payments/reports/collection');
       final response = await http.post(url,
           headers: {
             'Content-Type': 'application/json',
@@ -105,25 +92,27 @@ class ReportCubit extends Cubit<ReportState> {
           },
           body: jsonEncode({
             "tableColumns": [
-              "order_number",
-              "order_number",
+              "created_at",
+              "payment_method",
+              "id",
               "client",
-              "total",
-              "amount_paid",
-              "amount_remaining"
+              "amount_remaining",
+              "status",
+              "reason_denied",
+              "actions"
             ],
             "draw": 0,
             "length": 10,
             "column": 0,
             "dir": "desc",
-            "created_at": dateFrom,
-            "order_number": "",
-            "name": nameSearch,
-            "total": "",
-            "amount_remaining": "",
+            "created_at": "",
+            "name": "",
             "amount_paid": "",
             "to": "",
-            "from": ""
+            "from": "",
+            "orderNumber": "",
+            "payment_method": "",
+            "status": ""
           }));
       if (response.statusCode == 200) {
         isComeData = true;
@@ -131,11 +120,10 @@ class ReportCubit extends Cubit<ReportState> {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
 
-        final data = extractedData['orders'];
+        final data = extractedData['collections'];
 
-        saleReportModel = SaleReportModel.fromJson(data);
-        // print("Walid : ${saleReportModel.data![0].client!.mobile}");
-
+        collectionReportModel = CollectionReportModel.fromJson(data);
+        print("Walid : ${collectionReportModel.data![0].createdAt}");
       } else {
         isComeData = false;
         throw Exception('Failed to load courses');
@@ -143,43 +131,6 @@ class ReportCubit extends Cubit<ReportState> {
     } catch (e) {
       print("Exception throuwn $e");
     }
-    emit(FeatchDataSucessState());
+    emit(FeatchDataSucessCollState());
   }
-
-  // Infinite Scrolling Pagination code
-
-  // final ScrollController scrollController = ScrollController();
-  // List<String> items = [];
-  // bool loading = false;
-  // bool allLoaded = false;
-
-  // mockFetch() async {
-  //   if (allLoaded) {
-  //     return;
-  //   }
-
-  //   loading = true;
-
-  //   await Future.delayed(Duration(milliseconds: 500));
-  //   List<String> newData = items.length >= 200
-  //       ? []
-  //       : List.generate(20, (index) => "List Walid ${index + items.length}");
-  //   if (newData.isNotEmpty) {
-  //     items.addAll(newData);
-  //   }
-
-  //   loading = false;
-  //   allLoaded = newData.isEmpty;
-  //   emit(pagintionLoadingState());
-  // }
-
-  // scrollcont() {
-  //   scrollController.addListener(() {
-  //     if (scrollController.position.pixels >=
-  //             scrollController.position.maxScrollExtent &&
-  //         !loading) {
-  //       mockFetch();
-  //     }
-  //   });
-  // }
 }

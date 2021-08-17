@@ -1,13 +1,13 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DataContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(builder: (context, state) {
-      final cubit = ReportCubit.get(context);
+    return BlocBuilder<SalesReportCubit, SalesReportState>(builder: (context, state) {
+      final cubit = SalesReportCubit.get(context);
       final cubitData = cubit.saleReportModel.data;
 
       return ListView.separated(
