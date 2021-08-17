@@ -20,15 +20,16 @@ class LoadMoreClients extends ClientsState {
 
 class ClientFetchingSuccessState extends ClientsState {
   late final List<Client>? clients;
-  final int? start;
-  final int? end;
-  final int? total;
+  // final int? start;
+  // final int? end;
+  // final int? total;
   ClientFetchingSuccessState({
     required this.clients,
-    required this.start,
-    required this.end,
-    required this.total,
+    // required this.start,
+    // required this.end,
+    // required this.total,
   }) : super(check: true);
+  
 }
 
 class ClientFetchingFailedState extends ClientsState {
@@ -61,4 +62,17 @@ class ClientDeleteSuccesstate extends ClientsState {
 class ClientDeleteFailedState extends ClientsState {
   late final String message;
   ClientDeleteFailedState({required this.message}) : super(check: false);
+}
+
+class ClientUpdatingState extends ClientsState {
+  ClientUpdatingState() : super(check: true);
+}
+
+class ClientUpdateSuccesstate extends ClientsState {
+  ClientUpdateSuccesstate() : super(check: true);
+}
+
+class ClientUpdateFailedState extends ClientsState {
+  late final String message;
+  ClientUpdateFailedState({required this.message}) : super(check: true);
 }

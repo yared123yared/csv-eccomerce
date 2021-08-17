@@ -12,3 +12,8 @@ class AddProduct extends CartEvent {
   final Data singleProduct;
   AddProduct({required this.singleProduct});
 }
+
+class RemoveProduct extends CartEvent {
+  final Data singleProduct;
+  RemoveProduct({required this.singleProduct});
+}

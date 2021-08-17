@@ -44,9 +44,19 @@ class _ProductItemState extends State<ProductItem> {
               elevation: 1,
               margin: EdgeInsets.all(10),
               child: Conditional(
-                  name: this.widget.product.name.toString(),
-                  image: image,
-                  value: this.widget.product.order),
+                name: this.widget.product.name.toString(),
+                image: image,
+                value: this.widget.product.order,
+                product: this.widget.product,
+                onClick: this.onClicked,
+              ),
             )));
+  }
+
+  void onClicked() {
+    print("item add method have called");
+    setState(() {
+      widget.product.order += 1;
+    });
   }
 }

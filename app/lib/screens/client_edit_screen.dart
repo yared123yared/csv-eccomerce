@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:app/models/login_info.dart';
-import 'package:app/screens/clients_screen.dart';
-import 'package:app/screens/drawer.dart';
+import 'package:app/Blocs/location/bloc/location_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/Common/custom_file_input.dart';
 import 'package:app/Widget/clients/Common/custom_textfield.dart';
@@ -12,13 +17,8 @@ import 'package:app/Widget/clients/new_client/documents.dart';
 import 'package:app/Widget/clients/new_client/general_information.dart';
 import 'package:app/Widget/clients/new_client/shipping_address.dart';
 import 'package:app/Widget/clients/new_client/steper.dart';
-import 'package:app/constants/constants.dart';
 import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class NewClientScreen extends StatefulWidget {
   static const routeName = 'client_new';
@@ -67,38 +67,55 @@ class _NewClientScreenState extends State<NewClientScreen> {
   bool _isDefault = false;
   bool _isBilling = false;
 
-  // Map<String, dynamic> values = {};
-  // int currentIdx = 0;
-/*
-  @override
-  void initState() {
+  Map<String, dynamic> values = {};
+  int currentIdx = 0;
+
+  bool isInitialized = false;
+  bool isFetchingAddress = false;
+  Placemark? currentPlace;
+  void initialize() {
+    print("initial state ---${this.widget.client == null}");
+
     List<Map<String, dynamic>> initAdresses = [];
     if (widget.client != null) {
-      values['first_name'] = widget.client!.firstName == null
-          ? ''
-          : widget.client!.firstName as String;
-      values['last_name'] = widget.client!.lastName == null
-          ? ''
-          : widget.client!.lastName as String;
-      values['mobile'] =
-          widget.client!.mobile == null ? '' : widget.client!.mobile as String;
-      values['email'] =
-          widget.client!.email == null ? '' : widget.client!.email as String;
-      values['city'] =
-          widget.client!.city == null ? '' : widget.client!.city as String;
+      print("79");
+      setState(() {
+        values['first_name'] = this.widget.client!.firstName == null
+            ? ''
+            : this.widget.client!.firstName as String;
+        values['last_name'] = this.widget.client!.lastName == null
+            ? ''
+            : this.widget.client!.lastName as String;
+        values['mobile'] = this.widget.client!.mobile == null
+            ? ''
+            : this.widget.client!.mobile as String;
+        values['email'] = this.widget.client!.email == null
+            ? ''
+            : this.widget.client!.email as String;
+        firstNameController.text = values['first_name'];
+        lastNameController.text = values['last_name'];
+        emailController.text = values['email'];
+        mobileController.text = values['mobile'];
+        values['city'] = this.widget.client!.city == null
+            ? ''
+            : this.widget.client!.city as String;
 
-      addresses = widget.client!.addresses == null
-          ? []
-          : widget.client!.addresses as List<Addresses>;
-      if (widget.client!.addresses != null) {
-        for (var addr in widget.client!.addresses!) {
+        addresses = this.widget.client!.addresses == null
+            ? []
+            : this.widget.client!.addresses as List<Addresses>;
+      });
+      // print(values['first_name']);
+
+      if (this.widget.client!.addresses != null) {
+        for (var addr in this.widget.client!.addresses!) {
           Map<String, dynamic> adress = {};
+
           adress['id'] = addr.id == null ? '' : addr.id;
-          adress['city'] = addr.city == null ? '' : addr.city as String;
           adress['street_address'] =
-              addr.streetAddress == null ? '' : addr.city as String;
-          adress['zip_code'] = addr.zipCode == null ? '' : addr.city as String;
-          adress['state'] = addr.state == null ? '' : addr.city as String;
+              addr.streetAddress == null ? '' : addr.streetAddress as String;
+          adress['zip_code'] =
+              addr.zipCode == null ? '' : addr.zipCode as String;
+          adress['state'] = addr.state == null ? '' : addr.state as String;
           adress['locality'] =
               addr.locality == null ? '' : addr.locality as String;
           adress['city'] = addr.city == null ? '' : addr.city as String;
@@ -109,6 +126,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
           adress['is_billing'] =
               addr.isBilling == null ? false : addr.isBilling;
           adress['company_id'] = addr.companyId == null ? '' : addr.companyId;
+
           initAdresses.add(adress);
         }
       } else {
@@ -121,8 +139,8 @@ class _NewClientScreenState extends State<NewClientScreen> {
         adress['locality'] = '';
         adress['city'] = '';
         adress['country'] = '';
-        adress['is_default'] = '';
-        adress['is_billing'] = '';
+        adress['is_default'] = false;
+        adress['is_billing'] = false;
         adress['company_id'] = '';
         initAdresses.add(adress);
       }
@@ -135,8 +153,8 @@ class _NewClientScreenState extends State<NewClientScreen> {
       adress['locality'] = '';
       adress['city'] = '';
       adress['country'] = '';
-      adress['is_default'] = '';
-      adress['is_billing'] = '';
+      adress['is_default'] = false;
+      adress['is_billing'] = false;
       adress['company_id'] = '';
       values['first_name'] = '';
       values['last_name'] = '';
@@ -144,10 +162,14 @@ class _NewClientScreenState extends State<NewClientScreen> {
       values['mobile'] = '';
       initAdresses.add(adress);
     }
-    values['addresses'] = initAdresses;
-    super.initState();
+    setState(() {
+      values['addresses'] = initAdresses;
+      updateFields();
+      isInitialized = true;
+    });
+    print(jsonEncode(values['addresses']).toString());
   }
-*/
+
   void _createClient() {
     if (documentNameController.text != '') {
       if (docmentPickController.text != '') {
@@ -163,16 +185,29 @@ class _NewClientScreenState extends State<NewClientScreen> {
         });
       }
     }
+    addresses.clear();
+    for (var addr in (values['addresses'] as List<Map<String, dynamic>>)) {
+      if (addr['country'] != ''
+          // || addr['country'] != null
+          ) {
+        // isCountryFilled = true;
+        // print("country----${addr['country']}");
+        addresses.add(
+          Addresses(
+            country: addr['country'],
+            streetAddress: addr['street_address'],
+            city: addr['city'],
+            isDefault: addr['is_default'],
+            locality: addr['locality'],
+            state: addr['state'],
+            zipCode: addr['zip_code'],
+            isBilling: addr['is_billing'],
+          ),
+        );
+      }
+    }
 
-
-    //  for (var addr in values['addresses']) {
-    //   if (addr['country'] != '' || addr['country'] != null) {
-    //     // allCountryBeenFilled = true;
-    //   }
-    // }
-
-
-    CreateClientData data = CreateClientData(
+    CreateEditData data = CreateEditData(
       firstName: firstNameController.text,
       lastName: lastNameController.text,
       mobile: mobileController.text,
@@ -181,72 +216,44 @@ class _NewClientScreenState extends State<NewClientScreen> {
       documents: documents,
       uploadedPhoto: photoController.text,
     );
+    if (widget.client != null) {
+      if (widget.client!.id != null) {
+        data.id = widget.client!.id.toString();
+        UpdateClientEvent updateClientEvent = new UpdateClientEvent(data: data);
+        BlocProvider.of<ClientsBloc>(context, listen: false)
+            .add(updateClientEvent);
+        return;
+      }
+    }
+
     CreateClientEvent createClientEvent = new CreateClientEvent(data: data);
     BlocProvider.of<ClientsBloc>(context, listen: false).add(createClientEvent);
   }
 
   void _newAddresshandler() {
-    if (countryController.text == '') {
-      return;
-    }
-    // Map<String, dynamic> adress = {};
-
-    // List<Map<String, dynamic>> newAdresses = [...values['addresses']];
+    updateAddressValues();
+    clear();
+    List<Map<String, dynamic>> newAdresses = [...values['addresses']];
+    Map<String, dynamic> adress = {};
     // if (newAdresses.length > currentIdx) {
-      // adress['city'] = cityController.text;
-      // adress['street_address'] = streetController.text;
-      // adress['zip_code'] = zipCodeController.text;
-      // adress['state'] = stateController.text;
-      // adress['locality'] = localityController.text;
-      // adress['country'] = countryController.text;
-      // adress['is_default'] = _isDefault;
-      // adress['is_billing'] = _isBilling;
-      // newAdresses.add(adress);
-      // values['addresses'] = newAdresses;
-    //   adress['city'] = '';
-    //   adress['street_address'] = '';
-    //   adress['zip_code'] = '';
-    //   adress['state'] = '';
-    //   adress['locality'] = '';
-    //   adress['country'] = '';
-    //   adress['is_default'] = '';
-    //   adress['is_billing'] = '';
-    //   newAdresses.add(adress);
-    //   values['addresses'] = newAdresses;
-    //   currentIdx++;
-    // } else  if(newAdresses.length == currentIdx){
-    //   values['addresses'][currentIdx]['city'] = cityController.text;
-    //   values['addresses'][currentIdx]['street_address'] = streetController.text;
-    //   values['addresses'][currentIdx]['zip_code'] = zipCodeController.text;
-    //   values['addresses'][currentIdx]['state'] = stateController.text;
-    //   values['addresses'][currentIdx]['locality'] = localityController.text;
-    //   values['addresses'][currentIdx]['country'] = countryController.text;
-    //   values['addresses'][currentIdx]['is_default'] = _isDefault;
-    //   values['addresses'][currentIdx]['is_billing'] = _isBilling;
-    // }
-
-    addresses.add(
-      Addresses(
-        country: countryController.text,
-        streetAddress: streetController.text,
-        city: cityController.text,
-        isDefault: _isDefault,
-        locality: localityController.text,
-        state: stateController.text,
-        zipCode: zipCodeController.text,
-        isBilling: _isBilling,
-      ),
-    );
+    adress['city'] = '';
+    adress['street_address'] = '';
+    adress['zip_code'] = '';
+    adress['state'] = '';
+    adress['locality'] = '';
+    adress['country'] = '';
+    adress['is_default'] = false;
+    adress['is_billing'] = false;
+    newAdresses.add(adress);
     setState(() {
-      countryController.clear();
-      stateController.clear();
-      streetController.clear();
-      cityController.clear();
-      localityController.clear();
-      zipCodeController.clear();
-      _isDefault = false;
-      _isBilling = false;
+      values['addresses'] = newAdresses;
     });
+    setState(() {
+      currentIdx =
+          (values['addresses'] as List<Map<String, dynamic>>).length - 1;
+    });
+
+    // updateAddressValues();
   }
 
   void _newDocumentHandler() {
@@ -269,46 +276,44 @@ class _NewClientScreenState extends State<NewClientScreen> {
   void defaultAddressHandler() {
     setState(() {
       _isDefault = !_isDefault;
+      values['addresses'][currentIdx]['is_default'] =
+          !values['addresses'][currentIdx]['is_default'];
     });
   }
 
   void billingAddressHandler() {
     setState(() {
       _isBilling = !_isBilling;
+      values['addresses'][currentIdx]['is_billing'] =
+          !values['addresses'][currentIdx]['is_billing'];
     });
   }
 
   void nextAddresshandler() {
-    // values['addresses'][currentIdx]['city'] = cityController.text;
-    // values['addresses'][currentIdx]['street_address'] = streetController.text;
-    // values['addresses'][currentIdx]['zip_code'] = zipCodeController.text;
-    // values['addresses'][currentIdx]['state'] = stateController.text;
-    // values['addresses'][currentIdx]['locality'] = localityController.text;
-    // values['addresses'][currentIdx]['country'] = countryController.text;
-    // values['addresses'][currentIdx]['is_default'] = _isDefault;
-    // values['addresses'][currentIdx]['is_billing'] = _isBilling;
+    updateAddressValues();
 
-    // do {
-    //   currentIdx++;
-    // } while (currentIdx <= addresses.length - 1);
+    if ((currentIdx + 1) <=
+        (values['addresses'] as List<Map<String, dynamic>>).length - 1) {
+      setState(() {
+        currentIdx++;
+      });
+    }
+
+    updateFields();
   }
 
   void prevAddresshandler() {
-    // values['addresses'][currentIdx]['city'] = cityController.text;
-    // values['addresses'][currentIdx]['street_address'] = streetController.text;
-    // values['addresses'][currentIdx]['zip_code'] = zipCodeController.text;
-    // values['addresses'][currentIdx]['state'] = stateController.text;
-    // values['addresses'][currentIdx]['locality'] = localityController.text;
-    // values['addresses'][currentIdx]['country'] = countryController.text;
-    // values['addresses'][currentIdx]['is_default'] = _isDefault;
-    // values['addresses'][currentIdx]['is_billing'] = _isBilling;
-    // do {
-    //   currentIdx--;
-    // } while (currentIdx >= 0);
+    updateAddressValues();
+    if (currentIdx - 1 >= 0) {
+      setState(() {
+        currentIdx--;
+      });
+    }
+    updateFields();
   }
 
-  updateCounter() {
-    print(currentStep);
+  void updateCounter() async {
+    // print(currentStep);
     if (currentStep == 0) {
       if (firstNameController.text == '' ||
           lastNameController.text == '' ||
@@ -316,55 +321,95 @@ class _NewClientScreenState extends State<NewClientScreen> {
           emailController.text == '') {
         return;
       }
+      if (widget.client == null) {
+          var currTime = DateTime.now();
+        var timeStamp = currTime.millisecondsSinceEpoch;
+        FetchCurrentLocationEvent fetchLocationEvent =
+            new FetchCurrentLocationEvent(status: timeStamp.toString());
+        BlocProvider.of<LocationBloc>(context, listen: false)
+            .add(fetchLocationEvent);
+      } else {
+        print("id is not null");
+      }
+      setState(
+        () {
+          if (currentStep < 2) {
+            currentStep += 1;
+          }
+        },
+      );
     } else if (currentStep == 1) {
       if (countryController.text != '') {
-        addresses.add(
-          Addresses(
-            country: countryController.text,
-            streetAddress: streetController.text,
-            city: cityController.text,
-            isDefault: _isDefault,
-            locality: localityController.text,
-            state: stateController.text,
-            zipCode: zipCodeController.text,
-            isBilling: _isBilling,
-          ),
-        );
-
-        setState(() {
-          countryController.clear();
-          stateController.clear();
-          streetController.clear();
-          cityController.clear();
-          localityController.clear();
-          zipCodeController.clear();
-          _isDefault = false;
-          _isBilling = false;
-        });
+        updateAddressValues();
+        // clear();
       }
 
-      if (addresses.length == 0) {
+      bool isCountryFilled = false;
+      for (var addr in values['addresses']) {
+        if (addr['country'] != '') {
+          isCountryFilled = true;
+        }
+      }
+      if (isCountryFilled == false) {
+        print("322---has no country information");
         return;
       }
-      // bool allCountryBeenFilled = false;
-      // for (var addr in values['addresses']) {
-      //   if (addr['country'] != '' || addr['country'] != null) {
-      //     allCountryBeenFilled = true;
-      //   }
-      // }
-      // if (!allCountryBeenFilled) {
-      //   return;
-      // }
+      setState(() {
+        currentIdx = 0;
+      });
+      setState(
+        () {
+          if (currentStep < 2) {
+            print("---");
+            currentStep += 1;
+          }
+        },
+      );
     }
-    setState(
-      () {
-        if (currentStep < 2) {
-          currentStep += 1;
-        }
-      },
-    );
   }
 
+  void onFetchSuccessHandler(Placemark place) {
+    print("fetch success handler");
+    if (place != null) {
+      print("place is not null");
+      // setState(() {
+        if (place.subLocality != null) {
+          print("sublocal");
+          values['addresses'][currentIdx]['city'] = place.subLocality;
+          cityController.text = values['addresses'][currentIdx]['city'];
+        }
+
+        if (place.street != null) {
+          print("street");
+          values['addresses'][currentIdx]['street_address'] = place.street;
+          streetController.text =
+              values['addresses'][currentIdx]['street_address'].toString();
+        }
+        if (place.postalCode != null || place.postalCode != '') {
+          print("postal");
+          values['addresses'][currentIdx]['zip_code'] = place.postalCode;
+          zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
+        }
+        if (place.administrativeArea != null ||
+            place.administrativeArea != '') {
+          values['addresses'][currentIdx]['state'] = place.administrativeArea;
+          stateController.text = values['addresses'][currentIdx]['state'];
+        }
+        if (place.locality != null || place.locality != '') {
+          values['addresses'][currentIdx]['locality'] = place.locality;
+          localityController.text = values['addresses'][currentIdx]['locality'];
+        }
+        if (place.country != null || place.country != '') {
+          values['addresses'][currentIdx]['country'] = place.country;
+          countryController.text = values['addresses'][currentIdx]['country'];
+        }
+        values['addresses'][currentIdx]['is_default'] = _isDefault;
+        values['addresses'][currentIdx]['is_billing'] = _isBilling;
+      // });
+    } else {
+      print("place is  null");
+    }
+  }
   void _UploadPhotoHandler() async {
     ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -389,45 +434,121 @@ class _NewClientScreenState extends State<NewClientScreen> {
   }
 
   void navigateToClientScreen(BuildContext context) {
-    FetchClientsEvent fetchClientEvent = new FetchClientsEvent(page: 0);
+    FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.of(context).pop();
+  }
+
+  void updateAddressValues() {
+    setState(() {
+      values['addresses'][currentIdx]['city'] = cityController.text;
+      values['addresses'][currentIdx]['street_address'] = streetController.text;
+      values['addresses'][currentIdx]['zip_code'] = zipCodeController.text;
+      values['addresses'][currentIdx]['state'] = stateController.text;
+      values['addresses'][currentIdx]['locality'] = localityController.text;
+      values['addresses'][currentIdx]['country'] = countryController.text;
+      values['addresses'][currentIdx]['is_default'] = _isDefault;
+      values['addresses'][currentIdx]['is_billing'] = _isBilling;
+    });
+  }
+
+  void clear() {
+    setState(() {
+      countryController.clear();
+      stateController.clear();
+      streetController.clear();
+      cityController.clear();
+      localityController.clear();
+      zipCodeController.clear();
+      _isDefault = false;
+      _isBilling = false;
+      values['addresses'][currentIdx]['is_billing'] = false;
+      values['addresses'][currentIdx]['is_default'] = false;
+    });
+  }
+
+  void updateFields() {
+    // firstNameController.text = values['first_name'];
+    // lastNameController.text = values['last_name'];
+    // mobileController.text = values['mobile'];
+    // emailController.text = values['email'];
+    setState(() {
+      stateController.text = values['addresses'][currentIdx]['state'];
+      cityController.text = values['addresses'][currentIdx]['city'];
+      streetController.text = values['addresses'][currentIdx]['street_address'];
+      zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
+      localityController.text = values['addresses'][currentIdx]['locality'];
+      countryController.text = values['addresses'][currentIdx]['country'];
+      _isBilling = values['addresses'][currentIdx]['is_billing'];
+      _isDefault = values['addresses'][currentIdx]['is_default'];
+    });
   }
 
   late BuildContext widgetContext;
   @override
   Widget build(BuildContext context) {
+    if (!isInitialized) {
+      initialize();
+      print("---isInitialiezed ${isInitialized}");
+    }
     widgetContext = context;
+    late Widget title;
+    late String progresstitle;
+    if (this.widget.client != null) {
+      if (this.widget.client!.id != null) {
+        title = Text('Update Client');
+        progresstitle = 'Updating';
+      } else {
+        title = Text('Create Client');
+        progresstitle = 'Creating';
+      }
+    } else {
+      title = Text('Create Client');
+      progresstitle = 'Creating';
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Create Client',
-        ),
+        title: title,
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            ///
+            FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
+            BlocProvider.of<ClientsBloc>(context, listen: false)
+                .add(fetchClientEvent);
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: ProgressHUD(
         child: BlocConsumer<ClientsBloc, ClientsState>(
           listener: (context, state) {
             final progress = ProgressHUD.of(context);
-            print(state.toString());
-            if (state is ClientCreatingState) {
+            // print(state.toString());
+            if (state is ClientCreatingState || state is ClientUpdatingState) {
               if (!isShowing) {
                 if (progress != null) {
                   setState(() {
                     isShowing = true;
                   });
 
-                  progress.showWithText('Creating Client');
+                  progress.showWithText(progresstitle);
                 }
               }
-            } else if (state is ClientCreateSuccesstate) {
+            } else if (state is ClientCreateSuccesstate ||
+                state is ClientUpdateSuccesstate) {
               // if (isShowing) {
-              print("---success");
+              // print("---success");
 
               if (progress != null) {
-                // setState(() {
-                //   isShowing = false;
-                // });
+                setState(() {
+                  isShowing = false;
+                });
                 progress.dismiss();
               }
               navigateToClientScreen(widgetContext);
@@ -435,19 +556,35 @@ class _NewClientScreenState extends State<NewClientScreen> {
               // Navigator.of(context).pop();
             } else if (state is ClientCreateFailedState) {
               // if (isShowing) {
+              setState(() {
+                isShowing = false;
+              });
               if (progress != null) {
-                //     setState(() {
-                //       isShowing = false;
-                //     });
                 progress.dismiss();
                 //     // progress.dispose();
               }
-              // }
+
               AwesomeDialog(
                 context: context,
                 dialogType: DialogType.ERROR,
                 animType: AnimType.BOTTOMSLIDE,
                 title: 'Client Create Fail',
+                desc: '${state.message}',
+                btnCancelOnPress: () {},
+                btnOkOnPress: () {},
+              )..show();
+            } else if (state is ClientUpdateFailedState) {
+              setState(() {
+                isShowing = false;
+              });
+              if (progress != null) {
+                progress.dismiss();
+              }
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.ERROR,
+                animType: AnimType.BOTTOMSLIDE,
+                title: 'Update Client Fail',
                 desc: '${state.message}',
                 btnCancelOnPress: () {},
                 btnOkOnPress: () {},
@@ -528,7 +665,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
           textInput: [
             CustomTextField(
               textFieldName: 'First Name',
-              // initialValue: values['first_name'],
+              initialValue: values['first_name'],
               controller: firstNameController,
               validator: (value) => LengthValidator(value, 1),
               obsecureText: false,
@@ -536,7 +673,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             ),
             CustomTextField(
               textFieldName: 'Last Name',
-              // initialValue: values['last_name'],
+              initialValue: values['last_name'],
               controller: lastNameController,
               validator: (value) => LengthValidator(value, 1),
               obsecureText: false,
@@ -544,7 +681,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             ),
             CustomTextField(
               textFieldName: 'Mobile',
-              // initialValue: values['mobile'],
+              initialValue: values['mobile'],
               controller: mobileController,
               validator: (value) => Validatephone(value),
               obsecureText: false,
@@ -552,7 +689,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             ),
             CustomTextField(
               textFieldName: 'Email',
-              // initialValue: values['email'],
+              initialValue: values['email'],
               controller: emailController,
               validator: (value) => validateEmail(value),
               obsecureText: false,
@@ -575,27 +712,29 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         Shipping(
-          // nextAddressHandler: nextAddresshandler,
-          // prevAdressHandler: prevAddresshandler,
+          nextAddressHandler: nextAddresshandler,
+          prevAdressHandler: prevAddresshandler,
           onAddNewPressed: _newAddresshandler,
+          onCurrrentAddressFetchSuccessState: onFetchSuccessHandler,
           onDefaultAddressPressed: defaultAddressHandler,
           onBillingAddressPressed: billingAddressHandler,
-          // isBilling: values['addresses'][currentIdx]['is_default'],
-          // isDefault: values['addresses'][currentIdx]['is_billing'],
-          isDefault: _isDefault,
-          isBilling: _isBilling,
+          isBilling: values['addresses'][currentIdx]['is_billing'],
+          isDefault: values['addresses'][currentIdx]['is_default'],
+          isCreating: (widget.client == null),
+          // isDefault: _isDefault,
+          // isBilling: _isBilling,
           textInput: [
             CustomTextField(
               textFieldName: 'Shipping Address',
               controller: shipAddrController,
-              // initialValue: '',
+              initialValue: '',
               validator: (value) {},
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
               textFieldName: 'Street',
-              // initialValue: values['addresses'][currentIdx]['street_address'],
+              initialValue: values['addresses'][currentIdx]['street_address'],
               controller: streetController,
               validator: (value) {},
               obsecureText: false,
@@ -604,7 +743,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             CustomTextField(
               textFieldName: 'Zip Code',
               controller: zipCodeController,
-              // initialValue: values['addresses'][currentIdx]['zip_code'],
+              initialValue: values['addresses'][currentIdx]['zip_code'],
               validator: (value) {},
               obsecureText: false,
               isRequired: false,
@@ -612,7 +751,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
             CustomTextField(
               textFieldName: 'Locality',
               controller: localityController,
-              // initialValue: values['addresses'][currentIdx]['locality'],
+              initialValue: values['addresses'][currentIdx]['locality'],
               validator: (value) {},
               obsecureText: false,
               isRequired: true,
@@ -620,21 +759,21 @@ class _NewClientScreenState extends State<NewClientScreen> {
             CustomTextField(
               textFieldName: 'City',
               controller: cityController,
-              // initialValue: values['addresses'][currentIdx]['city'],
+              initialValue: values['addresses'][currentIdx]['city'],
               validator: (value) {},
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
               textFieldName: 'State',
-              // initialValue: values['addresses'][currentIdx]['state'],
+              initialValue: values['addresses'][currentIdx]['state'],
               controller: stateController,
               validator: (value) {},
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
-              // initialValue: values['addresses'][currentIdx]['country'],
+              initialValue: values['addresses'][currentIdx]['country'],
               textFieldName: 'Country',
               controller: countryController,
               validator: (value) {},
@@ -656,7 +795,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
         Documents(
           onAddNewPressed: _newDocumentHandler,
           documentNameField: CustomTextField(
-            // initialValue: '',
+            initialValue: '',
             textFieldName: 'Document Name',
             controller: documentNameController,
             validator: (value) {},
@@ -681,4 +820,5 @@ class _NewClientScreenState extends State<NewClientScreen> {
       ),
     ];
   }
+
 }
