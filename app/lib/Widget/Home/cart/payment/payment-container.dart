@@ -42,7 +42,24 @@ class PaymentContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-                PaymentFieldContainer()
+                PaymentFieldContainer(
+                  hintName: 'Pay Now',
+                ),
+                PaymentFieldContainer(
+                  hintName: 'Method',
+                ),
+                PaymentFieldContainer(
+                  hintName: 'Type  of Wallet',
+                ),
+                PaymentFieldContainer(
+                  hintName: 'Transaction Id',
+                ),
+                PaymentFieldContainer(
+                  hintName: 'Paid Amount',
+                ),
+                PaymentFieldContainer(
+                  hintName: 'Remaining Amount',
+                ),
               ],
             ),
           )),
