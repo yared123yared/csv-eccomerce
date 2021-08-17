@@ -15,13 +15,10 @@ import 'client-item.dart';
 
 class ClientsDisplay extends StatefulWidget {
   static const routeName = 'client_screen';
+
   // final LoggedUserInfo user;
   // final GlobalKey<ScaffoldState> scaffoldKey;
-  ClientsDisplay(
-//  {
-//     required this.scaffoldKey,
-//   }
-      );
+
   // const ClientsScreen({
   //   required this.user,
   // });

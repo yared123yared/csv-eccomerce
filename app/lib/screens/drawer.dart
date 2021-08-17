@@ -34,7 +34,7 @@ class _AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
-  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore:false);
+  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
 
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
@@ -274,7 +274,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                             : CircleAvatar(
                                                 radius: 50.0,
                                                 backgroundImage: NetworkImage(
-                                                    state.user.user!.photo!),
+                                                    'https://csv.jithvar.com/storage/${state.user.user!.photo!.filePath.toString()}'),
                                               ),
                                         Text(
                                           'Crm Admistratora',

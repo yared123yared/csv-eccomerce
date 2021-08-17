@@ -1,8 +1,10 @@
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
 import 'package:app/Widget/Home/cart/add-client/Price-info.dart';
+import 'package:app/Widget/Home/cart/add-client/next-button.dart';
 import 'package:app/Widget/Home/cart/add-client/upper-container.dart';
 import 'package:app/Widget/Home/cart/checkout-button.dart';
+import 'package:app/Widget/Home/cart/payment/payment-container.dart';
 import 'package:app/Widget/Home/cart/product-price-info.dart';
 import 'package:app/Widget/Home/cart/single-cart-item.dart';
 import 'package:app/logic/cart_logic.dart';
@@ -18,21 +20,39 @@ class AddClient extends StatelessWidget {
         appBar: AppBar(title: Text("Add Client")),
         // bottomNavigationBar: ,
         backgroundColor: Theme.of(context).accentColor,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              UpperContainer(),
-              //
-              BlocBuilder<CartBloc, CartState>(
-                builder: (context, state) {
-                  return ClientInfo(
-                    products: state.cartProducts,
-                  );
-                },
-              )
-              // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            ],
-          ),
+        body: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.82,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    UpperContainer(),
+                    //
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
+
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.22,
+                      child: BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          return ClientInfo(
+                            products: state.cartProducts,
+                          );
+                        },
+                      ),
+                    ),
+
+                    PaymentContainer()
+
+                    // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                  ],
+                ),
+              ),
+            ),
+            NextButton()
+          ],
         ));
   }
 

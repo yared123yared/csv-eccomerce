@@ -1,3 +1,4 @@
+import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
@@ -141,12 +142,16 @@ class App extends StatelessWidget {
           ),
           BlocProvider<OrdersBloc>(
               create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+          //
+          BlocProvider<AddClientBloc>(create: (_) => AddClientBloc()),
+          //
           BlocProvider<LocationBloc>(
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),
           ),
           BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(userPreferences) ..postSalesReport(
+            create: (BuildContext context) => ReportCubit(userPreferences)
+              ..postSalesReport(
                 nameSearch: "",
                 dateFrom: "",
               ),
