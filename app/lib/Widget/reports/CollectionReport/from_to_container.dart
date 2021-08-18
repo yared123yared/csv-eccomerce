@@ -49,11 +49,11 @@ class FromToContainerColle extends StatelessWidget {
                     TextButton.icon(
                       onPressed: () {
                         cubit.selectFormTimePicker(context);
-                        // cubit.postSalesReport(
-                        //   nameSearch: "",
-                        //   dateFrom: cubit.dateForm.toString(),
-                        //   dataTo: cubit.dateTo.toString(),
-                        // );
+                        cubit.postCollectionReport(
+                          nameSearch: "",
+                          dateFrom: cubit.dateForm.toString(),
+                          dateTo: cubit.dateTo.toString(),
+                        );
                       },
                       icon: Image.asset(
                         'assets/images/date.png',
@@ -104,11 +104,11 @@ class FromToContainerColle extends StatelessWidget {
                     TextButton.icon(
                       onPressed: () {
                         cubit.selectToTimePicker(context);
-                        // cubit.postSalesReport(
-                        //   nameSearch: "",
-                        //   dateFrom: cubit.dateForm.toString(),
-                        //   dataTo: cubit.dateTo.toString(),
-                        // );
+                        cubit.postCollectionReport(
+                          nameSearch: "",
+                          dateFrom: cubit.dateForm.toString(),
+                          dateTo: cubit.dateTo.toString(),
+                        );
                       },
                       icon: Image.asset(
                         'assets/images/date.png',

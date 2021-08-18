@@ -10,3 +10,6 @@ class SelectToTimePickerCollState extends CollectionReportState {}
 class SearchLoadingCollState extends CollectionReportState {}
 
 class FeatchDataSucessCollState extends CollectionReportState {}
+
+
+class ClearAllCollButtonState extends CollectionReportState {}

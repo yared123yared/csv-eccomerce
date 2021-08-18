@@ -10,9 +10,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SalesReportCubit extends Cubit<SalesReportState> {
   final UserPreferences userPreferences;
-  SalesReportCubit(this.userPreferences) : super(ReportInitialState());
+  SalesReportCubit(
+    this.userPreferences,
+  ) : super(ReportInitialState());
 
   static SalesReportCubit get(BuildContext context) => BlocProvider.of(context);
+
+  //Date Time New
 
   // DateTime
 
@@ -82,6 +86,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
     postSalesReport(
       dateFrom: "",
       nameSearch: "",
+      dataTo: "",
     );
 
     emit(ClearAllButtonState());
@@ -92,6 +97,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
   Future postSalesReport({
     required String nameSearch,
     required String dateFrom,
+    required String dataTo,
   }) async {
     String? token = await this.userPreferences.getUserToken();
     emit(SearchLoadingState());
@@ -117,14 +123,14 @@ class SalesReportCubit extends Cubit<SalesReportState> {
             "length": 10,
             "column": 0,
             "dir": "desc",
-            "created_at": dateFrom,
+            "created_at": "",
             "order_number": "",
             "name": nameSearch,
             "total": "",
             "amount_remaining": "",
             "amount_paid": "",
-            "to": "",
-            "from": ""
+            "to": dataTo,
+            "from": dateFrom
           }));
       if (response.statusCode == 200) {
         isComeData = true;
@@ -147,40 +153,6 @@ class SalesReportCubit extends Cubit<SalesReportState> {
     emit(FeatchDataSucessState());
   }
 
-  // Infinite Scrolling Pagination code
+  // Infinite Scrolling Pagination code Lazy
 
-  // final ScrollController scrollController = ScrollController();
-  // List<String> items = [];
-  // bool loading = false;
-  // bool allLoaded = false;
-
-  // mockFetch() async {
-  //   if (allLoaded) {
-  //     return;
-  //   }
-
-  //   loading = true;
-
-  //   await Future.delayed(Duration(milliseconds: 500));
-  //   List<String> newData = items.length >= 200
-  //       ? []
-  //       : List.generate(20, (index) => "List Walid ${index + items.length}");
-  //   if (newData.isNotEmpty) {
-  //     items.addAll(newData);
-  //   }
-
-  //   loading = false;
-  //   allLoaded = newData.isEmpty;
-  //   emit(pagintionLoadingState());
-  // }
-
-  // scrollcont() {
-  //   scrollController.addListener(() {
-  //     if (scrollController.position.pixels >=
-  //             scrollController.position.maxScrollExtent &&
-  //         !loading) {
-  //       mockFetch();
-  //     }
-  //   });
-  // }
 }

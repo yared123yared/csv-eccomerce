@@ -27,6 +27,7 @@ class SearchContainer extends StatelessWidget {
                     cubit.postSalesReport(
                       nameSearch: value,
                       dateFrom: "",
+                      dataTo: "",
                     );
                     // if (value == cubit.searchController.text) {}
                   },
@@ -37,6 +38,8 @@ class SearchContainer extends StatelessWidget {
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
+                        cubit.postSalesReport(
+                            nameSearch: "", dateFrom: "", dataTo: "");
                       },
                       icon: Icon(Icons.close),
                     ),
@@ -45,31 +48,6 @@ class SearchContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // child: TextField(
-                //   controller: cubit.searchController,
-                //   decoration: InputDecoration(
-                //     prefixIcon: IconButton(
-                //       onPressed: () {},
-                //       icon: Icon(
-                //         Icons.search,
-                //         color: Colors.grey,
-                //         size: 35,
-                //       ),
-                //     ),
-                //     border: InputBorder.none,
-                //     hintText: "Search by Date,Name,Name order",
-                //     hintStyle: const TextStyle(
-                //       fontSize: 16,
-                //       color: Colors.black45,
-                //     ),
-                //     enabledBorder: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(40),
-                //       borderSide:
-                //           const BorderSide(color: Color(0xffd2dfea), width: 1),
-                //     ),
-                //   ),
-                // ),
               ),
             ),
           ],

@@ -1,3 +1,5 @@
+import 'package:app/models/repoets_model/sales_report_models.dart';
+
 abstract class SalesReportState {}
 
 class ReportInitialState extends SalesReportState {}
@@ -22,5 +24,7 @@ class FeatchDataErrorState extends SalesReportState {
   FeatchDataErrorState(this.error);
 }
 
-
 class SearchLoadingState extends SalesReportState {}
+
+
+

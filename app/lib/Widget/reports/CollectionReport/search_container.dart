@@ -23,12 +23,11 @@ class SearchContainerColl extends StatelessWidget {
                 controller: cubit.searchController,
                 keyboardType: TextInputType.text,
                 onFieldSubmitted: (String value) {
-                  // cubit.postSalesReport(
-                  //   nameSearch: value,
-                  //   dateFrom: "",
-                  //   dataTo: "",
-                  // );
-                  // if (value == cubit.searchController.text) {}
+                  cubit.postCollectionReport(
+                    nameSearch: value,
+                    dateFrom: "",
+                    dateTo: "",
+                  );
                 },
                 onChanged: (String value) {},
                 decoration: InputDecoration(
@@ -37,6 +36,11 @@ class SearchContainerColl extends StatelessWidget {
                   suffixIcon: IconButton(
                     onPressed: () {
                       cubit.searchController.clear();
+                      cubit.postCollectionReport(
+                        dateFrom: "",
+                        dateTo: "",
+                        nameSearch: "",
+                      );
                     },
                     icon: Icon(Icons.close),
                   ),
@@ -45,31 +49,6 @@ class SearchContainerColl extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // child: TextField(
-              //   controller: cubit.searchController,
-              //   decoration: InputDecoration(
-              //     prefixIcon: IconButton(
-              //       onPressed: () {},
-              //       icon: Icon(
-              //         Icons.search,
-              //         color: Colors.grey,
-              //         size: 35,
-              //       ),
-              //     ),
-              //     border: InputBorder.none,
-              //     hintText: "Search by Date,Name,Name order",
-              //     hintStyle: const TextStyle(
-              //       fontSize: 16,
-              //       color: Colors.black45,
-              //     ),
-              //     enabledBorder: OutlineInputBorder(
-              //       borderRadius: BorderRadius.circular(40),
-              //       borderSide:
-              //           const BorderSide(color: Color(0xffd2dfea), width: 1),
-              //     ),
-              //   ),
-              // ),
             ),
           ),
         ],

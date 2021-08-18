@@ -1,5 +1,6 @@
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_state.dart';
+import 'package:app/Widget/reports/CollectionReport/data_container.dart';
 import 'package:app/Widget/reports/CollectionReport/from_to_container.dart';
 import 'package:app/Widget/reports/CollectionReport/search_container.dart';
 import 'package:app/constants/constants.dart';
@@ -15,6 +16,7 @@ class CollectionReportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CollectionReportCubit, CollectionReportState>(
       builder: (context, state) {
+        final cubit = CollectionReportCubit.get(context);
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -54,7 +56,7 @@ class CollectionReportScreen extends StatelessWidget {
                       shape: const StadiumBorder(),
                     ),
                     onPressed: () {
-                      //cubit.clearAll();
+                      cubit.clearAll();
                     },
                     child: const Text(
                       "Clear",
@@ -82,7 +84,18 @@ class CollectionReportScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              //data hererere
+              cubit.isComeData
+                  ? Expanded(
+                      child: DataContainerColl(),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.height * 0.51,
+                      child: Center(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(

@@ -5,7 +5,7 @@ class CollectionReportModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(new DataCollection.fromJson(v));
+        data?.add(DataCollection.fromJson(v));
       });
     }
   }
@@ -29,29 +29,29 @@ class DataCollection {
     paymentMethod = json['payment_method'];
     orderId = json['order_id'];
     status = json['status'];
-    order = json['order'] != null ? new Order.fromJson(json['order']) : null;
+    order = json['order'] != null ? Order.fromJson(json['order']) : null;
   }
 }
 
 class Order {
-  late int id;
-  late String orderNumber;
-  late String total;
-  late String paymentWhen;
-  late String paymentMethod;
-  late String typeOfWallet;
-  late String transactionId;
-  late String amountPaid;
-  late String amountRemaining;
-  late String status;
-  late int requiresApproval;
-  late int addressId;
-  late int clientId;
-  late int companyId;
-  late int createdBy;
-  late int updatedBy;
-  late String createdAt;
-  late String updatedAt;
+  int? id;
+  String? orderNumber;
+  String? total;
+  String? paymentWhen;
+  String? paymentMethod;
+  String? typeOfWallet;
+  String? transactionId;
+  String? amountPaid;
+  String? amountRemaining;
+  String? status;
+  int? requiresApproval;
+  int? addressId;
+  int? clientId;
+  int? companyId;
+  int? createdBy;
+  int? updatedBy;
+  String? createdAt;
+  String? updatedAt;
   Client? client;
 
   Order.fromJson(Map<String, dynamic> json) {
@@ -79,12 +79,12 @@ class Order {
 }
 
 class Client {
-  late int id;
-  late String firstName;
-  late String lastName;
-  late String mobile;
-  late String email;
-  late int debts;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? mobile;
+  String? email;
+  int? debts;
   List<Orders>? orders;
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -104,24 +104,24 @@ class Client {
 }
 
 class Orders {
-  late int id;
-  late String orderNumber;
-  late String total;
-  late String paymentWhen;
-  late String paymentMethod;
-  late String typeOfWallet;
-  late String transactionId;
-  late String amountPaid;
-  late String amountRemaining;
-  late String status;
-  late int requiresApproval;
-  late int addressId;
-  late int clientId;
-  late int companyId;
-  late int createdBy;
-  late int updatedBy;
-  late String createdAt;
-  late String updatedAt;
+  int? id;
+  String? orderNumber;
+  String? total;
+  String? paymentWhen;
+  String? paymentMethod;
+  String? typeOfWallet;
+  String? transactionId;
+  String? amountPaid;
+  String? amountRemaining;
+  String? status;
+  int? requiresApproval;
+  int? addressId;
+  int? clientId;
+  int? companyId;
+  int? createdBy;
+  int? updatedBy;
+  String? createdAt;
+  String? updatedAt;
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];

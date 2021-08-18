@@ -67,6 +67,23 @@ class CollectionReportCubit extends Cubit<CollectionReportState> {
     emit(SelectToTimePickerCollState());
   }
 
+  //clear
+
+  void clearAll() {
+    isFormDate = false;
+    isToDate = false;
+    searchController.clear();
+    isComeData = false;
+
+    postCollectionReport(
+      nameSearch: "",
+      dateFrom: "",
+      dateTo: "",
+    );
+
+    emit(ClearAllCollButtonState());
+  }
+
   ////FetchData Here From Post Api and All Controller
 
   TextEditingController searchController = TextEditingController();
@@ -77,6 +94,7 @@ class CollectionReportCubit extends Cubit<CollectionReportState> {
 
   Future postCollectionReport({
     required String nameSearch,
+    required String dateTo,
     required String dateFrom,
   }) async {
     String? token = await this.userPreferences.getUserToken();
@@ -106,10 +124,10 @@ class CollectionReportCubit extends Cubit<CollectionReportState> {
             "column": 0,
             "dir": "desc",
             "created_at": "",
-            "name": "",
+            "name": nameSearch,
             "amount_paid": "",
-            "to": "",
-            "from": "",
+            "to": dateTo,
+            "from": dateFrom,
             "orderNumber": "",
             "payment_method": "",
             "status": ""
@@ -123,7 +141,7 @@ class CollectionReportCubit extends Cubit<CollectionReportState> {
         final data = extractedData['collections'];
 
         collectionReportModel = CollectionReportModel.fromJson(data);
-        print("Walid : ${collectionReportModel.data![0].createdAt}");
+        print("Walid : ${collectionReportModel.data![0].order!.addressId}");
       } else {
         isComeData = false;
         throw Exception('Failed to load courses');

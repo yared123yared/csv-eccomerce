@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
+import 'Blocs/reports/CustomerDebt/customer_cubit.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
@@ -147,15 +148,25 @@ class App extends StatelessWidget {
                 LocationBloc(locationRepository: this.locationRepository),
           ),
           BlocProvider<SalesReportCubit>(
-            create: (BuildContext context) => SalesReportCubit(userPreferences)
-              ..postSalesReport(
-                nameSearch: "",
-                dateFrom: "",
-              ),
-          ),
+              create: (BuildContext context) =>
+                  SalesReportCubit(userPreferences)
+                    ..postSalesReport(
+                      nameSearch: "",
+                      dateFrom: "",
+                      dataTo: "",
+                    )),
           BlocProvider<CollectionReportCubit>(
             create: (BuildContext context) =>
-                CollectionReportCubit(userPreferences)..postCollectionReport,
+                CollectionReportCubit(userPreferences)
+                  ..postCollectionReport(
+                    nameSearch: "",
+                    dateFrom: "",
+                    dateTo: "",
+                  ),
+          ),
+          BlocProvider<CustomerDebtCubit>(
+            create: (_) => CustomerDebtCubit(userPreferences)
+              ..postCustomReport(searchClientName: ""),
           ),
         ],
         child: MaterialApp(
