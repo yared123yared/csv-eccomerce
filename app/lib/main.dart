@@ -25,6 +25,8 @@ import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
@@ -147,6 +149,7 @@ class App extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'CSV',
+          debugShowCheckedModeBanner:false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: Color(0xFF015777),

@@ -132,6 +132,8 @@ class Client {
   int? debts;
   List<Orders>? orders;
   List<Addresses>? addresses;
+  List<Docs>? documents;
+  bool? isLocal = false;
   Client({
     this.id,
     this.firstName,
@@ -151,6 +153,8 @@ class Client {
     this.debts,
     this.orders,
     this.addresses,
+    this.documents,
+    this.isLocal,
   });
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -181,6 +185,12 @@ class Client {
         addresses = [];
         json['addresses'].forEach((v) {
           addresses!.add(new Addresses.fromJson(v));
+        });
+      }
+      if (json['documents'] != null) {
+        addresses = [];
+        json['documents'].forEach((v) {
+          documents!.add(new Docs.fromJson(v));
         });
       }
     } catch (e) {
@@ -371,15 +381,31 @@ class Links {
   }
 }
 
+class ClientFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, firstname, lastname, mobile, email, uploadedPhoto, type
+  ];
+
+  static final String id = '_id';
+  static final String firstname = 'firstname';
+  static final String lastname = 'lastname';
+  static final String mobile = 'mobile';
+  static final String email = 'email';
+  static final String uploadedPhoto = 'uploaded_photo';
+  static final String type = 'type';
+}
+
 class CreateEditData {
   String? id;
-  String firstName;
-  String lastName;
-  String mobile;
-  String email;
-  List<Addresses> addresses;
-  List<Docs>? documents;
+  late String firstName;
+  late String lastName;
+  late String mobile;
+  late String email;
+  late List<Addresses> addresses;
+  late List<Docs>? documents;
   String? uploadedPhoto;
+  String? type;
   CreateEditData({
     this.id,
     required this.firstName,
@@ -389,11 +415,89 @@ class CreateEditData {
     required this.addresses,
     this.documents,
     this.uploadedPhoto,
+    this.type,
   });
+
+  CreateEditData copy({
+    String? id,
+    String? firstname,
+    String? lastname,
+    String? mobile,
+    String? email,
+    String? uploadedPhoto,
+    String? type,
+  }) =>
+      CreateEditData(
+        id: id ?? this.id,
+        firstName: firstname ?? this.firstName,
+        lastName: lastname ?? this.lastName,
+        mobile: mobile ?? this.mobile,
+        email: email ?? this.email,
+        uploadedPhoto: uploadedPhoto ?? this.uploadedPhoto,
+        addresses: this.addresses,
+        documents: this.documents,
+        type: this.type,
+      );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    // if (this.type == 'CREATE') {
+      data['_id'] = this.id;
+    // } else {
+    //   data['id'] = this.id;
+    // }
+    data['firstname'] = this.firstName;
+    data['lastname'] = this.lastName;
+    data['mobile'] = this.mobile;
+    data['email'] = this.email;
+    data['uploaded_photo'] = this.uploadedPhoto;
+    data['type'] = this.type;
+    return data;
+  }
+
+  CreateEditData.fromJson(Map<String, dynamic> json) {
+    id = json['_id'].toString();
+    firstName = json['firstname'];
+    lastName = json['lastname'];
+    email = json['email'];
+    mobile = json['mobile'];
+    uploadedPhoto = json['uploaded_photo'];
+    type = json['type'];
+    addresses = [];
+    documents = [];
+  }
+}
+
+class AddressFields {
+  static final List<String> values = [
+    id,
+    clientId,
+    streetAddress,
+    zipCode,
+    locality,
+    city,
+    state,
+    country,
+    isDefault,
+    isBilling,
+    companyId,
+  ];
+
+  static final String id = '_id';
+  static final String clientId = 'client_id';
+  static final String streetAddress = 'street_address';
+  static final String zipCode = 'zip_code';
+  static final String locality = 'locality';
+  static final String city = 'city';
+  static final String state = 'state';
+  static final String country = 'country';
+  static final String isDefault = 'is_default';
+  static final String isBilling = 'is_billing';
+  static final String companyId = 'company_id';
 }
 
 class Addresses {
   String? id;
+  String? clientID;
   String? streetAddress;
   String? zipCode;
   String? locality;
@@ -406,6 +510,7 @@ class Addresses {
 
   Addresses({
     this.id,
+    this.clientID,
     this.streetAddress,
     this.zipCode,
     this.locality,
@@ -419,7 +524,7 @@ class Addresses {
 
   Addresses.fromJson(Map<String, dynamic> json) {
     try {
-      id = json['id'].toString();
+      id = json['_id'].toString();
       streetAddress = json['street_address'];
       zipCode = json['zip_code'];
       locality = json['locality'];
@@ -434,10 +539,27 @@ class Addresses {
       print(e.toString());
     }
   }
-
+  Addresses.fromSqliteJson(Map<String, dynamic> json) {
+    try {
+      id = json['_id']?.toString();
+      clientID = json['client_id']?.toString();
+      streetAddress = json['street_address'];
+      zipCode = json['zip_code'];
+      locality = json['locality'];
+      city = json['city'];
+      state = json['state'];
+      country = json['country'];
+      isDefault = json['is_default'] == 1 ? true : false;
+      isBilling = json['is_billing'] == 1 ? true : false;
+      companyId = json['company_id']?.toString();
+    } catch (e) {
+      print("adreses---");
+      print(e.toString());
+    }
+  }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['_id'] = this.id;
     data['street_address'] = this.streetAddress;
     data['zip_code'] = this.zipCode;
     data['locality'] = this.locality;
@@ -449,15 +571,83 @@ class Addresses {
     data['company_id'] = this.companyId;
     return data;
   }
+
+  Map<String, dynamic> toSqliteJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.id != null) {
+      data['_id'] = int.parse(this.id.toString());
+    }
+    data['client_id'] = int.parse(this.clientID.toString());
+    data['street_address'] = this.streetAddress;
+    data['zip_code'] = this.zipCode;
+    data['locality'] = this.locality;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['country'] = this.country;
+    if (this.isDefault != null) {
+      data['is_default'] = this.isDefault! ? 1 : 0;
+    } else {
+      data['is_default'] = 0;
+    }
+    if (this.isBilling != null) {
+      data['is_billing'] = this.isBilling! ? 1 : 0;
+    } else {
+      data['is_billing'] = 0;
+    }
+    data['company_id'] = this.companyId;
+    return data;
+  }
 }
 
 class Docs {
-  String name;
-  String path;
+  String? id;
+  late String name;
+  late String path;
+  String? clientID;
   Docs({
+    this.id,
     required this.name,
     required this.path,
+    this.clientID,
   });
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.id != null) {
+      data['_id'] = int.parse(this.id.toString());
+    }
+    data['name'] = this.name;
+    data['path'] = this.path;
+    if (this.clientID != null) {
+      data['client_id'] = this.clientID;
+    }
+    return data;
+  }
+
+  Docs.fromJson(Map<String, dynamic> json) {
+    id = json['_id'].toString();
+    name = json['name'];
+    path = json['path'];
+    clientID = json['client_id'];
+    // try {
+
+    // } catch (e) {
+    //   print("adreses---");
+    //   print(e.toString());
+    // }
+  }
+}
+
+class DocFields {
+  static final List<String> values = [
+    id,
+    name,
+    path,
+    clientId,
+  ];
+  static final String clientId = 'client_id';
+  static final String name = 'name';
+  static final String path = 'path';
+  static final String id = '_id';
 }
 
 class SearchClientData {

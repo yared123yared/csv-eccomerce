@@ -27,6 +27,5 @@ class ClientsRepository {
 
   Future<Client?> updateClient(CreateEditData data) async {
     return await clientsDataProvider.updateClient(data);
-
   }
 }
