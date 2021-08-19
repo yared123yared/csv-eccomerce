@@ -16,6 +16,7 @@ class AddClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartLogic cartLogic = new CartLogic(products: []);
+    ScrollController _scrollController = ScrollController();
     return Scaffold(
         appBar: AppBar(title: Text("Add Client")),
         // bottomNavigationBar: ,
@@ -25,6 +26,7 @@ class AddClient extends StatelessWidget {
             Container(
               height: MediaQuery.of(context).size.height * 0.82,
               child: SingleChildScrollView(
+                controller: _scrollController,
                 child: Column(
                   children: [
                     UpperContainer(),
@@ -43,6 +45,14 @@ class AddClient extends StatelessWidget {
                         },
                       ),
                     ),
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       _scrollController.animateTo(
+                    //           _scrollController.position.maxScrollExtent,
+                    //           duration: Duration(milliseconds: 500),
+                    //           curve: Curves.ease);
+                    //     },
+                    //     child: Text("test")),
 
                     PaymentContainer()
 
@@ -51,7 +61,14 @@ class AddClient extends StatelessWidget {
                 ),
               ),
             ),
-            NextButton()
+            NextButton(
+              onPressed: () {
+                _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.ease);
+              },
+            )
           ],
         ));
   }
