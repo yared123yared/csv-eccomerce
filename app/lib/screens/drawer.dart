@@ -6,12 +6,15 @@ import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/login.dart';
 import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/orders_screen/all_orders_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'orders_screen/ordersb_byDebt_screen.dart';
 
 // import 'home_screen.dart';
 
@@ -34,7 +37,7 @@ class _AppDrawerState extends State<AppDrawer> {
     super.initState();
   }
 
-  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore:false);
+  FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
 
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
@@ -175,10 +178,14 @@ class _AppDrawerState extends State<AppDrawer> {
                               DrawerExpansionTile(
                                 'Orders',
                                 [
-                                  //ExapandedListItem('Sales Report', () {}),
-                                  //ExapandedListItem('Collection Report', () {}),
-                                  ExapandedListItem('Order by debt', () {}),
-                                  //ExapandedListItem('Customer by debt', () {}),
+                                  ExapandedListItem('All Orders', () {
+                                    Navigator.of(context)
+                                        .pushNamed(AllOrdersScreen.routeName);
+                                  }),
+                                  ExapandedListItem('Orders By Debt', () {
+                                    Navigator.of(context).pushNamed(
+                                        OrdersByDebtScreen.routeName);
+                                  }),
                                 ],
                                 4,
                                 Icons.shopping_bag,

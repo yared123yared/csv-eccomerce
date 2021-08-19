@@ -48,85 +48,105 @@ class CustomerByDebtScreen extends StatelessWidget {
                 child: SearchCustomerDebt(),
               ),
               SizedBox(
-                height: 30,
+                height: 5,
               ),
-              Text(
-                "Showing 1 to 5 of 5 entries",
-                style: TextStyle(
-                  color: Colors.black45,
-                ),
+              SizedBox(
+                height: 25,
               ),
+              cubit.isComeData
+                  ? Text(
+                      "Showing 1 to 5 of ${cubit.customReportModel.total} entries",
+                      style: TextStyle(
+                        color: Colors.black45,
+                      ),
+                    )
+                  : Text(
+                      "Showing 1 to 5 of 5 entries",
+                      style: TextStyle(
+                        color: Colors.black45,
+                      ),
+                    ),
               SizedBox(
                 height: 30,
               ),
-              cubit.isComeData
-                  ? Column(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: MediaQuery.of(context).size.width * .94,
-                          decoration: BoxDecoration(
-                            color: Color(0xffd9d9d9),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30.0),
-                                topRight: Radius.circular(30.0)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "CLIENT",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  "TOTAL",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+              Column(
+                children: [
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width * .94,
+                    decoration: BoxDecoration(
+                      color: Color(0xffd9d9d9),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "CLIENT",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
                             ),
                           ),
-                        ),
-                        Container(
-                          height: 180,
-                          width: MediaQuery.of(context).size.width * .94,
-                          decoration: BoxDecoration(
-                            color: Color(0xffffffff),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(30.0),
-                                bottomLeft: Radius.circular(30.0)),
+                          Text(
+                            "TOTAL",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                          child: ListView.builder(
-                            itemCount: cubit.customReportModel.data!.length,
-                            itemBuilder: (context, index) {
-                              return buildCustomerText(
-                                nameCliebtText:
-                                    "${cubit.customReportModel.data![index].firstName} ${cubit.customReportModel.data![index].lastName}",
-                                totalClientText:
-                                    "\$ ${cubit.customReportModel.data![index].orders![index].total}",
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * 0.51,
-                      child: Center(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        ],
                       ),
                     ),
+                  ),
+                  if (cubit.isComeData)
+                    Container(
+                      height: 180,
+                      width: MediaQuery.of(context).size.width * .94,
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(30.0),
+                            bottomLeft: Radius.circular(30.0)),
+                      ),
+                      child: ListView.builder(
+                        itemCount: cubit.customReportModel.data!.length,
+                        itemBuilder: (context, index) {
+                          return buildCustomerText(
+                            nameCliebtText:
+                                "${cubit.customReportModel.data![index].firstName} ${cubit.customReportModel.data![index].lastName}",
+                            totalClientText:
+                                "\$ ${cubit.customReportModel.data![index].debts}",
+                          );
+                        },
+                      ),
+                    )
+                  else if (cubit.isComeData)
+                    Center(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  else
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "No Data Yet",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                ],
+              )
             ],
           ),
         );
