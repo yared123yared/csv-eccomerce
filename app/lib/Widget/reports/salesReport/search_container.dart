@@ -1,5 +1,5 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SearchContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(
+    return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
-        final cubit = ReportCubit.get(context);
+        final cubit = SalesReportCubit.get(context);
         return Column(
           children: [
             Padding(
@@ -17,7 +17,7 @@ class SearchContainer extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
-                  color: Color(0xFFd9dddf),
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
                 ),
                 height: 40,
                 child: TextFormField(
@@ -27,6 +27,7 @@ class SearchContainer extends StatelessWidget {
                     cubit.postSalesReport(
                       nameSearch: value,
                       dateFrom: "",
+                      dataTo: "",
                     );
                     // if (value == cubit.searchController.text) {}
                   },
@@ -37,6 +38,8 @@ class SearchContainer extends StatelessWidget {
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
+                        cubit.postSalesReport(
+                            nameSearch: "", dateFrom: "", dataTo: "");
                       },
                       icon: Icon(Icons.close),
                     ),
@@ -45,31 +48,6 @@ class SearchContainer extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // child: TextField(
-                //   controller: cubit.searchController,
-                //   decoration: InputDecoration(
-                //     prefixIcon: IconButton(
-                //       onPressed: () {},
-                //       icon: Icon(
-                //         Icons.search,
-                //         color: Colors.grey,
-                //         size: 35,
-                //       ),
-                //     ),
-                //     border: InputBorder.none,
-                //     hintText: "Search by Date,Name,Name order",
-                //     hintStyle: const TextStyle(
-                //       fontSize: 16,
-                //       color: Colors.black45,
-                //     ),
-                //     enabledBorder: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(40),
-                //       borderSide:
-                //           const BorderSide(color: Color(0xffd2dfea), width: 1),
-                //     ),
-                //   ),
-                // ),
               ),
             ),
           ],

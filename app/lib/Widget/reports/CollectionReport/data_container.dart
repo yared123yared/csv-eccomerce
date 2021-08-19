@@ -1,16 +1,15 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
+import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
+import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DataContainer extends StatelessWidget {
+class DataContainerColl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SalesReportCubit, SalesReportState>(
+    return BlocBuilder<CollectionReportCubit, CollectionReportState>(
         builder: (context, state) {
-      final cubit = SalesReportCubit.get(context);
-      final cubitData = cubit.saleReportModel.data;
-
+      final cubit = CollectionReportCubit.get(context);
+      final cubitData = cubit.collectionReportModel.data;
       return ListView.separated(
         shrinkWrap: true,
         itemBuilder: (context, index) {
@@ -27,31 +26,35 @@ class DataContainer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // buildrowData(
-                  //   text: 'DATE',
-                  //   dateApi: "${cubit.saleReportModel.data![index].createdAt}",
-                  // ),
+                  buildrowData(
+                    text: 'PAYMENT DATE',
+                    dateApi:
+                        "${cubit.collectionReportModel.data![index].createdAt}",
+                  ),
+                  buildrowData(
+                    text: 'PAYMENT METHOD',
+                    dateApi:
+                        "${cubit.collectionReportModel.data![index].paymentMethod}",
+                  ),
                   buildrowData(
                     text: 'ORDER',
                     dateApi:
-                        "${cubit.saleReportModel.data![index].orderNumber}",
+                        "${cubit.collectionReportModel.data![index].order!.orderNumber}",
                   ),
                   buildrowData(
                     text: 'CLIENT NAME',
                     dateApi:
-                        "${cubitData![index].client!.firstName} ${cubitData[index].client!.lastName} ",
+                        '${cubitData![index].order!.client!.firstName} ${cubitData[index].order!.client!.lastName}',
                   ),
                   buildrowData(
-                    text: 'TOTAL',
-                    dateApi: '${cubitData[index].total}',
+                    text: 'PAID AMOUNT',
+                    dateApi:
+                        "${cubit.collectionReportModel.data![index].amountPaid}",
                   ),
                   buildrowData(
-                    text: 'PAID',
-                    dateApi: '${cubitData[index].amountPaid}',
-                  ),
-                  buildrowData(
-                    text: 'DEBT',
-                    dateApi: '${cubitData[index].amountRemaining}',
+                    text: 'STATUS',
+                    dateApi:
+                        '${cubit.collectionReportModel.data![index].status}',
                   ),
                 ],
               ),
@@ -63,7 +66,7 @@ class DataContainer extends StatelessWidget {
             height: 20,
           );
         },
-        itemCount: cubit.saleReportModel.data!.length,
+        itemCount: cubit.collectionReportModel.data!.length,
       );
     });
   }
@@ -77,10 +80,7 @@ class DataContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-              top: 12,
-              left: 10,
-            ),
+            padding: const EdgeInsets.only(top: 8, left: 10),
             child: Container(
               height: 30,
               width: 150,
@@ -89,20 +89,23 @@ class DataContainer extends StatelessWidget {
                 text,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          Container(
-            height: 30,
-            width: 150,
-            child: Text(
-              dateApi,
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 16,
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 15),
+            child: Container(
+              height: 30,
+              width: 150,
+              child: Text(
+                dateApi,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16,
+                ),
               ),
             ),
           ),

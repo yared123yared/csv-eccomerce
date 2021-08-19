@@ -1,23 +1,29 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:app/Widget/reports/salesReport/data_container.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../drawer.dart';
 
 class SalesReportScreens extends StatelessWidget {
   static const routeName = '/salesReportScreens';
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
+  final ItemScrollController itemScrollController = ItemScrollController();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(
+    return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
-        final cubit = ReportCubit.get(context);
+        final cubit = SalesReportCubit.get(context);
 
         return Scaffold(
           key: _scaffoldKey,
@@ -122,4 +128,44 @@ class SalesReportScreens extends StatelessWidget {
       },
     );
   }
+
+  Widget buildItem(int number) => Container(
+        height: 100,
+        width: double.infinity,
+        color: Colors.grey[200],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Items",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "$number",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                height: 50,
+                endIndent: 0.9,
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
+      );
 }

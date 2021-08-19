@@ -1,14 +1,15 @@
-import 'package:app/Blocs/reports/cubit/report_cubit.dart';
-import 'package:app/Blocs/reports/cubit/report_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class FromToContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReportCubit, ReportState>(
+    return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
-        final cubit = ReportCubit.get(context);
+        final cubit = SalesReportCubit.get(context);
         return Padding(
           padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
           child: Row(
@@ -52,6 +53,7 @@ class FromToContainer extends StatelessWidget {
                           cubit.postSalesReport(
                             nameSearch: "",
                             dateFrom: cubit.dateForm.toString(),
+                            dataTo: cubit.dateTo.toString(),
                           );
                         },
                         icon: Image.asset(
@@ -102,11 +104,11 @@ class FromToContainer extends StatelessWidget {
                             ),
                       TextButton.icon(
                         onPressed: () {
-                          
                           cubit.selectToTimePicker(context);
                           cubit.postSalesReport(
                             nameSearch: "",
                             dateFrom: cubit.dateForm.toString(),
+                            dataTo: cubit.dateTo.toString(),
                           );
                         },
                         icon: Image.asset(
@@ -128,4 +130,17 @@ class FromToContainer extends StatelessWidget {
       },
     );
   }
+
+  // Widget buildDateCard() => Card(
+  //       margin: const EdgeInsets.fromLTRB(50, 150, 50, 20),
+  //       child: SfDateRangePicker(
+  //         view: DateRangePickerView.year,
+  //         selectionMode: DateRangePickerSelectionMode.range,
+  //         showActionButtons: true,
+  //         cancelText: 'CANCEL',
+  //         confirmText: 'OK',
+  //         onCancel: () {},
+  //         onSubmit: (Object value) {},
+  //       ),
+  //     );
 }

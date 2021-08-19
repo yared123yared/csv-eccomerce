@@ -1,6 +1,8 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
@@ -12,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
-import 'Blocs/reports/cubit/report_cubit.dart';
+import 'Blocs/reports/CustomerDebt/customer_cubit.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
@@ -149,12 +151,32 @@ class App extends StatelessWidget {
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),
           ),
-          BlocProvider<ReportCubit>(
-            create: (BuildContext context) => ReportCubit(userPreferences)
-              ..postSalesReport(
-                nameSearch: "",
-                dateFrom: "",
-              ),
+          // BlocProvider<ReportCubit>(
+          //   create: (BuildContext context) => ReportCubit(userPreferences)
+          //     ..postSalesReport(
+          //       nameSearch: "",
+          //       dateFrom: "",
+          //     ),
+          BlocProvider<SalesReportCubit>(
+              create: (BuildContext context) =>
+                  SalesReportCubit(userPreferences)
+                    ..postSalesReport(
+                      nameSearch: "",
+                      dateFrom: "",
+                      dataTo: "",
+                    )),
+          BlocProvider<CollectionReportCubit>(
+            create: (BuildContext context) =>
+                CollectionReportCubit(userPreferences)
+                  ..postCollectionReport(
+                    nameSearch: "",
+                    dateFrom: "",
+                    dateTo: "",
+                  ),
+          ),
+          BlocProvider<CustomerDebtCubit>(
+            create: (_) => CustomerDebtCubit(userPreferences)
+              ..postCustomReport(searchClientName: ""),
           ),
         ],
         child: MaterialApp(

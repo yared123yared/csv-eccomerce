@@ -63,60 +63,61 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(0xFFf2f6f9),
-        child: BlocConsumer<ClientsBloc, ClientsState>(
-          // buildWhen: (previous, current) => current.check != false,
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is ClientFetchingSuccessState) {
-              // state.products.map((product) {});
-              clients = state.clients;
-              if (state.clients != null) {
-                total = state.clients!.length;
-                if (state.clients!.length == 0) {
-                  start = 0;
-                  end = 0;
-                }
+      color: Color(0xFFf2f6f9),
+      child: BlocConsumer<ClientsBloc, ClientsState>(
+        // buildWhen: (previous, current) => current.check != false,
+        listener: (context, state) {},
+        builder: (context, state) {
+          if (state is ClientFetchingSuccessState) {
+            // state.products.map((product) {});
+            clients = state.clients;
+            if (state.clients != null) {
+              total = state.clients!.length;
+              if (state.clients!.length == 0) {
+                start = 0;
+                end = 0;
               }
-            } else if (state is ClientFetchingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is ClientFetchingFailedState) {
-              return Center(
-                child: Text('Cient Fetch Failed'),
-              );
             }
+          } else if (state is ClientFetchingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is ClientFetchingFailedState) {
+            return Center(
+              child: Text('Cient Fetch Failed'),
+            );
+          }
 
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: LazyLoadScrollView(
-                      onEndOfPage: () {
-                        FetchClientsEvent refechEvent =
-                            new FetchClientsEvent(loadMore: true);
-                        BlocProvider.of<ClientsBloc>(context, listen: false)
-                            .add(refechEvent);
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: Column(
+              children: [
+                Expanded(
+                  child: LazyLoadScrollView(
+                    onEndOfPage: () {
+                      FetchClientsEvent refechEvent =
+                          new FetchClientsEvent(loadMore: true);
+                      BlocProvider.of<ClientsBloc>(context, listen: false)
+                          .add(refechEvent);
+                    },
+                    scrollOffset: 70,
+                    child: ScrollablePositionedList.builder(
+                      itemCount: clients!.length,
+                      itemScrollController: itemScrollController,
+                      itemPositionsListener: itemPositionsListener,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return ClientItem(
+                          client: clients![index],
+                        );
                       },
-                      scrollOffset: 70,
-                      child: ScrollablePositionedList.builder(
-                        itemCount: clients!.length,
-                        itemScrollController: itemScrollController,
-                        itemPositionsListener: itemPositionsListener,
-                        itemBuilder: (BuildContext ctx, index) {
-                          return ClientItem(
-                            client: clients![index],
-                          );
-                        },
-                      ),
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ));
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 }
