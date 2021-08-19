@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'payment-custome-dropdown.dart';
 import 'payment-filed-container.dart';
 
 class PaymentContainer extends StatelessWidget {
@@ -45,9 +46,10 @@ class PaymentContainer extends StatelessWidget {
                 PaymentFieldContainer(
                   hintName: 'Pay Now',
                 ),
-                PaymentFieldContainer(
-                  hintName: 'Method',
-                ),
+                // PaymentFieldContainer(
+                //   hintName: 'Method',
+                // ),
+                CustomeDropDownButton(),
                 PaymentFieldContainer(
                   hintName: 'Type  of Wallet',
                 ),
