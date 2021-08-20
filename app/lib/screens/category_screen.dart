@@ -107,7 +107,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             },
                           ));
                           for (int i = 0; i < state.categories.length; i++) {
-                            print(state.categories[i].name);
+                            // print(state.categories[i].name);
                             categories.add(CustomCategory(
                               backgroundColor: state.selectedCategoryId ==
                                       state.categories[i].id

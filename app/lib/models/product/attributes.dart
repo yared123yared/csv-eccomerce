@@ -1,5 +1,17 @@
 import 'package:app/models/product/pivot.dart';
 
+class AttributeFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, name, companyId, createdAt, updatedAt
+  ];
+
+  static final String id = 'id';
+  static final String name = 'name';
+  static final String companyId = 'company_id';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+}
 class Attributes {
   int? id;
   String? name;

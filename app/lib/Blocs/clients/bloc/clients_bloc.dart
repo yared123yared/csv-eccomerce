@@ -37,6 +37,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       );
       yield* _mapFetchClientsToState(dataX, event.loadMore);
     } else if (event is CreateClientEvent) {
+      print("create event triggered");
       yield* _mapCreateClientToState(event.data);
     } else if (event is UpdateClientEvent) {
       yield* _mapUpdateClientToState(event.data);
@@ -79,6 +80,21 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
 
         if (reqData.clients.client != null) {
           for (var i = 0; i < reqData.clients.client!.length; i++) {
+            await CsvDatabse.instance.create(
+              CreateEditData(
+                id: reqData.clients.client![i].id.toString(),
+                type: '',
+                uploadedPhoto: reqData.clients.client![i].firstName,
+                documents: reqData.clients.client![i].documents,
+                firstName: reqData.clients.client![i].firstName.toString(),
+                lastName: reqData.clients.client![i].lastName.toString(),
+                mobile: reqData.clients.client![i].mobile.toString(),
+                email: reqData.clients.client![i].email.toString(),
+                addresses: reqData.clients.client![i].addresses == null
+                    ? []
+                    : (reqData.clients.client![i].addresses as List<Addresses>),
+              ),
+            );
             this.clients.add(reqData.clients.client![i]);
           }
           if (reqData.clients.client!.length < 5) {
@@ -126,35 +142,37 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   Stream<ClientsState> _mapCreateClientToState(CreateEditData data) async* {
     yield ClientCreatingState();
     try {
+      print("create called");
       int prevPageCount = this.clients.length ~/ 5;
-      bool connected = await ConnectionChecker.CheckInternetConnection();
-      print("-s--connected--${connected}");
-      if (!connected) {
-        print("create---not-connected-to-internet");
-        data.type = 'CREATE';
-        CreateEditData? clientCreated = await CsvDatabse.instance.create(data);
-        if (clientCreated != null) {
-          Client clientX = Client(
-              isLocal: true,
-              addresses: clientCreated.addresses,
-              orders: [],
-              firstName: clientCreated.firstName,
-              lastName: clientCreated.lastName,
-              mobile: clientCreated.mobile,
-              email: clientCreated.email,
-              id: int.parse(
-                clientCreated.id.toString(),
-              ));
-          this.clients.add(clientX);
-        }
-      } else {
-        print("create---connected-to-internet");
-        Client? clientX = await clientsRepository.createClient(data);
-
-        if (clientX != null) {
-          this.clients.add(clientX);
-        }
+      // bool connected = await ConnectionChecker.CheckInternetConnection();
+      // print("-s--connected--${connected}");
+      // if (!connected) {
+      // print("create---not-connected-to-internet");
+      data.type = 'CREATE';
+      CreateEditData? clientCreated = await CsvDatabse.instance.create(data);
+      if (clientCreated != null) {
+        Client clientX = Client(
+            isLocal: true,
+            addresses: clientCreated.addresses,
+            orders: [],
+            firstName: clientCreated.firstName,
+            lastName: clientCreated.lastName,
+            mobile: clientCreated.mobile,
+            email: clientCreated.email,
+            status: 1,
+            id: int.parse(
+              clientCreated.id.toString(),
+            ));
+        this.clients.add(clientX);
       }
+      // } else {
+      //   print("create---connected-to-internet");
+      //   Client? clientX = await clientsRepository.createClient(data);
+
+      //   if (clientX != null) {
+      //     this.clients.add(clientX);
+      //   }
+      // }
 
       int currentPageCount = this.clients.length ~/ 5;
       if (this.clients.length == 0) {
@@ -176,55 +194,39 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   Stream<ClientsState> _mapUpdateClientToState(CreateEditData data) async* {
     yield ClientUpdatingState();
     try {
-      bool connected = await ConnectionChecker.CheckInternetConnection();
-      if (!connected) {
-        print("update ---no internet");
-        if (data.id != null) {
-          data.type = 'UPDATE';
+      if (data.id != null) {
+        data.type = 'UPDATE';
+        CreateEditData? clientCreated =
+            await CsvDatabse.instance.updateClient(data);
+        print("bloc--updated---on--db");
 
-          CreateEditData? storedClient = await CsvDatabse.instance
-              .readClient(int.parse(data.id.toString()));
-          if (storedClient != null) {
-            print("there is already stored client");
-            int? idDeleted = await CsvDatabse.instance
-                .deleteClient(int.parse(data.id.toString()));
-            print("so he is removed ");
-            if (idDeleted != null) {}
-          }
-
-          CreateEditData? clientCreated =
-              await CsvDatabse.instance.create(data);
-          if (clientCreated != null) {
-            print("we created again");
-            Client clientX = Client(
-                isLocal: true,
-                addresses: clientCreated.addresses,
-                orders: [],
-                firstName: clientCreated.firstName,
-                lastName: clientCreated.lastName,
-                mobile: clientCreated.mobile,
-                email: clientCreated.email,
-                id: int.parse(
-                  clientCreated.id.toString(),
-                ));
-            // ignore: todo
-            //TODO use update instead of
-            this.clients.removeWhere((element) => element.id.toString() == data.id);
-
-            this.clients.add(clientX);
-          }
+        if (clientCreated != null) {
+          Client clientX = Client(
+            isLocal: true,
+            addresses: clientCreated.addresses,
+            orders: [],
+            firstName: clientCreated.firstName,
+            lastName: clientCreated.lastName,
+            mobile: clientCreated.mobile,
+            email: clientCreated.email,
+            id: int.parse(
+              clientCreated.id.toString(),
+            ),
+          );
+          print("bloc--updated---on--db--2");
+          print("--data--id--${data.id}");
+          int index =
+              this.clients.indexWhere((element) => element.id == data.id);
+          print("--data--index${index}");
+          print("---legth--${this.clients.length}");
+          // this.clients[index] = clientX;
+          this.clients.removeWhere((element) => element.id.toString() == data.id.toString());
+          this.clients.add(clientX);
+          print("bloc--updated---on--db--3");
         }
-      } else {
-        print("update---connected--to--internet");
-        Client? clientX = await clientsRepository.updateClient(data);
-        if (clientX != null) {
-          this.clients[this
-              .clients
-              .indexWhere((element) => element.id == clientX.id)] = clientX;
-        }
+        yield ClientUpdateSuccesstate();
+        return;
       }
-      yield ClientUpdateSuccesstate();
-      return;
     } catch (e) {
       print("bloc --update--client");
       print(e);
@@ -235,16 +237,17 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   Stream<ClientsState> _mapDeleteClientToState(String id) async* {
     yield ClientDeletingState();
     try {
-      bool connected = await ConnectionChecker.CheckInternetConnection();
-      if (!connected) {
-        print("delete---not connected");
-        int? insertedID =
-            await CsvDatabse.instance.insertClientId(int.parse(id));
-        if (insertedID != null) {}
-      } else {
-        print("delete--- connected");
-        await clientsRepository.deleteClient(id);
+      // bool connected = await ConnectionChecker.CheckInternetConnection();
+      // if (!connected) {
+      //   print("delete---not connected");
+      int? insertedID = await CsvDatabse.instance.insertClientId(int.parse(id));
+      if (insertedID != null) {
+        await CsvDatabse.instance.deleteClient(insertedID);
       }
+      // } else {
+      //   print("delete--- connected");
+      //   await clientsRepository.deleteClient(id);
+      // }
       int prevPageCount = clients.length ~/ 5;
       print("prev -length--${this.clients.length}");
       this.clients.removeWhere((cl) => cl.id.toString() == id);
@@ -273,7 +276,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     if (syncing) {
       return;
     }
-
     syncing = true;
     print("syncing started");
     try {
@@ -286,16 +288,17 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           print("3");
 
           try {
-            Client? clientX = await clientsRepository.createClient(client);
-            print("delete fetched");
-            if (client.id != null) {
-              await CsvDatabse.instance
-                  .deleteClient(int.parse(client.id.toString()));
-              if (clientX != null) {
-                this.clients[this
-                        .clients
-                        .indexWhere((element) => element.id == client.id)] =
-                    clientX;
+            if (client.type == 'CREATE') {
+              Client? clientX = await clientsRepository.createClient(client);
+              print("created on server");
+              client.type = '';
+              await CsvDatabse.instance.updateClientDataStatus(client);
+            } else if (client.type == 'UPDATE') {
+              Client? clientX = await clientsRepository.updateClient(client);
+              print("updated on server");
+              if (client.id != null) {
+                client.type = '';
+                await CsvDatabse.instance.updateClientDataStatus(client);
               }
             }
           } catch (e) {
@@ -304,11 +307,9 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           }
         }
       }
-      print("fetching deleted client id");
+      print("delete satrted");
       List<int> deletedIds =
           await CsvDatabse.instance.readAllDeletedClientIds();
-      print("deleted id");
-      print(deletedIds);
       for (var id in deletedIds) {
         await clientsRepository.deleteClient(id.toString());
         CsvDatabse.instance.deleteClientID(id);

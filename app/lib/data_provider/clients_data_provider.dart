@@ -73,7 +73,6 @@ class ClientsDataProvider {
       final Map<String, dynamic> data = new Map<String, dynamic>();
       data['search'] = searchData;
 
-    
       final response = await http.post(urlCl,
           headers: {
             HttpHeaders.contentTypeHeader: "application/json",
@@ -86,7 +85,6 @@ class ClientsDataProvider {
       if (response.statusCode != 200) {
         throw HttpException('200');
       } else {
-
         clientX = SearchClientData.fromJson(json.decode(response.body));
       }
     } catch (e) {
@@ -106,7 +104,7 @@ class ClientsDataProvider {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
       );
-      print("response---${response.statusCode}");
+      print("dp--delete---${response.statusCode}");
       // print(jsonDecode(response.body)['message']);
       if (response.statusCode != 204) {
         throw HttpException(jsonDecode(response.body)['message']);
@@ -160,13 +158,16 @@ class ClientsDataProvider {
       // print('---create client--${res.statusCode}');
       // print(respStr);
       http.Response res = await http.Response.fromStream(await request.send());
-      print("--create client");
+      print("dp--create 1");
       if (res.statusCode != 201) {
         throw HttpException('Error Occured While Creating User');
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }
+      print("dp--create--success");
     } catch (e) {
+      print("dp--create failed");
+      print(e);
       throw e;
     }
     return clientX;
@@ -214,13 +215,17 @@ class ClientsDataProvider {
       }
 
       http.Response res = await http.Response.fromStream(await request.send());
-      print("--update client");
+      print("dp--update 1");
       if (res.statusCode != 200) {
+        print("dp---update---2");
         throw HttpException('Error Occured While Creating User');
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }
+       print("dp--update success");
     } catch (e) {
+      print("dp---update---failed");
+      print(e);
       throw e;
     }
     return clientX;

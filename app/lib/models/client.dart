@@ -440,11 +440,7 @@ class CreateEditData {
       );
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    // if (this.type == 'CREATE') {
-      data['_id'] = this.id;
-    // } else {
-    //   data['id'] = this.id;
-    // }
+    data['_id'] = this.id;
     data['firstname'] = this.firstName;
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
@@ -574,27 +570,53 @@ class Addresses {
 
   Map<String, dynamic> toSqliteJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.id != null) {
+    print("ad--1");
+    if (this.id != null && this.id != ""&&this.id!="null") {
+      print("this.id---${this.id == null}");
+      print("this.id---${this.id != null}");
+      print("${this.id}");
       data['_id'] = int.parse(this.id.toString());
     }
+    print("ad--2");
+
     data['client_id'] = int.parse(this.clientID.toString());
+    print("ad--3");
+
     data['street_address'] = this.streetAddress;
+    print("ad--4");
+
     data['zip_code'] = this.zipCode;
+    print("ad--5");
+
     data['locality'] = this.locality;
+    print("ad--6");
+
     data['city'] = this.city;
+    print("ad--7");
+
     data['state'] = this.state;
+    print("ad--8");
+
     data['country'] = this.country;
+    print("ad--9");
+
     if (this.isDefault != null) {
       data['is_default'] = this.isDefault! ? 1 : 0;
+      print("ad--10");
     } else {
       data['is_default'] = 0;
+      print("ad--11");
     }
     if (this.isBilling != null) {
       data['is_billing'] = this.isBilling! ? 1 : 0;
+      print("ad--12");
     } else {
       data['is_billing'] = 0;
+      print("ad--13");
     }
     data['company_id'] = this.companyId;
+    print("ad--14");
+
     return data;
   }
 }
@@ -612,7 +634,7 @@ class Docs {
   });
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.id != null) {
+    if (this.id != null && this.id != "" && this.id != "null") {
       data['_id'] = int.parse(this.id.toString());
     }
     data['name'] = this.name;

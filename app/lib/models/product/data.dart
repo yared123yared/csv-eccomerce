@@ -5,6 +5,22 @@ import 'package:app/models/product/product.dart';
 import 'attributes.dart';
 import 'brand.dart';
 import 'currency.dart';
+class ProductDataFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, name, model, price,quantity, manufacturerId, status, currencyId
+  ];
+
+  static final String id = 'id';
+  static final String name = 'name';
+  static final String model = 'model';
+  static final String price = 'price';
+  static final String quantity = 'quantity';
+  static final String manufacturerId = 'manufacturer_id';
+  static final String status = 'status';
+  static final String currencyId = 'currency_id';
+  static final String order = 'order';
+}
 
 class Data {
   int? id;
@@ -15,9 +31,9 @@ class Data {
   int? manufacturerId;
   int? status;
   int? currencyId;
-  Brand? brand;
+  // Brand? brand;
   List<Photos>? photos;
-  Currency? currency;
+  // Currency? currency;
   List<Categories>? categories;
   List<Attributes>? attributes;
   int order = 0;
@@ -32,9 +48,9 @@ class Data {
     this.manufacturerId,
     this.status,
     this.currencyId,
-    this.brand,
+    // this.brand,
     this.photos,
-    this.currency,
+    // this.currency,
     this.categories,
     this.attributes,
   });
@@ -48,7 +64,7 @@ class Data {
     manufacturerId = json['manufacturer_id'];
     status = json['status'];
     currencyId = json['currency_id'];
-    brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
+    // brand = json['brand'] != null ? new Brand.fromJson(json['brand']) : null;
     if (json['photos'] != null) {
       var list = <Photos>[];
       photos = list;
@@ -56,9 +72,9 @@ class Data {
         photos!.add(new Photos.fromJson(v));
       });
     }
-    currency = json['currency'] != null
-        ? new Currency.fromJson(json['currency'])
-        : null;
+    // currency = json['currency'] != null
+    //     ? new Currency.fromJson(json['currency'])
+    //     : null;
 
     if (json['categories'] != null) {
       categories = <Categories>[];
@@ -84,15 +100,15 @@ class Data {
     data['manufacturer_id'] = this.manufacturerId;
     data['status'] = this.status;
     data['currency_id'] = this.currencyId;
-    if (this.brand != null) {
-      data['brand'] = this.brand!.toJson();
-    }
+    // if (this.brand != null) {
+    //   data['brand'] = this.brand!.toJson();
+    // }
     if (this.photos != null) {
       data['photos'] = this.photos!.map((v) => v.toJson()).toList();
     }
-    if (this.currency != null) {
-      data['currency'] = this.currency!.toJson();
-    }
+    // if (this.currency != null) {
+    //   data['currency'] = this.currency!.toJson();
+    // }
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }

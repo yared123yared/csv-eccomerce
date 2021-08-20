@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:app/models/category/categories.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 part 'categories_event.dart';
 part 'categories_state.dart';
@@ -23,7 +22,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         List<Categories> categories =
             (await this.categoryRepository.getCategories()) as List<Categories>;
         if (categories == []) {
-          print("Failed to fech");
+          print("Failed to fech categories");
           yield CategoriesLoadFailed(message: "Failed to Fetch");
         } else {
           yield CategoriesLoadSuccess(
