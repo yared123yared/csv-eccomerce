@@ -14,7 +14,7 @@ class ProductInfo extends StatefulWidget {
 }
 
 class _ProductInfoState extends State<ProductInfo> {
-  int isDescriptionChecked = 0;
+  int isDescriptionChecked = 1;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,6 +24,7 @@ class _ProductInfoState extends State<ProductInfo> {
       elevation: 1,
       color: Colors.white,
       child: Container(
+        height: MediaQuery.of(context).size.height * 0.23,
         padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
         // decoration: BoxDecoration(
         //   borderRadius: BorderRadius.circular(20),
@@ -32,6 +33,7 @@ class _ProductInfoState extends State<ProductInfo> {
         child: Column(children: [
           SelectOption(
             onPressed: this.changeState,
+            state: this.isDescriptionChecked,
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
