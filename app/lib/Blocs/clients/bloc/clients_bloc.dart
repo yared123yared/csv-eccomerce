@@ -220,7 +220,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           print("--data--index${index}");
           print("---legth--${this.clients.length}");
           // this.clients[index] = clientX;
-          this.clients.removeWhere((element) => element.id.toString() == data.id.toString());
+          this.clients.removeWhere(
+              (element) => element.id.toString() == data.id.toString());
           this.clients.add(clientX);
           print("bloc--updated---on--db--3");
         }

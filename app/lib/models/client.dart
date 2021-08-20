@@ -571,7 +571,7 @@ class Addresses {
   Map<String, dynamic> toSqliteJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     print("ad--1");
-    if (this.id != null && this.id != ""&&this.id!="null") {
+    if (this.id != null && this.id != "" && this.id != "null") {
       print("this.id---${this.id == null}");
       print("this.id---${this.id != null}");
       print("${this.id}");
