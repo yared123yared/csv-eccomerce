@@ -3,7 +3,12 @@ import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DataContainer extends StatelessWidget {
+class DataContainer extends StatefulWidget {
+  @override
+  _DataContainerState createState() => _DataContainerState();
+}
+
+class _DataContainerState extends State<DataContainer> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SalesReportCubit, SalesReportState>(

@@ -1,4 +1,3 @@
-import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
 import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
 import 'package:app/Widget/reports/salesReport/data_container.dart';
@@ -7,7 +6,6 @@ import 'package:app/Widget/reports/salesReport/search_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../drawer.dart';

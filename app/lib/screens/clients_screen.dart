@@ -147,7 +147,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                   );
                 } else if (state is ClientFetchingFailedState) {
                   return Center(
-                    child: Text('Cient Fetch Failed'),
+                    child: Text('Client Fetch Failed'),
                   );
                 }
 

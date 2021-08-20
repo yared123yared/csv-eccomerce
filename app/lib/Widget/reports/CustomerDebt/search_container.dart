@@ -23,18 +23,18 @@ class SearchCustomerDebt extends StatelessWidget {
                 controller: cubit.searchController,
                 keyboardType: TextInputType.text,
                 onFieldSubmitted: (String value) {
-                  cubit.postCustomReport(
+                  cubit.postCustomReportSearch(
                     searchClientName: value,
                   );
                 },
                 onChanged: (String value) {},
                 decoration: InputDecoration(
-                  hintText: 'Search by Date,Name,Name order',
+                  hintText: 'Search by Name',
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     onPressed: () {
                       cubit.searchController.clear();
-                      cubit.postCustomReport(searchClientName: "");
+                      cubit.postCustomReport();
                     },
                     icon: Icon(Icons.close),
                   ),

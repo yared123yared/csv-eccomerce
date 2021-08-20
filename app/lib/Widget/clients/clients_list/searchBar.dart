@@ -28,7 +28,7 @@ class SearchBar extends StatelessWidget {
                     new SearchClientsEvent(key: val);
                 BlocProvider.of<ClientsBloc>(context, listen: false)
                     .add(searchClientEvent);
-              }else{
+              } else {
                 FetchClientsEvent fetchClientEvent =
                     new FetchClientsEvent(loadMore: false);
                 BlocProvider.of<ClientsBloc>(context, listen: false)

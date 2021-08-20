@@ -93,6 +93,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
   }
 
   late SaleReportModel saleReportModel;
+  List<String> pagtion = [];
 
   Future postSalesReport({
     required String nameSearch,
@@ -141,6 +142,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
         final data = extractedData['orders'];
 
         saleReportModel = SaleReportModel.fromJson(data);
+
         // print("Walid : ${saleReportModel.data![0].client!.mobile}");
 
       } else {
@@ -155,4 +157,5 @@ class SalesReportCubit extends Cubit<SalesReportState> {
 
   // Infinite Scrolling Pagination code Lazy
 
+  ScrollController scrollController = ScrollController();
 }

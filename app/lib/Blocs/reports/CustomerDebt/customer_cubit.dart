@@ -23,7 +23,54 @@ class CustomerDebtCubit extends Cubit<CustomerDebttState> {
 
   late CustomReportModel customReportModel;
 
-  Future postCustomReport({required String searchClientName}) async {
+  Future postCustomReport() async {
+    String? token = await this.userPreferences.getUserToken();
+
+    try {
+      final url = Uri.parse('http://csv.jithvar.com/api/v1/clients/debts');
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode({
+            "draw": 0,
+            "length": 10,
+            "search": "",
+            "column": 0,
+            "field": "",
+            "relationship": false,
+            "relationship_field": "",
+            "dir": "asc"
+          }));
+      if (response.statusCode == 200) {
+        isComeData = true;
+        isComeDataWrong = false;
+
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        final data = extractedData['clients'];
+
+        customReportModel = CustomReportModel.fromJson(data);
+        //print("Walid : ${customReportModel.data![0].email}");
+      } else {
+        isComeData = false;
+        isComeDataWrong = true;
+        throw Exception('Failed to load courses');
+      }
+    } catch (e) {
+      print("Exception throuwn $e");
+    }
+    emit(FeatchDataSucessCollState());
+  }
+
+  //Fetach Search Api Here
+
+  bool isSearchCome = false;
+
+  Future postCustomReportSearch({required String searchClientName}) async {
     String? token = await this.userPreferences.getUserToken();
 
     try {
@@ -45,7 +92,7 @@ class CustomerDebtCubit extends Cubit<CustomerDebttState> {
             "dir": "asc"
           }));
       if (response.statusCode == 200) {
-        isComeData = true;
+        isSearchCome = false;
 
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
@@ -53,9 +100,11 @@ class CustomerDebtCubit extends Cubit<CustomerDebttState> {
         final data = extractedData['clients'];
 
         customReportModel = CustomReportModel.fromJson(data);
-        print("Walid : ${customReportModel.data![0].email}");
+        // print("Walid : ${customReportModel.data![0].email}");
+        emit(FeatchSearchCollState());
       } else {
-        isComeData = false;
+        isSearchCome = true;
+
         throw Exception('Failed to load courses');
       }
     } catch (e) {
