@@ -1,9 +1,11 @@
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
@@ -13,6 +15,7 @@ import 'package:http/http.dart' as http;
 
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
+import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
 import 'Blocs/reports/CustomerDebt/customer_cubit.dart';
 import 'data_provider/product_data_provider.dart';
 import 'route/route.dart';
@@ -31,6 +34,7 @@ void main() {
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
+
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
@@ -78,14 +82,16 @@ class App extends StatelessWidget {
   final ClientsRepository clientsRepository;
   final CategoryRepository categoryRepository;
   final OrderRepository orderRepository;
-  App(
-      {required this.userRepository,
-      required this.productRepository,
-      required this.userPreferences,
-      required this.clientsRepository,
-      required this.categoryRepository,
-      required this.orderRepository,
-      required this.locationRepository});
+
+  App({
+    required this.userRepository,
+    required this.productRepository,
+    required this.userPreferences,
+    required this.clientsRepository,
+    required this.categoryRepository,
+    required this.orderRepository,
+    required this.locationRepository,
+  });
 
   final LocationRepository locationRepository;
   // App({
@@ -166,7 +172,19 @@ class App extends StatelessWidget {
           ),
           BlocProvider<CustomerDebtCubit>(
             create: (_) => CustomerDebtCubit(userPreferences)
-              ..postCustomReport(searchClientName: ""),
+              ..postCustomReport()
+              ..postCustomReportSearch(searchClientName: ''),
+          ),
+          BlocProvider<AllOrdersCubit>(
+            create: (_) => AllOrdersCubit(userPreferences)
+              ..postAllOrders()
+              ..postAllSearchOrders(searchNmae: ""),
+          ),
+          BlocProvider<OrderByDebtCubit>(
+            create: (_) => OrderByDebtCubit(userPreferences)
+              ..postOrdersByDebt()
+              ..postOrdersByDebtSearch(searchName: "")
+              ..featchTotalDebt(),
           ),
         ],
         child: MaterialApp(

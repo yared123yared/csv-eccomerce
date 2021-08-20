@@ -1,15 +1,14 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
-import 'package:app/constants/constants.dart';
+import 'package:app/Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
+import 'package:app/Blocs/orderDrawer/OrderByDebt/orderByDebt_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchContainer extends StatelessWidget {
+class SearchOrderBtDebt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SalesReportCubit, SalesReportState>(
+    return BlocBuilder<OrderByDebtCubit, OrderByDebtState>(
       builder: (context, state) {
-        final cubit = SalesReportCubit.get(context);
+        final cubit = OrderByDebtCubit.get(context);
         return Column(
           children: [
             Padding(
@@ -24,21 +23,19 @@ class SearchContainer extends StatelessWidget {
                   controller: cubit.searchController,
                   keyboardType: TextInputType.text,
                   onFieldSubmitted: (String value) {
-                    cubit.postSalesReport(
-                      nameSearch: value,
-                      dateFrom: "",
-                      dataTo: "",
+                    cubit.postOrdersByDebtSearch(
+                      searchName: value,
                     );
                   },
                   onChanged: (String value) {},
                   decoration: InputDecoration(
-                    hintText: 'Search by Date,Name,Name order',
+                    hintText: 'Search by Name',
                     border: InputBorder.none,
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
-                        cubit.postSalesReport(
-                            nameSearch: "", dateFrom: "", dataTo: "");
+
+                        cubit.postOrdersByDebt();
                       },
                       icon: Icon(Icons.close),
                     ),

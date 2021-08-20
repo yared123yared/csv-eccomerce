@@ -1,15 +1,14 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
-import 'package:app/constants/constants.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/allorders_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchContainer extends StatelessWidget {
+class SearchContinerAllOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SalesReportCubit, SalesReportState>(
+    return BlocBuilder<AllOrdersCubit, AllOredersState>(
       builder: (context, state) {
-        final cubit = SalesReportCubit.get(context);
+        final cubit = AllOrdersCubit.get(context);
         return Column(
           children: [
             Padding(
@@ -24,21 +23,16 @@ class SearchContainer extends StatelessWidget {
                   controller: cubit.searchController,
                   keyboardType: TextInputType.text,
                   onFieldSubmitted: (String value) {
-                    cubit.postSalesReport(
-                      nameSearch: value,
-                      dateFrom: "",
-                      dataTo: "",
-                    );
+                    cubit.postAllSearchOrders(searchNmae: value);
                   },
                   onChanged: (String value) {},
                   decoration: InputDecoration(
-                    hintText: 'Search by Date,Name,Name order',
+                    hintText: 'Search by Name',
                     border: InputBorder.none,
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
-                        cubit.postSalesReport(
-                            nameSearch: "", dateFrom: "", dataTo: "");
+                        cubit.postAllOrders();
                       },
                       icon: Icon(Icons.close),
                     ),

@@ -10,6 +10,8 @@ import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/orders_screen/all_orders_screen.dart';
+import 'package:app/screens/orders_screen/ordersb_byDebt_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
@@ -110,6 +112,14 @@ class AppRoutes {
     } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CustomerByDebtScreen(),
+      );
+    } else if (settings.name == AllOrdersScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => AllOrdersScreen(),
+      );
+    } else if (settings.name == OrdersByDebtScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => OrdersByDebtScreen(),
       );
     }
     return MaterialPageRoute(builder: (context) => Login());
