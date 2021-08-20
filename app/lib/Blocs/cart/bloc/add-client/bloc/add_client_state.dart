@@ -11,6 +11,8 @@ class AddClientInitial extends AddClientState {
 
 class StateChanged extends AddClientState {
   final bool state;
+  final Client? client;
 
-  StateChanged({required this.state}) : super(display_state: state);
+  StateChanged({required this.state, this.client})
+      : super(display_state: state);
 }

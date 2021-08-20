@@ -4,6 +4,9 @@ abstract class AddClientEvent {
   const AddClientEvent();
 }
 
-class ClientDisplayEvent extends AddClientEvent {}
+class ClientDisplayEvent extends AddClientEvent {
+  final Client client;
+  ClientDisplayEvent({required this.client});
+}
 
 class ClientSearchEvent extends AddClientEvent {}

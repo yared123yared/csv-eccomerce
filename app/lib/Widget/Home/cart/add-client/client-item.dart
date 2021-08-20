@@ -32,7 +32,9 @@ class ClientItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                AddButton(),
+                AddButton(
+                  client: this.client,
+                ),
               ],
             )
           ],

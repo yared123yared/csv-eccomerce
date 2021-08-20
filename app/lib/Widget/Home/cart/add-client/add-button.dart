@@ -1,15 +1,18 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
+import 'package:app/models/client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddButton extends StatelessWidget {
+  final Client client;
+  AddButton({required this.client});
   late AddClientBloc addClientBloc;
   @override
   Widget build(BuildContext context) {
     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     return GestureDetector(
       onTap: () {
-        addClientBloc.add(ClientDisplayEvent());
+        addClientBloc.add(ClientDisplayEvent(client: this.client));
       },
       child: Container(
           width: MediaQuery.of(context).size.width * 0.16,

@@ -13,7 +13,9 @@ class _ColorContainerState extends State<ColorContainer> {
   Widget build(BuildContext context) {
     final isSelected = false;
     return InkWell(
-        onTap: () {},
+        onTap: () {
+          print("tapped this color ${widget.color.toString()}");
+        },
         child: Container(
             height: 40,
             padding: EdgeInsets.symmetric(horizontal: 2),

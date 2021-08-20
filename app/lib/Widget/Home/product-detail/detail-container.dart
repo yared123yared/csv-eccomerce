@@ -9,101 +9,86 @@ class DetailContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      elevation: 1,
-      color: Colors.white,
-      child: Container(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(20),
-        //   // shape:
+    return Column(
+      children: [
+        // SizedBox(
+        //   height: MediaQuery.of(context).size.height * 0.02,
         // ),
-        child: Column(
+        Row(
           children: [
-            SelectOption(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+            Text(
+              "PRICE",
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
-            Row(
-              children: [
-                Text(
-                  "PRICE",
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                Text(
-                  "\$${product.price}",
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Model",
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: AutoSizeText(
-                    "${product.model}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300),
-                    maxLines: 2,
-                  ),
-                ),
-                // Text(
-                //   "${product.model}",
-                //   style: TextStyle(
-                //       fontSize: 16,
-                //       color: Colors.black,
-                //       fontWeight: FontWeight.w300),
-                // ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Row(
-              children: [
-                Text(
-                  "SKU",
-                  style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                Text(
-                  "12",
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300),
-                ),
-              ],
+            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+            Text(
+              "\$${product.price}",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300),
             ),
           ],
         ),
-      ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        Row(
+          children: [
+            Text(
+              "Model",
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: AutoSizeText(
+                "${product.model}",
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300),
+                maxLines: 2,
+              ),
+            ),
+            // Text(
+            //   "${product.model}",
+            //   style: TextStyle(
+            //       fontSize: 16,
+            //       color: Colors.black,
+            //       fontWeight: FontWeight.w300),
+            // ),
+          ],
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        Row(
+          children: [
+            Text(
+              "SKU",
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+            Text(
+              "12",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w300),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -32,11 +32,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ) async* {
     // TODO: implement mapEventToState
     if (event is FetchProduct) {
-      productList = [];
+      // productList = [];
       selectedCategories = [];
       categoryId = null;
       searchProductName = null;
-      page = 0;
+      // page = 0;
       categoryPage = 1;
       print("fetch event is called");
       yield ProductLoading();
@@ -58,14 +58,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           // List<Data> paginated_products = state.products;
           print("This is the state products.${productList}");
           print("Page number: $page , category Id : ");
-          // for (int i = 0; i < products.length; i++) {
-          //   if (productList.contains(products[i])) {
-          //   } else {
-          //     productList.add(products[i]);
-          //   }
-          // }
+          for (int i = 0; i < products.length; i++) {
+            if (productList.contains(products[i])) {
+            } else {
+              productList.add(products[i]);
+            }
+          }
 
-          productList.addAll(products);
+          // productList.addAll(products);
 
           yield ProductLoadSuccess(
               products: productList,
@@ -79,7 +79,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       this.selectedCategories = [];
       print("Select event i scalled");
       this.categoryId = event.categories.id;
-      this.page = 1;
+      // this.page = 1;
 
       //  filter from the cache
       for (int i = 0; i < productList.length; i++) {
