@@ -1,15 +1,16 @@
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:flutter/material.dart';
 
-class CustomeDropDownButton extends StatefulWidget {
-  final List<DropdownMenuItem<int>> dropDownItems;
-  CustomeDropDownButton({required this.dropDownItems});
+class CustomeDropDownButton extends StatelessWidget {
+  final List<DropdownMenuItem<String>> dropDownItems;
+  final String value;
+  final Function onChanged;
+  CustomeDropDownButton(
+      {required this.dropDownItems,
+      required this.value,
+      required this.onChanged});
 
-  @override
-  _MyState createState() => _MyState();
-}
-
-class _MyState extends State<CustomeDropDownButton> {
-  int _value = 1;
+  late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,18 +30,14 @@ class _MyState extends State<CustomeDropDownButton> {
         child: Container(
           color: Colors.white,
           width: MediaQuery.of(context).size.width * 0.9,
-          child: DropdownButton(
+          child: DropdownButtonFormField(
 
               // focusColor: Theme.of(context).primaryColor,
               dropdownColor: Colors.white,
               // icon: Icon(Icons.category_outlined),
-              value: _value,
-              items: widget.dropDownItems,
-              onChanged: (int? value) {
-                setState(() {
-                  _value = value!;
-                });
-              },
+              value: this.value,
+              items: this.dropDownItems,
+              onChanged: (String? value) => this.onChanged(value),
               hint: Container(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Text(

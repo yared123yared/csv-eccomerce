@@ -17,59 +17,53 @@ class AddClient extends StatelessWidget {
   Widget build(BuildContext context) {
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
+    TextEditingController payingTimeController = new TextEditingController();
     return Scaffold(
         appBar: AppBar(title: Text("Add Client")),
         // bottomNavigationBar: ,
         backgroundColor: Theme.of(context).accentColor,
-        body: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.82,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Column(
-                  children: [
-                    UpperContainer(),
-                    //
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.04,
-                    ),
-
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.22,
-                      child: BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) {
-                          return ClientInfo(
-                            products: state.cartProducts,
-                          );
-                        },
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.82,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      UpperContainer(),
+                      //
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.04,
                       ),
-                    ),
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       _scrollController.animateTo(
-                    //           _scrollController.position.maxScrollExtent,
-                    //           duration: Duration(milliseconds: 500),
-                    //           curve: Curves.ease);
-                    //     },
-                    //     child: Text("test")),
 
-                    PaymentContainer()
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.22,
+                        child: BlocBuilder<CartBloc, CartState>(
+                          builder: (context, state) {
+                            return ClientInfo(
+                              products: state.cartProducts,
+                            );
+                          },
+                        ),
+                      ),
 
-                    // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                  ],
+                      PaymentContainer()
+                    ],
+                  ),
                 ),
               ),
-            ),
-            NextButton(
-              onPressed: () {
-                _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.ease);
-              },
-            )
-          ],
+              NextButton(
+                onPressed: () {
+                  _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease);
+                },
+              )
+            ],
+          ),
         ));
   }
 

@@ -1,10 +1,10 @@
 class Payment {
-  final String PaymentWhen;
-  final String PaymentMethod;
-  final String TransactionId;
-  final int AmountPaid;
-  final int AmountRemaining;
-  final String TypeOfWallet;
+   String PaymentWhen;
+   String PaymentMethod;
+   String TransactionId;
+   int AmountPaid;
+   int AmountRemaining;
+   String TypeOfWallet;
 
   Payment(
       {required this.AmountPaid,

@@ -7,6 +7,8 @@ import 'payment-time-payment-dropdown.dart';
 import 'payment-type-wallet.dart';
 
 class PaymentContainer extends StatelessWidget {
+  // final TextEditingController payingTimeController;
+  // PaymentContainer({required this.payingTimeController});
   @override
   Widget build(BuildContext context) {
     return Padding(
