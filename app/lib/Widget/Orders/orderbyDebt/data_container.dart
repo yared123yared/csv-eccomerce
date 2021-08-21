@@ -1,5 +1,6 @@
 import 'package:app/Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
 import 'package:app/Blocs/orderDrawer/OrderByDebt/orderByDebt_state.dart';
+import 'package:app/Widget/Orders/allOrders/print_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -63,7 +64,11 @@ class DataContainerOrderByDebt extends StatelessWidget {
                                 Icons.print,
                                 color: Colors.white,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                PrintButton(
+                                  index: index,
+                                );
+                              },
                             ),
                           ),
                           SizedBox(
@@ -127,7 +132,7 @@ class DataContainerOrderByDebt extends StatelessWidget {
               left: 10,
             ),
             child: Container(
-              height: 17,
+              height: 20,
               width: 150,
               color: Colors.white,
               child: Text(
@@ -141,7 +146,7 @@ class DataContainerOrderByDebt extends StatelessWidget {
             ),
           ),
           Container(
-            height: 15,
+            height: 20,
             width: 150,
             child: Text(
               dateApi,

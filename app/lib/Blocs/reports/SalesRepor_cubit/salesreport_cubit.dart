@@ -111,7 +111,8 @@ class SalesReportCubit extends Cubit<SalesReportState> {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
-          body: jsonEncode({
+          body: jsonEncode(
+            {
             "tableColumns": [
               "order_number",
               "order_number",
@@ -132,7 +133,8 @@ class SalesReportCubit extends Cubit<SalesReportState> {
             "amount_paid": "",
             "to": dataTo,
             "from": dateFrom
-          }));
+          }
+          ));
       if (response.statusCode == 200) {
         isComeData = true;
 

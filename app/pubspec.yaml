@@ -42,8 +42,17 @@ dependencies:
   sqflite: ^1.3.0
   scrollable_positioned_list: ^0.2.0-nullsafety.0
   connectivity_plus: ^1.0.6
- 
+  fluttertoast: ^8.0.8
+  # create pdf document
+  pdf: ^3.4.2
+  path_provider: ^2.0.2
+  open_file: ^3.2.1
   intl: ^0.17.0
+  #dowanlod image
+  image_gallery_saver: ^1.6.9
+  permission_handler: ^8.1.4+2
+ 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

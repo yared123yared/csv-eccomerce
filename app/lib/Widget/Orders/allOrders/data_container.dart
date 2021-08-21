@@ -1,5 +1,6 @@
 import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/allorders_state.dart';
+import 'package:app/Widget/Orders/allOrders/print_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -58,16 +59,8 @@ class DataContainerAllOrders extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Color(0xff48c2d5),
-                            foregroundColor: Colors.white,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.print,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {},
-                            ),
+                          PrintButton(
+                            index: index,
                           ),
                           SizedBox(
                             width: 5,

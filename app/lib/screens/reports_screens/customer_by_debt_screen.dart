@@ -77,8 +77,9 @@ class CustomerByDebtScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Color(0xffd9d9d9),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),

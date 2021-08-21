@@ -1,3 +1,4 @@
+import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -185,6 +186,10 @@ class App extends StatelessWidget {
               ..postOrdersByDebt()
               ..postOrdersByDebtSearch(searchName: "")
               ..featchTotalDebt(),
+          ),
+          BlocProvider<PaymentsCubit>(
+            create: (_) =>
+                PaymentsCubit(userPreferences)..postPayMentConatiner(),
           ),
         ],
         child: MaterialApp(
