@@ -14,10 +14,45 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> mapEventToState(
     PaymentEvent event,
   ) async* {
-    if (event is UpdatePaymentEvent) {
+    yield PaymentInitial();
+    if (event is AddPaymentWhenEvent) {
+      print("Entered to the payment bloc");
+      print(state.payment.toJson());
+      Payment payment = state.payment as Payment;
+      payment.PaymentWhen = event.when;
+      print("When:${event.when}");
+      print("updated payment:${payment.toJson()}");
+      yield PaymentUpdatedSucess(payment: payment);
+    } else if (event is AddPaymentMethodEvent) {
       print("Entered to the payment bloc");
       print(state.payment);
-      yield PaymentUpdatedSucess(payment: event.payment);
+      Payment payment = state.payment as Payment;
+      payment.PaymentMethod = event.method;
+      yield PaymentUpdatedSucess(payment: payment);
+    } else if (event is AddPaymentTypeEvent) {
+      print("Entered to the payment bloc");
+      print(state.payment);
+      Payment payment = state.payment as Payment;
+      payment.TypeOfWallet = event.type;
+      yield PaymentUpdatedSucess(payment: payment);
+    } else if (event is AddTransactionIdEvent) {
+      print("Entered to the payment bloc");
+      print(state.payment);
+      Payment payment = state.payment as Payment;
+      payment.TransactionId = event.transactionId;
+      yield PaymentUpdatedSucess(payment: payment);
+    } else if (event is AddPaidAmountEvent) {
+      print("Entered to the payment bloc");
+      print(state.payment);
+      Payment payment = state.payment as Payment;
+      payment.AmountPaid = event.amount;
+      yield PaymentUpdatedSucess(payment: payment);
+    } else if (event is AddRemainingAmountEvent) {
+      print("Entered to the payment bloc");
+      print(state.payment);
+      Payment payment = state.payment as Payment;
+      payment.AmountRemaining = event.amount;
+      yield PaymentUpdatedSucess(payment: payment);
     }
   }
 }

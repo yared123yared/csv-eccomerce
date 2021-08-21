@@ -60,14 +60,11 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
       // print(widget.dropDownItems[_value].chil);
     });
 
+    paymentBloc.add(AddPaymentWhenEvent(when: value as String));
     BlocListener<PaymentBloc, PaymentState>(
       listener: (context, state) {
-        print("entered to the listner");
         // TODO: implement listener
-        print(state.payment);
-        Payment payment = state.payment as Payment;
-        payment.PaymentWhen = this.value;
-        paymentBloc.add(UpdatePaymentEvent(payment: payment));
+        print("Updated state ${state.payment}");
       },
       child: Container(),
     );
