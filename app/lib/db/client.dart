@@ -10,10 +10,10 @@ extension ClientLocalDB on CsvDatabse{
     try {
       if (db != null) {
         await db.transaction((txn) async {
-          print("db---create---1");
+          print("db--cl--create---1");
           clientId = await txn.insert(tableClients, clientX.toJson(),
               conflictAlgorithm: ConflictAlgorithm.ignore);
-          print("db---create---2");
+          print("db-cl--create---2");
 
           List<Addresses> adresses = clientX.addresses;
           print("-----db 2.1");
@@ -31,7 +31,7 @@ extension ClientLocalDB on CsvDatabse{
             batch.insert(tableAddresses, adress.toSqliteJson());
             print("client-id${clientId}");
           });
-          print("db---create---3");
+          print("db--cl--create---3");
           if (documents != null) {
             documents.forEach((doc) {
               doc.clientID = clientId.toString();
@@ -41,12 +41,12 @@ extension ClientLocalDB on CsvDatabse{
 
           batch.commit();
         });
-        print("db---create---4");
+        print("db--cl--create---4");
 
         return clientX.copy(id: clientId.toString());
       }
     } catch (e) {
-      print("db--114--create failed--");
+      print("db--cl--create failed--");
       print(e);
     }
   }
@@ -57,28 +57,28 @@ extension ClientLocalDB on CsvDatabse{
     try {
       if (db != null) {
         await db.transaction((txn) async {
-          print("db---update---1");
+          print("db--cl--update---1");
           clientId = await txn.update(
             tableClients,
             clientX.toJson(),
             where: '${ClientFields.id} = ?',
             whereArgs: [clientX.id],
           );
-          print("db---update---2");
+          print("db--cl--update---2");
 
           await txn.delete(
             tableDocuments,
             where: '${DocFields.clientId} = ?',
             whereArgs: [clientId],
           );
-          print("db---update---3");
+          print("db--cl--update---3");
 
           await txn.delete(
             tableAddresses,
             where: '${AddressFields.clientId} = ?',
             whereArgs: [clientId],
           );
-          print("db---update---4");
+          print("db--cl--update---4");
 
           List<Addresses> adresses = clientX.addresses;
           List<Docs>? documents = clientX.documents;
@@ -88,7 +88,7 @@ extension ClientLocalDB on CsvDatabse{
             adress.clientID = clientId.toString();
             batch.insert(tableAddresses, adress.toSqliteJson());
           });
-          print("db---update---5");
+          print("db--cl--update---5");
 
           if (documents != null) {
             documents.forEach((doc) {
@@ -96,15 +96,15 @@ extension ClientLocalDB on CsvDatabse{
               batch.insert(tableDocuments, doc.toJson());
             });
           }
-          print("db---update---6");
+          print("db--cl--update---6");
           batch.commit();
-          print("db---update---7");
+          print("db--cl--update---7");
 
         });
         return clientX.copy(id: clientId.toString());
       }
     } catch (e) {
-      print("db--update failed--");
+      print("db--cl--update failed--");
       print(e);
     }
   }

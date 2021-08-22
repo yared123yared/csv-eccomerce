@@ -17,8 +17,8 @@ class Pivot {
   int? productId;
   int? attributeId;
   String? value;
-  Null? unitId;
-  Null? unitName;
+  int? unitId;
+  String? unitName;
   String? createdAt;
   String? updatedAt;
 
