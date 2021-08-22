@@ -1,6 +1,8 @@
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/payment/payment-custome-dropdown.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentTypeDropDown extends StatefulWidget {
   // final TextEditingController payingTimeController;
@@ -11,8 +13,10 @@ class PaymentTypeDropDown extends StatefulWidget {
 
 class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
   String value = 'Smilepay';
+  late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return CustomeDropDownButton(
       dropDownItems: [
         DropdownMenuItem(
@@ -48,9 +52,19 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
   }
 
   void onChanged(String? value) {
+    print("payment time on changed method");
     setState(() {
-      value = value!;
+      value = value;
       // print(widget.dropDownItems[_value].chil);
     });
+
+    ordersBloc.add(AddPaymentTypeEvent(type: value as String));
+    BlocListener<OrdersBloc, OrdersState>(
+      listener: (context, state) {
+        // TODO: implement listener
+        print("Updated state ${state.request}");
+      },
+      child: Container(),
+    );
   }
 }

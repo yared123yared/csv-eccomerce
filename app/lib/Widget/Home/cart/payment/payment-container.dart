@@ -1,4 +1,6 @@
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'payment-custome-dropdown.dart';
 import 'payment-filed-container.dart';
@@ -9,8 +11,14 @@ import 'payment-type-wallet.dart';
 class PaymentContainer extends StatelessWidget {
   // final TextEditingController payingTimeController;
   // PaymentContainer({required this.payingTimeController});
+  late OrdersBloc ordersBloc;
+  final Function onStateChange;
+  PaymentContainer({required this.onStateChange});
+
   @override
   Widget build(BuildContext context) {
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -50,32 +58,46 @@ class PaymentContainer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // PaymentFieldContainer(
-                  //   hintName: 'Pay Now',
-                  // ),
-                  // PaymentFieldContainer(
-                  //   hintName: 'Method',
-                  // ),
-                  // CustomeDropDownButton(),
                   PaymentTimeDropDown(),
                   PaymentMethodDropDown(),
                   PaymentTypeDropDown(),
-                  // PaymentFieldContainer(
-                  //   hintName: 'Type  of Wallet',
-                  // ),
                   PaymentFieldContainer(
-                    hintName: 'Transaction Id',
-                  ),
+                      hintName: 'Transaction Id',
+                      onChanged: this.addTansactionId),
                   PaymentFieldContainer(
                     hintName: 'Paid Amount',
+                    onChanged: this.addPaidAmount,
                   ),
                   PaymentFieldContainer(
                     hintName: 'Remaining Amount',
+                    onChanged: this.addRemainingAmount,
                   ),
+                  // BlocBuilder<PaymentBloc, PaymentState>(
+                  //   builder: (context, state) {
+                  //     this.onStateChange(state.payment);
+                  //     return Column(
+                  //       children: [
+
+                  //       ],
+                  //     );
+                  //   },
+                  // )
                 ],
               ),
             ),
           )),
     );
+  }
+
+  void addTansactionId(String value) {
+    ordersBloc.add(AddTransactionIdEvent(transactionId: value));
+  }
+
+  void addPaidAmount(String value) {
+    ordersBloc.add(AddPaidAmountEvent(amount: int.parse(value)));
+  }
+
+  void addRemainingAmount(String value) {
+    ordersBloc.add(AddRemainingAmountEvent(amount: int.parse(value)));
   }
 }

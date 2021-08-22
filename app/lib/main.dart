@@ -1,5 +1,5 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
-import 'package:app/Blocs/cart/bloc/payment/bloc/payment_bloc.dart';
+
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -158,9 +158,6 @@ class App extends StatelessWidget {
                 LocationBloc(locationRepository: this.locationRepository),
           ),
 
-          BlocProvider<PaymentBloc>(
-            create: (_) => PaymentBloc(),
-          ),
           // BlocProvider<ReportCubit>(
           //   create: (BuildContext context) => ReportCubit(userPreferences)
           //     ..postSalesReport(

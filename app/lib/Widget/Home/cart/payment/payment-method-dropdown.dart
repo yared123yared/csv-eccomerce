@@ -1,4 +1,4 @@
-import 'package:app/Blocs/cart/bloc/payment/bloc/payment_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/payment/payment-custome-dropdown.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +13,10 @@ class PaymentMethodDropDown extends StatefulWidget {
 
 class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
   String value = 'Wallet';
-  late PaymentBloc paymentBloc;
+  late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
-    paymentBloc = BlocProvider.of<PaymentBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return CustomeDropDownButton(
       dropDownItems: [
         DropdownMenuItem(
@@ -58,11 +58,11 @@ class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
       // print(widget.dropDownItems[_value].chil);
     });
 
-    paymentBloc.add(AddPaymentMethodEvent(method: value as String));
-    BlocListener<PaymentBloc, PaymentState>(
+    ordersBloc.add(AddPaymentMethodEvent(method: value as String));
+    BlocListener<OrdersBloc, OrdersState>(
       listener: (context, state) {
         // TODO: implement listener
-        print("Updated state ${state.payment}");
+        print("Updated state ${state.request}");
       },
       child: Container(),
     );

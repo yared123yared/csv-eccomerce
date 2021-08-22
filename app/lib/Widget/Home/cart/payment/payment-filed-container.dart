@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class PaymentFieldContainer extends StatelessWidget {
   final String hintName;
-  PaymentFieldContainer({required this.hintName});
+  final Function onChanged;
+  PaymentFieldContainer({required this.hintName, required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,6 +17,7 @@ class PaymentFieldContainer extends StatelessWidget {
             // initialValue: values['first_name'],
             // controller: firstNameController,
             // validator: (value) => LengthValidator(value, 1),
+            onChanged: this.onChanged,
             obsecureText: false,
             isRequired: true,
           ),

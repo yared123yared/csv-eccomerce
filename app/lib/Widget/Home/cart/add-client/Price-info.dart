@@ -82,34 +82,6 @@ class ClientInfo extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(child: BlocBuilder<OrdersBloc, OrdersState>(
-              builder: (context, state) {
-                if (state is OrderCreatedSuccess) {
-                  return Container(
-                    child: Text(
-                      "Created Successfully",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  );
-                } else if (state is OrderIsBeingCreating) {
-                  return Center(
-                      child: Container(
-                          height: 60,
-                          width: 60,
-                          child: CircularProgressIndicator()));
-                } else {
-                  return Container(
-                      // child: Text("Failed to create",
-                      //     style: TextStyle(color: Colors.red))
-
-                      );
-                }
-                return Container();
-              },
-            )),
-          ),
         ],
       ),
     );

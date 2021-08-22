@@ -125,11 +125,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     } else if (event is AddProduct) {
       List<Data> cart_product = state.products;
 
-      for (int i = 0; i < cart_product.length; i++) {
-        if (cart_product[i] == cart_product[i]) {
-          cart_product[i] = cart_product[i];
-        }
-      }
+      // for (int i = 0; i < cart_product.length; i++) {
+      //   if (cart_product[i] == cart_product[i]) {
+      //     cart_product[i] = cart_product[i];
+      //   }
+      // }
       yield ProductLoadSuccess(
           products: cart_product,
           selectedCategoryId: state.selectedCategoryId,

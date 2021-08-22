@@ -1,4 +1,3 @@
-import 'package:app/Blocs/cart/bloc/payment/bloc/payment_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/payment/payment-custome-dropdown.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
@@ -15,10 +14,10 @@ class PaymentTimeDropDown extends StatefulWidget {
 
 class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
   String value = 'Pay Later';
-  late PaymentBloc paymentBloc;
+  late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
-    paymentBloc = BlocProvider.of<PaymentBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return CustomeDropDownButton(
       dropDownItems: [
         DropdownMenuItem(
@@ -60,11 +59,11 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
       // print(widget.dropDownItems[_value].chil);
     });
 
-    paymentBloc.add(AddPaymentWhenEvent(when: value as String));
-    BlocListener<PaymentBloc, PaymentState>(
+    ordersBloc.add(AddPaymentWhenEvent(when: value as String));
+    BlocListener<OrdersBloc, OrdersState>(
       listener: (context, state) {
         // TODO: implement listener
-        print("Updated state ${state.payment}");
+        print("Updated state ${state.request}");
       },
       child: Container(),
     );

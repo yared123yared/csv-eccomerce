@@ -8,6 +8,7 @@ class PaymentCustomTextField extends StatelessWidget {
   final bool? obsecureText;
   final bool? isRequired;
   final String? initialValue;
+  final Function? onChanged;
   PaymentCustomTextField({
     this.textFieldName,
     this.controller,
@@ -15,6 +16,7 @@ class PaymentCustomTextField extends StatelessWidget {
     this.obsecureText,
     this.isRequired,
     this.initialValue,
+    this.onChanged,
   });
 
   @override
@@ -37,6 +39,7 @@ class PaymentCustomTextField extends StatelessWidget {
           // initialValue: this.initialValue,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
+          onChanged: (value) => this.onChanged!(value.toString()),
           onEditingComplete: () => FocusScope.of(context).unfocus(),
           style: TextStyle(fontSize: 18, color: Colors.grey),
           decoration: InputDecoration(
@@ -46,24 +49,6 @@ class PaymentCustomTextField extends StatelessWidget {
               left: 12,
             ),
             border: InputBorder.none,
-            // prefixText: '${this.textFieldName}',
-            // prefixIcon: Container(
-            //   width: this.textFieldName.length * 5,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       Text('  ${this.textFieldName}'),
-            //       this.isRequired
-            //           ? Text(
-            //               '*',
-            //               style: TextStyle(
-            //                 color: Colors.red,
-            //               ),
-            //             )
-            //           : Text(''),
-            //     ],
-            //   ),
-            // ),
 
             hintText: '${this.textFieldName}',
             errorStyle: TextStyle(

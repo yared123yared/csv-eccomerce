@@ -6,19 +6,12 @@ import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NextButton extends StatefulWidget {
+class ConditionalButton extends StatelessWidget {
   final VoidCallback onPressed;
-
-  NextButton({required this.onPressed});
-
-  @override
-  _NextButtonState createState() => _NextButtonState();
-}
-
-class _NextButtonState extends State<NextButton> {
+  final String name;
   late OrdersBloc ordersBloc;
   bool nextChecked = false;
-
+  ConditionalButton({required this.onPressed, required this.name});
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
@@ -32,7 +25,7 @@ class _NextButtonState extends State<NextButton> {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Center(
-              child: Text(this.nextChecked == false ? "Next" : "Order",
+              child: Text(this.name,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -40,13 +33,7 @@ class _NextButtonState extends State<NextButton> {
             ),
           ),
           onTap: () {
-            widget.onPressed();
-            setState(() {
-              this.nextChecked = true;
-            });
-            // ordersBloc.add(CreateOrderEvent(request: null));
-            // Navigator.pop(context);
-            // Navigator.pushNamed(context, AddClient.routeName);
+            this.onPressed();
           }),
     );
   }
