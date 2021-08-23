@@ -52,3 +52,5 @@ class UserPreferences {
     return true;
   }
 }
+
+

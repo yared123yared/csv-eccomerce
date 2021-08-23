@@ -7,6 +7,7 @@ class Role {
   Role.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    print("completed role data conversion");
   }
 
   Map<String, dynamic> toJson() {

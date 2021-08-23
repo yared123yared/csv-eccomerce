@@ -8,10 +8,12 @@ class Conditional extends StatelessWidget {
   final String image;
   final String name;
   final Data product;
+  final VoidCallback onClick;
   Conditional(
       {required this.name,
       required this.value,
       required this.image,
+      required this.onClick,
       required this.product});
 
   @override
@@ -67,7 +69,10 @@ class Conditional extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, ProductDetail.routeName,
-                              arguments: this.product);
+                              arguments: [
+                                this.product,
+                                this.onClick,
+                              ]);
                         },
                         child: Container(
                           child: Text(this.name,

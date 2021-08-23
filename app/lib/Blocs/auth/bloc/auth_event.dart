@@ -10,6 +10,7 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => [];
 }
 
+
 class AutoLoginEvent extends AuthEvent {
   @override
   List<Object> get props => [];

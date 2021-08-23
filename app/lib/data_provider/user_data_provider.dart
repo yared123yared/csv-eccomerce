@@ -23,10 +23,12 @@ class UserDataProvider {
         body: loginInfo.toJson(),
       );
       if (response.statusCode != 201) {
+        print("Faileddddd");
         throw HttpException('Incorrect email or password');
       } else {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
+        print("success, ${extractedData}");
         loggedUserInfo = LoggedUserInfo.fromJson(extractedData);
         await this.userPreferences.storeUserInformation(loggedUserInfo);
         String expiry = response.headers['Expires'].toString();
