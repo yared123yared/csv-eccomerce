@@ -11,6 +11,9 @@ class UserRepository {
   Future<LoggedUserInfo> login(LoginInfo user) async {
     return await userDataProvider.login(user);
   }
+  Future<LoggedUserInfo?> offlineLogin(LoginInfo user) async {
+    return await userDataProvider.offlineLogin(user);
+  }
 
   Future<void> updatepassword(String password, confirmedPassword) async {
     await userDataProvider.updatePassword(password, confirmedPassword);

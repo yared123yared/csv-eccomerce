@@ -15,6 +15,7 @@ part 'category.dart';
 final String tableClients = 'clients';
 final String tableAddresses = 'addresses';
 final String tableDocuments = 'documents';
+final String tableOrders = 'orders';
 final String tableDeletedClientID = 'deleted_clients';
 final String tableProduct = 'products';
 final String tablePhotos = 'photos';
@@ -144,7 +145,7 @@ CREATE TABLE $tableClients (
       await db.execute('''
 CREATE TABLE $tableAddresses (
   ${AddressFields.id} $idType,
-  ${AddressFields.clientId} $integerType,
+  ${AddressFields.clientId} $integerTypeNullable,
   ${AddressFields.streetAddress} $textTypeNullable,
   ${AddressFields.zipCode} $textTypeNullable,
   ${AddressFields.locality} $textTypeNullable,
@@ -165,7 +166,7 @@ CREATE TABLE $tableDocuments (
   ${DocFields.id} $idType,
   ${DocFields.name} $textType,
   ${DocFields.path} $textType,
-  ${DocFields.clientId} $textType,
+  ${DocFields.clientId} $integerTypeNullable,
   FOREIGN KEY (${DocFields.clientId})
        REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
 
@@ -174,11 +175,36 @@ CREATE TABLE $tableDocuments (
       print("table create--10");
 
       await db.execute('''
+CREATE TABLE $tableOrders (
+  ${OrderFields.id} $idTypeNullable,
+  ${OrderFields.orderNo} $textType,
+  ${OrderFields.total} $textType,
+  ${OrderFields.paymentWhen} $textType,
+  ${OrderFields.paymentMethod} $textType,
+  ${OrderFields.typeOfWallet} $textType,
+  ${OrderFields.transactionId} $textType,
+  ${OrderFields.amountPaid} $textType,
+  ${OrderFields.amountRemaining} $textType,
+  ${OrderFields.status} $textType,
+  ${OrderFields.requiresApproval} $integerTypeNullable,
+  ${OrderFields.addressId} $integerTypeNullable,
+  ${OrderFields.clientId} $integerTypeNullable,
+  ${OrderFields.companyId} $integerTypeNullable,
+  ${OrderFields.createdAt} $textType,
+  ${OrderFields.updatedAt} $textType,
+  FOREIGN KEY (${OrderFields.clientId})
+       REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
+
+  )
+''');
+      print("table create--11");
+
+      await db.execute('''
 CREATE TABLE $tableDeletedClientID (
   id $integerTypeNullable
   )
 ''');
-      print("table create--11");
+      print("table create--12");
 
     } catch (e) {
       print("db--table--create--failed");

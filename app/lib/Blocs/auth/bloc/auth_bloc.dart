@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:app/db/db.dart';
 import 'package:app/preferences/user_preference_data.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import '../../../models/login_info.dart';
@@ -46,10 +48,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _mapLoginEventToState(LoginInfo user) async* {
     yield LoggingState();
-    LoggedUserInfo u;
+
+    bool connected = await ConnectionChecker.CheckInternetConnection();
+
     try {
-      u = await userRepository.login(user);
-      yield LoginSuccessState(user: u);
+      if (connected) {
+        LoggedUserInfo u = await userRepository.login(user);
+        await CsvDatabse.instance.deleteAllClients();
+        yield LoginSuccessState(user: u);
+      } else {
+        LoggedUserInfo? u = await userRepository.offlineLogin(user);
+        if (u == null) {
+          yield LoginFailedState(message: "unable to read user-credential");
+          return;
+        }
+        yield LoginSuccessState(user: u);
+      }
     } on HttpException catch (e) {
       yield LoginFailedState(message: e.message);
     } catch (e) {
@@ -75,8 +89,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         yield AutoLoginFailedState();
         return;
       } else {
-        LoggedUserInfo user = await this.userPreference.getUserInformation();
-        yield AutoLoginSuccessState(user: user);
+        LoggedUserInfo? user = await this.userPreference.getUserInformation();
+        if (user == null) {
+          yield AutoLoginFailedState();
+
+          return;
+        }
+        yield AutoLoginSuccessState(user: user as LoggedUserInfo);
       }
     } catch (e) {
       yield AutoLoginFailedState();

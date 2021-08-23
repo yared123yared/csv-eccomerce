@@ -13,9 +13,6 @@ class ClientsDataProvider {
 
   ClientsDataProvider(
       {required this.httpClient, required this.userPreferences});
-      
-
-  
 
   final String baseUrl = 'http://csv.jithvar.com/api/v1';
 
@@ -207,11 +204,13 @@ class ClientsDataProvider {
         }
       }
 
+      print("data to be update");
+      print(jsonDecode(data.addresses.toString()));
       if (data.addresses != null) {
         int i = 1;
         for (var address in data.addresses) {
           String x =
-              '{"id":"","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
+              '{"id":"${address.id}","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
           request.fields['addresses[$i]'] = x;
           i++;
         }
@@ -225,7 +224,7 @@ class ClientsDataProvider {
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }
-       print("dp--update success");
+      print("dp--update success");
     } catch (e) {
       print("dp---update---failed");
       print(e);

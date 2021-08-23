@@ -1,7 +1,6 @@
 part of 'db.dart';
 
-extension ClientLocalDB on CsvDatabse{
-
+extension ClientLocalDB on CsvDatabse {
   // ClientLocalDB(): super._init();
 
   Future<CreateEditData?> create(CreateEditData clientX) async {
@@ -11,14 +10,19 @@ extension ClientLocalDB on CsvDatabse{
       if (db != null) {
         await db.transaction((txn) async {
           print("db--cl--create---1");
-          clientId = await txn.insert(tableClients, clientX.toJson(),
-              conflictAlgorithm: ConflictAlgorithm.ignore);
+          clientId = await txn.insert(
+            tableClients,
+            clientX.toJson(),
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
           print("db-cl--create---2");
 
           List<Addresses> adresses = clientX.addresses;
           print("-----db 2.1");
 
           List<Docs>? documents = clientX.documents;
+          List<Orders>? orders = clientX.orders;
+
           print("-----db 2.2");
 
           Batch batch = txn.batch();
@@ -28,14 +32,23 @@ extension ClientLocalDB on CsvDatabse{
             print("-----db 2.4");
             print("client-id${clientId}");
 
-            batch.insert(tableAddresses, adress.toSqliteJson());
+            batch.insert(
+              tableAddresses,
+              adress.toSqliteJson(),
+            );
             print("client-id${clientId}");
           });
           print("db--cl--create---3");
           if (documents != null) {
             documents.forEach((doc) {
               doc.clientID = clientId.toString();
-              batch.insert(tableDocuments, doc.toJson());
+              batch.insert(tableDocuments, doc.toDBJson());
+            });
+          }
+          print("db--cl--create---4");
+          if (orders != null) {
+            orders.forEach((ord) {
+              batch.insert(tableOrders, ord.toJson());
             });
           }
 
@@ -56,13 +69,15 @@ extension ClientLocalDB on CsvDatabse{
     late int clientId;
     try {
       if (db != null) {
+        print("---client update started on local db");
+        print("addresses--length--${clientX.addresses.length}");
         await db.transaction((txn) async {
           print("db--cl--update---1");
           clientId = await txn.update(
             tableClients,
             clientX.toJson(),
             where: '${ClientFields.id} = ?',
-            whereArgs: [clientX.id],
+            whereArgs: [int.parse(clientX.id.toString())],
           );
           print("db--cl--update---2");
 
@@ -80,8 +95,17 @@ extension ClientLocalDB on CsvDatabse{
           );
           print("db--cl--update---4");
 
+          await txn.delete(
+            tableOrders,
+            where: '${OrderFields.clientId} = ?',
+            whereArgs: [clientId],
+          );
+          print("db--cl--update---4.1");
+
           List<Addresses> adresses = clientX.addresses;
           List<Docs>? documents = clientX.documents;
+          List<Orders>? orders = clientX.orders;
+
           Batch batch = txn.batch();
 
           adresses.forEach((adress) {
@@ -93,13 +117,19 @@ extension ClientLocalDB on CsvDatabse{
           if (documents != null) {
             documents.forEach((doc) {
               doc.clientID = clientId.toString();
-              batch.insert(tableDocuments, doc.toJson());
+              batch.insert(tableDocuments, doc.toDBJson());
+            });
+          }
+          print("db--cl--update---5-1");
+
+          if (orders != null) {
+            orders.forEach((ord) {
+              batch.insert(tableOrders, ord.toJson());
             });
           }
           print("db--cl--update---6");
           batch.commit();
           print("db--cl--update---7");
-
         });
         return clientX.copy(id: clientId.toString());
       }
@@ -107,6 +137,30 @@ extension ClientLocalDB on CsvDatabse{
       print("db--cl--update failed--");
       print(e);
     }
+  }
+
+  Future<void> deleteAllClients() async {
+    final db = await CsvDatabse.instance.database;
+    try {
+      if (db != null) {
+        await db.transaction(
+          (txn) async {
+            await txn.delete(
+              tableAddresses,
+            );
+            await txn.delete(
+              tableDocuments,
+            );
+            await txn.delete(
+              tableOrders,
+            );
+            await txn.delete(
+              tableClients,
+            );
+          },
+        );
+      }
+    } catch (e) {}
   }
 
   Future<List<CreateEditData>?> readClients() async {
@@ -133,16 +187,43 @@ extension ClientLocalDB on CsvDatabse{
           for (var cl in clients!) {
             List<Addresses> adresses = [];
             List<Docs> documents = [];
-            final adressMap = await txn.query(tableAddresses,
-                where: '${AddressFields.clientId} = ?', whereArgs: [cl.id]);
+            List<Orders> orders = [];
+            final adressMap = await txn.query(
+              tableAddresses,
+              where: '${AddressFields.clientId} = ?',
+              whereArgs: [cl.id],
+            );
 
-            adresses =
-                adressMap.map((json) => Addresses.fromJson(json)).toList();
+            adresses = adressMap
+                .map(
+                  (json) => Addresses.fromJson(json),
+                )
+                .toList();
 
-            final docsMap = await txn.query(tableDocuments,
-                where: '${DocFields.clientId} = ?', whereArgs: [cl.id]);
+            final docsMap = await txn.query(
+              tableDocuments,
+              where: '${DocFields.clientId} = ?',
+              whereArgs: [cl.id],
+            );
 
-            documents = docsMap.map((json) => Docs.fromJson(json)).toList();
+            documents = docsMap
+                .map(
+                  (json) => Docs.fromJson(json),
+                )
+                .toList();
+            if (cl.id != null) {
+              final ordersMap = await txn.query(
+                tableOrders,
+                where: '${OrderFields.clientId} = ?',
+                whereArgs: [int.parse(cl.id as String)],
+              );
+
+              orders = ordersMap
+                  .map(
+                    (json) => Orders.fromJson(json),
+                  )
+                  .toList();
+            }
 
             // print("addresses");
             // print(jsonEncode(adresses).toString());
@@ -150,6 +231,7 @@ extension ClientLocalDB on CsvDatabse{
             // print(jsonEncode(documents).toString());
             cl.addresses = adresses;
             cl.documents = documents;
+            cl.orders = orders;
           }
         }
       });

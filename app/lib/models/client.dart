@@ -231,6 +231,34 @@ class Client {
   }
 }
 
+class OrderFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, orderNo, total, paymentWhen, paymentMethod, typeOfWallet,
+    transactionId, amountPaid, amountRemaining, status, requiresApproval,
+    addressId, clientId, createdAt, updatedAt,
+  ];
+
+  static final String id = 'id';
+  static final String orderNo = 'order_no';
+  static final String total = 'total';
+  static final String paymentWhen = 'payment_when';
+  static final String paymentMethod = 'payment_method';
+  static final String typeOfWallet = 'type_of_wallet';
+  static final String transactionId = 'transaction_id';
+  static final String amountPaid = 'amount_paid';
+  static final String amountRemaining = 'amount_remaining';
+  static final String status = 'status';
+  static final String requiresApproval = 'requires_approval';
+  static final String addressId = 'address_id';
+  static final String clientId = 'client_id';
+  static final String companyId = 'company_id';
+  // static final String createdBy = 'created_by';
+  // static final String updatedBy = 'updated_by';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+}
+
 class Orders {
   int? id;
   String? orderNumber;
@@ -251,25 +279,26 @@ class Orders {
   String? createdAt;
   String? updatedAt;
 
-  Orders(
-      {this.id,
-      this.orderNumber,
-      this.total,
-      this.paymentWhen,
-      this.paymentMethod,
-      this.typeOfWallet,
-      this.transactionId,
-      this.amountPaid,
-      this.amountRemaining,
-      this.status,
-      this.requiresApproval,
-      this.addressId,
-      this.clientId,
-      this.companyId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt});
+  Orders({
+    this.id,
+    this.orderNumber,
+    this.total,
+    this.paymentWhen,
+    this.paymentMethod,
+    this.typeOfWallet,
+    this.transactionId,
+    this.amountPaid,
+    this.amountRemaining,
+    this.status,
+    this.requiresApproval,
+    this.addressId,
+    this.clientId,
+    this.companyId,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   Orders.fromJson(Map<String, dynamic> json) {
     try {
@@ -404,6 +433,8 @@ class CreateEditData {
   late String email;
   late List<Addresses> addresses;
   late List<Docs>? documents;
+  List<Orders>? orders;
+
   String? uploadedPhoto;
   String? type;
   CreateEditData({
@@ -416,6 +447,7 @@ class CreateEditData {
     this.documents,
     this.uploadedPhoto,
     this.type,
+    this.orders,
   });
 
   CreateEditData copy({
@@ -460,6 +492,7 @@ class CreateEditData {
     type = json['type'];
     addresses = [];
     documents = [];
+    orders = [];
   }
 }
 
@@ -571,7 +604,7 @@ class Addresses {
   Map<String, dynamic> toSqliteJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     // print("ad--1");
-    if (this.id != null && this.id != ""&&this.id!="null") {
+    if (this.id != null && this.id != "" && this.id != "null") {
       print("this.id---${this.id == null}");
       print("this.id---${this.id != null}");
       print("${this.id}");
@@ -644,12 +677,24 @@ class Docs {
     }
     return data;
   }
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.id != null && this.id != "" && this.id != "null") {
+      data['_id'] = int.parse(this.id.toString());
+    }
+    data['name'] = this.name;
+    data['path'] = this.path;
+    if (this.clientID != null) {
+      data['client_id'] = int.parse(this.clientID.toString());
+    }
+    return data;
+  }
 
   Docs.fromJson(Map<String, dynamic> json) {
     id = json['_id'].toString();
     name = json['name'];
     path = json['path'];
-    clientID = json['client_id'];
+    clientID = json['client_id'].toString();
     // try {
 
     // } catch (e) {

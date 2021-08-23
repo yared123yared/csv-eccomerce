@@ -42,8 +42,8 @@ class ClientDataRow extends StatelessWidget {
                     )
                   : PillText(
                       text: this.value,
-                      bgColor: Colors.greenAccent.shade700,
-                      fgColor: Colors.white,
+                      bgColor: Colors.grey,
+                      fgColor: Colors.black,
                     ))
               : Text(
                   this.value,

@@ -45,6 +45,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
         print(e.toString());
       }
     } else if (event is SelectCategory) {
+      print("---select category event");
       yield CategoriesLoadSuccess(
           categories: state.categories, selectedCategoryId: event.categoryId);
     }
