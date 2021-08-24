@@ -1,6 +1,7 @@
 import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DataContainer extends StatefulWidget {
   @override
@@ -9,32 +10,65 @@ class DataContainer extends StatefulWidget {
 
 class _DataContainerState extends State<DataContainer> {
   late SalesReportBloc bloc;
-  // ScrollController _scrollController = ScrollController();
-  // int pages = 0;
+
+  Database? database;
+  List<Map> sales = [];
 
   @override
   void initState() {
     bloc = BlocProvider.of<SalesReportBloc>(context);
     bloc.add(FeatchSalesReportEvent());
     super.initState();
-    // _scrollController.addListener(() {
-    //   print(_scrollController.position.pixels);
-    //   if (_scrollController.position.pixels ==
-    //       _scrollController.position.maxScrollExtent) {
-    //     pages = 2;
-    //   }
-    // });
+    createSalesReportDatabase();
   }
-
-  // fetchFive() {
-  //   for (int i = 0; i < 10; i++) {}
-  // }
 
   @override
   void dispose() {
     bloc.close();
-    // _scrollController.dispose();
+
     super.dispose();
+  }
+
+  void createSalesReportDatabase() async {
+    database = await openDatabase(
+      'salereportd.db',
+      version: 1,
+      onCreate: (database, version) {
+        print("database created");
+        database
+            .execute(
+                'CREATE TABLE Sales (id INTEGER PRIMARY KEY, num TEXT, name TEXT, total TEXT, paid TEXT, debt TEXT)')
+            .then((value) {
+          print("Table Sales Report Created");
+        }).catchError((error) {
+          print("Error When Creating Table ${error.toString()}");
+        });
+      },
+      onOpen: (database) {
+        getSaLesReportDataBase(database).then((value) {
+          sales = value;
+        });
+        print("database opend");
+      },
+    );
+  }
+
+  Future insertSalesReportDatabase() async {
+    await database!.transaction((txn) {
+      var result = txn
+          .rawInsert(
+              'INSERT INTO Sales(num, name, total, paid, debt) VALUES("45", "walid", "100", "40", 98")')
+          .then((value) {
+        print('$value inserted successfully');
+      }).catchError((error) {
+        print("Error When Inserting New Record ${error.toString()}");
+      });
+      return result;
+    });
+  }
+
+  Future<List<Map>> getSaLesReportDataBase(database) async {
+    return await database!.rawQuery('SELECT * FROM Sales');
   }
 
   @override
