@@ -1,9 +1,24 @@
+class PivotFields {
+  static final List<String> values = [
+    /// Add all fields
+    productId, attributeId, value,unitId,unitName, createdAt, updatedAt
+  ];
+
+  static final String productId = 'product_id';
+  static final String attributeId = 'attribute_id';
+  static final String value = 'value';
+  static final String unitId = 'unit_id';
+  static final String unitName = 'unit_name';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+}
+
 class Pivot {
   int? productId;
   int? attributeId;
   String? value;
-  Null? unitId;
-  Null? unitName;
+  int? unitId;
+  String? unitName;
   String? createdAt;
   String? updatedAt;
 

@@ -41,3 +41,8 @@ class DeleteClientEvent extends ClientsEvent {
   @override
   List<Object> get props => [id];
 }
+class SyncClientEvent extends ClientsEvent {
+  SyncClientEvent();
+  @override
+  List<Object> get props => [];
+}
