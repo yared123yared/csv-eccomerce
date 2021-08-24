@@ -8,6 +8,7 @@ import 'package:app/Widget/payments/upload_slip_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../drawer.dart';
 
@@ -72,10 +73,18 @@ class PaymentsScreen extends StatelessWidget {
                     shape: const StadiumBorder(),
                   ),
                   onPressed: () {
-                    cubit.postPayMentUplaodData(
-                      amount: cubit.searchController.text,
+                    cubit.uploadImage(
                       date: cubit.dateFromText,
                     );
+                    Fluttertoast.showToast(
+                        msg: "Successful Uploaded",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                    cubit.clealuploade();
                   },
                   child: const Text(
                     "Submit",
@@ -94,7 +103,7 @@ class PaymentsScreen extends StatelessWidget {
                 ),
                 cubit.isComeData
                     ? Text(
-                        "Showing 1 to 5 of ${cubit.payMentContainerModel.total} entries",
+                        "Showing 1 to 5 of 5 entries",
                         style: TextStyle(
                           color: Colors.black45,
                         ),
@@ -109,15 +118,18 @@ class PaymentsScreen extends StatelessWidget {
                   height: 20,
                 ),
 
-                cubit.isComeData
-                    ? Expanded(
-                        child: DataPaymentsContainer(),
-                      )
-                    : Center(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                Expanded(
+                  child: DataPaymentsContainer(),
+                ),
+                // cubit.isComeData
+                //     ? Expanded(
+                //         child: DataPaymentsContainer(),
+                //       )
+                //     : Center(
+                //         child: Center(
+                //           child: CircularProgressIndicator(),
+                //         ),
+                //       ),
               ],
             ),
           );

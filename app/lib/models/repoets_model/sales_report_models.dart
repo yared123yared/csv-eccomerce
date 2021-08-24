@@ -12,14 +12,14 @@ class SaleReportModel {
 }
 
 class DataSaleReport {
-  int? id;
-  String? orderNumber;
-  String? createdAt;
-  String? total;
-  String? amountPaid;
-  String? amountRemaining;
-  int? clientId;
-  String? status;
+  late int id;
+  late String orderNumber;
+  late String createdAt;
+  late String total;
+  late String amountPaid;
+  late String amountRemaining;
+  late int clientId;
+  late String status;
   Client? client;
 
   DataSaleReport.fromJson(Map<String, dynamic> json) {

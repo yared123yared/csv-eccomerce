@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app/Blocs/reports/CustomerDebt/customer_state.dart';
+import 'package:app/Blocs/reports/CustomerDebt/cubit/customer_state.dart';
 import 'package:app/models/repoets_model/custom_report_model.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:bloc/bloc.dart';

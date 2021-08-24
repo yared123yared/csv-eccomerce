@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
-import 'package:app/models/repoets_model/sales_report_models.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
+import 'package:app/models/repoets_model/sales_report_models.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
 class SalesReportCubit extends Cubit<SalesReportState> {
   final UserPreferences userPreferences;
@@ -15,10 +15,6 @@ class SalesReportCubit extends Cubit<SalesReportState> {
   ) : super(ReportInitialState());
 
   static SalesReportCubit get(BuildContext context) => BlocProvider.of(context);
-
-  //Date Time New
-
-  // DateTime
 
   bool isFormDate = false;
   bool isToDate = false;
@@ -69,8 +65,6 @@ class SalesReportCubit extends Cubit<SalesReportState> {
     emit(SelectToTimePickerState());
   }
 
-  ////FetchData Here From Post Api and All Controller
-
   TextEditingController searchController = TextEditingController();
   bool isComeData = false;
   bool isComeDataWrong = false;
@@ -80,28 +74,20 @@ class SalesReportCubit extends Cubit<SalesReportState> {
   void clearAll() {
     isFormDate = false;
     isToDate = false;
-    searchController.clear();
-    isComeData = false;
-
-    postSalesReport(
-      dateFrom: "",
-      nameSearch: "",
-      dataTo: "",
-    );
-
+    dateFromText = "";
+    dateToText = "";
     emit(ClearAllButtonState());
   }
 
   late SaleReportModel saleReportModel;
-  List<String> pagtion = [];
 
   Future postSalesReport({
     required String nameSearch,
     required String dateFrom,
-    required String dataTo,
+    required String dateTo,
   }) async {
     String? token = await this.userPreferences.getUserToken();
-    emit(SearchLoadingState());
+
     try {
       final url =
           Uri.parse('http://csv.jithvar.com/api/v1/orders/sales-report');
@@ -111,8 +97,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
-          body: jsonEncode(
-            {
+          body: jsonEncode({
             "tableColumns": [
               "order_number",
               "order_number",
@@ -131,13 +116,12 @@ class SalesReportCubit extends Cubit<SalesReportState> {
             "total": "",
             "amount_remaining": "",
             "amount_paid": "",
-            "to": dataTo,
+            "to": dateTo,
             "from": dateFrom
-          }
-          ));
+          }));
+
       if (response.statusCode == 200) {
         isComeData = true;
-
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
 
@@ -145,8 +129,7 @@ class SalesReportCubit extends Cubit<SalesReportState> {
 
         saleReportModel = SaleReportModel.fromJson(data);
 
-        // print("Walid : ${saleReportModel.data![0].client!.mobile}");
-
+        print("Walid : ${saleReportModel.data![0].client!.mobile}");
       } else {
         isComeData = false;
         throw Exception('Failed to load courses');
@@ -156,8 +139,4 @@ class SalesReportCubit extends Cubit<SalesReportState> {
     }
     emit(FeatchDataSucessState());
   }
-
-  // Infinite Scrolling Pagination code Lazy
-
-  ScrollController scrollController = ScrollController();
 }

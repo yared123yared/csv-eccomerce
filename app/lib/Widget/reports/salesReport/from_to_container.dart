@@ -1,8 +1,7 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class FromToContainer extends StatelessWidget {
   @override
@@ -29,31 +28,30 @@ class FromToContainer extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      cubit.isFormDate
-                          ? Text(
-                              cubit.dateFromText,
-                              //"${cubit.dateForm.day.toString()}-${cubit.dateForm.month.toString()}-${cubit.dateForm.year.toString()}",
-                              //"${cubit.dateFromText}",
-                              style: TextStyle(
-                                color: Color(0xff414e79),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            )
-                          : Text(
-                              "From",
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.black45,
-                              ),
-                            ),
+                      if (cubit.isFormDate)
+                        Text(
+                          cubit.dateFromText,
+                          style: TextStyle(
+                            color: Color(0xff414e79),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        )
+                      else
+                        Text(
+                          "From",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.black45,
+                          ),
+                        ),
                       TextButton.icon(
                         onPressed: () {
                           cubit.selectFormTimePicker(context);
                           cubit.postSalesReport(
                             nameSearch: "",
-                            dateFrom: cubit.dateForm.toString(),
-                            dataTo: cubit.dateTo.toString(),
+                            dateFrom: cubit.dateFromText,
+                            dateTo: cubit.dateToText,
                           );
                         },
                         icon: Image.asset(
@@ -87,8 +85,6 @@ class FromToContainer extends StatelessWidget {
                       cubit.isToDate
                           ? Text(
                               cubit.dateToText,
-                              //"${cubit.dateTo.day.toString()}-${cubit.dateTo.month.toString()}-${cubit.dateTo.year.toString()}",
-                              //"${cubit.dateToText}",
                               style: TextStyle(
                                 color: Color(0xff414e79),
                                 fontWeight: FontWeight.bold,
@@ -107,8 +103,8 @@ class FromToContainer extends StatelessWidget {
                           cubit.selectToTimePicker(context);
                           cubit.postSalesReport(
                             nameSearch: "",
-                            dateFrom: cubit.dateForm.toString(),
-                            dataTo: cubit.dateTo.toString(),
+                            dateFrom: cubit.dateFromText,
+                            dateTo: cubit.dateToText,
                           );
                         },
                         icon: Image.asset(
@@ -130,17 +126,4 @@ class FromToContainer extends StatelessWidget {
       },
     );
   }
-
-  // Widget buildDateCard() => Card(
-  //       margin: const EdgeInsets.fromLTRB(50, 150, 50, 20),
-  //       child: SfDateRangePicker(
-  //         view: DateRangePickerView.year,
-  //         selectionMode: DateRangePickerSelectionMode.range,
-  //         showActionButtons: true,
-  //         cancelText: 'CANCEL',
-  //         confirmText: 'OK',
-  //         onCancel: () {},
-  //         onSubmit: (Object value) {},
-  //       ),
-  //     );
 }

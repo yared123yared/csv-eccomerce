@@ -8,6 +8,7 @@ class AmountContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentsCubit, PaymentsState>(
       builder: (context, state) {
+        final cubit = PaymentsCubit.get(context);
         return Row(
           children: [
             Container(
@@ -28,9 +29,10 @@ class AmountContainer extends StatelessWidget {
                   keyboardType: TextInputType.text,
 
                   onFieldSubmitted: (String value) {
-                    // cubit.postOrdersByDebtSearch(
-                    //   searchName: value,
-                    // );
+                    cubit.amount = int.parse(value);
+                    cubit.uploadImage(
+                      date: "",
+                    );
                   },
                   onChanged: (String value) {},
                   decoration: InputDecoration(

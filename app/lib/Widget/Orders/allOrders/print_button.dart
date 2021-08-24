@@ -1,5 +1,5 @@
-import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
-import 'package:app/Blocs/orderDrawer/AllOrder/allorders_state.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_state.dart';
 import 'package:app/Pdf/api/pdfInvoiceApi.dart';
 import 'package:app/Pdf/api/pdf_api.dart';
 import 'package:app/Pdf/models/customer.dart';

@@ -1,31 +1,27 @@
 class PayMentContainerModel {
-  List<Data>? data;
-
-  late int total;
+  List<DataPayment>? data;
 
   PayMentContainerModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(new Data.fromJson(v));
+        data?.add(DataPayment.fromJson(v));
       });
     }
-
-    total = json['total'] ;
   }
 }
 
-class Data {
-  int? id;
-  String? date;
-  String? amount;
-  int? approved;
-  int? denied;
+class DataPayment {
+  late int id;
+  late String date;
+  late String amount;
+  late int approved;
+  late int denied;
   String? reasonDenied;
-  String? status;
+  late String status;
   Photo? photo;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataPayment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     date = json['date'];
     amount = json['amount'];

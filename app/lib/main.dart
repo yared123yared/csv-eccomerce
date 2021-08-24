@@ -1,24 +1,32 @@
+import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
-import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
-import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
 import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
-import 'Blocs/reports/CustomerDebt/customer_cubit.dart';
+import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
+import 'Blocs/reports/CustomerDebt/cubit/customer_cubit.dart';
+import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
+import 'Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
+import 'data_provider/payments/payment_data_provider.dart';
 import 'data_provider/product_data_provider.dart';
+import 'data_provider/reports/collection_data_provider.dart';
+import 'data_provider/reports/salesReport_data_provider.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
@@ -155,13 +163,14 @@ class App extends StatelessWidget {
                 LocationBloc(locationRepository: this.locationRepository),
           ),
           BlocProvider<SalesReportCubit>(
-              create: (BuildContext context) =>
-                  SalesReportCubit(userPreferences)
-                    ..postSalesReport(
-                      nameSearch: "",
-                      dateFrom: "",
-                      dataTo: "",
-                    )),
+            create: (BuildContext context) => SalesReportCubit(userPreferences)
+              ..postSalesReport(nameSearch: "", dateFrom: "", dateTo: ""),
+          ),
+          BlocProvider<SalesReportBloc>(
+            create: (_) => SalesReportBloc(
+              SalesReportDataProvider(userPreferences),
+            ),
+          ),
           BlocProvider<CollectionReportCubit>(
             create: (BuildContext context) =>
                 CollectionReportCubit(userPreferences)
@@ -171,15 +180,29 @@ class App extends StatelessWidget {
                     dateTo: "",
                   ),
           ),
+          BlocProvider<CollectionBloc>(
+            create: (_) => CollectionBloc(
+              CollectionDataProvider(userPreferences),
+            ),
+          ),
           BlocProvider<CustomerDebtCubit>(
             create: (_) => CustomerDebtCubit(userPreferences)
               ..postCustomReport()
               ..postCustomReportSearch(searchClientName: ''),
           ),
+          BlocProvider<CustomDebtBloc>(
+            create: (_) => CustomDebtBloc(
+              CustomDebtDataProvider(userPreferences),
+            ),
+          ),
           BlocProvider<AllOrdersCubit>(
             create: (_) => AllOrdersCubit(userPreferences)
-              ..postAllOrders()
               ..postAllSearchOrders(searchNmae: ""),
+          ),
+          BlocProvider<AllorderrBloc>(
+            create: (_) => AllorderrBloc(
+              AllOrderDataProvider(userPreferences),
+            ),
           ),
           BlocProvider<OrderByDebtCubit>(
             create: (_) => OrderByDebtCubit(userPreferences)
@@ -188,8 +211,15 @@ class App extends StatelessWidget {
               ..featchTotalDebt(),
           ),
           BlocProvider<PaymentsCubit>(
-            create: (_) =>
-                PaymentsCubit(userPreferences)..postPayMentConatiner(),
+              create: (_) => PaymentsCubit(userPreferences)
+              // ..postPayMentConatiner(),
+
+              // ..postPayMentUplaodData(),
+              ),
+          BlocProvider<BankslipBloc>(
+            create: (_) => BankslipBloc(
+              PaymentDataProvider(userPreferences),
+            ),
           ),
         ],
         child: MaterialApp(

@@ -14,3 +14,4 @@ class PostPayMentUplaodDataState extends PaymentsState {}
 
 class PostPayLoadingState extends PaymentsState {}
 
+class ClearPaymentSubmint extends PaymentsState {}

@@ -19,8 +19,10 @@ class SearchPaymentScreen extends StatelessWidget {
               height: 40,
               child: TextFormField(
                 controller: cubit.searchController,
-                keyboardType: TextInputType.text,
-                onFieldSubmitted: (String value) {},
+                keyboardType: TextInputType.number,
+                onFieldSubmitted: (String value) {
+                
+                },
                 onChanged: (String value) {},
                 decoration: InputDecoration(
                   hintText: 'Search',

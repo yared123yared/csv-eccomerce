@@ -53,11 +53,9 @@ class DateContainer extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () {
                     cubit.selectFormTimePicker(context);
-                    // cubit.postSalesReport(
-                    //   nameSearch: "",
-                    //   dateFrom: cubit.dateForm.toString(),
-                    //   dataTo: cubit.dateTo.toString(),
-                    // );
+                    cubit.uploadImage(
+                      date: cubit.dateFromText,
+                    );
                   },
                   icon: Image.asset(
                     'assets/images/date.png',

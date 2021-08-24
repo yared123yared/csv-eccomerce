@@ -40,9 +40,9 @@ class PaymentsCubit extends Cubit<PaymentsState> {
       dateForm = picked;
 
       dateFromText =
-          "${dateForm.day.toString()}-${dateForm.month.toString()}-${dateForm.year.toString()}";
+          "${dateForm.year.toString()}-${dateForm.month.toString()}-${dateForm.day.toString()}";
 
-      //print(dateFromText);
+      print(dateFromText);
     }
     emit(PaymentsDateTimeState());
   }
@@ -53,43 +53,43 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   bool isComeData = false;
   bool isComeDataWrong = false;
 
-  Future postPayMentConatiner() async {
-    String? token = await this.userPreferences.getUserToken();
-    try {
-      final url =
-          Uri.parse('http://csv.jithvar.com/api/v1/paginated-collections');
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode({
-            "draw": 0,
-            "length": 10,
-            "search": "",
-            "column": 0,
-            "dir": "asc"
-          }));
-      if (response.statusCode == 200) {
-        isComeData = true;
-        isComeDataWrong = false;
-        final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
-        final data = extractedData['collections'];
-        payMentContainerModel = PayMentContainerModel.fromJson(data);
+  // Future postPayMentConatiner() async {
+  //   String? token = await this.userPreferences.getUserToken();
+  //   try {
+  //     final url =
+  //         Uri.parse('http://csv.jithvar.com/api/v1/paginated-collections');
+  //     final response = await http.post(url,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Accept': 'application/json',
+  //           'Authorization': 'Bearer $token',
+  //         },
+  //         body: jsonEncode({
+  //           "draw": 0,
+  //           "length": 10,
+  //           "search": "",
+  //           "column": 0,
+  //           "dir": "asc"
+  //         }));
+  //     if (response.statusCode == 200) {
+  //       isComeData = true;
+  //       isComeDataWrong = false;
+  //       final extractedData =
+  //           json.decode(response.body) as Map<String, dynamic>;
+  //       final data = extractedData['collections'];
+  //       payMentContainerModel = PayMentContainerModel.fromJson(data);
 
-        //print("walid payment  ${payMentContainerModel.data[0].date}");
-      } else {
-        isComeData = false;
-        isComeDataWrong = true;
-        throw Exception('Failed to load courses');
-      }
-    } catch (e) {
-      print("Exception throuwn $e");
-    }
-    emit(FeatchDataSucessCPaymentState());
-  }
+  //       //print("walid payment  ${payMentContainerModel.data![0].date}");
+  //     } else {
+  //       isComeData = false;
+  //       isComeDataWrong = true;
+  //       throw Exception('Failed to load courses');
+  //     }
+  //   } catch (e) {
+  //     print("Exception throuwn $e");
+  //   }
+  //   emit(FeatchDataSucessCPaymentState());
+  // }
 
   //dowanload image
   bool isImageLoding = false;
@@ -115,17 +115,38 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   }
 
   //uploade image
+
+  // Api uploade data and Images
+
   late File image;
   var imageTemporary;
+
+  // Future imageUpload() async {
+  //   try {
+  //     isComeImageName = true;
+  //     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //     if (image == null) return;
+  //     imageTemporary = File(image.path);
+  //     this.image = imageTemporary;
+  //     // print("walid image ${imageTemporary}");
+  //   } catch (e) {
+  //     isComeImageName = false;
+  //     print("Faild to pick image $e");
+  //   }
+  //   emit(PaymentsUploadImageState());
+  // }
+
+  File? file;
+  String? imageName;
   bool isComeImageName = false;
-  Future imageUpload() async {
+
+  Future pickerCamera() async {
     try {
       isComeImageName = true;
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      imageTemporary = File(image.path);
-      this.image = imageTemporary;
-      // print("walid image ${imageTemporary}")
+      final myFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      file = File(myFile!.path);
+      imageName = file!.path.split("/").last;
     } catch (e) {
       isComeImageName = false;
       print("Faild to pick image $e");
@@ -133,38 +154,42 @@ class PaymentsCubit extends Cubit<PaymentsState> {
     emit(PaymentsUploadImageState());
   }
 
-  // Api uploade data
+  void clealuploade() {
+    isFormDate = false;
+    isComeImageName = false;
 
-  Future postPayMentUplaodData({
-    required String amount,
-    required String date,
-  }) async {
+    emit(ClearPaymentSubmint());
+  }
+
+  int? amount;
+
+  Future uploadImage({required String date}) async {
     String? token = await this.userPreferences.getUserToken();
-    try {
-      final url = Uri.parse('http://csv.jithvar.com/api/v1/user-cash');
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode(
-              {"amount": amount, "date": date, "uploaded_photo": image.path}));
-      if (response.statusCode == 200) {
-        final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
-        final data = extractedData['collections'];
-        // payMentContainerModel = PayMentContainerModel.fromJson(data);
-        print("================================444==");
-        print(date);
-        print("================================444==");
-        //print("walid payment  ${payMentContainerModel.data[0].date}");
-      } else {
-        throw Exception('Failed to load courses');
-      }
-    } catch (e) {
-      print("Exception throuwn $e");
+    if (file == null) return;
+
+    String base64 = base64Encode(file!.readAsBytesSync());
+
+    final url = Uri.parse('http://csv.jithvar.com/api/v2/user-cash');
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          "amount": amount,
+          "date": date,
+          "uploaded_photo": "data:image/jpeg;base64,$base64"
+        }));
+
+    if (response.statusCode == 201) {
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+      print("=========================55========");
+      print(extractedData);
+      print("=========================55========");
+    } else {
+      throw Exception('Failed to load courses');
     }
-    emit(PostPayMentUplaodDataState());
   }
 }
