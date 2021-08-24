@@ -231,6 +231,34 @@ class Client {
   }
 }
 
+class OrderFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, orderNo, total, paymentWhen, paymentMethod, typeOfWallet,
+    transactionId, amountPaid, amountRemaining, status, requiresApproval,
+    addressId, clientId, createdAt, updatedAt,
+  ];
+
+  static final String id = 'id';
+  static final String orderNo = 'order_no';
+  static final String total = 'total';
+  static final String paymentWhen = 'payment_when';
+  static final String paymentMethod = 'payment_method';
+  static final String typeOfWallet = 'type_of_wallet';
+  static final String transactionId = 'transaction_id';
+  static final String amountPaid = 'amount_paid';
+  static final String amountRemaining = 'amount_remaining';
+  static final String status = 'status';
+  static final String requiresApproval = 'requires_approval';
+  static final String addressId = 'address_id';
+  static final String clientId = 'client_id';
+  static final String companyId = 'company_id';
+  // static final String createdBy = 'created_by';
+  // static final String updatedBy = 'updated_by';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+}
+
 class Orders {
   int? id;
   String? orderNumber;
@@ -251,25 +279,26 @@ class Orders {
   String? createdAt;
   String? updatedAt;
 
-  Orders(
-      {this.id,
-      this.orderNumber,
-      this.total,
-      this.paymentWhen,
-      this.paymentMethod,
-      this.typeOfWallet,
-      this.transactionId,
-      this.amountPaid,
-      this.amountRemaining,
-      this.status,
-      this.requiresApproval,
-      this.addressId,
-      this.clientId,
-      this.companyId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt});
+  Orders({
+    this.id,
+    this.orderNumber,
+    this.total,
+    this.paymentWhen,
+    this.paymentMethod,
+    this.typeOfWallet,
+    this.transactionId,
+    this.amountPaid,
+    this.amountRemaining,
+    this.status,
+    this.requiresApproval,
+    this.addressId,
+    this.clientId,
+    this.companyId,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   Orders.fromJson(Map<String, dynamic> json) {
     try {
@@ -404,6 +433,8 @@ class CreateEditData {
   late String email;
   late List<Addresses> addresses;
   late List<Docs>? documents;
+  List<Orders>? orders;
+
   String? uploadedPhoto;
   String? type;
   CreateEditData({
@@ -416,6 +447,7 @@ class CreateEditData {
     this.documents,
     this.uploadedPhoto,
     this.type,
+    this.orders,
   });
 
   CreateEditData copy({
@@ -460,6 +492,7 @@ class CreateEditData {
     type = json['type'];
     addresses = [];
     documents = [];
+    orders = [];
   }
 }
 
@@ -570,52 +603,52 @@ class Addresses {
 
   Map<String, dynamic> toSqliteJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    print("ad--1");
+    // print("ad--1");
     if (this.id != null && this.id != "" && this.id != "null") {
       print("this.id---${this.id == null}");
       print("this.id---${this.id != null}");
       print("${this.id}");
       data['_id'] = int.parse(this.id.toString());
     }
-    print("ad--2");
+    // print("ad--2");
 
     data['client_id'] = int.parse(this.clientID.toString());
-    print("ad--3");
+    // print("ad--3");
 
     data['street_address'] = this.streetAddress;
-    print("ad--4");
+    // print("ad--4");
 
     data['zip_code'] = this.zipCode;
-    print("ad--5");
+    // print("ad--5");
 
     data['locality'] = this.locality;
-    print("ad--6");
+    // print("ad--6");
 
     data['city'] = this.city;
-    print("ad--7");
+    // print("ad--7");
 
     data['state'] = this.state;
-    print("ad--8");
+    // print("ad--8");
 
     data['country'] = this.country;
-    print("ad--9");
+    // print("ad--9");
 
     if (this.isDefault != null) {
       data['is_default'] = this.isDefault! ? 1 : 0;
-      print("ad--10");
+      // print("ad--10");
     } else {
       data['is_default'] = 0;
-      print("ad--11");
+      // print("ad--11");
     }
     if (this.isBilling != null) {
       data['is_billing'] = this.isBilling! ? 1 : 0;
-      print("ad--12");
+      // print("ad--12");
     } else {
       data['is_billing'] = 0;
-      print("ad--13");
+      // print("ad--13");
     }
     data['company_id'] = this.companyId;
-    print("ad--14");
+    // print("ad--14");
 
     return data;
   }
@@ -645,11 +678,24 @@ class Docs {
     return data;
   }
 
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.id != null && this.id != "" && this.id != "null") {
+      data['_id'] = int.parse(this.id.toString());
+    }
+    data['name'] = this.name;
+    data['path'] = this.path;
+    if (this.clientID != null) {
+      data['client_id'] = int.parse(this.clientID.toString());
+    }
+    return data;
+  }
+
   Docs.fromJson(Map<String, dynamic> json) {
     id = json['_id'].toString();
     name = json['name'];
     path = json['path'];
-    clientID = json['client_id'];
+    clientID = json['client_id'].toString();
     // try {
 
     // } catch (e) {

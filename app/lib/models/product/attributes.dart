@@ -49,4 +49,24 @@ class Attributes {
     }
     return data;
   }
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['company_id'] = this.companyId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+  
+    return data;
+  }
+  Map<String, dynamic> toSqliteJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['company_id'] = this.companyId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+
+    return data;
+  }
 }

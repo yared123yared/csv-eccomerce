@@ -5,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddToCart extends StatelessWidget {
   late CartBloc cartBloc;
+  final VoidCallback onTapped;
   Data product;
-  AddToCart({required this.product});
+  AddToCart({required this.product, required this.onTapped});
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -26,6 +27,7 @@ class AddToCart extends StatelessWidget {
           ),
         ),
         onTap: () {
+          this.onTapped();
           cartBloc.add(AddProduct(singleProduct: this.product));
           Navigator.pop(context);
         });

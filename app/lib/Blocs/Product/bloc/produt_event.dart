@@ -22,3 +22,9 @@ class AddProduct extends ProductEvent {
   final Data singleProduct;
   AddProduct({required this.singleProduct});
 }
+
+class SearchEvent extends ProductEvent {
+  // final bool isSubmited;
+  final String productName;
+  SearchEvent({required this.productName});
+}

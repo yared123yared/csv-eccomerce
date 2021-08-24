@@ -9,7 +9,7 @@ class UserPreferences {
     await prefs.setString('user_info', jsonEncode(info));
   }
 
-  Future<LoggedUserInfo> getUserInformation() async {
+  Future<LoggedUserInfo?> getUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? u_info = prefs.getString('user_info');
     Map<String, dynamic> json = jsonDecode(u_info!) as Map<String, dynamic>;
@@ -35,6 +35,23 @@ class UserPreferences {
   Future<String?> getUserToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+   Future<void> storePassword(String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('password', password);
+  }
+  Future<String?> getUserPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('password');
+  }
+   Future<void> storeEmail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+  }
+
+  Future<String?> getUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('email');
   }
 
   Future<String?> getExpiryTime() async {

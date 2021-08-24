@@ -1,4 +1,5 @@
 import 'country.dart';
+
 class Company {
   int? id;
   late String name;
@@ -44,12 +45,14 @@ class Company {
     address2 = json['address_2'];
     city = json['city'];
     state = json['state'];
+    print("Arrived at the company data conversion");
     country =
         json['country'] != null ? new Country.fromJson(json['country']) : null;
     zipCode = json['zip_code'];
     status = json['status'];
     creator = json['creator'];
     updater = json['updater'];
+    print("Completed companu data conversion");
   }
 
   Map<String, dynamic> toJson() {

@@ -5,10 +5,11 @@ import 'package:app/models/product/product.dart';
 import 'attributes.dart';
 import 'brand.dart';
 import 'currency.dart';
+
 class ProductDataFields {
   static final List<String> values = [
     /// Add all fields
-    id, name, model, price,quantity, manufacturerId, status, currencyId
+    id, name, model, price, quantity, manufacturerId, status, currencyId, order
   ];
 
   static final String id = 'id';
@@ -19,7 +20,7 @@ class ProductDataFields {
   static final String manufacturerId = 'manufacturer_id';
   static final String status = 'status';
   static final String currencyId = 'currency_id';
-  static final String order = 'order';
+  static final String order = 'orders';
 }
 
 class Data {
@@ -112,6 +113,20 @@ class Data {
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['model'] = this.model;
+    data['price'] = this.price;
+    data['quantity'] = this.quantity;
+    data['manufacturer_id'] = this.manufacturerId;
+    data['status'] = this.status;
+    data['currency_id'] = this.currencyId;
+    data['orders'] = this.order;
     return data;
   }
 }

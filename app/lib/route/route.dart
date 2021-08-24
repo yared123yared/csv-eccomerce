@@ -1,25 +1,28 @@
+import 'package:app/models/navigation/navigation.dart';
+// import 'package:app/screens/client_new_screen.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
-import 'package:app/screens/cart_screen.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
+import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
-import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/main_screen.dart';
+import 'package:app/screens/orders_screen/all_orders_screen.dart';
+import 'package:app/screens/orders_screen/ordersb_byDebt_screen.dart';
+import 'package:app/screens/reports_screens/collection_report.dart';
+import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
+import 'package:app/screens/reports_screens/salesReport_screen.dart';
 import 'package:app/screens/product_detail_screen.dart';
 import 'package:app/screens/reset_password_screen.dart';
 import 'package:app/screens/send_otp_screen.dart';
-import 'package:app/screens/setting_screen.dart';
 import 'package:app/screens/verify-otp-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../screens/category_screen.dart';
 import '../screens/login.dart';
 import '../screens/splash_screen.dart';
-
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 
 bool isAuthenticated = false;
@@ -52,10 +55,14 @@ class AppRoutes {
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
     } else if (settings.name == ProductDetail.routeName) {
-      Data product = settings.arguments as Data;
+      List data = settings.arguments as List<Object>;
+      Data product = data[0] as Data;
+      VoidCallback onClicked = data[1] as VoidCallback;
+
       return MaterialPageRoute(
           builder: (context) => ProductDetail(
                 products: product,
+                onClicked: onClicked,
               ));
       // return MaterialPageRoute(builder: (context) => ProductDetail());
     } else if (settings.name == ClientProfile.routeName) {
@@ -89,6 +96,30 @@ class AppRoutes {
         builder: (context) => VerifyOtpScreen(
           otpScreenData: settings.arguments as OtpScreenData,
         ),
+      );
+    } else if (settings.name == SalesReportScreens.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => SalesReportScreens(),
+      );
+    } else if (settings.name == CollectionReportScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => CollectionReportScreen(),
+      );
+    } else if (settings.name == AddClient.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => AddClient(),
+      );
+    } else if (settings.name == CustomerByDebtScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => CustomerByDebtScreen(),
+      );
+    } else if (settings.name == AllOrdersScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => AllOrdersScreen(),
+      );
+    } else if (settings.name == OrdersByDebtScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => OrdersByDebtScreen(),
       );
     }
     return MaterialPageRoute(builder: (context) => Login());

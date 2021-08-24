@@ -45,9 +45,11 @@ class ProductDataProvider {
       if (response.statusCode == 200) {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
+
         // print("Extracted value $extractedData");
         // print("This is the data value ${extractedData['products']['data']}");
         final data = extractedData['products']['data'];
+
         // print("Data:${data}");
 
         return data

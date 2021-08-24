@@ -2,6 +2,7 @@ import 'package:app/Widget/Home/product-detail/add-cart-button.dart';
 import 'package:app/Widget/Home/product-detail/color-container.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
 import 'package:app/Widget/Home/product-detail/detail-container.dart';
+import 'package:app/Widget/Home/product-detail/product-info.dart';
 import 'package:app/models/product/attributes.dart';
 
 import 'package:app/models/product/data.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 class ProductDetail extends StatelessWidget {
   static const routeName = '/product/details';
   final Data products;
-  ProductDetail({required this.products});
+  final VoidCallback onClicked;
+  ProductDetail({required this.products, required this.onClicked});
   @override
   Widget build(BuildContext context) {
     // Data? products = ModalRoute.of(context)!.settings.arguments as Data;
@@ -32,6 +34,15 @@ class ProductDetail extends StatelessWidget {
       if (attributes[i].name!.contains('Size')) {
         print("Size:  ${attributes[i].pivot!.value}");
         size.add(attributes[i].pivot!.value);
+      }
+    }
+    // check color
+    List<String?> color = [];
+    for (int i = 0; i < products.attributes!.length; i++) {
+      List<Attributes> attributes = products.attributes as List<Attributes>;
+      if (attributes[i].name!.contains('Color')) {
+        print("Color:  ${attributes[i].pivot!.value}");
+        color.add(attributes[i].pivot!.value);
       }
     }
     return Scaffold(
@@ -148,7 +159,9 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03,
                           ),
-                          ColorContainer(color: Colors.blueAccent),
+                          ColorContainer(
+                            color: Colors.blueAccent,
+                          ),
                           ColorContainer(
                             color: Colors.pinkAccent,
                           ),
@@ -161,13 +174,14 @@ class ProductDetail extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
-                DetailContainer(
+                ProductInfo(
                   product: this.products,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 AddToCart(
+                  onTapped: this.onClicked,
                   product: this.products,
                 )
               ],

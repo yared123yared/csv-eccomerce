@@ -48,7 +48,15 @@ class _ProductItemState extends State<ProductItem> {
                 image: image,
                 value: this.widget.product.order,
                 product: this.widget.product,
+                onClick: this.onClicked,
               ),
             )));
+  }
+
+  void onClicked() {
+    print("item add method have called");
+    setState(() {
+      widget.product.order += 1;
+    });
   }
 }
