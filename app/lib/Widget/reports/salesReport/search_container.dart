@@ -1,6 +1,5 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
-import 'package:app/constants/constants.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,18 +26,18 @@ class SearchContainer extends StatelessWidget {
                     cubit.postSalesReport(
                       nameSearch: value,
                       dateFrom: "",
-                      dataTo: "",
+                      dateTo: "",
                     );
                   },
                   onChanged: (String value) {},
                   decoration: InputDecoration(
-                    hintText: 'Search by Date,Name,Name order',
+                    hintText: 'Search by Name',
                     border: InputBorder.none,
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
-                        cubit.postSalesReport(
-                            nameSearch: "", dateFrom: "", dataTo: "");
+                        // cubit.postSalesReport(
+                        // nameSearch: "", dateFrom: "", dataTo: "");
                       },
                       icon: Icon(Icons.close),
                     ),

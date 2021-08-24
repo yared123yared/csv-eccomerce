@@ -7,6 +7,7 @@ import 'package:app/screens/clients_screen.dart';
 import 'package:app/screens/login.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
+import 'package:app/screens/payments/payments_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
@@ -190,7 +191,17 @@ class _AppDrawerState extends State<AppDrawer> {
                                 4,
                                 Icons.shopping_bag,
                               ),
-
+                              DrawerExpansionTile(
+                                'Payments',
+                                [
+                                  ExapandedListItem('Bank Deposit', () {
+                                    Navigator.of(context)
+                                        .pushNamed(PaymentsScreen.routeName);
+                                  }),
+                                ],
+                                4,
+                                Icons.payment,
+                              ),
                               DrawerExpansionTile(
                                 'Reports',
                                 [

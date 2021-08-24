@@ -1,6 +1,5 @@
 class CustomReportModel {
   List<DataCustomReport>? data;
-  int? total;
 
   CustomReportModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -9,22 +8,21 @@ class CustomReportModel {
         data?.add(new DataCustomReport.fromJson(v));
       });
     }
-    total = json["total"];
   }
 }
 
 class DataCustomReport {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? mobile;
-  String? email;
-  int? createdBy;
-  int? updatedBy;
-  int? companyId;
-  int? status;
-  int? debts;
-  List<Orders>? orders;
+  late int id;
+  late String firstName;
+  late String lastName;
+  late String mobile;
+  late String email;
+  late int createdBy;
+  late int updatedBy;
+  late int companyId;
+  late int status;
+  late int debts;
+  late List<Orders> orders;
 
   DataCustomReport.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,28 +38,28 @@ class DataCustomReport {
     if (json['orders'] != null) {
       orders = [];
       json['orders'].forEach((v) {
-        orders?.add(new Orders.fromJson(v));
+        orders.add(new Orders.fromJson(v));
       });
     }
   }
 }
 
 class Orders {
-  int? id;
-  String? orderNumber;
-  String? total;
-  String? paymentWhen;
-  String? amountPaid;
-  String? amountRemaining;
-  String? status;
-  int? requiresApproval;
-  int? addressId;
-  int? clientId;
-  int? companyId;
-  int? createdBy;
-  int? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+late  int id;
+late  String orderNumber;
+late  String total;
+late  String paymentWhen;
+ late String amountPaid;
+ late String amountRemaining;
+ late String status;
+ late int requiresApproval;
+ late int addressId;
+late  int clientId;
+late  int companyId;
+late  int createdBy;
+ late int updatedBy;
+ late String createdAt;
+late  String updatedAt;
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
