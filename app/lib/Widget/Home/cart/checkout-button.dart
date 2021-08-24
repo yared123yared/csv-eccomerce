@@ -14,27 +14,32 @@ class Checkout extends StatelessWidget {
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Center(
-              child: Text("Checkout",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-          ),
-          onTap: () {
-            // ordersBloc.add(CreateOrderEvent(request: null));
-            // Navigator.pop(context);
-            Navigator.pushNamed(context, AddClient.routeName);
-          }),
-    );
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            return GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Text("Checkout",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                ),
+                onTap: () {
+                  ordersBloc
+                      .add(CartCheckoutEvent(cartProducts: state.cartProducts));
+                  // Navigator.pop(context);
+
+                  Navigator.pushNamed(context, AddClient.routeName);
+                });
+          },
+        ));
   }
 }

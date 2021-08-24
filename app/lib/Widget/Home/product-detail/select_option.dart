@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'product_custome_selection.dart';
 
 class SelectOption extends StatelessWidget {
+  final Function onPressed;
+  final int state;
+  SelectOption({required this.onPressed, required this.state});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,15 +16,19 @@ class SelectOption extends StatelessWidget {
           // mainAxisSize: MainAxisSize.max,
           children: [
             ProductCustomeSelection(
-              backgroundColor: Theme.of(context).accentColor,
-              fontColor: Colors.black,
-              onPressed: () {},
+              backgroundColor: this.state == 0
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).accentColor,
+              fontColor: this.state == 0 ? Colors.white : Colors.black,
+              onPressed: () => this.onPressed(0),
               text: 'Description',
             ),
             ProductCustomeSelection(
-              backgroundColor: Theme.of(context).primaryColor,
-              fontColor: Colors.white,
-              onPressed: () {},
+              backgroundColor: this.state == 1
+                  ? Theme.of(context).primaryColor
+                  : Theme.of(context).accentColor,
+              fontColor: this.state == 1 ? Colors.white : Colors.black,
+              onPressed: () => this.onPressed(1),
               text: 'Product Details',
             ),
           ],

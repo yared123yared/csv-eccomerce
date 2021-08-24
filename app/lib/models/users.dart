@@ -1,3 +1,5 @@
+import 'package:app/models/photo.dart';
+
 import 'role.dart';
 import 'company.dart';
 
@@ -11,7 +13,7 @@ class User {
   String? phone;
   Role? role;
   Company? company;
-  String? photo;
+  Photo? photo;
   String? locale;
   String? emailVerifiedAt;
   int? active;
@@ -41,14 +43,19 @@ class User {
     email = json['email'];
     username = json['username'];
     phone = json['phone'];
+    print("Arrived here");
     role = json['role'] != null ? new Role.fromJson(json['role']) : null;
+    print("Arrived here");
     company =
         json['company'] != null ? new Company.fromJson(json['company']) : null;
-    photo = json['photo'];
+    photo = json['photo'] != null ? new Photo.fromJson(json['company']) : null;
+    print("Arrived here");
+    // photo = json['photo'];
     locale = json['locale'];
     emailVerifiedAt = json['email_verified_at'];
     active = json['active'];
     forcePwChange = json['force_pw_change'];
+    print("Finish mapping");
   }
 
   Map<String, dynamic> toJson() {
