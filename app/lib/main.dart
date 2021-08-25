@@ -179,9 +179,8 @@ class App extends StatelessWidget {
           //       dateFrom: "",
           //     ),
           BlocProvider<SalesReportCubit>(
-            create: (BuildContext context) => SalesReportCubit(userPreferences)
-              ..postSalesReport(nameSearch: "", dateFrom: "", dateTo: ""),
-          ),
+              create: (BuildContext context) =>
+                  SalesReportCubit(userPreferences)),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),

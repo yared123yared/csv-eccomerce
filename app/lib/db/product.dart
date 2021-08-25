@@ -3,6 +3,7 @@ part of 'db.dart';
 extension ProductLocalStore on CsvDatabse {
   Future<void> createProduct(Data product) async {
     final db = await CsvDatabse.instance.database;
+    
     try {
       if (db != null) {
         await db.transaction((txn) async {
