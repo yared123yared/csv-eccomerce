@@ -1,5 +1,17 @@
 import 'package:app/models/product/pivot.dart';
 
+class AttributeFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, name, companyId, createdAt, updatedAt
+  ];
+
+  static final String id = 'id';
+  static final String name = 'name';
+  static final String companyId = 'company_id';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+}
 class Attributes {
   int? id;
   String? name;
@@ -35,6 +47,26 @@ class Attributes {
     if (this.pivot != null) {
       data['pivot'] = this.pivot!.toJson();
     }
+    return data;
+  }
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['company_id'] = this.companyId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+  
+    return data;
+  }
+  Map<String, dynamic> toSqliteJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['company_id'] = this.companyId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+
     return data;
   }
 }

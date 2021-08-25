@@ -25,7 +25,8 @@ class LoggedUserInfo {
   LoggedUserInfo.fromJson(Map<String, dynamic> json) {
     print("converting json");
     token = json['token'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    print("---lf--2");
+    user =  User.fromJson(json['user']);
     print("Completed the json converting token:${token} user:${user}");
   }
 // write from json

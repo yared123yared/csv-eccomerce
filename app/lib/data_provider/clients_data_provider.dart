@@ -104,7 +104,7 @@ class ClientsDataProvider {
           HttpHeaders.authorizationHeader: "Bearer $token",
         },
       );
-      print("response---${response.statusCode}");
+      print("dp--delete---${response.statusCode}");
       // print(jsonDecode(response.body)['message']);
       if (response.statusCode != 204) {
         throw HttpException(jsonDecode(response.body)['message']);
@@ -158,13 +158,16 @@ class ClientsDataProvider {
       // print('---create client--${res.statusCode}');
       // print(respStr);
       http.Response res = await http.Response.fromStream(await request.send());
-      print("--create client");
+      print("dp--create 1");
       if (res.statusCode != 201) {
         throw HttpException('Error Occured While Creating User');
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }
+      print("dp--create--success");
     } catch (e) {
+      print("dp--create failed");
+      print(e);
       throw e;
     }
     return clientX;
@@ -201,24 +204,30 @@ class ClientsDataProvider {
         }
       }
 
+      print("data to be update");
+      print(jsonDecode(data.addresses.toString()));
       if (data.addresses != null) {
         int i = 1;
         for (var address in data.addresses) {
           String x =
-              '{"id":"","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
+              '{"id":"${address.id}","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
           request.fields['addresses[$i]'] = x;
           i++;
         }
       }
 
       http.Response res = await http.Response.fromStream(await request.send());
-      print("--update client");
+      print("dp--update 1");
       if (res.statusCode != 200) {
+        print("dp---update---2");
         throw HttpException('Error Occured While Creating User');
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }
+      print("dp--update success");
     } catch (e) {
+      print("dp---update---failed");
+      print(e);
       throw e;
     }
     return clientX;

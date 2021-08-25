@@ -1,3 +1,18 @@
+class PhotoFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, referenceId, referenceType, name, forceDownload, filePath, createdAt,
+  ];
+
+  static final String id = 'id';
+  static final String referenceId = 'reference_id';
+  static final String referenceType = 'reference_type';
+  static final String name = 'name';
+  static final String forceDownload = 'force_download';
+  static final String filePath = 'file_path';
+  static final String createdAt = 'created_at';
+}
+
 class Photos {
   int? id;
   int? referenceId;
