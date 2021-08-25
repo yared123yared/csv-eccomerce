@@ -7,7 +7,6 @@ import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.
 import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
-import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
@@ -105,7 +104,7 @@ class App extends StatelessWidget {
   //   required this.userPreferences,
   //   required this.clientsRepository,
   //   required this.locationRepository,
-  // });
+  // });adm
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -145,6 +144,7 @@ class App extends StatelessWidget {
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
+              orderRepository: this.orderRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
           BlocProvider<CategoriesBloc>(

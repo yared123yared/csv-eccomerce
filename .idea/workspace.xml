@@ -29,19 +29,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/csv-mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-mobile.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/app/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21,_11_04_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21__11_04_AM__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/db/db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/db.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/db/order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/order.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/models/request/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/cart.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/models/request/request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/request.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@/Users/elm3lam/.android/avd/Pixel_3_XL_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>

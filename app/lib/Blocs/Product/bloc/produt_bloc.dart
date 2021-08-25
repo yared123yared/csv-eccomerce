@@ -33,7 +33,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     ProductEvent event,
   ) async* {
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    print("-s--connected--${connected}");
+    print("-is--connected--${connected}");
     if (event is FetchProduct) {
       print("bloc--fetch--product--1");
       productList = [];

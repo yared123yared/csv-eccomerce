@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:app/db/db.dart';
 import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/product/data.dart';
@@ -7,6 +9,7 @@ import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/repository/orders_repository.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -22,19 +25,37 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   Stream<OrdersState> mapEventToState(
     OrdersEvent event,
   ) async* {
-    // TODO: implement mapEventToState
-
     if (event is CreateOrderEvent) {
       print("Entered to the order event");
       print("Request arrived: ${state.request.toJson()}");
+      bool connected = await ConnectionChecker.CheckInternetConnection();
+      print("-create order--connected--${connected}");
+      
+
       yield OrderIsBeingCreating();
-      bool value = (await this.orderRepository.createOrder(event.request));
-      if (value == true) {
-        print("Successfully created");
-        yield (OrderCreatedSuccess());
+      if (connected) {
+        bool value = (await this.orderRepository.createOrder(event.request));
+        if (value == true) {
+          print("Order---Successfully created");
+          yield (OrderCreatedSuccess());
+        } else {
+          print("failed to create--order");
+          yield (OrderCreatingFailed(message: "Failed to create order"));
+        }
       } else {
-        print("failed to create");
-        yield (OrderCreatingFailed(message: "Failed to create order"));
+        if (event.request != null) {
+          bool value =
+              (await CsvDatabse.instance.createRequest(event.request!));
+          if (value == true) {
+            print("Order Successfully created locally");
+            yield (OrderCreatedSuccess());
+          } else {
+            print("failed to create order locally");
+            yield (OrderCreatingFailed(message: "Failed to create order"));
+          }
+        } else {
+          yield (OrderCreatingFailed(message: "Failed to create order"));
+        }
       }
     } else if (event is CartCheckoutEvent) {
       Request request = state.request;

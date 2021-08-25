@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:app/db/db.dart';
+import 'package:app/models/request/request.dart';
+import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:app/validation/validator.dart';
 import 'package:meta/meta.dart';
@@ -13,12 +15,17 @@ part 'clients_state.dart';
 
 class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   final ClientsRepository clientsRepository;
+  final OrderRepository orderRepository;
+
   List<Client> clients = [];
   int page = 1;
   bool endOfPage = false;
   bool syncing = false;
   bool isFirstFetch = false;
-  ClientsBloc({required this.clientsRepository}) : super(ClientsInitial());
+  ClientsBloc({
+    required this.clientsRepository,
+    required this.orderRepository,
+  }) : super(ClientsInitial());
 
   @override
   Stream<ClientsState> mapEventToState(
@@ -220,7 +227,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           print("--data--index${index}");
           print("---legth--${this.clients.length}");
           // this.clients[index] = clientX;
-          this.clients.removeWhere((element) => element.id.toString() == data.id.toString());
+          this.clients.removeWhere(
+              (element) => element.id.toString() == data.id.toString());
           this.clients.add(clientX);
           print("bloc--updated---on--db--3");
         }
@@ -324,6 +332,17 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         } else {
           if (currentPageCount < prevPageCount) {
             page--;
+          }
+        }
+      }
+      List<Request>? requests = await CsvDatabse.instance.readrequests();
+      if (requests != null) {
+        for (var req in requests) {
+          try {
+            await this.orderRepository.createOrder(req);
+          } catch (e) {
+            print("syncing--req--failed");
+            print(e);
           }
         }
       }
