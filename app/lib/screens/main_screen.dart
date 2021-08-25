@@ -112,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
               ? CategoryScreen()
               : this.check == 2
                   ? CartScreen()
-                  : SettingScreen(),
+                  : ClientProfile(),
       bottomNavigationBar: BottomAppBar(
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
