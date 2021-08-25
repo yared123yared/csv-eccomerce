@@ -31,27 +31,16 @@ class OrderDataProvider {
             'Authorization': 'Bearer $token',
           },
           body: jsonEncode({
-            "total": 1798,
-            "payment_when": "now",
-            "payment_method": "wallet",
-            "type_of_wallet": "smilepay",
-            "transaction_id": "tassdsf",
-            "amount_paid": 41,
-            "amount_remaining": 1757,
-            "address_id": 220,
-            "client_id": 158,
-            "cart": [
-              {
-                "id": 2,
-                "amountInCart": 1,
-                "selectedAttributes": [6, 11]
-              },
-              {
-                "id": 9,
-                "amountInCart": 1,
-                "selectedAttributes": [35]
-              }
-            ]
+            "total": request!.total,
+            "payment_when": request.paymentWhen,
+            "payment_method": request.paymentMethod,
+            "type_of_wallet": request.typeOfWallet,
+            "transaction_id": request.transactionId,
+            "amount_paid": request.amountPaid,
+            "amount_remaining": request.amountRemaining,
+            "address_id": 324,
+            "client_id": request.clientId,
+            "cart": request.cart
           }));
 
       print(

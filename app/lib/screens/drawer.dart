@@ -292,7 +292,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                             : CircleAvatar(
                                                 radius: 50.0,
                                                 backgroundImage: NetworkImage(
-                                                    state.user.user!.photo!),
+                                                    'https://csv.jithvar.com/storage/${state.user.user!.photo!.filePath.toString()}'),
                                               ),
                                         Text(
                                           'Crm Admistratora',

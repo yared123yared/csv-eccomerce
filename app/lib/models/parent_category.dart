@@ -1,3 +1,23 @@
+class ParentCategoryFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, parentId, name, fullname,
+  ];
+
+  static final String id = 'id';
+  static final String parentId = 'parent_id';
+  static final String name = 'name';
+  static final String code = 'code';
+  static final String slug = 'slug';
+  static final String status = 'status';
+  static final String companyId = 'created_at';
+  static final String createdBy = 'created_by';
+  static final String updatedBy = 'updated_by';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+  static final String fullname = 'fullname';
+}
+
 class ParentCategory {
   int? id;
   int? parentId;

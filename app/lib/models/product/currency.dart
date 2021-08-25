@@ -1,3 +1,21 @@
+class CurrencyFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, name, code, name, symbol, status, companyId,createdAt,updatedAt
+  ];
+
+  static final String id = 'id';
+  static final String name = 'name';
+  static final String code = 'code';
+  static final String symbol = 'symbol';
+  static final String status = 'status';
+  static final String companyId = 'company_id';
+  static final String createdAt = 'created_at';
+  static final String updatedAt = 'updated_at';
+
+
+}
+
 class Currency {
   int? id;
   String? name;

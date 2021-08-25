@@ -33,12 +33,7 @@ class ClientItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AddButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      NewClientScreen.routeName,
-                      arguments: this.client,
-                    );
-                  },
+                  client: this.client,
                 ),
               ],
             )

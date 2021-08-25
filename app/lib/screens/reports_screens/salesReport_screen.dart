@@ -63,11 +63,11 @@ class SalesReportScreens extends StatelessWidget {
                     ),
                     onPressed: () {
                       cubit.clearAll();
-                      cubit.postSalesReport(
-                        nameSearch: "",
-                        dateFrom: "",
-                        dateTo: "",
-                      );
+                      // cubit.postSalesReport(
+                      //   nameSearch: "",
+                      //   dateFrom: "",
+                      //   dateTo: "",
+                      // );
                     },
                     child: const Text(
                       "Clear",

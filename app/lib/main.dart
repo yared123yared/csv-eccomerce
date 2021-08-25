@@ -1,3 +1,5 @@
+import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
+
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
@@ -40,6 +42,8 @@ import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
@@ -72,15 +76,17 @@ void main() {
   // Products products = await productRepository.getProducts(1);
   // print(products.currentPage);
 
-  runApp(App(
-    userPreferences: userPreferences,
-    productRepository: productRepository,
-    userRepository: userRepository,
-    clientsRepository: clientRepository,
-    categoryRepository: categoryRepository,
-    orderRepository: orderRepository,
-    locationRepository: locationRepository,
-  ));
+  runApp(
+    App(
+      userPreferences: userPreferences,
+      productRepository: productRepository,
+      userRepository: userRepository,
+      clientsRepository: clientRepository,
+      categoryRepository: categoryRepository,
+      orderRepository: orderRepository,
+      locationRepository: locationRepository,
+    ),
+  );
   // runApp(MyApp());
 }
 
@@ -158,14 +164,23 @@ class App extends StatelessWidget {
           ),
           BlocProvider<OrdersBloc>(
               create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+          //
+          BlocProvider<AddClientBloc>(create: (_) => AddClientBloc()),
+          //
           BlocProvider<LocationBloc>(
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),
           ),
+
+          // BlocProvider<ReportCubit>(
+          //   create: (BuildContext context) => ReportCubit(userPreferences)
+          //     ..postSalesReport(
+          //       nameSearch: "",
+          //       dateFrom: "",
+          //     ),
           BlocProvider<SalesReportCubit>(
-            create: (BuildContext context) => SalesReportCubit(userPreferences)
-              ..postSalesReport(nameSearch: "", dateFrom: "", dateTo: ""),
-          ),
+              create: (BuildContext context) =>
+                  SalesReportCubit(userPreferences)),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),
@@ -224,6 +239,7 @@ class App extends StatelessWidget {
         ],
         child: MaterialApp(
           title: 'CSV',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
             primaryColor: Color(0xFF015777),

@@ -52,7 +52,7 @@ class ClientCard extends StatelessWidget {
               ClientDataRow(
                   property: 'STATUS',
                   value: this.client.status == null
-                      ? ""
+                      ? "INACTIVE"
                       : this.client.status == 1
                           ? "ACTIVE"
                           : "INACTIVE"),
