@@ -677,6 +677,7 @@ class Docs {
     }
     return data;
   }
+
   Map<String, dynamic> toDBJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.id != null && this.id != "" && this.id != "null") {

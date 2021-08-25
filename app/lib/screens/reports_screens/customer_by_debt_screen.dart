@@ -1,8 +1,8 @@
-import 'package:app/Blocs/reports/CustomerDebt/customer_cubit.dart';
-import 'package:app/Blocs/reports/CustomerDebt/customer_state.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
+import 'package:app/Blocs/reports/CustomerDebt/cubit/customer_cubit.dart';
+import 'package:app/Blocs/reports/CustomerDebt/cubit/customer_state.dart';
+import 'package:app/Widget/reports/CustomerDebt/data_container.dart';
 import 'package:app/Widget/reports/CustomerDebt/search_container.dart';
+import 'package:app/Widget/reports/CustomerDebt/search_data_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
@@ -53,19 +53,12 @@ class CustomerByDebtScreen extends StatelessWidget {
               SizedBox(
                 height: 25,
               ),
-              cubit.isComeData
-                  ? Text(
-                      "Showing 1 to 5 of ${cubit.customReportModel.total} entries",
-                      style: TextStyle(
-                        color: Colors.black45,
-                      ),
-                    )
-                  : Text(
-                      "Showing 1 to 5 of 5 entries",
-                      style: TextStyle(
-                        color: Colors.black45,
-                      ),
-                    ),
+              Text(
+                "Showing 1 to 5 of 5 entries",
+                style: TextStyle(
+                  color: Colors.black45,
+                ),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -77,8 +70,9 @@ class CustomerByDebtScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Color(0xffd9d9d9),
                       borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
@@ -105,46 +99,10 @@ class CustomerByDebtScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  if (cubit.isComeData)
-                    Container(
-                      height: 180,
-                      width: MediaQuery.of(context).size.width * .94,
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(30.0),
-                            bottomLeft: Radius.circular(30.0)),
-                      ),
-                      child: ListView.builder(
-                        itemCount: cubit.customReportModel.data!.length,
-                        itemBuilder: (context, index) {
-                          return buildCustomerText(
-                            nameCliebtText:
-                                "${cubit.customReportModel.data![index].firstName} ${cubit.customReportModel.data![index].lastName}",
-                            totalClientText:
-                                "\$ ${cubit.customReportModel.data![index].debts}",
-                          );
-                        },
-                      ),
-                    )
-                  else if (cubit.isComeData)
-                    Center(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
+                  if (cubit.searchController.text.isEmpty)
+                    DataContainerCustomDebt()
                   else
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "No Data Yet",
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
+                    SearchDataCustomDebt(),
                 ],
               )
             ],
@@ -153,30 +111,4 @@ class CustomerByDebtScreen extends StatelessWidget {
       },
     );
   }
-
-  Widget buildCustomerText(
-          {required String nameCliebtText, required String totalClientText}) =>
-      Padding(
-        padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              nameCliebtText,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-              ),
-            ),
-            Text(
-              totalClientText,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-              ),
-            ),
-          ],
-        ),
-      );
 }

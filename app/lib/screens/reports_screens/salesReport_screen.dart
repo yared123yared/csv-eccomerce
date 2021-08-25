@@ -1,8 +1,9 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/salesreport_state.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
 import 'package:app/Widget/reports/salesReport/data_container.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
+import 'package:app/Widget/reports/salesReport/search_data_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +23,6 @@ class SalesReportScreens extends StatelessWidget {
     return BlocBuilder<SalesReportCubit, SalesReportState>(
       builder: (context, state) {
         final cubit = SalesReportCubit.get(context);
-
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -63,6 +63,11 @@ class SalesReportScreens extends StatelessWidget {
                     ),
                     onPressed: () {
                       cubit.clearAll();
+                      // cubit.postSalesReport(
+                      //   nameSearch: "",
+                      //   dateFrom: "",
+                      //   dateTo: "",
+                      // );
                     },
                     child: const Text(
                       "Clear",
@@ -90,18 +95,22 @@ class SalesReportScreens extends StatelessWidget {
                   ),
                 ],
               ),
-              cubit.isComeData
-                  ? Expanded(
-                      child: DataContainer(),
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * 0.51,
-                      child: Center(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ),
+              if (cubit.dateFromText.isNotEmpty)
+                Expanded(
+                  child: SearchDataContainer(),
+                )
+              else if (cubit.dateToText.isNotEmpty)
+                Expanded(
+                  child: SearchDataContainer(),
+                )
+              else if (cubit.searchController.text.isNotEmpty)
+                Expanded(
+                  child: SearchDataContainer(),
+                )
+              else
+                Expanded(
+                  child: DataContainer(),
+                ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(

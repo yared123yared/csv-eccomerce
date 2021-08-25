@@ -1,5 +1,5 @@
-import 'package:app/Blocs/orderDrawer/AllOrder/allorders_cubit.dart';
-import 'package:app/Blocs/orderDrawer/AllOrder/allorders_state.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +32,7 @@ class SearchContinerAllOrder extends StatelessWidget {
                     suffixIcon: IconButton(
                       onPressed: () {
                         cubit.searchController.clear();
-                        cubit.postAllOrders();
+                        //cubit.postAllOrders(searchNmae: value);
                       },
                       icon: Icon(Icons.close),
                     ),
