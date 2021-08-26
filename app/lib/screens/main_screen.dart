@@ -6,6 +6,7 @@ import 'package:app/Widget/Home/bottom-navigation/cart.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
 import 'package:app/screens/client_profile.dart';
+import 'package:app/screens/client_profile_copy.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:app/screens/home_screen.dart';
 import 'package:app/screens/setting_screen.dart';
@@ -87,7 +88,13 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('CSV'),
+        title: this.check == 0
+          ? Text('CSV')
+          : this.check == 1
+              ? Text('CSV')
+              : this.check == 2
+                  ? Text('CSV')
+                  : Text('Client Profile'),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: false,
         leading: GestureDetector(
@@ -112,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
               ? CategoryScreen()
               : this.check == 2
                   ? CartScreen()
-                  : ClientProfile(),
+                  : ClientProfileCopy(),
       bottomNavigationBar: BottomAppBar(
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
