@@ -105,6 +105,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             if (products != null) {
               productList = products;
             }
+            
             print("bloc--fetch--product--8");
 
             yield ProductLoadSuccess(
