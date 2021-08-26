@@ -1,6 +1,26 @@
 import 'cart.dart';
 
+class RequestFields {
+  static final List<String> values = [
+    /// Add all fields
+    id, total, paymentWhen, paymentMethod, typeOfWallet, transactionId,
+    amountPaid, amountRemaining, addressId, clientId
+  ];
+
+  static final String id = '_id';
+  static final String total = 'total';
+  static final String paymentWhen = 'payment_when';
+  static final String paymentMethod = 'payment_method';
+  static final String typeOfWallet = 'type_of_wallet';
+  static final String transactionId = 'transaction_id';
+  static final String amountPaid = 'amount_paid';
+  static final String amountRemaining = 'amount_remaining';
+  static final String addressId = 'address_id';
+  static final String clientId = 'client_id';
+}
+
 class Request {
+  int? id;
   int? total;
   String? paymentWhen;
   String? paymentMethod;
@@ -13,7 +33,8 @@ class Request {
   List<Cart>? cart;
 
   Request(
-      {this.total,
+      {this.id,
+      this.total,
       this.paymentWhen,
       this.paymentMethod,
       this.typeOfWallet,
@@ -41,7 +62,18 @@ class Request {
       });
     }
   }
-
+  Request.fromDB(Map<String, dynamic> json) {
+    id = json['_id'];
+    total = json[RequestFields.total];
+    paymentWhen = json[RequestFields.paymentWhen];
+    paymentMethod = json[RequestFields.paymentMethod];
+    typeOfWallet = json[RequestFields.typeOfWallet];
+    transactionId = json[RequestFields.transactionId];
+    amountPaid = json[RequestFields.amountPaid];
+    amountRemaining = json[RequestFields.amountRemaining];
+    addressId = json[RequestFields.addressId];
+    clientId = json[RequestFields.clientId];
+  }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['total'] = this.total;
@@ -56,6 +88,19 @@ class Request {
     if (this.cart != null) {
       data['cart'] = this.cart!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+  Map<String, dynamic> toDb() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data[RequestFields.total] = this.total;
+    data[RequestFields.paymentWhen] = this.paymentWhen;
+    data[RequestFields.paymentMethod] = this.paymentMethod;
+    data[RequestFields.typeOfWallet] = this.typeOfWallet;
+    data[RequestFields.transactionId] = this.transactionId;
+    data[RequestFields.amountPaid] = this.amountPaid;
+    data[RequestFields.amountRemaining] = this.amountRemaining;
+    data[RequestFields.addressId] = this.addressId;
+    data[RequestFields.clientId] = this.clientId;
     return data;
   }
 }

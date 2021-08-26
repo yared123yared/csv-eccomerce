@@ -115,7 +115,7 @@ class App extends StatelessWidget {
   //   required this.userPreferences,
   //   required this.clientsRepository,
   //   required this.locationRepository,
-  // });
+  // });adm
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -155,6 +155,7 @@ class App extends StatelessWidget {
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
+              orderRepository: this.orderRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
           BlocProvider<CategoriesBloc>(
