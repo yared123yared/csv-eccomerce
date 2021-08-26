@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/db/db.dart';
 import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/client.dart';
@@ -20,6 +21,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   // late Request request;
   final OrderRepository orderRepository;
   OrdersBloc({required this.orderRepository}) : super(OrdersInitial());
+  // CartBloc cartbloc;
 
   @override
   Stream<OrdersState> mapEventToState(
@@ -37,6 +39,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         bool value = (await this.orderRepository.createOrder(event.request));
         if (value == true) {
           print("Order---Successfully created");
+          // cartbloc=BlocProvider.of(context)<CartBloc>();
+          // InitializeCart
           yield (OrderCreatedSuccess());
         } else {
           print("failed to create--order");

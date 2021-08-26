@@ -29,9 +29,11 @@ class _AddClientState extends State<AddClient> {
   bool isShowing = false;
   Payment payment = new Payment();
   late OrdersBloc ordersbloc;
+  late CartBloc cartbloc;
   @override
   Widget build(BuildContext context) {
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
+    cartbloc = BlocProvider.of<CartBloc>(context);
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
@@ -54,6 +56,7 @@ class _AddClientState extends State<AddClient> {
                 // }
                 progress!.showWithText("Creating");
               } else if (state is OrderCreatedSuccess) {
+                cartbloc.add(InitializeCart());
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
                 // return Container(child: Text("Created Successfully"));
               } else if (state is OrderCreatingFailed) {
