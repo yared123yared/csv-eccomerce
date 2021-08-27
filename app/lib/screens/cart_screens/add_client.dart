@@ -1,3 +1,4 @@
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -30,10 +31,12 @@ class _AddClientState extends State<AddClient> {
   Payment payment = new Payment();
   late OrdersBloc ordersbloc;
   late CartBloc cartbloc;
+  late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
@@ -57,6 +60,7 @@ class _AddClientState extends State<AddClient> {
                 progress!.showWithText("Creating");
               } else if (state is OrderCreatedSuccess) {
                 cartbloc.add(InitializeCart());
+                productBloc.add(FetchProduct());
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
                 // return Container(child: Text("Created Successfully"));
               } else if (state is OrderCreatingFailed) {

@@ -14,7 +14,7 @@ class PaymentContainer extends StatelessWidget {
   late OrdersBloc ordersBloc;
   final Function onStateChange;
   PaymentContainer({required this.onStateChange});
-
+final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
@@ -33,56 +33,50 @@ class PaymentContainer extends StatelessWidget {
             ),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  Container(
-                    // alignment: Alignment.topCenter,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.05,
-
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular((30)),
-                          topRight: Radius.circular((30))),
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.02,
-                          left: MediaQuery.of(context).size.width * 0.05),
-                      child: Text(
-                        "Payment",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
-                        textAlign: TextAlign.left,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Container(
+                      // alignment: Alignment.topCenter,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.05,
+              
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular((30)),
+                            topRight: Radius.circular((30))),
+                        color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.02,
+                            left: MediaQuery.of(context).size.width * 0.05),
+                        child: Text(
+                          "Payment",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
                     ),
-                  ),
-                  PaymentTimeDropDown(),
-                  PaymentMethodDropDown(),
-                  PaymentTypeDropDown(),
-                  PaymentFieldContainer(
-                      hintName: 'Transaction Id',
-                      onChanged: this.addTansactionId),
-                  PaymentFieldContainer(
-                    hintName: 'Paid Amount',
-                    onChanged: this.addPaidAmount,
-                  ),
-                  PaymentFieldContainer(
-                    hintName: 'Remaining Amount',
-                    onChanged: this.addRemainingAmount,
-                  ),
-                  // BlocBuilder<PaymentBloc, PaymentState>(
-                  //   builder: (context, state) {
-                  //     this.onStateChange(state.payment);
-                  //     return Column(
-                  //       children: [
-
-                  //       ],
-                  //     );
-                  //   },
-                  // )
-                ],
+                    PaymentTimeDropDown(),
+                    PaymentMethodDropDown(),
+                    PaymentTypeDropDown(),
+                    PaymentFieldContainer(
+                        hintName: 'Transaction Id',
+                        onChanged: this.addTansactionId),
+                    PaymentFieldContainer(
+                      hintName: 'Paid Amount',
+                      onChanged: this.addPaidAmount,
+                    ),
+                    PaymentFieldContainer(
+                      hintName: 'Remaining Amount',
+                      onChanged: this.addRemainingAmount,
+                    ),
+                    
+                  ],
+                ),
               ),
             ),
           )),

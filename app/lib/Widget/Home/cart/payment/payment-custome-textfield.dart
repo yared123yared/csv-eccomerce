@@ -37,6 +37,12 @@ class PaymentCustomTextField extends StatelessWidget {
           controller: this.controller,
           // obscureText: this.obsecureText,
           // initialValue: this.initialValue,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           onChanged: (value) => this.onChanged!(value.toString()),
@@ -59,7 +65,7 @@ class PaymentCustomTextField extends StatelessWidget {
             errorMaxLines: 1,
             // hintText: "${this.textFieldName}",
           ),
-          validator: (value) => validator!(value),
+          // validator: (value) => validator!(value),
         ),
       ),
     );
