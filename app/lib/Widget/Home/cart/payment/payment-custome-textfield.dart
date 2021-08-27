@@ -36,7 +36,7 @@ class PaymentCustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: this.controller,
           // obscureText: this.obsecureText,
-          // initialValue: this.initialValue,
+          initialValue: this.initialValue,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please enter some text';

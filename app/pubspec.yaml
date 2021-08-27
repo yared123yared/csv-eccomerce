@@ -52,6 +52,7 @@ dependencies:
   #dowanlod image
   image_gallery_saver: ^1.6.9
   permission_handler: ^8.1.4+2
+  blinking_text: ^1.0.1+2
  
 
 dev_dependencies:
