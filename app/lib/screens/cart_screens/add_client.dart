@@ -151,9 +151,16 @@ class _AddClientState extends State<AddClient> {
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                          content: Text('Please Select Client')),
+                                          content:
+                                              Text('Please Select Client')),
                                     );
                                   }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Fill All the required fields')),
+                                  );
                                 }
                               },
                       )

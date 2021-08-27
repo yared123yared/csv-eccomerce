@@ -60,19 +60,45 @@ class PaymentContainer extends StatelessWidget {
                     ),
                   ),
                   PaymentTimeDropDown(),
-                  PaymentMethodDropDown(),
-                  PaymentTypeDropDown(),
-                  PaymentFieldContainer(
-                      hintName: 'Transaction Id',
-                      onChanged: this.addTansactionId),
-                  PaymentFieldContainer(
-                    hintName: 'Paid Amount',
-                    onChanged: this.addPaidAmount,
-                  ),
-                  PaymentFieldContainer(
-                    hintName: 'Remaining Amount',
-                    onChanged: this.addRemainingAmount,
-                  ),
+                  BlocBuilder<OrdersBloc, OrdersState>(
+                   
+                    builder: (context, state) {
+                      if (state.request.paymentWhen == 'Pay Later') {
+                        return Container();
+                      } else {
+                        return Column(children: [
+                          PaymentMethodDropDown(),
+                          Visibility(
+                            visible: state.request.paymentMethod == "Cash"
+                                ? false
+                                : true,
+                            child: Column(children: [
+                              PaymentTypeDropDown(),
+                              PaymentFieldContainer(
+                                  initialValue:
+                                      state.request.transactionId as String,
+                                  hintName: 'Transaction Id',
+                                  onChanged: this.addTansactionId),
+                            ]),
+                          ),
+                          PaymentFieldContainer(
+                            initialValue: state.request.amountPaid.toString(),
+                            hintName: 'Paid Amount',
+                            onChanged: this.addPaidAmount,
+                          ),
+                          // if(state is RequestUpdateSuccess){
+                          //   return Container();
+                          // },
+                          PaymentFieldContainer(
+                            initialValue:state is RequestUpdateSuccess?
+                                state.request.amountRemaining.toString(): state.request.amountRemaining.toString(),
+                            hintName: 'Remaining Amount',
+                            onChanged: this.addRemainingAmount,
+                          ),
+                        ]);
+                      }
+                    },
+                  )
                 ],
               ),
             ),

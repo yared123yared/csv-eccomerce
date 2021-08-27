@@ -32,7 +32,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("Request arrived: ${state.request.toJson()}");
       bool connected = await ConnectionChecker.CheckInternetConnection();
       print("-create order--connected--${connected}");
-      
 
       yield OrderIsBeingCreating();
       if (connected) {
@@ -66,6 +65,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
       // CartLogic cartLogic = new CartLogic(products: event.cartProducts);
       request.total = this.getTotalPrice(event.cartProducts).toInt();
+      request.paymentWhen = 'Pay Later';
+      request.paymentMethod = 'Wallet';
+      request.typeOfWallet = 'Smilepay';
+      request.amountPaid = 0;
+      request.transactionId = "";
+      request.amountRemaining = (request.total! - (request.amountPaid as int));
       print("Total Value: ${this.getTotalPrice(event.cartProducts).toInt()}");
       List<Cart> carts = [];
       for (int i = 0; i < event.cartProducts.length; i++) {
@@ -136,6 +141,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("Entered to the payment bloc");
       print(state.request.toJson());
       request.amountPaid = event.amount;
+      request.amountRemaining = (request.total! - (request.amountPaid as int));
       print("When:${event.amount}");
 
       yield RequestUpdateSuccess(request: request);
