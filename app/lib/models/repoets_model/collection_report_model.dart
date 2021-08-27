@@ -5,165 +5,253 @@ class CollectionReportModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(DataCollection.fromJson(v));
+        data?.add(new DataCollection.fromJson(v));
       });
     }
   }
 }
 
 class DataCollection {
-  int? id;
-  String? createdAt;
-  String? amountPaid;
-  String? amountRemaining;
-  String? paymentMethod;
-  int? orderId;
-  String? status;
+  late String createdAt;
+  late String paymentMethod;
+  late String amountPaid;
+  late String status;
   Order? order;
 
   DataCollection.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     createdAt = json['created_at'];
-    amountPaid = json['amount_paid'];
-    amountRemaining = json['amount_remaining'];
     paymentMethod = json['payment_method'];
-    orderId = json['order_id'];
+    amountPaid = json['amount_paid'];
     status = json['status'];
-    order = json['order'] != null ? Order.fromJson(json['order']) : null;
+    order = json['order'] != null ? new Order.fromJson(json['order']) : null;
   }
 }
 
 class Order {
-  int? id;
-  String? orderNumber;
-  String? total;
-  String? paymentWhen;
-  String? paymentMethod;
-  String? typeOfWallet;
-  String? transactionId;
-  String? amountPaid;
-  String? amountRemaining;
-  String? status;
-  int? requiresApproval;
-  int? addressId;
-  int? clientId;
-  int? companyId;
-  int? createdBy;
-  int? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+  late String orderNumber;
+  late String amountPaid;
+
   Client? client;
 
   Order.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     orderNumber = json['order_number'];
-    total = json['total'];
-    paymentWhen = json['payment_when'];
-    paymentMethod = json['payment_method'];
-    typeOfWallet = json['type_of_wallet'];
-    transactionId = json['transaction_id'];
     amountPaid = json['amount_paid'];
-    amountRemaining = json['amount_remaining'];
-    status = json['status'];
-    requiresApproval = json['requires_approval'];
-    addressId = json['address_id'];
-    clientId = json['client_id'];
-    companyId = json['company_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+
     client =
         json['client'] != null ? new Client.fromJson(json['client']) : null;
   }
 }
 
 class Client {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? mobile;
-  String? email;
-  int? debts;
-  List<Orders>? orders;
+  late String firstName;
+  late String lastName;
+
+  // List<Orders>? orders;
 
   Client.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
-    mobile = json['mobile'];
-    email = json['email'];
-    debts = json['debts'];
-    if (json['orders'] != null) {
-      orders = [];
-      json['orders'].forEach((v) {
-        orders?.add(new Orders.fromJson(v));
-      });
-    }
+
+    // if (json['orders'] != null) {
+    //   orders = [];
+    //   json['orders'].forEach((v) {
+    //     orders?.add(new Orders.fromJson(v));
+    //   });
+    // }
   }
 }
 
-class Orders {
-  int? id;
-  String? orderNumber;
-  String? total;
-  String? paymentWhen;
-  String? paymentMethod;
-  String? typeOfWallet;
-  String? transactionId;
-  String? amountPaid;
-  String? amountRemaining;
-  String? status;
-  int? requiresApproval;
-  int? addressId;
-  int? clientId;
-  int? companyId;
-  int? createdBy;
-  int? updatedBy;
-  String? createdAt;
-  String? updatedAt;
+// class Orders {
+//   late int id;
+//   late String orderNumber;
+//   late String total;
+//   late String paymentWhen;
+//   late String amountPaid;
+//   late String amountRemaining;
+//   late String status;
+//   late int requiresApproval;
+//   late int addressId;
+//   late int clientId;
+//   late int companyId;
+//   late int createdBy;
+//   late int updatedBy;
+//   late String createdAt;
+//   late String updatedAt;
+//   late String paymentMethod;
+//   late String typeOfWallet;
+//   late String transactionId;
 
-  Orders.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderNumber = json['order_number'];
-    total = json['total'];
-    paymentWhen = json['payment_when'];
-    paymentMethod = json['payment_method'];
-    typeOfWallet = json['type_of_wallet'];
-    transactionId = json['transaction_id'];
-    amountPaid = json['amount_paid'];
-    amountRemaining = json['amount_remaining'];
-    status = json['status'];
-    requiresApproval = json['requires_approval'];
-    addressId = json['address_id'];
-    clientId = json['client_id'];
-    companyId = json['company_id'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-}
-
-
+//   Orders.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     orderNumber = json['order_number'];
+//     total = json['total'];
+//     paymentWhen = json['payment_when'];
+//     amountPaid = json['amount_paid'];
+//     amountRemaining = json['amount_remaining'];
+//     status = json['status'];
+//     requiresApproval = json['requires_approval'];
+//     addressId = json['address_id'];
+//     clientId = json['client_id'];
+//     companyId = json['company_id'];
+//     createdBy = json['created_by'];
+//     updatedBy = json['updated_by'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     paymentMethod = json['payment_method'];
+//     typeOfWallet = json['type_of_wallet'];
+//     transactionId = json['transaction_id'];
+//   }
+// }
 
 
 
 
 
 
+// class CollectionReportModel {
+//   List<DataCollection>? data;
 
+//   CollectionReportModel.fromJson(Map<String, dynamic> json) {
+//     if (json['data'] != null) {
+//       data = [];
+//       json['data'].forEach((v) {
+//         data?.add(DataCollection.fromJson(v));
+//       });
+//     }
+//   }
+// }
 
+// class DataCollection {
+//   late int id;
+//   late String createdAt;
+//   late String amountPaid;
+//   late String amountRemaining;
+//   late String paymentMethod;
+//   late int orderId;
+//   late String status;
+//   Order? order;
 
+//   DataCollection.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     createdAt = json['created_at'];
+//     amountPaid = json['amount_paid'];
+//     amountRemaining = json['amount_remaining'];
+//     paymentMethod = json['payment_method'];
+//     orderId = json['order_id'];
+//     status = json['status'];
+//     order = json['order'] != null ? Order.fromJson(json['order']) : null;
+//   }
+// }
 
+// class Order {
+//   late int id;
+//   late String orderNumber;
+//   late String total;
+//   late String paymentWhen;
+//   late String paymentMethod;
+//   late String typeOfWallet;
+//   late String transactionId;
+//   late String amountPaid;
+//   late String amountRemaining;
+//   late String status;
+//   late int requiresApproval;
+//   late int addressId;
+//   late int clientId;
+//   late int companyId;
+//   late int createdBy;
+//   late int updatedBy;
+//   late String createdAt;
+//   late String updatedAt;
+//   Client? client;
 
+//   Order.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     orderNumber = json['order_number'];
+//     total = json['total'];
+//     paymentWhen = json['payment_when'];
+//     paymentMethod = json['payment_method'];
+//     typeOfWallet = json['type_of_wallet'];
+//     transactionId = json['transaction_id'];
+//     amountPaid = json['amount_paid'];
+//     amountRemaining = json['amount_remaining'];
+//     status = json['status'];
+//     requiresApproval = json['requires_approval'];
+//     addressId = json['address_id'];
+//     clientId = json['client_id'];
+//     companyId = json['company_id'];
+//     createdBy = json['created_by'];
+//     updatedBy = json['updated_by'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     client =
+//         json['client'] != null ? new Client.fromJson(json['client']) : null;
+//   }
+// }
 
+// class Client {
+//   late int id;
+//   late String firstName;
+//   late String lastName;
+//   late String mobile;
+//   late String email;
+//   late int debts;
+//   List<Orders>? orders;
 
+//   Client.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     firstName = json['first_name'];
+//     lastName = json['last_name'];
+//     mobile = json['mobile'];
+//     email = json['email'];
+//     debts = json['debts'];
+//     if (json['orders'] != null) {
+//       orders = [];
+//       json['orders'].forEach((v) {
+//         orders?.add(new Orders.fromJson(v));
+//       });
+//     }
+//   }
+// }
 
+// class Orders {
+//   late int id;
+//   late String orderNumber;
+//   late String total;
+//   late String paymentWhen;
+//   late String paymentMethod;
+//   late String transactionId;
+//   late String amountPaid;
+//   late String amountRemaining;
+//   late String status;
+//   late int requiresApproval;
+//   late int addressId;
+//   late int clientId;
+//   late int companyId;
+//   late int createdBy;
+//   late int updatedBy;
+//   late String createdAt;
+//   late String updatedAt;
 
-
-
-
+//   Orders.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     orderNumber = json['order_number'];
+//     total = json['total'];
+//     paymentWhen = json['payment_when'];
+//     paymentMethod = json['payment_method'];
+//     transactionId = json['transaction_id'];
+//     amountPaid = json['amount_paid'];
+//     amountRemaining = json['amount_remaining'];
+//     status = json['status'];
+//     requiresApproval = json['requires_approval'];
+//     addressId = json['address_id'];
+//     clientId = json['client_id'];
+//     companyId = json['company_id'];
+//     createdBy = json['created_by'];
+//     updatedBy = json['updated_by'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//   }
+// }
 
 
 

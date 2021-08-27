@@ -32,9 +32,12 @@ class _DataContainerCollState extends State<DataContainerColl> {
         } else if (state is CollectionLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is CollectionSuccessState) {
-          ListView.separated(
+          return ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) {
+              print("===========");
+              print(state.collextions.length);
+              print("===========");
               return Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Container(
@@ -48,45 +51,45 @@ class _DataContainerCollState extends State<DataContainerColl> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      // buildrowData(
-                      //   text: 'PAYMENT DATE',
-                      //   // dateApi:
-                      //   //     "${cubit.collectionReportModel.data![index].createdAt}",
-                      //   dateApi: "${state.collextions[index].createdAt}",
-                      // ),
-                      // buildrowData(
-                      //   text: 'PAYMENT METHOD',
-                      //   // dateApi:
-                      //   //     "${cubit.collectionReportModel.data![index].paymentMethod}",
-                      //   dateApi: "${state.collextions[index].paymentMethod}",
-                      // ),
-                      // buildrowData(
-                      //   text: 'ORDER',
-                      //   // dateApi:
-                      //   //     "${cubit.collectionReportModel.data![index].order!.orderNumber}",
-                      //   dateApi:
-                      //       "${state.collextions[index].order!.orderNumber}",
-                      // ),
-                      // buildrowData(
-                      //   text: 'CLIENT NAME',
-                      //   // dateApi:
-                      //   //     '${cubitData![index].order!.client!.firstName} ${cubitData[index].order!.client!.lastName}',
-                      //   dateApi:
-                      //       "${state.collextions[index].order!.client!.firstName} ${state.collextions[index].order!.client!.lastName}",
-                      // ),
-                      // buildrowData(
-                      //   text: 'PAID AMOUNT',
-                      //   // dateApi:
-                      //   //     "${cubit.collectionReportModel.data![index].amountPaid}",
-                      //   dateApi:
-                      //       "${state.collextions[index].order!.amountPaid}",
-                      // ),
-                      // buildrowData(
-                      //   text: 'STATUS',
-                      //   // dateApi:
-                      //   //     '${cubit.collectionReportModel.data![index].status}',
-                      //   dateApi: "${state.collextions[index].status}",
-                      //),
+                      buildrowData(
+                        text: 'PAYMENT DATE',
+                        // dateApi:
+                        //     "${cubit.collectionReportModel.data![index].createdAt}",
+                        dateApi: "${state.collextions[index].createdAt}",
+                      ),
+                      buildrowData(
+                        text: 'PAYMENT METHOD',
+                        // dateApi:
+                        //     "${cubit.collectionReportModel.data![index].paymentMethod}",
+                        dateApi: "${state.collextions[index].paymentMethod}",
+                      ),
+                      buildrowData(
+                        text: 'ORDER',
+                        // dateApi:
+                        //     "${cubit.collectionReportModel.data![index].order!.orderNumber}",
+                        dateApi:
+                            "${state.collextions[index].order!.orderNumber}",
+                      ),
+                      buildrowData(
+                        text: 'CLIENT NAME',
+                        // dateApi:
+                        //     '${cubitData![index].order!.client!.firstName} ${cubitData[index].order!.client!.lastName}',
+                        dateApi:
+                            "${state.collextions[index].order!.client!.firstName} ${state.collextions[index].order!.client!.lastName}",
+                      ),
+                      buildrowData(
+                        text: 'PAID AMOUNT',
+                        // dateApi:
+                        //     "${cubit.collectionReportModel.data![index].amountPaid}",
+                        dateApi:
+                            "${state.collextions[index].amountPaid}",
+                      ),
+                      buildrowData(
+                        text: 'STATUS',
+                        // dateApi:
+                        //     '${cubit.collectionReportModel.data![index].status}',
+                        dateApi: "${state.collextions[index].status}",
+                      ),
                     ],
                   ),
                 ),

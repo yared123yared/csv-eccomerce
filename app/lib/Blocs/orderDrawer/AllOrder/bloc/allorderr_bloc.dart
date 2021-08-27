@@ -10,6 +10,7 @@ part 'allorderr_state.dart';
 
 class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
   final AllOrderDataProvider allOrderDataProvider;
+ //String? searchAllOrderName;
   AllorderrBloc(this.allOrderDataProvider) : super(AllorderrInitial());
 
   @override
@@ -20,7 +21,17 @@ class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
       yield AllOrderrLoadingState();
       try {
         var allorderstat = await allOrderDataProvider.getAllOrders();
+
         yield AllOrdersSuccessState(allorderstat);
+      } catch (e) {
+        yield AllorderrErrorState(e.toString());
+      }
+    } else if (event is SearchGetAllorderrEvent) {
+      yield SearchAllOrderLoading();
+      try {
+        var searchOrder =
+            await allOrderDataProvider.getSearchAllOrders(event.searchName);
+        yield SearchDataSccessState(searchOrder);
       } catch (e) {
         yield AllorderrErrorState(e.toString());
       }

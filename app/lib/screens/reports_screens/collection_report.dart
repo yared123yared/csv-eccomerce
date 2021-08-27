@@ -21,6 +21,7 @@ class CollectionReportScreen extends StatelessWidget {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            backgroundColor: primaryColor,
             leading: GestureDetector(
               onTap: () {
                 _scaffoldKey.currentState!.openDrawer();
@@ -85,19 +86,21 @@ class CollectionReportScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              //Expanded(child: DataContainerColl()),
-              cubit.isComeData
-                  ? Expanded(
-                      child: SearchDataContainerColl(),
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * 0.51,
-                      child: Center(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ),
+              Expanded(
+                child: DataContainerColl(),
+              ),
+              // cubit.isComeData
+              //     ? Expanded(
+              //         child: DataContainerColl(),
+              //       )
+              //     : Container(
+              //         height: MediaQuery.of(context).size.height * 0.51,
+              //         child: Center(
+              //           child: Center(
+              //             child: CircularProgressIndicator(),
+              //           ),
+              //         ),
+              //       ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(

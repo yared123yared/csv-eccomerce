@@ -16,7 +16,7 @@ dependencies:
   lazy_load_scrollview: 1.3.0
   dio: ^4.0.0
   splashscreen:
-  hexcolor: ^1.0.4
+  hexcolor: ^2.0.5
   bloc: ^7.0.0
   equatable: ^2.0.3
   http: ^0.13.3
@@ -45,6 +45,7 @@ dependencies:
   fluttertoast: ^8.0.8
   api_cache_manager: ^1.0.2
   # create pdf document
+  flutter_downloader: ^1.6.1
   pdf: ^3.4.2
   path_provider: ^2.0.2
   open_file: ^3.2.1

@@ -26,6 +26,7 @@ class SalesReportScreens extends StatelessWidget {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            backgroundColor: primaryColor,
             leading: GestureDetector(
               onTap: () {
                 _scaffoldKey.currentState!.openDrawer();

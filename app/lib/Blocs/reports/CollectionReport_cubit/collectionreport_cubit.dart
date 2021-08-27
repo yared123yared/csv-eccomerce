@@ -141,7 +141,7 @@ class CollectionReportCubit extends Cubit<CollectionReportState> {
         final data = extractedData['collections'];
 
         collectionReportModel = CollectionReportModel.fromJson(data);
-        print("Walid : ${collectionReportModel.data![0].order!.addressId}");
+        //print("Walid : ${collectionReportModel.data![0].order!.addressId}");
       } else {
         isComeData = false;
         throw Exception('Failed to load courses');

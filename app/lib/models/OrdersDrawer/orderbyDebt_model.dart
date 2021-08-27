@@ -1,22 +1,17 @@
 class OrderByDebtModel {
-  int? currentPage;
-  List<Data>? data;
-  int? total;
-  OrderByDebtModel(this.currentPage);
+  List<DataOrderByDebt>? data;
 
   OrderByDebtModel.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data?.add(new Data.fromJson(v));
+        data?.add(new DataOrderByDebt.fromJson(v));
       });
     }
-    total = json['total'];
   }
 }
 
-class Data {
+class DataOrderByDebt {
   late int id;
   late String createdAt;
   late String orderNumber;
@@ -27,7 +22,7 @@ class Data {
   late String status;
   Client? client;
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataOrderByDebt.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
     orderNumber = json['order_number'];

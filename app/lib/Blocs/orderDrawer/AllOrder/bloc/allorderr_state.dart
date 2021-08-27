@@ -18,3 +18,11 @@ class AllorderrErrorState extends AllorderrState {
 
   AllorderrErrorState(this.message);
 }
+
+class SearchAllOrderLoading extends AllorderrState {}
+
+class SearchDataSccessState extends AllorderrState {
+  final List<DataAllOrders> searchallorderdata;
+
+  SearchDataSccessState(this.searchallorderdata);
+}
