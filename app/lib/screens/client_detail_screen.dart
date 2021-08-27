@@ -45,7 +45,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             ClientBasicProfile(
               client: ClientProfileData(
                 name: '${widget.client.firstName} ${widget.client.lastName}',
-                credit: 0,
+                credit: "0",
                 level: 'Premiem',
                 email: '${widget.client.email}',
                 phone: '${widget.client.mobile}',

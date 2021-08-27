@@ -8,9 +8,34 @@ class ClientBasicProfile extends StatelessWidget {
   final ClientProfileData client;
   ClientBasicProfile({required this.client});
   void editClient() {}
+  final String baseUrl = 'http://csv.jithvar.com/storage';
 
   @override
   Widget build(BuildContext context) {
+    Widget photo;
+    if (client.photoPath == null) {
+      photo = CircleAvatar(
+        radius: 40,
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          child: Image.asset('assets/images/circular.png'),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+      );
+    } else {
+      photo = CircleAvatar(
+        radius: 40,
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          child: Image.network('${baseUrl}/${client.photoPath}'),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+      );
+    }
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Stack(
@@ -38,7 +63,6 @@ class ClientBasicProfile extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-
                         Text(
                           this.client.name,
                           style: TextStyle(
@@ -80,13 +104,7 @@ class ClientBasicProfile extends StatelessWidget {
             top: -40,
             child: CircleAvatar(
               radius: 40,
-              child: Container(
-                clipBehavior: Clip.hardEdge,
-                child: Image.asset('assets/images/16.jpg'),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
+              child:photo,
             ),
           ),
         ],

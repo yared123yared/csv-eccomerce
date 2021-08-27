@@ -242,7 +242,7 @@ CREATE TABLE $tableCart (
  await db.execute('''
 CREATE TABLE $tableCartAttributes (
   cart_id $integerTypeNullable,
-  id $integerTypeNullable
+  id $integerTypeNullable,
   FOREIGN KEY (cart_id)
        REFERENCES $tableCart (${CartFields.id}) ON DELETE CASCADE
   )

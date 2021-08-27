@@ -1,3 +1,9 @@
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
+import 'package:app/Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
+import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'package:app/Widget/Auth/Common/welcome.dart';
 
 import 'package:app/models/login_info.dart';
@@ -45,6 +51,28 @@ class _LoginState extends State<Login> {
     BlocProvider.of<AuthBloc>(context).add(loginEvent);
   }
 
+  void callFetchEvents() {
+    FetchClientsEvent fetchClientsEvent = new FetchClientsEvent(loadMore: true);
+    BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientsEvent);
+
+    FeatchCustomDebtEvent fetchCustomDebtEvent = new FeatchCustomDebtEvent();
+    BlocProvider.of<CustomDebtBloc>(context, listen: false)
+        .add(fetchCustomDebtEvent);
+
+    FeatchCollectionEvent fetchCollectionEvent = new FeatchCollectionEvent();
+    BlocProvider.of<CollectionBloc>(context, listen: false)
+        .add(fetchCollectionEvent);
+
+    FeatchSalesReportEvent featchSalesReportEvent =
+        new FeatchSalesReportEvent();
+    BlocProvider.of<SalesReportBloc>(context, listen: false)
+        .add(featchSalesReportEvent);
+
+    FeatcAllorderrEvent fetchAllordersEvent = new FeatcAllorderrEvent();
+    BlocProvider.of<AllorderrBloc>(context, listen: false)
+        .add(fetchAllordersEvent);
+  }
+
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -66,6 +94,7 @@ class _LoginState extends State<Login> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
+              callFetchEvents();
               Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
             }
           },

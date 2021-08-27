@@ -80,10 +80,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 padding: EdgeInsets.all(16.0),
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      ClientProfile.routeName,
-                                      arguments: state.user,
-                                    );
+                                    // Navigator.of(context).pushNamed(
+                                    //   ClientProfile.routeName,
+                                    //   arguments: state.user,
+                                    // );
                                   },
                                   child: Container(
                                     child: Column(
@@ -147,29 +147,29 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              DrawerListTile(
-                                'Categories',
-                                0,
-                                Icons.list_alt,
-                                () => {},
-                              ),
-                              DrawerListTile(
-                                  'Products', 4, Icons.shop, () => {}),
-                              DrawerListTile(
-                                'Clients',
-                                0,
-                                Icons.person,
-                                // () => setState(() {
-                                // this.check = 7;
-                                // BlocProvider.of<ClientsBloc>(context,
-                                //         listen: false)
-                                //     .add(fetchClientEvent);
-                                // }),
-                                () => navigateToClientScreen(context),
-                              ),
+                              // DrawerListTile(
+                              //   'Shop',
+                              //   0,
+                              //   Icons.list_alt,
+                              //   () => {},
+                              // ),
+                              // DrawerListTile(
+                              //     'Products', 4, Icons.shop, () => {}),
+                              // DrawerListTile(
+                              //   'Clients',
+                              //   0,
+                              //   Icons.person,
+                              //   // () => setState(() {
+                              //   // this.check = 7;
+                              //   // BlocProvider.of<ClientsBloc>(context,
+                              //   //         listen: false)
+                              //   //     .add(fetchClientEvent);
+                              //   // }),
+                              //   () => navigateToClientScreen(context),
+                              // ),
 
                               DrawerListTile(
-                                'Product Catalog',
+                                'Shop',
                                 0,
                                 Icons.production_quantity_limits_sharp,
                                 () => Navigator.of(context)
@@ -188,7 +188,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                         OrdersByDebtScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.shopping_bag,
                               ),
                               DrawerExpansionTile(
@@ -199,7 +199,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                         .pushNamed(PaymentsScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.payment,
                               ),
                               DrawerExpansionTile(
@@ -218,18 +218,17 @@ class _AppDrawerState extends State<AppDrawer> {
                                         CustomerByDebtScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.insights,
                               ),
 
                               DrawerExpansionTile(
                                 'Client Management',
                                 [
-                                  ExapandedListItem('Clients', () {}),
+                                  ExapandedListItem('Clients', ()=> navigateToClientScreen(context)),
                                   ExapandedListItem('Invoices', () {}),
-                                  ExapandedListItem('Add Money', () {}),
                                 ],
-                                4,
+                                0,
                                 Icons.handyman,
                               ), // DrawerHeader(child: )
                             ],

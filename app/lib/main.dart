@@ -65,6 +65,7 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
+
   final CategoryRepository categoryRepository = CategoryRepository(
     categoryDataProvider: CategoriesDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
@@ -107,6 +108,7 @@ class App extends StatelessWidget {
     required this.orderRepository,
     required this.locationRepository,
   });
+  
 
   final LocationRepository locationRepository;
   // App({
