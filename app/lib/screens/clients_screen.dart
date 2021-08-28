@@ -2,6 +2,7 @@ import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
 import 'package:app/models/client.dart';
+import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class ClientsScreen extends StatefulWidget {
   static const routeName = 'client_screen';
@@ -181,10 +181,18 @@ class _ClientsScreenState extends State<ClientsScreen> {
                             itemScrollController: itemScrollController,
                             itemPositionsListener: itemPositionsListener,
                             itemBuilder: (BuildContext ctx, index) {
-                              return ClientCard(
-                                client: clients![index],
-                                deleteClient: () {},
-                                editClient: editClient,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    ClientDetailScreen.routeName,
+                                    arguments:  clients![index],
+                                  );
+                                },
+                                child: ClientCard(
+                                  client: clients![index],
+                                  deleteClient: () {},
+                                  editClient: editClient,
+                                ),
                               );
                             },
                           ),

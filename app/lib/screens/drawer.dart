@@ -319,30 +319,36 @@ class _AppDrawerState extends State<AppDrawer> {
                                     bottomRight: Radius.circular(30),
                                   ),
                                 ),
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.home,
-                                    size: 40.0,
-                                    color: Colors.black,
-                                  ),
-                                  title: Text(
-                                    'Dashboard',
-                                    style: TextStyle(
+                                child: InkWell(
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.home,
+                                      size: 40.0,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
+                                    ),
+                                    title: Text(
+                                      'Dashboard',
+                                      style: TextStyle(
+                                        // color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20.0,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                              DrawerListTile(
-                                'Categories',
-                                0,
-                                Icons.list_alt,
-                                () => {},
+                              InkWell(
+                                child: DrawerListTile(
+                                  'Categories',
+                                  0,
+                                  Icons.list_alt,
+                                  () => {},
+                                ),
                               ),
-                              DrawerListTile(
-                                  'Products', 4, Icons.shop, () => {}),
+                              InkWell(
+                                child: DrawerListTile(
+                                    'Products', 4, Icons.shop, () => {}),
+                              ),
                               DrawerListTile(
                                 'Clients',
                                 4,

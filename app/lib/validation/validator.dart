@@ -1,7 +1,7 @@
-
 bool IsValidPhoneNumber(String string) {
   // Null or empty string is invalid phone number
-  if (string == null || string.isEmpty) {
+  if (string == null || string.isEmpty || string == "") {
+    print("false");
     return false;
   }
 
@@ -15,6 +15,7 @@ bool IsValidPhoneNumber(String string) {
   }
   return true;
 }
+
 bool IsValidEmail(String string) {
   // Null or empty string is invalid
   if (string == null || string.isEmpty) {
@@ -29,8 +30,11 @@ bool IsValidEmail(String string) {
   }
   return true;
 }
+
 String? Validatephone(String phone) {
+  print("caled");
   if (!IsValidPhoneNumber(phone)) {
+    print("44");
     return 'Invalid Phone Number';
   }
   return null;

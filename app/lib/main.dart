@@ -65,7 +65,6 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
-
   final CategoryRepository categoryRepository = CategoryRepository(
     categoryDataProvider: CategoriesDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
@@ -74,8 +73,7 @@ void main() {
       orderDataProvider: OrderDataProvider(
           httpClient: httpClient, userPreferences: userPreferences));
   final LocationRepository locationRepository = LocationRepository();
-  // Products products = await productRepository.getProducts(1);
-  // print(products.currentPage);
+
 
   runApp(
     App(
@@ -88,7 +86,6 @@ void main() {
       locationRepository: locationRepository,
     ),
   );
-  // runApp(MyApp());
 }
 
 class App extends StatelessWidget {
@@ -108,7 +105,6 @@ class App extends StatelessWidget {
     required this.orderRepository,
     required this.locationRepository,
   });
-  
 
   final LocationRepository locationRepository;
   // App({
@@ -182,8 +178,8 @@ class App extends StatelessWidget {
           //       dateFrom: "",
           //     ),
           BlocProvider<SalesReportCubit>(
-              create: (BuildContext context) =>
-                  SalesReportCubit(userPreferences)),
+            create: (BuildContext context) => SalesReportCubit(userPreferences),
+          ),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),

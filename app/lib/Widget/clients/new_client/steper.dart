@@ -30,6 +30,7 @@ class StepCreateClient extends StatelessWidget {
       currentStep: this.currentStep,
       onStepContinue:()=>this.onStepContinue(),
       onStepTapped: (val) => this.onStepTapped(val),
+      
     );
   }
 }

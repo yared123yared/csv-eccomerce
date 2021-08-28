@@ -57,6 +57,9 @@ class _NewClientScreenState extends State<NewClientScreen> {
       new TextEditingController();
   final TextEditingController docmentPickController =
       new TextEditingController();
+  final generalInfoFormKey = GlobalKey<FormState>();
+  final addressInfoFormKey = GlobalKey<FormState>();
+
   final List<String> titles = [
     'General Information',
     'Shipping Address',
@@ -315,6 +318,18 @@ class _NewClientScreenState extends State<NewClientScreen> {
   void updateCounter() async {
     // print(currentStep);
     if (currentStep == 0) {
+      print("0");
+      if (generalInfoFormKey.currentState != null) {
+      print("1");
+
+        if (generalInfoFormKey.currentState!.validate()==false) {
+      print("2");
+
+          return;
+        }
+      }
+      print("3");
+
       if (firstNameController.text == '' ||
           lastNameController.text == '' ||
           mobileController.text == '' ||
@@ -322,7 +337,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
         return;
       }
       if (widget.client == null) {
-          var currTime = DateTime.now();
+        var currTime = DateTime.now();
         var timeStamp = currTime.millisecondsSinceEpoch;
         FetchCurrentLocationEvent fetchLocationEvent =
             new FetchCurrentLocationEvent(status: timeStamp.toString());
@@ -339,6 +354,11 @@ class _NewClientScreenState extends State<NewClientScreen> {
         },
       );
     } else if (currentStep == 1) {
+      if (addressInfoFormKey.currentState != null) {
+        if (!addressInfoFormKey.currentState!.validate()) {
+          return;
+        }
+      }
       if (countryController.text != '') {
         updateAddressValues();
         // clear();
@@ -373,43 +393,43 @@ class _NewClientScreenState extends State<NewClientScreen> {
     if (place != null) {
       print("place is not null");
       // setState(() {
-        if (place.subLocality != null) {
-          print("sublocal");
-          values['addresses'][currentIdx]['city'] = place.subLocality;
-          cityController.text = values['addresses'][currentIdx]['city'];
-        }
+      if (place.subLocality != null) {
+        print("sublocal");
+        values['addresses'][currentIdx]['city'] = place.subLocality;
+        cityController.text = values['addresses'][currentIdx]['city'];
+      }
 
-        if (place.street != null) {
-          print("street");
-          values['addresses'][currentIdx]['street_address'] = place.street;
-          streetController.text =
-              values['addresses'][currentIdx]['street_address'].toString();
-        }
-        if (place.postalCode != null || place.postalCode != '') {
-          print("postal");
-          values['addresses'][currentIdx]['zip_code'] = place.postalCode;
-          zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
-        }
-        if (place.administrativeArea != null ||
-            place.administrativeArea != '') {
-          values['addresses'][currentIdx]['state'] = place.administrativeArea;
-          stateController.text = values['addresses'][currentIdx]['state'];
-        }
-        if (place.locality != null || place.locality != '') {
-          values['addresses'][currentIdx]['locality'] = place.locality;
-          localityController.text = values['addresses'][currentIdx]['locality'];
-        }
-        if (place.country != null || place.country != '') {
-          values['addresses'][currentIdx]['country'] = place.country;
-          countryController.text = values['addresses'][currentIdx]['country'];
-        }
-        values['addresses'][currentIdx]['is_default'] = _isDefault;
-        values['addresses'][currentIdx]['is_billing'] = _isBilling;
+      if (place.street != null) {
+        print("street");
+        values['addresses'][currentIdx]['street_address'] = place.street;
+        streetController.text =
+            values['addresses'][currentIdx]['street_address'].toString();
+      }
+      if (place.postalCode != null || place.postalCode != '') {
+        print("postal");
+        values['addresses'][currentIdx]['zip_code'] = place.postalCode;
+        zipCodeController.text = values['addresses'][currentIdx]['zip_code'];
+      }
+      if (place.administrativeArea != null || place.administrativeArea != '') {
+        values['addresses'][currentIdx]['state'] = place.administrativeArea;
+        stateController.text = values['addresses'][currentIdx]['state'];
+      }
+      if (place.locality != null || place.locality != '') {
+        values['addresses'][currentIdx]['locality'] = place.locality;
+        localityController.text = values['addresses'][currentIdx]['locality'];
+      }
+      if (place.country != null || place.country != '') {
+        values['addresses'][currentIdx]['country'] = place.country;
+        countryController.text = values['addresses'][currentIdx]['country'];
+      }
+      values['addresses'][currentIdx]['is_default'] = _isDefault;
+      values['addresses'][currentIdx]['is_billing'] = _isBilling;
       // });
     } else {
       print("place is  null");
     }
   }
+
   void _UploadPhotoHandler() async {
     ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -518,7 +538,8 @@ class _NewClientScreenState extends State<NewClientScreen> {
           ),
           onPressed: () {
             ///
-            FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
+            FetchClientsEvent fetchClientEvent =
+                new FetchClientsEvent(loadMore: false);
             BlocProvider.of<ClientsBloc>(context, listen: false)
                 .add(fetchClientEvent);
             Navigator.of(context).pop();
@@ -662,6 +683,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         GeneralInformation(
+          formKey: generalInfoFormKey,
           textInput: [
             CustomTextField(
               textFieldName: 'First Name',
@@ -683,7 +705,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               textFieldName: 'Mobile',
               initialValue: values['mobile'],
               controller: mobileController,
-              validator: (value) => Validatephone(value),
+              validator: Validatephone,
               obsecureText: false,
               isRequired: true,
             ),
@@ -691,7 +713,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               textFieldName: 'Email',
               initialValue: values['email'],
               controller: emailController,
-              validator: (value) => validateEmail(value),
+              validator: validateEmail,
               obsecureText: false,
               isRequired: true,
             ),
@@ -712,6 +734,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         Shipping(
+          formKey: generalInfoFormKey,
           nextAddressHandler: nextAddresshandler,
           prevAdressHandler: prevAddresshandler,
           onAddNewPressed: _newAddresshandler,
@@ -820,5 +843,4 @@ class _NewClientScreenState extends State<NewClientScreen> {
       ),
     ];
   }
-
 }

@@ -21,62 +21,75 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
-    return Material(
-      color: Colors.white,
-      elevation: 1.0,
-      clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-      ),
-      textStyle: TextStyle(color: Colors.black),
-      child: Container(
-        width: loginSize.getTextFieldWidth,
-        child: TextFormField(
-          controller: this.controller,
-          obscureText: this.obsecureText,
-          // initialValue: this.initialValue,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.done,
-          onEditingComplete: () => FocusScope.of(context).unfocus(),
-          style: TextStyle(fontSize: 18, color: Colors.grey),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(
-              top: 6,
-              bottom: 6,
-              left: 12,
-            ),
-            border: InputBorder.none,
-            // prefixText: '${this.textFieldName}',
-            // prefixIcon: Container(
-            //   width: this.textFieldName.length * 5,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       Text('  ${this.textFieldName}'),
-            //       this.isRequired
-            //           ? Text(
-            //               '*',
-            //               style: TextStyle(
-            //                 color: Colors.red,
-            //               ),
-            //             )
-            //           : Text(''),
-            //     ],
-            //   ),
-            // ),
-
-            hintText: '${this.textFieldName}',
-            errorStyle: TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-              textBaseline: TextBaseline.alphabetic,
-            ),
-            errorMaxLines: 1,
-            // hintText: "${this.textFieldName}",
+    return
+        // Material(
+        //   color: Colors.white,
+        //   elevation: 1.0,
+        //   clipBehavior: Clip.hardEdge,
+        //   shape: RoundedRectangleBorder(
+        //     borderRadius: BorderRadius.circular(40),
+        //   ),
+        //   textStyle: TextStyle(color: Colors.black),
+        //   child:
+        Container(
+      width: loginSize.getTextFieldWidth,
+      child: TextFormField(
+        controller: this.controller,
+        obscureText: this.obsecureText,
+        // initialValue: this.initialValue,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        onEditingComplete: () => FocusScope.of(context).unfocus(),
+        style: TextStyle(fontSize: 18, color: Colors.grey),
+        decoration: InputDecoration(
+          labelText: this.textFieldName,
+          fillColor: Colors.white,
+          border: new OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(25.0),
+            borderSide: new BorderSide(),
           ),
-          validator: (value) => validator(value),
+          //fillColor: Colors.green
+
+          contentPadding: EdgeInsets.only(
+            top: 6,
+            bottom: 6,
+            left: 12,
+          ),
+          // border: InputBorder.none,
+          // prefixText: '${this.textFieldName}',
+          suffixIcon: Container(
+            width: 2,
+            child: Center(
+              child: this.isRequired
+                  ? Text(
+                      '*',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    )
+                  : Text(''),
+            ),
+          ),
+
+          // hintText: '${this.textFieldName}',
+          errorStyle: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            textBaseline: TextBaseline.alphabetic,
+          ),
+          // errorMaxLines: 1,
+          // hintText: "${this.textFieldName}",
         ),
+        validator: (value) {
+          String? xx = this.validator(value);
+          print("----");
+          if(xx!=null)
+          print(xx);
+        },
       ),
+      // )
     );
   }
 }
