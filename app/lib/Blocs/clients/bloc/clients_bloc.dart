@@ -129,6 +129,18 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   ) async* {
     yield ClientFetchingState();
     try {
+      bool connected = await ConnectionChecker.CheckInternetConnection();
+      print("-s--connected--${connected}");
+      if (!connected) {
+        yield ClientFetchingSuccessState(
+          clients: this.clients.where((element) =>(
+            element.firstName==key||
+            element.mobile==key||
+            element.email==key||
+            element.lastName==key) ).toList(),
+        );
+        return;
+      }
       List<Client>? cl = [];
       final reqData = await clientsRepository.searchClients(key);
       if (reqData != null) {

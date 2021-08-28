@@ -1,5 +1,4 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
-
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
@@ -65,7 +64,6 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
 
-
   final CategoryRepository categoryRepository = CategoryRepository(
     categoryDataProvider: CategoriesDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
@@ -74,8 +72,6 @@ void main() {
       orderDataProvider: OrderDataProvider(
           httpClient: httpClient, userPreferences: userPreferences));
   final LocationRepository locationRepository = LocationRepository();
-  // Products products = await productRepository.getProducts(1);
-  // print(products.currentPage);
 
   runApp(
     App(
@@ -88,7 +84,6 @@ void main() {
       locationRepository: locationRepository,
     ),
   );
-  // runApp(MyApp());
 }
 
 class App extends StatelessWidget {
@@ -108,16 +103,9 @@ class App extends StatelessWidget {
     required this.orderRepository,
     required this.locationRepository,
   });
-  
 
   final LocationRepository locationRepository;
-  // App({
-  //   required this.userRepository,
-  //   required this.productRepository,
-  //   required this.userPreferences,
-  //   required this.clientsRepository,
-  //   required this.locationRepository,
-  // });adm
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -166,9 +154,12 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-              create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository),
+          ),
           //
-          BlocProvider<AddClientBloc>(create: (_) => AddClientBloc()),
+          BlocProvider<AddClientBloc>(
+            create: (_) => AddClientBloc(),
+          ),
           //
           BlocProvider<LocationBloc>(
             create: (_) =>
@@ -182,8 +173,8 @@ class App extends StatelessWidget {
           //       dateFrom: "",
           //     ),
           BlocProvider<SalesReportCubit>(
-              create: (BuildContext context) =>
-                  SalesReportCubit(userPreferences)),
+            create: (BuildContext context) => SalesReportCubit(userPreferences),
+          ),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),

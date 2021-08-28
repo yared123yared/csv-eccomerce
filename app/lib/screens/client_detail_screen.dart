@@ -1,18 +1,17 @@
+import 'package:app/Widget/clients/client_profile/address_info.dart';
 import 'package:app/Widget/clients/client_profile/basic_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
 import 'package:app/Widget/clients/client_profile/orders_table.dart';
 import 'package:app/Widget/clients/client_profile/table_header.dart';
 import 'package:app/models/client.dart';
-import 'package:app/models/navigation/order.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:flutter/material.dart';
-
 
 class ClientDetailScreen extends StatefulWidget {
   final Client client;
 
   ClientDetailScreen({
-      required this.client,
+    required this.client,
   });
   static const routeName = 'client_detail';
 
@@ -23,9 +22,24 @@ class ClientDetailScreen extends StatefulWidget {
 class _ClientDetailScreenState extends State<ClientDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    List<Orders> orders=[];
-    if(widget.client.orders!=null){
-      orders=widget.client.orders!;
+    List<Orders> orders = [];
+    List<AddressInfo> shippingAddresses = [];
+    List<AddressInfo> billingAddresses = [];
+    if (widget.client.orders != null) {
+      orders = widget.client.orders!;
+    }
+    if (widget.client.addresses != null) {
+      widget.client.addresses!.forEach((address) {
+        if (address.isBilling != null) {
+          if (address.isBilling == true) {
+            billingAddresses.add(AddressInfo(address: address));
+          } else {
+            shippingAddresses.add(AddressInfo(address: address));
+          }
+        } else {
+          shippingAddresses.add(AddressInfo(address: address));
+        }
+      });
     }
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +63,6 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 level: 'Premiem',
                 email: '${widget.client.email}',
                 phone: '${widget.client.mobile}',
-
               ),
             ),
             MenuItem(
@@ -85,14 +98,20 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             ),
             MenuItem(
               title: 'Shipping Addresses',
-              childrens: [],
+              childrens:[
+                ...shippingAddresses
+              ]
+              ,
             ),
             SizedBox(
               height: 10.0,
             ),
             MenuItem(
               title: 'Billing Addresses',
-              childrens: [],
+              childrens: [
+                ...billingAddresses
+              ]
+              ,
             ),
             SizedBox(
               height: 30.0,

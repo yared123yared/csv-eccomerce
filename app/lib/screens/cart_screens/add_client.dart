@@ -1,3 +1,4 @@
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -29,13 +30,17 @@ class _AddClientState extends State<AddClient> {
   bool isShowing = false;
   Payment payment = new Payment();
   late OrdersBloc ordersbloc;
+  late CartBloc cartbloc;
+  late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
+    cartbloc = BlocProvider.of<CartBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
-
+    final _formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(title: Text("Add Client")),
         // bottomNavigationBar: ,
@@ -54,6 +59,8 @@ class _AddClientState extends State<AddClient> {
                 // }
                 progress!.showWithText("Creating");
               } else if (state is OrderCreatedSuccess) {
+                cartbloc.add(InitializeCart());
+                productBloc.add(FetchProduct());
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
                 // return Container(child: Text("Created Successfully"));
               } else if (state is OrderCreatingFailed) {
@@ -74,65 +81,91 @@ class _AddClientState extends State<AddClient> {
             },
             builder: (context, state) {
               return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.82,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        controller: _scrollController,
-                        child: Column(
-                          children: [
-                            UpperContainer(),
-                            //
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.04,
-                            ),
-
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.22,
-                              child: BlocBuilder<CartBloc, CartState>(
-                                builder: (context, state) {
-                                  return ClientInfo(
-                                    products: state.cartProducts,
-                                  );
-                                },
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.82,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          controller: _scrollController,
+                          child: Column(
+                            children: [
+                              UpperContainer(),
+                              //
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04,
                               ),
-                            ),
-                            PaymentContainer(
-                              onStateChange: this.setPayment,
-                            ),
-                          ],
+
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.22,
+                                child: BlocBuilder<CartBloc, CartState>(
+                                  builder: (context, state) {
+                                    return ClientInfo(
+                                      products: state.cartProducts,
+                                    );
+                                  },
+                                ),
+                              ),
+                              PaymentContainer(
+                                formKey: _formKey,
+                                onStateChange: this.setPayment,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    ConditionalButton(
-                      name: this.nextChecked == false ? "Next" : "Order",
-                      onPressed: this.nextChecked == false
-                          ? () {
-                              setState(() {
-                                this.nextChecked = true;
-                              });
-                              _scrollController.animateTo(
-                                  _scrollController.position.maxScrollExtent,
-                                  duration: Duration(milliseconds: 500),
-                                  curve: Curves.ease);
-                            }
-                          : () {
-                              print("Order method is invoked");
-                              ordersbloc.add(
-                                  CreateOrderEvent(request: state.request));
-
-                              // ordersbloc
-                              //     .add(PaymentAddEvent(payment: this.payment));
-
-                              if (state is RequestUpdateSuccess) {
-                                // ordersbloc.add(
-                                //     CreateOrderEvent(request: state.request));
+                      ConditionalButton(
+                        name: this.nextChecked == false ? "Next" : "Order",
+                        onPressed: this.nextChecked == false
+                            ? () {
+                                setState(() {
+                                  this.nextChecked = true;
+                                });
+                                _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.ease);
                               }
-                            },
-                    )
-                  ],
+                            : () {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                if (_formKey.currentState!.validate()) {
+                                  if (state.request.clientId != null) {
+                                    // If the form is valid, display a snackbar. In the real world,
+                                    // you'd often call a server or save the information in a database.
+
+                                    print("Order method is invoked");
+                                    ordersbloc.add(CreateOrderEvent(
+                                        request: state.request));
+
+                                    // ordersbloc
+                                    //     .add(PaymentAddEvent(payment: this.payment));
+
+                                    if (state is RequestUpdateSuccess) {
+                                      // ordersbloc.add(
+                                      //     CreateOrderEvent(request: state.request));
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content:
+                                              Text('Please Select Client')),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Fill All the required fields')),
+                                  );
+                                }
+                              },
+                      )
+                    ],
+                  ),
                 ),
               );
             },

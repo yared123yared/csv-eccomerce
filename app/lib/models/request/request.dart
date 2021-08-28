@@ -4,7 +4,8 @@ class RequestFields {
   static final List<String> values = [
     /// Add all fields
     id, total, paymentWhen, paymentMethod, typeOfWallet, transactionId,
-    amountPaid, amountRemaining, addressId, clientId
+    amountPaid, amountRemaining, addressId, clientId,
+    // type,isLocal
   ];
 
   static final String id = '_id';
@@ -17,6 +18,8 @@ class RequestFields {
   static final String amountRemaining = 'amount_remaining';
   static final String addressId = 'address_id';
   static final String clientId = 'client_id';
+  // static final String type = 'type';
+  // static final String isLocal = 'is_local';
 }
 
 class Request {
@@ -31,19 +34,24 @@ class Request {
   int? addressId;
   int? clientId;
   List<Cart>? cart;
+  // String? type;
+  // String? isLocal;
 
-  Request(
-      {this.id,
-      this.total,
-      this.paymentWhen,
-      this.paymentMethod,
-      this.typeOfWallet,
-      this.transactionId,
-      this.amountPaid,
-      this.amountRemaining,
-      this.addressId,
-      this.clientId,
-      this.cart});
+  Request({
+    this.id,
+    this.total,
+    this.paymentWhen,
+    this.paymentMethod,
+    this.typeOfWallet,
+    this.transactionId,
+    this.amountPaid,
+    this.amountRemaining,
+    this.addressId,
+    this.clientId,
+    this.cart,
+    // this.type,
+    // this.isLocal
+  });
 
   Request.fromJson(Map<String, dynamic> json) {
     total = json['total'];
@@ -73,6 +81,8 @@ class Request {
     amountRemaining = json[RequestFields.amountRemaining];
     addressId = json[RequestFields.addressId];
     clientId = json[RequestFields.clientId];
+    // type = json[RequestFields.type];
+    // isLocal = json[RequestFields.isLocal];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -90,6 +100,7 @@ class Request {
     }
     return data;
   }
+
   Map<String, dynamic> toDb() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data[RequestFields.total] = this.total;
@@ -101,6 +112,8 @@ class Request {
     data[RequestFields.amountRemaining] = this.amountRemaining;
     data[RequestFields.addressId] = this.addressId;
     data[RequestFields.clientId] = this.clientId;
+    // data[RequestFields.type] = this.type;
+    // data[RequestFields.isLocal] = this.isLocal;
     return data;
   }
 }

@@ -1,4 +1,6 @@
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
 import 'package:app/models/navigation/navigation.dart';
 // import 'package:app/screens/client_new_screen.dart';
 import 'package:app/models/client.dart' as Client;
@@ -8,6 +10,7 @@ import 'package:app/models/product/data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/cart_screens/update_order.dart';
+import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
@@ -79,9 +82,15 @@ class AppRoutes {
               // scaffoldKey: settings.arguments as GlobalKey<ScaffoldState>,
               // user: settings.arguments as LoggedUserInfo,
               ));
+    } else if (settings.name == ClientDetailScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => ClientDetailScreen(
+          client: settings.arguments as Client.Client,
+        ),
+      );
     } else if (settings.name == NewClientScreen.routeName) {
       if (settings.arguments != null) {
-        print("--route ----${settings.arguments}");
+        // print("--route ----${settings.arguments}");
         return MaterialPageRoute(
             builder: (context) => NewClientScreen(
                   client: settings.arguments as Client.Client,

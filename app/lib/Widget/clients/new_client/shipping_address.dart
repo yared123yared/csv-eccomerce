@@ -6,6 +6,8 @@ import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:geocoding/geocoding.dart';
 
 class Shipping extends StatefulWidget {
+  final GlobalKey<FormState> formKey;
+
   List<Widget> textInput;
   Function onNextPressed;
   Function onDefaultAddressPressed;
@@ -29,6 +31,7 @@ class Shipping extends StatefulWidget {
     required this.prevAdressHandler,
     required this.onCurrrentAddressFetchSuccessState,
     required this.isCreating,
+    required this.formKey,
   });
 
   @override
@@ -153,96 +156,99 @@ class _ShippingState extends State<Shipping> {
           isSuccess = true;
         }
         return ProgressHUD(
-          child: Column(
-            children: [
-              ...this.widget.textInput.map(
-                    (e) => Column(
+          child: Form(
+            key: widget.formKey,
+            child: Column(
+              children: [
+                ...this.widget.textInput.map(
+                      (e) => Column(
+                        children: [
+                          e,
+                          SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
+                    ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
-                        e,
-                        SizedBox(
-                          height: 10,
+                        Switch(
+                          value: this.widget.isBilling,
+                          onChanged: (val) =>
+                              this.widget.onBillingAddressPressed(),
+                        ),
+                        Text(
+                          'Billing Address',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
                         )
                       ],
                     ),
-                  ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Switch(
-                        value: this.widget.isBilling,
-                        onChanged: (val) =>
-                            this.widget.onBillingAddressPressed(),
-                      ),
-                      Text(
-                        'Billing Address',
-                        style: TextStyle(
-                          color: Colors.black,
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => this.widget.prevAdressHandler(),
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.black,
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => this.widget.prevAdressHandler(),
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
+                        SizedBox(
+                          width: 5,
                         ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      IconButton(
-                        onPressed: () => this.widget.nextAddressHandler(),
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.black,
+                        IconButton(
+                          onPressed: () => this.widget.nextAddressHandler(),
+                          icon: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Switch(
-                        value: this.widget.isDefault,
-                        onChanged: (val) =>
-                            this.widget.onDefaultAddressPressed(),
-                      ),
-                      Text(
-                        'Default Address',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      )
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () => this.widget.onAddNewPressed(),
-                    child: Text(
-                      'Add New',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      ],
                     ),
-                  )
-                ],
-              ),
-            ],
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Switch(
+                          value: this.widget.isDefault,
+                          onChanged: (val) =>
+                              this.widget.onDefaultAddressPressed(),
+                        ),
+                        Text(
+                          'Default Address',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        )
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () => this.widget.onAddNewPressed(),
+                      child: Text(
+                        'Add New',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },

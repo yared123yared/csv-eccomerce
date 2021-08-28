@@ -8,7 +8,6 @@ extension Order on CsvDatabse {
         await db.transaction((txn) async {
           print("local--req--db");
           print(jsonEncode(req).toString());
-
           int id = await txn.insert(
             tableRequest,
             req.toDb(),
@@ -39,17 +38,17 @@ extension Order on CsvDatabse {
             );
             print("-----db--req-create---4");
 
-            // attributes.forEach((attr) {
-            //   batch.insert(
-            //     tableCartAttributes,
-            //     {
-            //       'cart_id': cart.id,
-            //       'id': attr,
-            //     },
-            //     conflictAlgorithm: ConflictAlgorithm.replace,
-            //   );
-            // });
-            // print("-----db--req-create---5");
+            attributes.forEach((attr) {
+              batch.insert(
+                tableCartAttributes,
+                {
+                  'cart_id': cart.id,
+                  'id': attr,
+                },
+                conflictAlgorithm: ConflictAlgorithm.replace,
+              );
+            });
+            print("-----db--req-create---5");
           });
           await batch.commit();
         });
@@ -61,6 +60,7 @@ extension Order on CsvDatabse {
     }
     return true;
   }
+
 
   Future<List<Request>?> readrequests() async {
     final db = await CsvDatabse.instance.database;
@@ -99,25 +99,25 @@ extension Order on CsvDatabse {
             carts = cartMap.map((json) => Cart.fromDb(json)).toList();
             print("db-req--read---5");
 
-            // carts.forEach((car) async {
-            //   List<int> cartAttr = [];
-            //   final attributes = await txn.query(
-            //     tableCartAttributes,
-            //     where: 'cart_id = ?',
-            //     whereArgs: [car.id],
-            //   );
-            //   print("db-req--read---6");
-            //   // attributes.forEach((element) {
-            //   //   cartAttr.add(element['id'] as int);
-            //   // });
-            //   // print("db-req--read---7");
-            //   car.selectedAttributes = cartAttr;
-            // });
+            carts.forEach((car) async {
+              List<int> cartAttr = [];
+              final attributes = await txn.query(
+                tableCartAttributes,
+                where: 'cart_id = ?',
+                whereArgs: [car.id],
+              );
+              print("db-req--read---6");
+              attributes.forEach((element) {
+                cartAttr.add(element['id'] as int);
+              });
+              print("db-req--read---7");
+              car.selectedAttributes = cartAttr;
+            });
             if (requests != null) {
               requests![i].cart = carts;
             }
             i++;
-            // req.cart = carts;
+            req.cart = carts;
 
             print("db-req--read---8");
           }
