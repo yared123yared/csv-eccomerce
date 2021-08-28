@@ -15,7 +15,7 @@ class UpperContainer extends StatefulWidget {
 }
 
 class _UpperContainerState extends State<UpperContainer> {
-  bool isChecked = false;
+  bool isChecked = true;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddClientBloc, AddClientState>(

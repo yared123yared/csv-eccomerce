@@ -38,7 +38,7 @@ class UserDataProvider {
 
   Future<LoggedUserInfo> login(LoginInfo loginInfo) async {
     LoggedUserInfo loggedUserInfo;
-    final urlLogin = Uri.parse('${baseUrl}/login');
+    final urlLogin = Uri.parse('http://csv.jithvar.com/api/v2/login');
     try {
       final response = await http.post(
         urlLogin,

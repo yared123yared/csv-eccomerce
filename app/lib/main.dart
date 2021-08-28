@@ -1,5 +1,4 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
-
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
@@ -271,3 +270,4 @@ class App extends StatelessWidget {
     );
   }
 }
+
