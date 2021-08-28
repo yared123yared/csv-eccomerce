@@ -47,9 +47,11 @@ String? validateEmail(String enteredEmail) {
   return null;
 }
 
-String? LengthValidator(String text, int length) {
-  if (!(text.length > length) && text.isNotEmpty) {
-    return "Too Short Value";
+String? LengthValidator(String? text, int length) {
+  if(text!=null){
+     if (!(text.length >= length)) {
+      return "Too Short Value";
+    }
+    return null;
   }
-  return null;
 }

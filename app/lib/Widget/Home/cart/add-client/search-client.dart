@@ -49,7 +49,6 @@ class SearchClient extends StatelessWidget {
                           child: BlinkText("*Required",
                               style: TextStyle(
                                   color:Colors.red,
-                            
                                   fontWeight:FontWeight.bold
                                     )),
                         ),

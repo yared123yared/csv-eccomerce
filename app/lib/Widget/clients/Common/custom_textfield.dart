@@ -1,20 +1,23 @@
 import 'package:app/constants/login/size.dart';
 import 'package:flutter/material.dart';
+import 'package:app/validation/validator.dart';
 
 class CustomTextField extends StatelessWidget {
   final String textFieldName;
   final TextEditingController controller;
-  final Function validator;
+  final Function? validator;
   final bool obsecureText;
   final bool isRequired;
   final String initialValue;
+  final int minLength;
   CustomTextField({
     required this.textFieldName,
     required this.controller,
-    required this.validator,
+     this.validator,
     required this.obsecureText,
     required this.isRequired,
     required this.initialValue,
+    required this.minLength,
   });
 
   @override
@@ -83,10 +86,12 @@ class CustomTextField extends StatelessWidget {
           // hintText: "${this.textFieldName}",
         ),
         validator: (value) {
-          String? xx = this.validator(value);
-          print("----");
-          if(xx!=null)
-          print(xx);
+          if(this.validator!=null){
+            String? val = this.validator!(value);
+            return val;
+          }
+          String? val = LengthValidator(value, this.minLength);
+          return val;
         },
       ),
       // )

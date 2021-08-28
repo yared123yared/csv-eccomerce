@@ -310,32 +310,36 @@ class _AppDrawerState extends State<AppDrawer> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Container(
-                                margin: EdgeInsets.only(right: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    bottomRight: Radius.circular(30),
-                                  ),
-                                ),
-                                child: InkWell(
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.home,
-                                      size: 40.0,
-                                      color: Colors.black,
-                                    ),
-                                    title: Text(
-                                      'Dashboard',
-                                      style: TextStyle(
-                                        // color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                              // Container(
+                              //   margin: EdgeInsets.only(right: 25),
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.white,
+                              //     borderRadius: BorderRadius.only(
+                              //       topRight: Radius.circular(30),
+                              //       bottomRight: Radius.circular(30),
+                              //     ),
+                              //   ),
+                              //   child: InkWell(
+                              //     child: ListTile(
+                              //       leading: Icon(
+                              //         Icons.home,
+                              //         size: 40.0,
+                              //         color: Colors.black,
+                              //       ),
+                              //       title: Text(
+                              //         'Dashboard',
+                              //         style: TextStyle(
+                              //           // color: Colors.black,
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 20.0,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              InkWell(
+                                child: DrawerListTile(
+                                    'Dashboard', 0, Icons.home, () => {}),
                               ),
                               InkWell(
                                 child: DrawerListTile(

@@ -73,7 +73,6 @@ void main() {
           httpClient: httpClient, userPreferences: userPreferences));
   final LocationRepository locationRepository = LocationRepository();
 
-
   runApp(
     App(
       userPreferences: userPreferences,
@@ -106,13 +105,7 @@ class App extends StatelessWidget {
   });
 
   final LocationRepository locationRepository;
-  // App({
-  //   required this.userRepository,
-  //   required this.productRepository,
-  //   required this.userPreferences,
-  //   required this.clientsRepository,
-  //   required this.locationRepository,
-  // });adm
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -161,9 +154,12 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-              create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository),
+          ),
           //
-          BlocProvider<AddClientBloc>(create: (_) => AddClientBloc()),
+          BlocProvider<AddClientBloc>(
+            create: (_) => AddClientBloc(),
+          ),
           //
           BlocProvider<LocationBloc>(
             create: (_) =>
@@ -270,4 +266,3 @@ class App extends StatelessWidget {
     );
   }
 }
-

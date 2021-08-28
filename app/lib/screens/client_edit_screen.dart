@@ -4,7 +4,6 @@ import 'package:app/Blocs/location/bloc/location_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -320,10 +319,10 @@ class _NewClientScreenState extends State<NewClientScreen> {
     if (currentStep == 0) {
       print("0");
       if (generalInfoFormKey.currentState != null) {
-      print("1");
+        print("1");
 
-        if (generalInfoFormKey.currentState!.validate()==false) {
-      print("2");
+        if (generalInfoFormKey.currentState!.validate() == false) {
+          print("2");
 
           return;
         }
@@ -356,6 +355,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
     } else if (currentStep == 1) {
       if (addressInfoFormKey.currentState != null) {
         if (!addressInfoFormKey.currentState!.validate()) {
+          print("1");
           return;
         }
       }
@@ -686,22 +686,25 @@ class _NewClientScreenState extends State<NewClientScreen> {
           formKey: generalInfoFormKey,
           textInput: [
             CustomTextField(
+              minLength: 1,
               textFieldName: 'First Name',
               initialValue: values['first_name'],
               controller: firstNameController,
-              validator: (value) => LengthValidator(value, 1),
+              validator: null,
               obsecureText: false,
               isRequired: true,
             ),
             CustomTextField(
+              minLength: 1,
               textFieldName: 'Last Name',
               initialValue: values['last_name'],
               controller: lastNameController,
-              validator: (value) => LengthValidator(value, 1),
+              validator: null,
               obsecureText: false,
               isRequired: true,
             ),
             CustomTextField(
+              minLength: 10,
               textFieldName: 'Mobile',
               initialValue: values['mobile'],
               controller: mobileController,
@@ -710,6 +713,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
               isRequired: true,
             ),
             CustomTextField(
+              minLength: 10,
               textFieldName: 'Email',
               initialValue: values['email'],
               controller: emailController,
@@ -734,7 +738,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
       getClientAddStep(
         '',
         Shipping(
-          formKey: generalInfoFormKey,
+          formKey: addressInfoFormKey,
           nextAddressHandler: nextAddresshandler,
           prevAdressHandler: prevAddresshandler,
           onAddNewPressed: _newAddresshandler,
@@ -748,58 +752,65 @@ class _NewClientScreenState extends State<NewClientScreen> {
           // isBilling: _isBilling,
           textInput: [
             CustomTextField(
+              minLength: 0,
               textFieldName: 'Shipping Address',
               controller: shipAddrController,
               initialValue: '',
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
+              minLength: 0,
               textFieldName: 'Street',
               initialValue: values['addresses'][currentIdx]['street_address'],
               controller: streetController,
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
+              minLength: 0,
               textFieldName: 'Zip Code',
               controller: zipCodeController,
               initialValue: values['addresses'][currentIdx]['zip_code'],
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
+              minLength: 0,
               textFieldName: 'Locality',
               controller: localityController,
               initialValue: values['addresses'][currentIdx]['locality'],
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
-              isRequired: true,
+              isRequired: false,
             ),
             CustomTextField(
+              minLength: 0,
               textFieldName: 'City',
               controller: cityController,
               initialValue: values['addresses'][currentIdx]['city'],
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
+              minLength: 0,
               textFieldName: 'State',
               initialValue: values['addresses'][currentIdx]['state'],
               controller: stateController,
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: false,
             ),
             CustomTextField(
+              minLength: 2,
               initialValue: values['addresses'][currentIdx]['country'],
               textFieldName: 'Country',
               controller: countryController,
-              validator: (value) {},
+              validator: null,
               obsecureText: false,
               isRequired: true,
             ),
@@ -818,6 +829,7 @@ class _NewClientScreenState extends State<NewClientScreen> {
         Documents(
           onAddNewPressed: _newDocumentHandler,
           documentNameField: CustomTextField(
+            minLength: 0,
             initialValue: '',
             textFieldName: 'Document Name',
             controller: documentNameController,
