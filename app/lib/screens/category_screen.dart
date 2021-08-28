@@ -100,7 +100,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 : Colors.black.withOpacity(0.8),
                             text: "All",
                             onPressed: () {
-                              productBloc.add(FetchProduct());
+                              productBloc.add(AllCategories());
 
                               categoriesBloc
                                   .add(SelectCategory(categoryId: null));

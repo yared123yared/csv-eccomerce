@@ -120,7 +120,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         print("bloc--fetch--product--fail");
         print(e);
       }
-    } else if (event is SelectEvent) {
+    } else if(event is AllCategories){
+    yield ProductLoadSuccess(
+              products: productList, page: state.page, selectedCategoryId: null,
+             
+            );
+    }
+     else if (event is SelectEvent) {
       print("select event from product bloc");
        //
       this.selectedCategories = [];

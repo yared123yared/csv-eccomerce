@@ -15,7 +15,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
         body: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-          print("This si the cart state: ${state.cartProducts}");
+          print("This is the cart state: ${state.cartProducts}");
           if (state.cartProducts != []) {
             return Column(
               children: [

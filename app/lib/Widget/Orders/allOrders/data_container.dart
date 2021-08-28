@@ -1,6 +1,8 @@
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'package:app/Widget/Orders/allOrders/print_button.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
+import 'package:app/screens/cart_screens/update_order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,7 +102,12 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                   Icons.edit,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  print("orders data:${ state.allorderdata[index].id}");
+                                  Navigator.pushNamed(
+                                      context, UpdateOrder.routeName,
+                                      arguments: state.allorderdata[index]);
+                                },
                               ),
                             ),
                           ],
