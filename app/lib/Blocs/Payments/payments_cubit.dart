@@ -37,6 +37,8 @@ class PaymentsCubit extends Cubit<PaymentsState> {
     );
 
     if (picked != null && picked != dateForm) {
+
+        
       dateForm = picked;
 
       dateFromText =
@@ -94,6 +96,8 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   //dowanload image
   bool isImageLoding = false;
   saveImage({required int index}) async {
+
+    
     final url =
         "https://csv.jithvar.com/storage/${payMentContainerModel.data![index].photo!.filePath}";
     var status = await Permission.storage.request();

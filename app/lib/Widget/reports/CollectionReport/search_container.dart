@@ -31,7 +31,7 @@ class SearchContainerColl extends StatelessWidget {
                 },
                 onChanged: (String value) {},
                 decoration: InputDecoration(
-                  hintText: 'Search by Date,Name,Name order',
+                  hintText: 'Search by Name',
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     onPressed: () {

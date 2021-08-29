@@ -53,6 +53,8 @@ dependencies:
   #dowanlod image
   image_gallery_saver: ^1.6.9
   permission_handler: ^8.1.4+2
+  fl_chart: ^0.40.0
+
  
 
 dev_dependencies:

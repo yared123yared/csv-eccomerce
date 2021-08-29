@@ -1,13 +1,37 @@
+import 'package:app/Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
 import 'package:app/Widget/reports/CustomerDebt/data_container.dart';
 import 'package:app/Widget/reports/CustomerDebt/search_container.dart';
 
 import 'package:app/constants/constants.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomerByDebtScreen extends StatelessWidget {
+class CustomerByDebtScreen extends StatefulWidget {
   static const routeName = '/customerByDebt';
+
+  @override
+  _CustomerByDebtScreenState createState() => _CustomerByDebtScreenState();
+}
+
+class _CustomerByDebtScreenState extends State<CustomerByDebtScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late CustomDebtBloc bloc;
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CustomDebtBloc>(context);
+    bloc.add(FeatchCustomDebtEvent());
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +119,8 @@ class CustomerByDebtScreen extends StatelessWidget {
                 ),
               ),
               DataContainerCustomDebt(),
-         
             ],
-          )
+          ),
         ],
       ),
     );

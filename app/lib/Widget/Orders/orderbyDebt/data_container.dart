@@ -30,10 +30,13 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
     return BlocBuilder<OrderbydebtBloc, OrderbydebtState>(
       builder: (context, state) {
         if (state is OrderbydebtInitial) {
+          print("waleed is OrderbydebtInitial");
           return Center(child: CircularProgressIndicator());
         } else if (state is OrderbydebtLoadingState) {
+          print("waleed is OrderbydebtLoadingState");
           return Center(child: CircularProgressIndicator());
         } else if (state is OrderbydebtSuccessState) {
+          print("waleed is OrderbydebtSuccessState");
           return ListView.separated(
             shrinkWrap: true,
             itemBuilder: (context, index) {
@@ -243,6 +246,7 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
             itemCount: state.searchOrderByDebt.length,
           );
         } else if (state is OrderbydebtErrorState) {
+          print("waleed is OrderbydebtErrorState");
           return ErrorWidget(state.message.toString());
         }
         return Container();

@@ -11,6 +11,7 @@ class DataContainerCustomDebt extends StatefulWidget {
 
 class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
   late CustomDebtBloc bloc;
+  final keyRefresh = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
           } else if (state is CustomDebtLoadingState) {
             return Center(child: CircularProgressIndicator());
           } else if (state is CustomDebtSuccessState) {
-            return ListView.separated(
+            return ListView.builder(
               itemCount: state.customDebtData.length,
               itemBuilder: (context, index) {
                 return buildCustomerText(
@@ -52,14 +53,11 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
                   totalClientText: "\$ ${state.customDebtData[index].debts}",
                 );
               },
-              separatorBuilder: (context, index) {
-                return SizedBox();
-              },
             );
           } else if (state is CustomDebtErrorState) {
             return ErrorWidget(state.message.toString());
           }
-          return Center(child: CircularProgressIndicator());
+          return Container();
         },
       ),
     );

@@ -2,10 +2,12 @@ part of 'custom_debt_bloc.dart';
 
 @immutable
 abstract class CustomDebtEvent {
-  // List<Object> get props => [];
+  const CustomDebtEvent();
 }
 
-class FeatchCustomDebtEvent extends CustomDebtEvent {}
+class FeatchCustomDebtEvent extends CustomDebtEvent {
+  const FeatchCustomDebtEvent();
+}
 
 class SearchCustomDebtEvent extends CustomDebtEvent {
   final String searchName;
