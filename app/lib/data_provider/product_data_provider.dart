@@ -33,7 +33,7 @@ class ProductDataProvider {
           },
           body: jsonEncode({
             "draw": 0,
-            "length": 3,
+            "length": 6,
             "search": "",
             "column": 1,
             "dir": "asc",

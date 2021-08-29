@@ -68,6 +68,10 @@ class Conditional extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
+
+
+                          print("product: ${this.product}");
+                          print("onClick:${this.onClick}");
                           Navigator.pushNamed(context, ProductDetail.routeName,
                               arguments: [
                                 this.product,

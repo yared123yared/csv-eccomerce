@@ -49,7 +49,7 @@ class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
             ),
           ],
           onChanged: this.onChanged,
-          value: this.value,
+          value: state.request.paymentMethod as String,
         );
       },
     );

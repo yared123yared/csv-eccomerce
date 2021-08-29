@@ -49,7 +49,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
             ),
           ],
           onChanged: this.onChanged,
-          value: this.value,
+          value: state.request.typeOfWallet as String,
         );
       },
     );

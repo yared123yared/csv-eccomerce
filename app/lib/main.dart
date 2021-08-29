@@ -105,7 +105,7 @@ class App extends StatelessWidget {
   });
 
   final LocationRepository locationRepository;
-
+  
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
