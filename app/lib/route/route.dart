@@ -1,11 +1,15 @@
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
 import 'package:app/models/navigation/navigation.dart';
 // import 'package:app/screens/client_new_screen.dart';
-import 'package:app/models/client.dart';
+import 'package:app/models/client.dart' as Client;
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
+import 'package:app/screens/cart_screens/update_order.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
@@ -81,7 +85,7 @@ class AppRoutes {
     } else if (settings.name == ClientDetailScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ClientDetailScreen(
-          client: settings.arguments as Client,
+          client: settings.arguments as Client.Client,
         ),
       );
     } else if (settings.name == NewClientScreen.routeName) {
@@ -89,7 +93,7 @@ class AppRoutes {
         // print("--route ----${settings.arguments}");
         return MaterialPageRoute(
             builder: (context) => NewClientScreen(
-                  client: settings.arguments as Client,
+                  client: settings.arguments as Client.Client,
                 ));
       }
       return MaterialPageRoute(builder: (context) => NewClientScreen());
@@ -113,10 +117,16 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => CollectionReportScreen(),
       );
-    } else if (settings.name == AddClient.routeName) {
+    }  else if (settings.name ==  UpdateOrder.routeName) {
+      return MaterialPageRoute(
+        builder: (context) =>  UpdateOrder() 
+      );
+    }
+    else if (settings.name == AddClient.routeName) {
       return MaterialPageRoute(
         builder: (context) => AddClient(),
       );
+     
     } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CustomerByDebtScreen(),

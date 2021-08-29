@@ -22,29 +22,35 @@ class ProductDetail extends StatelessWidget {
     String image =
         'https://csv.jithvar.com/storage/${products.photos![0].filePath.toString()}';
     List<String> photos = [];
-    for (int i = 0; i < this.products.photos!.length; i++) {
-      photos.add(
-          'https://csv.jithvar.com/storage/${products.photos![i].filePath.toString()}');
+    if (this.products.photos != []) {
+      for (int i = 0; i < this.products.photos!.length; i++) {
+        photos.add(
+            'https://csv.jithvar.com/storage/${products.photos![i].filePath.toString()}');
+      }
     }
 
     // check the size here.
     List<String?> size = [];
-    for (int i = 0; i < products.attributes!.length; i++) {
-      List<Attributes> attributes = products.attributes as List<Attributes>;
-      if (attributes[i].name!.contains('Size')) {
-        print("Size:  ${attributes[i].pivot!.value}");
-        size.add(attributes[i].pivot!.value);
-      }
-    }
-    // check color
     List<String?> color = [];
-    for (int i = 0; i < products.attributes!.length; i++) {
-      List<Attributes> attributes = products.attributes as List<Attributes>;
-      if (attributes[i].name!.contains('Color')) {
-        print("Color:  ${attributes[i].pivot!.value}");
-        color.add(attributes[i].pivot!.value);
+    if (products.attributes != null) {
+      for (int i = 0; i < products.attributes!.length; i++) {
+        List<Attributes> attributes = products.attributes as List<Attributes>;
+        if (attributes[i].name!.contains('Size')) {
+          print("Size:  ${attributes[i].pivot!.value}");
+          size.add(attributes[i].pivot!.value);
+        }
+      }
+      // check color
+
+      for (int i = 0; i < products.attributes!.length; i++) {
+        List<Attributes> attributes = products.attributes as List<Attributes>;
+        if (attributes[i].name!.contains('Color')) {
+          print("Color:  ${attributes[i].pivot!.value}");
+          color.add(attributes[i].pivot!.value);
+        }
       }
     }
+    print("Build is sucessfully finished");
     return Scaffold(
         appBar: AppBar(
           title: Text("Products", style: TextStyle()),
@@ -126,7 +132,7 @@ class ProductDetail extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: AutoSizeText(
-                    "${products.categories![0].fullName}",
+                   this.products.categories!.length!=0?"${products.categories![0].fullName}":"",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                     ),

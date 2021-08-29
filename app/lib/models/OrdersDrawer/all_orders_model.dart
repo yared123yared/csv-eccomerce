@@ -27,7 +27,7 @@ class DataAllOrders {
   DataAllOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
-    total = json['total'];
+    total = json['total']; 
     amountPaid = json['amount_paid'];
     orderNumber = json['order_number'];
     amountRemaining = json['amount_remaining'];
