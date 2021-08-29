@@ -69,8 +69,9 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
   final OrderRepository orderRepository = OrderRepository(
-      orderDataProvider: OrderDataProvider(
-          httpClient: httpClient, userPreferences: userPreferences));
+    orderDataProvider: OrderDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
   final LocationRepository locationRepository = LocationRepository();
 
   runApp(

@@ -44,12 +44,14 @@ class UserDataProvider {
         urlLogin,
         body: loginInfo.toJson(),
       );
+        print(response.statusCode);
+      var extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (response.statusCode != 201) {
         print("Faileddddd");
+        print(extractedData["message"]);
         throw HttpException('Incorrect email or password');
       } else {
-        final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
+        extractedData = json.decode(response.body) as Map<String, dynamic>;
         print("success, ${extractedData}");
         loggedUserInfo = LoggedUserInfo.fromJson(extractedData);
         print("----55");
