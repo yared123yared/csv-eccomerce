@@ -36,6 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } else if (event is SendOTPEvent) {
       yield* _mapSendOtpEventToState(event.email);
+    } else if (event is ResendOTPEvent) {
+      yield* _mapReSendOtpEventToState(event.email);
     } else if (event is ConfirmOTPEvent) {
       yield* _mapConfirmOTPEventToState(
         event.email,
@@ -108,12 +110,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await userRepository.updatepassword(password, confirmedPassword);
       yield UpdatingPasswordSuccessState();
+      return;
     } on HttpException catch (e) {
       print(e.message);
       yield UpdatingPasswordFailedState(message: e.message);
+      return;
     } catch (e) {
       print(e.toString());
       yield UpdatingPasswordFailedState(message: 'Login Failed');
+      return;
     }
   }
 
@@ -125,16 +130,43 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield SendingOtpSuccessState();
 
       print("Send otp");
+      return;
     } on HttpException catch (e) {
       print(e.message);
       print("error http otp");
 
       yield SendingOtpFailedState(message: e.message);
+      return;
     } catch (e) {
       print("Sending otp");
 
       print(e.toString());
       yield SendingOtpFailedState(message: 'Send Otp Failed');
+      return;
+    }
+  }
+
+  Stream<AuthState> _mapReSendOtpEventToState(String email) async* {
+    yield ResendingOtpState();
+    print("Resending otp");
+    try {
+      await userRepository.sendOtp(email);
+      yield ResendingOtpSuccessState();
+
+      print("ReSend otp");
+      return;
+    } on HttpException catch (e) {
+      print(e.message);
+      print("error http otp resend");
+
+      yield ResendingOtpFailedState(message: e.message);
+      return;
+    } catch (e) {
+      print("resending otp");
+
+      print(e.toString());
+      yield ResendingOtpFailedState(message: 'resend Otp Failed');
+      return;
     }
   }
 
@@ -148,16 +180,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           email, otp, password, confirmedPassword);
       yield ConfirmOTPSuccessState();
       print("confirm succesa");
+      return;
     } on HttpException catch (e) {
       print("confirm http error");
 
       print(e.message);
       yield ConfirmOTPFailedState(message: e.message);
+      return;
     } catch (e) {
       print("confirm otp");
 
       print(e.toString());
       yield ConfirmOTPFailedState(message: 'Confirm OTP failed');
+      return;
     }
   }
 }
