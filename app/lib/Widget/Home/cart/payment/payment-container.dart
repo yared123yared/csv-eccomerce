@@ -61,7 +61,6 @@ class PaymentContainer extends StatelessWidget {
                   ),
                   PaymentTimeDropDown(),
                   BlocBuilder<OrdersBloc, OrdersState>(
-                   
                     builder: (context, state) {
                       if (state.request.paymentWhen == 'Pay Later') {
                         return Container();
@@ -76,7 +75,7 @@ class PaymentContainer extends StatelessWidget {
                               PaymentTypeDropDown(),
                               PaymentFieldContainer(
                                   initialValue:
-                                      state.request.transactionId as String,
+                                      state.request.transactionId.toString(),
                                   hintName: 'Transaction Id',
                                   onChanged: this.addTansactionId),
                             ]),
@@ -90,8 +89,9 @@ class PaymentContainer extends StatelessWidget {
                           //   return Container();
                           // },
                           PaymentFieldContainer(
-                            initialValue:state is RequestUpdateSuccess?
-                                state.request.amountRemaining.toString(): state.request.amountRemaining.toString(),
+                            initialValue: state is RequestUpdateSuccess
+                                ? state.request.amountRemaining.toString()
+                                : state.request.amountRemaining.toString(),
                             hintName: 'Remaining Amount',
                             onChanged: this.addRemainingAmount,
                           ),

@@ -11,11 +11,14 @@ class OrdersInitial extends OrdersState {
 }
 
 class OrderCreatedSuccess extends OrdersState {
-  OrderCreatedSuccess() : super(orderCreated: true, request: Request());
+  final Request request;
+  OrderCreatedSuccess({required this.request}) : super(orderCreated: true, request: Request());
 }
 
 class OrderIsBeingCreating extends OrdersState {
-  OrderIsBeingCreating() : super(orderCreated: false, request: Request());
+  final Request request;
+  OrderIsBeingCreating({required this.request})
+      : super(orderCreated: false, request: request);
 }
 
 class OrderCreatingFailed extends OrdersState {

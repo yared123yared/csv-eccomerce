@@ -33,14 +33,16 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       bool connected = await ConnectionChecker.CheckInternetConnection();
       print("-create order--connected--${connected}");
 
-      yield OrderIsBeingCreating();
+      yield OrderIsBeingCreating(request: state.request);
       if (connected) {
         bool value = (await this.orderRepository.createOrder(event.request));
         if (value == true) {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-          yield (OrderCreatedSuccess());
+          yield (OrderCreatedSuccess(
+            request: state.request
+          ));
         } else {
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));
@@ -51,7 +53,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
               (await CsvDatabse.instance.createRequest(event.request!));
           if (value == true) {
             print("Order Successfully created locally");
-            yield (OrderCreatedSuccess());
+            yield (OrderCreatedSuccess(
+              request: state.request
+            ));
           } else {
             print("failed to create order locally");
             yield (OrderCreatingFailed(message: "Failed to create order"));
