@@ -48,7 +48,14 @@ class SendingOtpFailedState extends AuthState {
   late final String message;
   SendingOtpFailedState({required this.message});
 }
+class ResendingOtpState extends AuthState {}
 
+class ResendingOtpSuccessState extends AuthState {}
+
+class ResendingOtpFailedState extends AuthState {
+  late final String message;
+  ResendingOtpFailedState({required this.message});
+}
 class ConfirmingOTPState extends AuthState {}
 
 class ConfirmOTPSuccessState extends AuthState {}

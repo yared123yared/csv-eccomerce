@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'pill_text.dart';
@@ -45,11 +46,15 @@ class ClientDataRow extends StatelessWidget {
                       bgColor: Colors.grey,
                       fgColor: Colors.black,
                     ))
-              : Text(
-                  this.value,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
+              : Container(
+                width: 210,
+                  child: AutoSizeText(
+                    this.value,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
         ],

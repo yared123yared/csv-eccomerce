@@ -8,6 +8,7 @@ import 'package:app/Widget/Auth/passowrd-reset/otp_verification_text.dart';
 import 'package:app/Widget/Auth/passowrd-reset/resend_text.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/screens/login.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -30,13 +31,17 @@ class VerifyOtpScreen extends StatefulWidget {
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   var otp;
   void sendOtpHandler() {
-    SendOTPEvent sendOtpEvent = new SendOTPEvent(
+    print("send otp --invoked from verify screen");
+
+    ResendOTPEvent sendOtpEvent = new ResendOTPEvent(
       email: widget.otpScreenData.email,
     );
-    BlocProvider.of<AuthBloc>(context).add(sendOtpEvent);
+    BlocProvider.of<AuthBloc>(context, listen: false).add(sendOtpEvent);
   }
 
   void verifyAndUpdate() {
+    print("verify --invoked from send otp screen");
+
     if (otp == null) {
       return;
     }
@@ -46,7 +51,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       password: widget.otpScreenData.password,
       otp: otp,
     );
-    BlocProvider.of<AuthBloc>(context).add(confirmEvent);
+    BlocProvider.of<AuthBloc>(context, listen: false).add(confirmEvent);
   }
 
   @override
@@ -61,13 +66,16 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         color: Theme.of(context).accentColor.withOpacity(0.8),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is SendingOtpSuccessState) {
+            if (state is ConfirmOTPSuccessState) {
+              print("-------verify otp screen---1");
               Navigator.of(context).pushNamed(Login.routeName);
             }
           },
           builder: (context, state) {
             Widget label;
-            if (state is SendingOtpFailedState) {
+            if (state is ResendingOtpFailedState) {
+              print("-------verify otp screen---2");
+
               label = Container(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
@@ -81,6 +89,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                 ),
               );
             } else if (state is ConfirmOTPFailedState) {
+              print("-------verify otp screen---3");
+
               label = Container(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
@@ -93,8 +103,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   ),
                 ),
               );
-            } else if (state is SendingOtpState ||
+            } else if (state is ResendingOtpState ||
                 state is ConfirmingOTPState) {
+              print("-------verify otp screen---4");
+
               label = Center(
                 child: Container(
                   height: 20.0,
@@ -105,9 +117,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                 ),
               );
             }
-            if (state is SendingOtpSuccessState) {
+            if (state is ResendingOtpSuccessState) {
               // Navigator.of(context).pushNamed(VerifyOtpScreen.routeName,
               //     arguments: emailController.text.toString());
+              print("-------verify otp screen---5");
+
               label = Container(
                 padding: EdgeInsets.all(8.0),
                 child: Center(
@@ -141,12 +155,24 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
                       ),
-                      child: Row(
+                      child: Flex(
+                        direction: Axis.vertical,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           DescriptionText(
                             text: 'Enter the OTP sent to',
                           ),
-                          EmailOtpSentText(text: widget.otpScreenData.email)
+                          AutoSizeText(
+                            widget.otpScreenData.email,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              // fontFamily: 'Raleway',
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            maxLines: 2,
+                          ),
+                          // EmailOtpSentText(text: widget.otpScreenData.email)
                         ],
                       ),
                     ),
@@ -185,7 +211,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     ),
                     // EmailTextField(EmailEditingController: emailController,),
                     ConfirmCode(
-                      onPressed: () => verifyAndUpdate,
+                      onPressed: verifyAndUpdate,
                     ),
                     SizedBox(
                       height: height * 0.03,
@@ -195,7 +221,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     ),
                     ResendText(
                       text: 'Resend Code',
-                      onTap: () => sendOtpHandler,
+                      onTap: sendOtpHandler,
                     )
                   ],
                 ),

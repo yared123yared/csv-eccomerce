@@ -11,7 +11,9 @@ class ResendText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: this.onTap(),
+      onTap: () {
+        this.onTap();
+      },
       child: Text(
         this.text,
         style: TextStyle(

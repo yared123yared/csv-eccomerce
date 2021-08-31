@@ -87,6 +87,8 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                   }
                 }
               }
+              print("-------name");
+              print(name);
 
               return Column(
                 children: [
@@ -95,12 +97,13 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                   ),
                   ClientBasicProfile(
                     client: ClientProfileData(
-                        name: name,
-                        credit: credit,
-                        level: 'Premiem',
-                        email: email,
-                        phone: phone,
-                        photoPath: photopath,),
+                      name: name,
+                      credit: credit,
+                      level: 'Premiem',
+                      email: email,
+                      phone: phone,
+                      photoPath: photopath,
+                    ),
                   ),
                   MenuItem(
                     title: 'Order',

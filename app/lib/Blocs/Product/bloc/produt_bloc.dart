@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app/db/db.dart';
 import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/product.dart';
@@ -32,6 +33,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Stream<ProductState> mapEventToState(
     ProductEvent event,
   ) async* {
+
+     productList.forEach((product) async {
+      await CsvDatabse.instance.createProduct(product);
+    });
     bool connected = await ConnectionChecker.CheckInternetConnection();
     print("-is--connected--${connected}");
     if (event is FetchProduct) {
@@ -312,3 +317,4 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 }
+ 

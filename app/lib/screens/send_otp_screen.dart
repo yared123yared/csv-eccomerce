@@ -1,7 +1,6 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Widget/Auth/auth-export.dart';
 import 'package:app/screens/reset_password_screen.dart';
-import 'package:app/screens/verify-otp-screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +24,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
   }
 
   void sendOtpHandler() {
+    print("send otp --invoked from send otp screen");
     bool isValid = formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -33,7 +33,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
     SendOTPEvent sendOtpEvent = new SendOTPEvent(
       email: emailController.text.toString(),
     );
-    BlocProvider.of<AuthBloc>(context).add(sendOtpEvent);
+    BlocProvider.of<AuthBloc>(context, listen: false).add(sendOtpEvent);
   }
 
   @override
@@ -139,7 +139,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                       ),
 
                       NextButton(
-                        onPressed: () => sendOtpHandler,
+                        onPressed: sendOtpHandler,
                       ),
                       SizedBox(
                         height: height * 0.06,
