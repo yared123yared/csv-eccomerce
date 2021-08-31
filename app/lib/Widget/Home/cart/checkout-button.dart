@@ -3,6 +3,10 @@ import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
+import 'package:app/screens/cart_screens/cart_screen.dart';
+import 'package:app/screens/category_screen.dart';
+import 'package:app/screens/main_screen.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,11 +37,29 @@ class Checkout extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  ordersBloc
-                      .add(CartCheckoutEvent(cartProducts: state.cartProducts));
-                  // Navigator.pop(context);
+                  if (state.cartProducts.length == 0) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.ERROR,
+                      animType: AnimType.BOTTOMSLIDE,
+                      title: 'No Item In the Cart',
+                      desc: 'Please add some products to the cart!',
+                      btnCancelOnPress: () {
+                        Navigator.popAndPushNamed(
+                            context, MainScreen.routeName);
+                      },
+                      btnOkOnPress: () {
+                        Navigator.popAndPushNamed(
+                            context, MainScreen.routeName);
+                      },
+                    )..show();
+                  } else {
+                    ordersBloc.add(
+                        CartCheckoutEvent(cartProducts: state.cartProducts));
+                    Navigator.pushNamed(context, AddClient.routeName);
+                  }
 
-                  Navigator.pushNamed(context, AddClient.routeName);
+                  // Navigator.pop(context);
                 });
           },
         ));

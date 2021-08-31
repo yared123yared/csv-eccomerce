@@ -18,6 +18,7 @@ class _UpperContainerState extends State<UpperContainer> {
   bool isChecked = true;
   @override
   Widget build(BuildContext context) {
+    
     return BlocBuilder<AddClientBloc, AddClientState>(
       builder: (context, state) {
         if (state.display_state == true) {

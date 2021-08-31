@@ -1,4 +1,5 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -32,11 +33,14 @@ class _AddClientState extends State<AddClient> {
   late OrdersBloc ordersbloc;
   late CartBloc cartbloc;
   late ProductBloc productBloc;
+  late AddClientBloc addClientBloc;
   @override
   Widget build(BuildContext context) {
+    this.isShowing = false;
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
@@ -59,6 +63,7 @@ class _AddClientState extends State<AddClient> {
                 // }
                 progress!.showWithText("Creating");
               } else if (state is OrderCreatedSuccess) {
+                this.isShowing = false;
                 cartbloc.add(InitializeCart());
                 productBloc.add(FetchProduct());
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
@@ -119,50 +124,39 @@ class _AddClientState extends State<AddClient> {
                         ),
                       ),
                       ConditionalButton(
-                        name: this.nextChecked == false ? "Next" : "Order",
-                        onPressed: this.nextChecked == false
-                            ? () {
-                                setState(() {
-                                  this.nextChecked = true;
-                                });
-                                _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.ease);
+                        name: "Order",
+                        onPressed: () {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            if (state.request.clientId != null) {
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+
+                              print("Order method is invoked");
+                              ordersbloc.add(
+                                  CreateOrderEvent(request: state.request));
+                              addClientBloc.add(ClientSearchEvent());
+                              // ordersbloc
+                              //     .add(PaymentAddEvent(payment: this.payment));
+
+                              if (state is RequestUpdateSuccess) {
+                                // ordersbloc.add(
+                                //     CreateOrderEvent(request: state.request));
                               }
-                            : () {
-                                // Validate returns true if the form is valid, or false otherwise.
-                                if (_formKey.currentState!.validate()) {
-                                  if (state.request.clientId != null) {
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-
-                                    print("Order method is invoked");
-                                    ordersbloc.add(CreateOrderEvent(
-                                        request: state.request));
-
-                                    // ordersbloc
-                                    //     .add(PaymentAddEvent(payment: this.payment));
-
-                                    if (state is RequestUpdateSuccess) {
-                                      // ordersbloc.add(
-                                      //     CreateOrderEvent(request: state.request));
-                                    }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('Please Select Client')),
-                                    );
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Fill All the required fields')),
-                                  );
-                                }
-                              },
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please Select Client')),
+                              );
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text('Fill All the required fields')),
+                            );
+                          }
+                        },
                       )
                     ],
                   ),
