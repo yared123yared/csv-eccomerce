@@ -18,3 +18,11 @@ class RecentOrderErrorState extends RecentOrderState {
 
   RecentOrderErrorState(this.error);
 }
+
+class SearchRecentOrderLoadingState extends RecentOrderState {}
+
+class SearchRecentOrderSuccessState extends RecentOrderState {
+  final List<RecentOrderData> searchRecentOrder;
+
+  SearchRecentOrderSuccessState(this.searchRecentOrder);
+}

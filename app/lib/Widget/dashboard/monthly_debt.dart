@@ -1,4 +1,5 @@
 import 'package:app/Widget/dashboard/daily_chart.dart';
+import 'package:app/Widget/dashboard/new_monthly_chart.dart';
 
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,35 @@ class ManthlyDebt extends StatelessWidget {
           ),
           child: Column(
             children: [
-              DailyChart(),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 8,
+                    width: 20,
+                    decoration: BoxDecoration(
+                      color: Color(0xff858eab),
+                      border: Border.all(
+                        color: Color(0xff3c3759),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Monthly Collections",
+                    style: TextStyle(fontSize: 8),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              NewMonthlyChart(),
             ],
           ),
         ),

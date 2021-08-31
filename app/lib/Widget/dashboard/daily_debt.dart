@@ -1,5 +1,6 @@
 import 'package:app/Widget/dashboard/daily_chart.dart';
 import 'package:app/Widget/dashboard/from_to_dashboard.dart';
+import 'package:app/Widget/dashboard/new_daily_chart.dart';
 
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class DailyDebt extends StatelessWidget {
           ),
         ),
         Container(
-          height: 350,
+          height: 400,
           width: MediaQuery.of(context).size.width * .94,
           decoration: BoxDecoration(
             color: Color(0xffffffff),
@@ -47,32 +48,35 @@ class DailyDebt extends StatelessWidget {
           child: Column(
             children: [
               FromToDashBoard(),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Container(
-              //       height: 8,
-              //       width: 20,
-              //       decoration: BoxDecoration(
-              //         color: Color(0xff858eab),
-              //         border: Border.all(
-              //           color: Color(0xff3c3759),
-              //         ),
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       width: 5,
-              //     ),
-              //     Text(
-              //       "Total Collection",
-              //       style: TextStyle(fontSize: 8),
-              //     ),
-              //   ],
-              // ),
-              DailyChart(),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 8,
+                    width: 20,
+                    decoration: BoxDecoration(
+                      color: Color(0xff858eab),
+                      border: Border.all(
+                        color: Color(0xff3c3759),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Total Collection",
+                    style: TextStyle(fontSize: 8),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              NewDailyChart(),
             ],
           ),
         ),

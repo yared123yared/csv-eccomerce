@@ -1,4 +1,3 @@
-import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,13 +35,10 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
       child: BlocBuilder<RecentOrderBloc, RecentOrderState>(
         builder: (context, state) {
           if (state is RecentOrderInitial) {
-            print("walid is RecentOrderInitial");
             return Center(child: CircularProgressIndicator());
           } else if (state is RecentOrderLoadingState) {
-            print("walid is RecentOrderLoadingState");
             return Center(child: CircularProgressIndicator());
           } else if (state is RecentOrderSuccessState) {
-            print("walid is RecentOrderSuccessState");
             return ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -81,8 +77,49 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
               },
               itemCount: state.recentOrder.length,
             );
-          } else if (state is RecentOrderErrorState) {
-            print("walid is RecentOrderErrorState");
+          } else if (state is SearchRecentOrderLoadingState) {
+            return Center(child: CircularProgressIndicator());
+          }else if ( state is SearchRecentOrderSuccessState){
+             return ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    buildrowData(
+                      text: 'ORDER NUMVER',
+                      dateApi: "${state.searchRecentOrder[index].orderNumber}",
+                    ),
+                    buildrowData(
+                      text: 'CLIENT',
+                      dateApi:
+                          "${state.searchRecentOrder[index].client!.firstName} ${state.searchRecentOrder[index].client!.lastName}",
+                    ),
+                    buildrowData(
+                      text: 'DATE',
+                      dateApi: "${state.searchRecentOrder[index].createdAt}",
+                    ),
+                    buildrowData(
+                      text: 'TOTAL',
+                      dateApi: "${state.searchRecentOrder[index].total}",
+                    ),
+                    buildrowData(
+                      text: 'DEBT',
+                      dateApi: "${state.searchRecentOrder[index].amountRemaining}",
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider(
+                  thickness: 5,
+                );
+              },
+              itemCount: state.searchRecentOrder.length,
+            );
+          }
+           else if (state is RecentOrderErrorState) {
             return ErrorWidget(state.error.toString());
           }
           return Container();

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 part 'allorderr_event.dart';
@@ -10,8 +11,11 @@ part 'allorderr_state.dart';
 
 class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
   final AllOrderDataProvider allOrderDataProvider;
- //String? searchAllOrderName;
-  AllorderrBloc(this.allOrderDataProvider) : super(AllorderrInitial());
+
+  //String? searchAllOrderName;
+  AllorderrBloc(
+    this.allOrderDataProvider,
+  ) : super(AllorderrInitial());
 
   @override
   Stream<AllorderrState> mapEventToState(
@@ -20,7 +24,9 @@ class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
     if (event is FeatcAllorderrEvent) {
       yield AllOrderrLoadingState();
       try {
-        var allorderstat = await allOrderDataProvider.getAllOrders();
+        //List<DataAllOrders> allorderdatascroll = [];
+
+       final allorderstat = await allOrderDataProvider.getAllOrders();
 
         yield AllOrdersSuccessState(allorderstat);
       } catch (e) {
@@ -29,7 +35,7 @@ class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
     } else if (event is SearchGetAllorderrEvent) {
       yield SearchAllOrderLoading();
       try {
-        var searchOrder =
+        final searchOrder =
             await allOrderDataProvider.getSearchAllOrders(event.searchName);
         yield SearchDataSccessState(searchOrder);
       } catch (e) {

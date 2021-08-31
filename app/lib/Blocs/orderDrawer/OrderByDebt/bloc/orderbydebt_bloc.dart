@@ -19,7 +19,7 @@ class OrderbydebtBloc extends Bloc<OrderbydebtEvent, OrderbydebtState> {
     if (event is FeatchOrderbydebtEvent) {
       yield OrderbydebtLoadingState();
       try {
-        var ordersbydebt = await orderByDebtDataProvider.getOrdersByDebt();
+        final ordersbydebt = await orderByDebtDataProvider.getOrdersByDebt();
         List<String> grandTotalString = [];
         List<double> grandTotalInt = [];
         List<String> debtTotalString = [];
@@ -42,7 +42,7 @@ class OrderbydebtBloc extends Bloc<OrderbydebtEvent, OrderbydebtState> {
     } else if (event is SearchOrderBydebtEvent) {
       yield SearchOrderByDebtLoading();
       try {
-        var ordersbydebtSearch = await orderByDebtDataProvider
+        final ordersbydebtSearch = await orderByDebtDataProvider
             .getOrdersByDebtSearch(event.searchName);
         List<String> searchgrandTotalString = [];
         List<double> searchgrandTotalInt = [];

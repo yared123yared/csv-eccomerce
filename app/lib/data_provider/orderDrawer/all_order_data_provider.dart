@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 
 class AllOrderDataProvider {
   final UserPreferences userPreferences;
+  
 
   AllOrderDataProvider(this.userPreferences);
 
@@ -32,7 +33,8 @@ class AllOrderDataProvider {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer $token',
               },
-              body: jsonEncode({
+              body: jsonEncode(
+                {
                 "tableColumns": [
                   "created_at",
                   "order_number",
@@ -43,14 +45,15 @@ class AllOrderDataProvider {
                   "actions"
                 ],
                 "draw": 0,
-                "length": 100,
+                "length": 1000,
                 "search": "",
                 "column": 0,
                 "field": "",
                 "relationship": false,
                 "relationship_field": "",
                 "dir": "desc"
-              }));
+              }
+              ));
 
           if (response.statusCode == 200) {
             APICacheDBModel cacheDBModel = new APICacheDBModel(
@@ -90,10 +93,12 @@ class AllOrderDataProvider {
 
         final data = extractedData['orders']['data'];
 
-        return data
-            .map((salesReport) =>
-                allOrdersData.add(DataAllOrders.fromJson(salesReport)))
-            .toList();
+        if (data != null && data.isNotEmpty) {
+          return data
+              .map((salesReport) =>
+                  allOrdersData.add(DataAllOrders.fromJson(salesReport)))
+              .toList();
+        }
       }
     } catch (e) {
       print("Exception throuwn $e");
@@ -117,7 +122,8 @@ class AllOrderDataProvider {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({
+        body: jsonEncode(
+          {
           "tableColumns": [
             "created_at",
             "order_number",
@@ -128,14 +134,15 @@ class AllOrderDataProvider {
             "actions"
           ],
           "draw": 0,
-          "length": 100,
+          "length": 1000,
           "search": searchName,
           "column": 0,
           "field": "client",
           "relationship": true,
           "relationship_field": "first_name",
           "dir": "desc"
-        }),
+        }
+        ),
       );
 
       if (response.statusCode == 200) {

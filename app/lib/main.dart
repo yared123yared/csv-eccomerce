@@ -3,6 +3,8 @@ import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
+import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
@@ -11,6 +13,8 @@ import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/dashboard/daliy_chart_data_provider.dart';
+import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/recent_data_provider.dart';
 import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
@@ -56,6 +60,8 @@ void main() {
 
   final UserPreferences userPreferences = UserPreferences();
 
+  // final ScrollController scrollController = ScrollController();
+
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
@@ -93,6 +99,7 @@ void main() {
       categoryRepository: categoryRepository,
       orderRepository: orderRepository,
       locationRepository: locationRepository,
+      // scrollController: scrollController,
     ),
   );
   // runApp(MyApp());
@@ -208,30 +215,22 @@ class App extends StatelessWidget {
               CollectionDataProvider(userPreferences),
             ),
           ),
-          // BlocProvider<CustomerDebtCubit>(
-          //   create: (_) => CustomerDebtCubit(userPreferences)
-          //     ..postCustomReport()
-          //     // ..postCustomReportSearch(searchClientName: ''),
-          // ),
+
           BlocProvider<CustomDebtBloc>(
             create: (_) => CustomDebtBloc(
               CustomDebtDataProvider(userPreferences),
             ),
           ),
           BlocProvider<AllOrdersCubit>(
-              create: (_) => AllOrdersCubit(userPreferences)
-              // ..postAllSearchOrders(searchNmae: ""),
-              ),
+              create: (_) => AllOrdersCubit(userPreferences)),
           BlocProvider<AllorderrBloc>(
             create: (_) => AllorderrBloc(
               AllOrderDataProvider(userPreferences),
-            ),
+            )
+            ..add(FeatcAllorderrEvent()),
           ),
           BlocProvider<OrderByDebtCubit>(
-              create: (_) => OrderByDebtCubit(userPreferences)
-              // ..postOrdersByDebt()
-              // ..postOrdersByDebtSearch(searchName: ""),
-              ),
+              create: (_) => OrderByDebtCubit(userPreferences)),
           BlocProvider<OrderbydebtBloc>(
             create: (_) => OrderbydebtBloc(
               OrderByDebtDataProvider(userPreferences),
@@ -239,26 +238,32 @@ class App extends StatelessWidget {
           ),
 
           BlocProvider<PaymentsCubit>(
-              create: (_) => PaymentsCubit(userPreferences)
-              // ..postPayMentConatiner(),
-
-              // ..postPayMentUplaodData(),
-              ),
+              create: (_) => PaymentsCubit(userPreferences)),
           BlocProvider<BankslipBloc>(
             create: (_) => BankslipBloc(
               PaymentDataProvider(userPreferences),
             ),
           ),
           BlocProvider<NumberDashboardBloc>(
-            create: (_) => NumberDashboardBloc(
-              NumbersDataProvider(userPreferences),
-            ),
-          ),
+              create: (_) => NumberDashboardBloc(
+                    NumbersDataProvider(userPreferences),
+                  )
+              // ..add(FeatchNumberDashevent()),
+              ),
           BlocProvider<RecentOrderBloc>(
-            create: (_) => RecentOrderBloc(
-              RecentDataProvider(userPreferences),
-            ),
-          ),
+              create: (_) => RecentOrderBloc(
+                    RecentDataProvider(userPreferences),
+                  )
+              // ..add(FeatchRecentOrderEvent()),
+              ),
+          BlocProvider<DailyChartBloc>(
+              create: (_) => DailyChartBloc(
+                    DailyChartDataProvider(userPreferences),
+                  )),
+          BlocProvider<MonthlyChartBloc>(
+              create: (_) => MonthlyChartBloc(
+                    MOnthlyChartDataProvider(userPreferences),
+                  )),
         ],
         child: MaterialApp(
           title: 'CSV',

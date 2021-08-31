@@ -1,5 +1,4 @@
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
-import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:app/Widget/dashboard/daily_debt.dart';
 import 'package:app/Widget/dashboard/recent_total_container.dart';
 import 'package:app/Widget/dashboard/monthly_debt.dart';
@@ -22,21 +21,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   // final keyRefresh = GlobalKey<RefreshIndicatorState>();
 
   late NumberDashboardBloc bloc;
-  late RecentOrderBloc recentbloc;
 
   @override
   void initState() {
     bloc = BlocProvider.of<NumberDashboardBloc>(context);
     bloc.add(FeatchNumberDashevent());
-    recentbloc = BlocProvider.of<RecentOrderBloc>(context);
-    recentbloc.add(FeatchRecentOrderEvent());
+
     super.initState();
   }
 
   @override
   void dispose() {
     bloc.close();
-    recentbloc.close();
 
     super.dispose();
   }

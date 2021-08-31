@@ -32,7 +32,7 @@ class RecentDataProvider {
               "amount_remaining"
             ],
             "draw": 0,
-            "length": 100,
+            "length": 10000,
             "search": "",
             "column": 0,
             "field": "",
@@ -46,7 +46,7 @@ class RecentDataProvider {
 
         final data = extractedData['orders']['data'];
 
-       // print(recentOrder.length);
+        // print(recentOrder.length);
 
         return data
             .map((recentorder) =>
@@ -59,5 +59,56 @@ class RecentDataProvider {
       print("Exception throuwn $e");
     }
     return recentOrder;
+  }
+
+  Future<List<RecentOrderData>> getSearchRecentData(String nameSearch) async {
+    String? token = await this.userPreferences.getUserToken();
+    late List<RecentOrderData> searchRecentOrder = [];
+
+    try {
+      final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/all');
+
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode({
+            "tableColumns": [
+              "order_number",
+              "client",
+              "created_at",
+              "total",
+              "amount_remaining"
+            ],
+            "draw": 0,
+            "length": 10000,
+            "search": nameSearch,
+            "column": 0,
+            "field": "client",
+            "relationship": true,
+            "relationship_field": "first_name",
+            "dir": "desc"
+          }));
+      if (response.statusCode == 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        final data = extractedData['orders']['data'];
+
+        // print(recentOrder.length);
+
+        return data
+            .map((searchrecentorder) => searchRecentOrder
+                .add(RecentOrderData.fromJson(searchrecentorder)))
+            .toList();
+      } else {
+        throw Exception('Failed to load courses');
+      }
+    } catch (e) {
+      print("Exception throuwn $e");
+    }
+    return searchRecentOrder;
   }
 }

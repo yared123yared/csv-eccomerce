@@ -90,7 +90,7 @@ class _MainScreenState extends State<MainScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          "Dashboard",
+          "CSV",
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).primaryColor,

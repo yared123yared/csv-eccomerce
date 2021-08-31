@@ -1,4 +1,6 @@
+import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchCDashBoard extends StatefulWidget {
   @override
@@ -23,8 +25,10 @@ class _SearchCDashBoardState extends State<SearchCDashBoard> {
             child: TextFormField(
               controller: searchController,
               keyboardType: TextInputType.text,
-              onFieldSubmitted: (String value) {},
-              onChanged: (String value) {},
+              onFieldSubmitted: (String value) {
+                BlocProvider.of<RecentOrderBloc>(context)
+                    .add(SearchRecentOrderEvent(value));
+              },
               decoration: InputDecoration(
                 hintText: 'Search by Name',
                 border: InputBorder.none,

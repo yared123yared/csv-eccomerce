@@ -26,6 +26,15 @@ class RecentOrderBloc extends Bloc<RecentOrderEvent, RecentOrderState> {
       } catch (e) {
         yield RecentOrderErrorState(e.toString());
       }
+    } else if (event is SearchRecentOrderEvent) {
+      yield SearchRecentOrderLoadingState();
+      try {
+        var searchrecentOrder =
+            await recentDataProvider.getSearchRecentData(event.searchName);
+        yield SearchRecentOrderSuccessState(searchrecentOrder);
+      } catch (e) {
+        yield RecentOrderErrorState(e.toString());
+      }
     }
   }
 }

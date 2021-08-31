@@ -4,6 +4,7 @@ import 'package:app/Widget/Orders/allOrders/print_button.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
 class DataContainerAllOrders extends StatefulWidget {
   @override
@@ -13,17 +14,26 @@ class DataContainerAllOrders extends StatefulWidget {
 class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   late AllorderrBloc bloc;
 
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     bloc = BlocProvider.of<AllorderrBloc>(context);
     bloc.add(FeatcAllorderrEvent());
 
     super.initState();
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //         bloc.fatechFive();
+    //       }
+    // });
   }
 
   @override
   void dispose() {
     bloc.close();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -37,6 +47,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
           return Center(child: CircularProgressIndicator());
         } else if (state is AllOrdersSuccessState) {
           return ListView.separated(
+            //controller: _scrollController,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Padding(
@@ -79,9 +90,6 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            // PrintButton(
-                            //   index: index,
-                            // ),
                             CircleAvatar(
                               backgroundColor: Color(0xff48c2d5),
                               foregroundColor: Colors.white,
@@ -90,7 +98,10 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                   Icons.print,
                                   color: Colors.white,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  PDF().cachedFromUrl(
+                                      "https://csv.jithvar.com/storage/invoices/invoice_1630440878.pdf");
+                                },
                               ),
                             ),
                             SizedBox(

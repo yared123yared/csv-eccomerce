@@ -20,7 +20,7 @@ dependencies:
   bloc: ^7.0.0
   equatable: ^2.0.3
   http: ^0.13.3
-  flutter_bloc: ^7.1.0
+  flutter_bloc: ^7.2.0
   shared_preferences: ^2.0.6
   otp_text_field: ^1.1.1
   file_picker: ^3.0.4
@@ -53,7 +53,8 @@ dependencies:
   #dowanlod image
   image_gallery_saver: ^1.6.9
   permission_handler: ^8.1.4+2
-  fl_chart: ^0.40.0
+  syncfusion_flutter_charts: ^19.2.57
+  flutter_cached_pdfview: ^0.4.0-nullsafety
 
  
 

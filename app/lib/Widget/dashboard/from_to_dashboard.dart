@@ -1,4 +1,7 @@
+import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
+import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FromToDashBoard extends StatefulWidget {
   @override
@@ -6,14 +9,15 @@ class FromToDashBoard extends StatefulWidget {
 }
 
 class _FromToDashBoardState extends State<FromToDashBoard> {
-  TextEditingController searchController = TextEditingController();
+  TextEditingController fromsearchController = TextEditingController();
+  TextEditingController toearchController = TextEditingController();
   bool isFormDate = false;
   bool isToDate = false;
   DateTime dateForm = DateTime.now();
 
   DateTime dateTo = DateTime.now();
 
-  String dateFromText = "";
+  String? dateFromText = "";
   String dateToText = "";
 
   Future<Null> selectFormTimePicker(BuildContext context) async {
@@ -49,9 +53,8 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
       lastDate: DateTime(2030),
     );
     if (picked != null && picked != dateTo) {
-      dateTo = picked;
-
       setState(() {
+        dateTo = picked;
         dateToText =
             "${dateTo.day.toString()}-${dateTo.month.toString()}-${dateTo.year.toString()}";
 
@@ -74,6 +77,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
               color: Theme.of(context).primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(180),
             ),
+            //
             child: Padding(
               padding: const EdgeInsets.only(
                 left: 20,
@@ -81,33 +85,35 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (isFormDate)
-                    Text(
-                      dateFromText,
-                      style: TextStyle(
-                        color: Color(0xff414e79),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    )
-                  else
-                    Text(
-                      "From",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black45,
-                      ),
-                    ),
+                  isFormDate
+                      ? Text(
+                          dateFromText.toString(),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff414e79),
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "From",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff414e79),
+                              fontWeight: FontWeight.bold),
+                        ),
                   TextButton.icon(
                     onPressed: () {
                       setState(() {
                         selectFormTimePicker(context);
                       });
+                      BlocProvider.of<MonthlyChartBloc>(context).add(
+                          FeatchMonthlyChartEvent(dateFromText.toString()));
+                      BlocProvider.of<DailyChartBloc>(context)
+                          .add(FeatchDailyChartEvent(dateFromText.toString()));
                     },
                     icon: Image.asset(
                       'assets/images/date.png',
-                      width: 25,
-                      height: 25,
+                      width: 30,
+                      height: 30,
                     ),
                     label: Text(
                       '',
@@ -115,6 +121,39 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                   ),
                 ],
               ),
+              // child: TextFormField(
+              //   // controller: fromsearchController,
+              //   keyboardType: TextInputType.streetAddress,
+              //   //readOnly: true,
+
+              //   // enableInteractiveSelection: true,
+              //   // onFieldSubmitted: (String value) {},
+
+              //   onFieldSubmitted: (value) {
+              //     BlocProvider.of<MonthlyChartBloc>(context)
+              //         .add(FeatchMonthlyChartEvent(value));
+              //   },
+              //   // onSaved: (String ? value) {
+              //   //   dateFromText = value;
+              //   // },
+              //   decoration: InputDecoration(
+              //     hintText: isFormDate ? dateFromText : "From",
+              //     border: InputBorder.none,
+              //     hintStyle: TextStyle(
+              //       fontSize: 18,
+              //       color: Color(0xff414e79),
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     suffixIcon: IconButton(
+              //       onPressed: () {
+              //         setState(() {
+              //           selectFormTimePicker(context);
+              //         });
+              //       },
+              //       icon: Image.asset("assets/images/date.png"),
+              //     ),
+              //   ),
+              // ),
             ),
           ),
           Container(
@@ -134,25 +173,28 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                 children: [
                   isToDate
                       ? Text(
-                          dateToText,
+                          dateToText.toString(),
                           style: TextStyle(
-                            color: Color(0xff414e79),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                              fontSize: 14,
+                              color: Color(0xff414e79),
+                              fontWeight: FontWeight.bold),
                         )
                       : Text(
                           "To",
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black45,
-                          ),
+                              fontSize: 14,
+                              color: Color(0xff414e79),
+                              fontWeight: FontWeight.bold),
                         ),
                   TextButton.icon(
                     onPressed: () {
                       setState(() {
                         selectToTimePicker(context);
                       });
+                      BlocProvider.of<MonthlyChartBloc>(context).add(
+                          FeatchMonthlyChartEvent(dateFromText.toString()));
+                      BlocProvider.of<DailyChartBloc>(context)
+                          .add(FeatchDailyChartEvent(dateFromText.toString()));
                     },
                     icon: Image.asset(
                       'assets/images/date.png',
@@ -165,6 +207,34 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                   ),
                 ],
               ),
+              // child: TextFormField(
+              //   readOnly: true,
+              //   controller: toearchController,
+              //   keyboardType: TextInputType.text,
+              //   onFieldSubmitted: (String value) {
+              //     // BlocProvider.of<DailyChartBloc>(context)
+              //     //     .add(DateFromToEvent(value, ""));
+              //     //print("WALIIDIDIDI $value");
+              //   },
+              //   onChanged: (String value) {},
+              //   decoration: InputDecoration(
+              //     hintText: isToDate ? dateToText : "To",
+              //     border: InputBorder.none,
+              //     hintStyle: TextStyle(
+              //       fontSize: 18,
+              //       color: Color(0xff414e79),
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //     suffixIcon: IconButton(
+              //       onPressed: () {
+              //         setState(() {
+              //           selectToTimePicker(context);
+              //         });
+              //       },
+              //       icon: Image.asset("assets/images/date.png"),
+              //     ),
+              //   ),
+              // ),
             ),
           ),
         ],

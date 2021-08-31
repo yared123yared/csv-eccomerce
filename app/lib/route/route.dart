@@ -127,6 +127,10 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => PaymentsScreen(),
       );
+    }else if (settings.name == DashBoardScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => DashBoardScreen(),
+      );
     }
     return MaterialPageRoute(builder: (context) => Login());
   }

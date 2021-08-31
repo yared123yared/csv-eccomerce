@@ -38,8 +38,8 @@ class OrderByDebtDataProvider {
                   "amount_remaining",
                   "actions"
                 ],
-                "draw": 0,
-                "length": 100,
+                "draw": 10,
+                "length": 5,
                 "search": "",
                 "column": 0,
                 "field": "",
@@ -118,7 +118,7 @@ class OrderByDebtDataProvider {
               "actions"
             ],
             "draw": 0,
-            "length": 100,
+            "length": 10,
             "search": searchName,
             "column": 0,
             "field": "",

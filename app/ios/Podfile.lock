@@ -47,7 +47,7 @@ PODS:
   - FMDB/standard (2.7.5)
   - geocoding (1.0.5):
     - Flutter
-  - geolocator_apple (1.0.0):
+  - geolocator_apple (1.1.0):
     - Flutter
   - hexcolor (0.0.1):
     - Flutter
@@ -147,7 +147,7 @@ SPEC CHECKSUMS:
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
-  geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
+  geolocator_apple: 108615a04c68489a41e7d3bda915245938a267a6
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
