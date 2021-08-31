@@ -413,7 +413,9 @@ class Links {
 class ClientFields {
   static final List<String> values = [
     /// Add all fields
-    id, firstname, lastname, mobile, email, uploadedPhoto, type
+    id, firstname, lastname, mobile, email, uploadedPhoto, type,
+    //  status,
+    // quantity,
   ];
 
   static final String id = '_id';
@@ -423,6 +425,8 @@ class ClientFields {
   static final String email = 'email';
   static final String uploadedPhoto = 'uploaded_photo';
   static final String type = 'type';
+  static final String status = 'status';
+  static final String quantity = 'quantity';
 }
 
 class CreateEditData {
@@ -437,6 +441,8 @@ class CreateEditData {
 
   String? uploadedPhoto;
   String? type;
+  // int? status;
+  // int? quantity;
   CreateEditData({
     this.id,
     required this.firstName,
@@ -448,6 +454,8 @@ class CreateEditData {
     this.uploadedPhoto,
     this.type,
     this.orders,
+    // this.status,
+    // this.quantity,
   });
 
   CreateEditData copy({

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
@@ -5,8 +7,10 @@ import 'package:app/models/client.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -40,9 +44,18 @@ class _ClientsScreenState extends State<ClientsScreen> {
       ItemPositionsListener.create();
   final ItemScrollController itemScrollController = ItemScrollController();
 
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
   void initState() {
     super.initState();
+    initConnectivity();
+
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
     itemPositionsListener.itemPositions.addListener(() {
       final indices = itemPositionsListener.itemPositions.value
           .map((item) => item.index)
@@ -56,6 +69,62 @@ class _ClientsScreenState extends State<ClientsScreen> {
             }
           }
         });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("-----tttt---");
+    if (_connectionStatus != ConnectivityResult.none) {
+      print("did change dipendency connected");
+      SyncClientEvent syncClientEvent = SyncClientEvent();
+      BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
+    }
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print("main--screen--53");
+      print(e.toString());
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+    if (result != ConnectivityResult.none) {
+      print("connected");
+      SyncClientEvent syncClientEvent = SyncClientEvent();
+      BlocProvider.of<ClientsBloc>(context, listen: false).add(syncClientEvent);
+    }
+
+    // return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+
+      if (_connectionStatus != ConnectivityResult.none) {
+        print("connected");
+        SyncClientEvent syncClientEvent = SyncClientEvent();
+        BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
       }
     });
   }
@@ -88,7 +157,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed(
-              NewClientScreen.routeName,
+              ClientEditScreen.routeName,
               // arguments: state.user,
             ),
             icon: Icon(
@@ -185,7 +254,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     ClientDetailScreen.routeName,
-                                    arguments:  clients![index],
+                                    arguments: clients![index],
                                   );
                                 },
                                 child: ClientCard(
@@ -208,4 +277,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
       ),
     );
   }
+}
+
+@override
+Widget build(BuildContext context) {
+  // TODO: implement build
+  throw UnimplementedError();
 }

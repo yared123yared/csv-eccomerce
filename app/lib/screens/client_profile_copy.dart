@@ -1,19 +1,10 @@
 import 'dart:convert';
-
-import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
-import 'package:app/Widget/clients/Common/pill_text.dart';
 import 'package:app/Widget/clients/client_profile/basic_info.dart';
-import 'package:app/Widget/clients/client_profile/menu.dart';
-import 'package:app/Widget/clients/client_profile/orders_table.dart';
-import 'package:app/Widget/clients/client_profile/table_header.dart';
-import 'package:app/constants/constants.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import 'drawer.dart';
 
 class ClientProfileCopy extends StatefulWidget {
   // final LoggedUserInfo user;
@@ -87,9 +78,6 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                   }
                 }
               }
-              print("-------name");
-              print(name);
-
               return Column(
                 children: [
                   SizedBox(
@@ -104,51 +92,6 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                       phone: phone,
                       photoPath: photopath,
                     ),
-                  ),
-                  MenuItem(
-                    title: 'Order',
-                    childrens: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: TableHeader(start: 1, end: 5, total: 5),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Orderstable(
-                          orders: [],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  MenuItem(
-                    title: 'Document',
-                    childrens: [],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  MenuItem(
-                    title: 'Shipping Addresses',
-                    childrens: [],
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  MenuItem(
-                    title: 'Billing Addresses',
-                    childrens: [],
-                  ),
-                  SizedBox(
-                    height: 30.0,
                   ),
                 ],
               );
