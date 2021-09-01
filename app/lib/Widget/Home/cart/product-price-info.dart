@@ -16,76 +16,81 @@ class ProductPriceInfo extends StatelessWidget {
     CartLogic cartLogic = new CartLogic(products: this.products);
     return Container(
       height: MediaQuery.of(context).size.height * 0.42,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(28, 28, 28, 10),
-                child: Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Sub total",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text(
-                        "\$${cartLogic.getTotalPrice()}",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(28, 28, 28, 10),
+                  child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Sub total",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        Text(
+                          "\$${cartLogic.getTotalPrice()}",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
-                child: Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Tax(10%)"),
-                      AutoSizeText(
-                        "\$20",
-                        maxLines: 2,
-                      ),
-                    ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
+                  child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Tax(10%)"),
+                        AutoSizeText(
+                          "\$20",
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
-                child: Divider(
-                  color: Colors.grey,
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
-                child: Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text(
-                        "\$${cartLogic.getTotalPrice() + 20}",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
+                  child: Divider(
+                    color: Colors.grey,
                   ),
                 ),
-              ),
-            ],
-          ),
-          Checkout()
-        ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                  child: Container(
+                    width: double.infinity,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Total",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        Text(
+                          "\$${cartLogic.getTotalPrice() + 20}",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.18,
+            ),
+            Checkout()
+          ],
+        ),
       ),
     );
   }

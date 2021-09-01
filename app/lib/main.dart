@@ -25,7 +25,7 @@ import 'Blocs/reports/CustomerDebt/cubit/customer_cubit.dart';
 import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
 import 'data_provider/payments/payment_data_provider.dart';
-import 'data_provider/product_data_provider.dart';
+import 'data_provider/product_data_provider.dart'; 
 import 'data_provider/reports/collection_data_provider.dart';
 import 'data_provider/reports/salesReport_data_provider.dart';
 import 'route/route.dart';
