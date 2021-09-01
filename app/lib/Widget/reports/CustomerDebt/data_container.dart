@@ -11,6 +11,7 @@ class DataContainerCustomDebt extends StatefulWidget {
 
 class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
   late CustomDebtBloc bloc;
+  final keyRefresh = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -27,23 +28,23 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CustomDebtBloc, CustomDebtState>(
-      builder: (context, state) {
-        if (state is CustomDebtInitial) {
-          return CircularProgressIndicator();
-        } else if (state is CustomDebtLoadingState) {
-          return CircularProgressIndicator();
-        } else if (state is CustomDebtSuccessState) {
-          return Container(
-            height: 180,
-            width: MediaQuery.of(context).size.width * .94,
-            decoration: BoxDecoration(
-              color: Color(0xffffffff),
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(30.0),
-                  bottomLeft: Radius.circular(30.0)),
-            ),
-            child: ListView.builder(
+    return Container(
+      height: 180,
+      width: MediaQuery.of(context).size.width * .94,
+      decoration: BoxDecoration(
+        color: Color(0xffffffff),
+        borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(30.0),
+            bottomLeft: Radius.circular(30.0)),
+      ),
+      child: BlocBuilder<CustomDebtBloc, CustomDebtState>(
+        builder: (context, state) {
+          if (state is CustomDebtInitial) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is CustomDebtLoadingState) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is CustomDebtSuccessState) {
+            return ListView.builder(
               itemCount: state.customDebtData.length,
               itemBuilder: (context, index) {
                 return buildCustomerText(
@@ -52,13 +53,13 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
                   totalClientText: "\$ ${state.customDebtData[index].debts}",
                 );
               },
-            ),
-          );
-        } else if (state is CustomDebtErrorState) {
-          return ErrorWidget(state.message.toString());
-        }
-        return Container();
-      },
+            );
+          } else if (state is CustomDebtErrorState) {
+            return ErrorWidget(state.message.toString());
+          }
+          return Container();
+        },
+      ),
     );
   }
 

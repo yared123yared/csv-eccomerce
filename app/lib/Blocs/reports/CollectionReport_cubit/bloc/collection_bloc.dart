@@ -20,7 +20,9 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
       yield CollectionLoadingState();
       try {
         var collection = await collectionDataProvider.getCollectionReport();
-        yield CollectionSuccessState(collection);
+        yield CollectionSuccessState(
+          collection,
+        );
       } catch (e) {
         yield CollectionErrorState(e.toString());
       }

@@ -18,3 +18,11 @@ class CustomDebtErrorState extends CustomDebtState {
 
   CustomDebtErrorState(this.message);
 }
+
+class SearchCustomDebtLoadingState extends CustomDebtState {}
+
+class SearchCustomDebtSuccessState extends CustomDebtState {
+  final List<DataCustomReport> searchcustomDebtData;
+
+  SearchCustomDebtSuccessState(this.searchcustomDebtData);
+}

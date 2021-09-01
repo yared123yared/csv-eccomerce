@@ -133,38 +133,43 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       },
                     )),
               ),
-              Expanded(child: BlocBuilder<ProductBloc, ProductState>(
+              Expanded(
+                child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
-                // print("Entered to the bloc builder");
-                if (state is ProductLoadSuccess) {
-                  // print("load sucess");
-                  print(state.products.length);
-                  return GridView.builder(
-                      controller: this._scrollController,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent:
-                            MediaQuery.of(context).size.width * 0.6,
-                        mainAxisExtent:
-                            MediaQuery.of(context).size.height * 0.35,
-                      ),
-                      itemCount: state.products.length,
-                      itemBuilder: (BuildContext ctx, index) {
-                        return Container(
-                            child: ProductItem(product: state.products[index]));
-                      });
-                } else if (state is ProductLoading) {
-                  return Center(
-                      child: Container(
-                          height: 60,
-                          width: 60,
-                          child: CircularProgressIndicator()));
-                  // ProductLoading
+                    // print("Entered to the bloc builder");
+                    if (state is ProductLoadSuccess) {
+                      // print("load sucess");
+                      print(state.products.length);
+                      return GridView.builder(
+                          controller: this._scrollController,
+                          gridDelegate:
+                              SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent:
+                                MediaQuery.of(context).size.width * 0.6,
+                            mainAxisExtent:
+                                MediaQuery.of(context).size.height * 0.35,
+                          ),
+                          itemCount: state.products.length,
+                          itemBuilder: (BuildContext ctx, index) {
+                            return Container(
+                                child: ProductItem(
+                                    product: state.products[index]));
+                          });
+                    } else if (state is ProductLoading) {
+                      return Center(
+                          child: Container(
+                              height: 60,
+                              width: 60,
+                              child: CircularProgressIndicator()));
+                      // ProductLoading
 
-                } else if (state is ProductOperationFailure) {
-                  print(state.message);
-                }
-                return Container();
-              }))
+                    } else if (state is ProductOperationFailure) {
+                      print(state.message);
+                    }
+                    return Container();
+                  },
+                ),
+              )
               // return Container();
             ])));
   }

@@ -29,7 +29,7 @@ class ProductPriceInfo extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Sub total",
+                        Text("Total",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16)),
                         Text(
@@ -40,23 +40,23 @@ class ProductPriceInfo extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Tax(10%)"),
-                        AutoSizeText(
-                          "\$20",
-                          maxLines: 2,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
+                //   child: Container(
+                //     width: double.infinity,
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text("Tax(10%)"),
+                //         AutoSizeText(
+                //           "\$20",
+                //           maxLines: 2,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
@@ -64,25 +64,25 @@ class ProductPriceInfo extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Total",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        Text(
-                          "\$${cartLogic.getTotalPrice() + 20}",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(vertical: 0, horizontal: 28),
+                //   child: Container(
+                //     width: double.infinity,
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text("Total",
+                //             style: TextStyle(
+                //                 fontWeight: FontWeight.bold, fontSize: 16)),
+                //         Text(
+                //           "\$${cartLogic.getTotalPrice() + 20}",
+                //           style: TextStyle(fontSize: 15),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(

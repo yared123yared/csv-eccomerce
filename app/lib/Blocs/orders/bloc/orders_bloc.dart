@@ -168,7 +168,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       total += double.parse(value) * products[i].order;
     }
 
-    double taxedValue = total - 20;
-    return taxedValue;
+    // double taxedValue = total - 20;
+    return total;
   }
 }

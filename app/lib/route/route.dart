@@ -14,6 +14,7 @@ import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
+import 'package:app/screens/dashBorad_screen.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
 import 'package:app/screens/orders_screen/ordersb_byDebt_screen.dart';
@@ -139,10 +140,13 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => OrdersByDebtScreen(),
       );
-    }
-     else if (settings.name == PaymentsScreen.routeName) {
+    } else if (settings.name == PaymentsScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => PaymentsScreen(),
+      );
+    }else if (settings.name == DashBoardScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => DashBoardScreen(),
       );
     }
     return MaterialPageRoute(builder: (context) => Login());

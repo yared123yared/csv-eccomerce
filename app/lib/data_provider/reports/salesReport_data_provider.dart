@@ -30,7 +30,8 @@ class SalesReportDataProvider {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode({
+            body: jsonEncode(
+              {
               "tableColumns": [
                 "order_number",
                 "order_number",
@@ -51,7 +52,8 @@ class SalesReportDataProvider {
               "amount_paid": "",
               "to": "",
               "from": ""
-            }));
+            }
+            ));
         if (response.statusCode == 200) {
           await APICacheManager().deleteCache("API_salesReports");
           APICacheDBModel cacheDBModel = new APICacheDBModel(

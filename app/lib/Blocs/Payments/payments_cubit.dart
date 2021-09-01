@@ -10,7 +10,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -37,6 +36,8 @@ class PaymentsCubit extends Cubit<PaymentsState> {
     );
 
     if (picked != null && picked != dateForm) {
+
+        
       dateForm = picked;
 
       dateFromText =
@@ -94,23 +95,25 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   //dowanload image
   bool isImageLoding = false;
   saveImage({required int index}) async {
+
+    
     final url =
         "https://csv.jithvar.com/storage/${payMentContainerModel.data![index].photo!.filePath}";
     var status = await Permission.storage.request();
 
-    if (status.isGranted) {
-      var response = await Dio()
-          .get(url, options: Options(responseType: ResponseType.bytes));
-      final result = await ImageGallerySaver.saveImage(
-          Uint8List.fromList(response.data),
-          quality: 60,
-          name: "${payMentContainerModel.data![index].photo!.name}");
-      isImageLoding = true;
-      //isImageLoding = true;
-      emit(PaymentsImageDowanloadedState());
+    // if (status.isGranted) {
+    //   var response = await Dio()
+    //       .get(url, options: Options(responseType: ResponseType.bytes));
+    //   final result = await ImageGallerySaver.saveImage(
+    //       Uint8List.fromList(response.data),
+    //       quality: 60,
+    //       name: "${payMentContainerModel.data![index].photo!.name}");
+    //   isImageLoding = true;
+    //   //isImageLoding = true;
+    //   emit(PaymentsImageDowanloadedState());
 
-      print(result);
-    }
+    //   print(result);
+    // }
     //isImageLoding = false;
   }
 

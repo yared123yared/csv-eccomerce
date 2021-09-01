@@ -3,7 +3,6 @@ import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_state.
 import 'package:app/Widget/reports/CollectionReport/data_container.dart';
 import 'package:app/Widget/reports/CollectionReport/from_to_container.dart';
 import 'package:app/Widget/reports/CollectionReport/search_container.dart';
-import 'package:app/Widget/reports/CollectionReport/search_data_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +20,7 @@ class CollectionReportScreen extends StatelessWidget {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
+            backgroundColor: primaryColor,
             leading: GestureDetector(
               onTap: () {
                 _scaffoldKey.currentState!.openDrawer();
@@ -85,19 +85,21 @@ class CollectionReportScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              //Expanded(child: DataContainerColl()),
-              cubit.isComeData
-                  ? Expanded(
-                      child: SearchDataContainerColl(),
-                    )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * 0.51,
-                      child: Center(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-                    ),
+              Expanded(
+                child: DataContainerColl(),
+              ),
+              // cubit.isComeData
+              //     ? Expanded(
+              //         child: DataContainerColl(),
+              //       )
+              //     : Container(
+              //         height: MediaQuery.of(context).size.height * 0.51,
+              //         child: Center(
+              //           child: Center(
+              //             child: CircularProgressIndicator(),
+              //           ),
+              //         ),
+              //       ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(

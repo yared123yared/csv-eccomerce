@@ -74,58 +74,60 @@ class AllOrdersCubit extends Cubit<AllOredersState> {
 
   //search apis here
 
-  Future postAllSearchOrders({required String searchNmae}) async {
-    String? token = await this.userPreferences.getUserToken();
+  // Future postAllSearchOrders({required String searchNmae}) async {
+  //   String? token = await this.userPreferences.getUserToken();
 
-    try {
-      final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/all');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: jsonEncode({
-          "tableColumns": [
-            "created_at",
-            "order_number",
-            "client",
-            "total",
-            "amount_paid",
-            "amount_remaining",
-            "actions"
-          ],
-          "draw": 0,
-          "length": 10,
-          "search": searchNmae,
-          "column": 0,
-          "field": "client",
-          "relationship": true,
-          "relationship_field": "first_name",
-          "dir": "desc"
-        }),
-      );
-      Timer(Duration(seconds: 1), () {
-        if (response.statusCode == 200) {
-          isComeData = true;
-          isComeDataWrong = false;
-          final extractedData =
-              json.decode(response.body) as Map<String, dynamic>;
+  //   try {
+  //     final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/all');
+  //     final response = await http.post(
+  //       url,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //       body: jsonEncode(
+  //         {
+  //         "tableColumns": [
+  //           "created_at",
+  //           "order_number",
+  //           "client",
+  //           "total",
+  //           "amount_paid",
+  //           "amount_remaining",
+  //           "actions"
+  //         ],
+  //         "draw": 0,
+  //         "length": 10,
+  //         "search": searchNmae,
+  //         "column": 0,
+  //         "field": "client",
+  //         "relationship": true,
+  //         "relationship_field": "first_name",
+  //         "dir": "desc"
+  //       }
+  //       ),
+  //     );
+  //     Timer(Duration(seconds: 1), () {
+  //       if (response.statusCode == 200) {
+  //         isComeData = true;
+  //         isComeDataWrong = false;
+  //         final extractedData =
+  //             json.decode(response.body) as Map<String, dynamic>;
 
-          final data = extractedData['orders'];
+  //         final data = extractedData['orders'];
 
-          allOrdersModel = AllOrdersModel.fromJson(data);
-         // print("Walid roaa doaa : ${allOrdersModel.data!.length}");
-        } else {
-          isComeData = false;
-          isComeDataWrong = true;
-          throw Exception('Failed to load courses');
-        }
-      });
-    } catch (e) {
-      print("Exception throuwn $e");
-    }
-    emit(FeatchDataSucessState());
-  }
+  //         allOrdersModel = AllOrdersModel.fromJson(data);
+  //        // print("Walid roaa doaa : ${allOrdersModel.data!.length}");
+  //       } else {
+  //         isComeData = false;
+  //         isComeDataWrong = true;
+  //         throw Exception('Failed to load courses');
+  //       }
+  //     });
+  //   } catch (e) {
+  //     print("Exception throuwn $e");
+  //   }
+  //   emit(FeatchDataSucessState());
+  // }
 }
