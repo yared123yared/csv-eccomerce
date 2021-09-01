@@ -39,7 +39,7 @@ class OrderByDebtDataProvider {
                   "actions"
                 ],
                 "draw": 10,
-                "length": 5,
+                "length": 100,
                 "search": "",
                 "column": 0,
                 "field": "",
@@ -118,11 +118,11 @@ class OrderByDebtDataProvider {
               "actions"
             ],
             "draw": 0,
-            "length": 10,
+            "length": 100,
             "search": searchName,
             "column": 0,
-            "field": "",
-            "relationship": false,
+            "field": "client",
+            "relationship": true,
             "relationship_field": "first_name",
             "dir": "desc"
           }));

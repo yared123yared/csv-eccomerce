@@ -83,7 +83,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                       ),
                       buildrowData(
                         text: 'DEBT',
-                        dateApi: "${state.allorderdata[index].client!.debts}",
+                        dateApi: "${state.allorderdata[index].amountRemaining}",
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -185,7 +185,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                         text: 'DEBT',
                         // dateApi: '${cubitData[index].client!.debts}',
                         dateApi:
-                            "${state.searchallorderdata[index].client!.debts}",
+                            "${state.searchallorderdata[index].amountRemaining}",
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

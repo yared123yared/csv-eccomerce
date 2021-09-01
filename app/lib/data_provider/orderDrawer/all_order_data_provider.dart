@@ -45,7 +45,7 @@ class AllOrderDataProvider {
                   "actions"
                 ],
                 "draw": 0,
-                "length": 1000,
+                "length": 100,
                 "search": "",
                 "column": 0,
                 "field": "",
@@ -134,7 +134,7 @@ class AllOrderDataProvider {
             "actions"
           ],
           "draw": 0,
-          "length": 1000,
+          "length": 100,
           "search": searchName,
           "column": 0,
           "field": "client",

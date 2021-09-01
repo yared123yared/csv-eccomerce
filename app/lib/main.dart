@@ -226,16 +226,14 @@ class App extends StatelessWidget {
           BlocProvider<AllorderrBloc>(
             create: (_) => AllorderrBloc(
               AllOrderDataProvider(userPreferences),
-            )
-            ..add(FeatcAllorderrEvent()),
+            )..add(FeatcAllorderrEvent()),
           ),
           BlocProvider<OrderByDebtCubit>(
               create: (_) => OrderByDebtCubit(userPreferences)),
           BlocProvider<OrderbydebtBloc>(
-            create: (_) => OrderbydebtBloc(
-              OrderByDebtDataProvider(userPreferences),
-            ),
-          ),
+              create: (_) => OrderbydebtBloc(
+                    OrderByDebtDataProvider(userPreferences),
+                  )..add(FeatchOrderbydebtEvent())),
 
           BlocProvider<PaymentsCubit>(
               create: (_) => PaymentsCubit(userPreferences)),
