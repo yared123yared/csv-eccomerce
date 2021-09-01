@@ -44,12 +44,6 @@ dependencies:
   connectivity_plus: ^1.0.6
   fluttertoast: ^8.0.8
   api_cache_manager: ^1.0.2
-  # create pdf document
-  flutter_downloader: ^1.6.1
-  pdf: ^3.4.2
-  path_provider: ^2.0.2
-  open_file: ^3.2.1
-  intl: ^0.17.0
   #dowanlod image
   permission_handler: ^8.1.4+2
   syncfusion_flutter_charts: ^19.2.57

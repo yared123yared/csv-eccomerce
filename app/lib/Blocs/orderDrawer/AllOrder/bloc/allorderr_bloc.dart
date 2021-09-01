@@ -12,7 +12,6 @@ part 'allorderr_state.dart';
 class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
   final AllOrderDataProvider allOrderDataProvider;
 
-  //String? searchAllOrderName;
   AllorderrBloc(
     this.allOrderDataProvider,
   ) : super(AllorderrInitial());
@@ -24,9 +23,7 @@ class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
     if (event is FeatcAllorderrEvent) {
       yield AllOrderrLoadingState();
       try {
-        //List<DataAllOrders> allorderdatascroll = [];
-
-       final allorderstat = await allOrderDataProvider.getAllOrders();
+        final allorderstat = await allOrderDataProvider.getAllOrders();
 
         yield AllOrdersSuccessState(allorderstat);
       } catch (e) {

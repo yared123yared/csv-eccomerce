@@ -12,146 +12,6 @@ class CustomDebtDataProvider {
 
   CustomDebtDataProvider(this.userPreferences);
 
-  // Future<List<DataCustomReport>> getCustomReport() async {
-  //   String? token = await this.userPreferences.getUserToken();
-  //   bool connected = await ConnectionChecker.CheckInternetConnection();
-  //   var isCacheExist =
-  //       await APICacheManager().isAPICacheKeyExist("API_CustomDebt");
-  //   late List<DataCustomReport> customDebt = [];
-
-  //   try {
-  //     if (connected) {
-  //       await APICacheManager().deleteCache("API_CustomDebt");
-  //       if (!isCacheExist) {
-  //         final url = Uri.parse('http://csv.jithvar.com/api/v1/clients/debts');
-  //         final response = await http.post(url,
-  //             headers: {
-  //               'Content-Type': 'application/json',
-  //               'Accept': 'application/json',
-  //               'Authorization': 'Bearer $token',
-  //             },
-  //             body: jsonEncode({
-  //               "draw": 0,
-  //               "length": 10,
-  //               "search": "",
-  //               "column": 0,
-  //               "field": "",
-  //               "relationship": false,
-  //               "relationship_field": "",
-  //               "dir": "asc"
-  //             }));
-  //         if (response.statusCode == 200) {
-  //           APICacheDBModel cacheDBModel = new APICacheDBModel(
-  //             key: "API_CustomDebt",
-  //             syncData: response.body,
-  //           );
-  //           await APICacheManager().addCacheData(cacheDBModel);
-  //           final extractedData =
-  //               json.decode(response.body) as Map<String, dynamic>;
-
-  //           final data = extractedData['clients']['data'];
-  //           return data
-  //               .map((customdebt) =>
-  //                   customDebt.add(DataCustomReport.fromJson(customdebt)))
-  //               .toList();
-  //         } else {
-  //           throw Exception('Failed to load courses');
-  //         }
-  //       } else {
-  //         var cacheData =
-  //             await APICacheManager().getCacheData("API_CustomDebt");
-
-  //         final extractedData =
-  //             json.decode(cacheData.syncData) as Map<String, dynamic>;
-
-  //         final data = extractedData['clients']['data'];
-  //         return data
-  //             .map((customdebt) =>
-  //                 customDebt.add(DataCustomReport.fromJson(customdebt)))
-  //             .toList();
-  //       }
-  //     } else {
-  //       var cacheData = await APICacheManager().getCacheData("API_CustomDebt");
-
-  //       final extractedData =
-  //           json.decode(cacheData.syncData) as Map<String, dynamic>;
-
-  //       final data = extractedData['clients']['data'];
-  //       return data
-  //           .map((customdebt) =>
-  //               customDebt.add(DataCustomReport.fromJson(customdebt)))
-  //           .toList();
-  //     }
-  //   } catch (e) {
-  //     print("Exception throuwn $e");
-  //   }
-
-  //   return customDebt;
-  // }
-
-  // Future<List<DataCustomReport>> getCustomReport() async {
-  //   String? token = await this.userPreferences.getUserToken();
-  //   bool connected = await ConnectionChecker.CheckInternetConnection();
-  //   var isCacheExist =
-  //       await APICacheManager().isAPICacheKeyExist("API_CustomDebts");
-  //   List<DataCustomReport> customDebt = [];
-
-  //   try {
-  //     if (!isCacheExist) {
-  //       final url = Uri.parse('http://csv.jithvar.com/api/v1/clients/debts');
-  //       final response = await http.post(url,
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             'Accept': 'application/json',
-  //             'Authorization': 'Bearer $token',
-  //           },
-  //           body: jsonEncode(
-  //             {
-  //             "draw": 0,
-  //             "length": 100,
-  //             "search": "",
-  //             "column": 0,
-  //             "field": "",
-  //             "relationship": false,
-  //             "relationship_field": "",
-  //             "dir": "asc"
-  //           }
-  //           ));
-  //       if (response.statusCode == 200) {
-  //         APICacheDBModel cacheDBModel = new APICacheDBModel(
-  //           key: "API_CustomDebts",
-  //           syncData: response.body,
-  //         );
-  //         await APICacheManager().addCacheData(cacheDBModel);
-  //         final extractedData =
-  //             json.decode(response.body) as Map<String, dynamic>;
-
-  //         final data = extractedData['clients']['data'];
-  //         return data
-  //             .map((customdebt) =>
-  //                 customDebt.add(DataCustomReport.fromJson(customdebt)))
-  //             .toList();
-  //       } else {
-  //         throw Exception('Failed to load courses');
-  //       }
-  //     } else {
-  //       var cacheData = await APICacheManager().getCacheData("API_CustomDebts");
-  //       final extractedData =
-  //           json.decode(cacheData.syncData) as Map<String, dynamic>;
-
-  //       final data = extractedData['clients']['data'];
-  //       return data
-  //           .map((customdebt) =>
-  //               customDebt.add(DataCustomReport.fromJson(customdebt)))
-  //           .toList();
-  //     }
-  //   } catch (e) {
-  //     print("Exception throuwn $e");
-  //   }
-
-  //   return customDebt;
-  // }
-
   Future<List<DataCustomReport>> getCustomReport() async {
     String? token = await this.userPreferences.getUserToken();
     late List<DataCustomReport> customDebt = [];
@@ -170,7 +30,7 @@ class CustomDebtDataProvider {
             },
             body: jsonEncode({
               "draw": 0,
-              "length": 100,
+              "length": 10000,
               "search": "",
               "column": 0,
               "field": "",
@@ -217,29 +77,52 @@ class CustomDebtDataProvider {
   Future<List<DataCustomReport>> getCustomReportSearch(
       String searchName) async {
     String? token = await this.userPreferences.getUserToken();
+    await APICacheManager().isAPICacheKeyExist("Search_CustomDebtss");
+    bool connected = await ConnectionChecker.CheckInternetConnection();
     late List<DataCustomReport> searchCustomDebt = [];
 
     try {
-      final url = Uri.parse('http://csv.jithvar.com/api/v1/clients/debts');
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode({
-            "draw": 0,
-            "length": 100,
-            "search": searchName,
-            "column": 0,
-            "field": "first_name",
-            "relationship": false,
-            "relationship_field": "",
-            "dir": "asc"
-          }));
-      if (response.statusCode == 200) {
+      if (connected) {
+        final url = Uri.parse('http://csv.jithvar.com/api/v1/clients/debts');
+        final response = await http.post(url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode({
+              "draw": 0,
+              "length": 10000,
+              "search": searchName,
+              "column": 0,
+              "field": "first_name",
+              "relationship": false,
+              "relationship_field": "",
+              "dir": "asc"
+            }));
+        if (response.statusCode == 200) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+            key: "Search_CustomDebtss",
+            syncData: response.body,
+          );
+          await APICacheManager().addCacheData(cacheDBModel);
+          final extractedData =
+              json.decode(response.body) as Map<String, dynamic>;
+
+          final data = extractedData['clients']['data'];
+
+          return data
+              .map((searchcustomdebt) => searchCustomDebt
+                  .add(DataCustomReport.fromJson(searchcustomdebt)))
+              .toList();
+        } else {
+          throw Exception('Failed to load courses');
+        }
+      } else {
+        var cacheData =
+            await APICacheManager().getCacheData("Search_CustomDebtss");
         final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
+            json.decode(cacheData.syncData) as Map<String, dynamic>;
 
         final data = extractedData['clients']['data'];
 
@@ -247,8 +130,6 @@ class CustomDebtDataProvider {
             .map((searchcustomdebt) => searchCustomDebt
                 .add(DataCustomReport.fromJson(searchcustomdebt)))
             .toList();
-      } else {
-        throw Exception('Failed to load courses');
       }
     } catch (e) {
       print("Exception throuwn $e");

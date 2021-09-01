@@ -9,84 +9,65 @@ import 'package:http/http.dart' as http;
 
 class AllOrderDataProvider {
   final UserPreferences userPreferences;
-  
 
   AllOrderDataProvider(this.userPreferences);
 
   Future<List<DataAllOrders>> getAllOrders() async {
     String? token = await this.userPreferences.getUserToken();
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    var isCacheExist =
-        await APICacheManager().isAPICacheKeyExist("API_AllOrders");
+
+    await APICacheManager().isAPICacheKeyExist("AllOrder");
 
     late List<DataAllOrders> allOrdersData = [];
 
     try {
       if (connected) {
-        await APICacheManager().deleteCache("API_AllOrders");
+        final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/all');
+        final response = await http.post(url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode({
+              "tableColumns": [
+                "created_at",
+                "order_number",
+                "client",
+                "total",
+                "amount_paid",
+                "amount_remaining",
+                "actions"
+              ],
+              "draw": 0,
+              "length": 10000,
+              "search": "",
+              "column": 0,
+              "field": "",
+              "relationship": false,
+              "relationship_field": "",
+              "dir": "desc"
+            }));
 
-        if (!isCacheExist) {
-          final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/all');
-          final response = await http.post(url,
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer $token',
-              },
-              body: jsonEncode(
-                {
-                "tableColumns": [
-                  "created_at",
-                  "order_number",
-                  "client",
-                  "total",
-                  "amount_paid",
-                  "amount_remaining",
-                  "actions"
-                ],
-                "draw": 0,
-                "length": 100,
-                "search": "",
-                "column": 0,
-                "field": "",
-                "relationship": false,
-                "relationship_field": "",
-                "dir": "desc"
-              }
-              ));
-
-          if (response.statusCode == 200) {
-            APICacheDBModel cacheDBModel = new APICacheDBModel(
-              key: "API_AllOrders",
-              syncData: response.body,
-            );
-            await APICacheManager().addCacheData(cacheDBModel);
-            final extractedData =
-                json.decode(response.body) as Map<String, dynamic>;
-
-            final data = extractedData['orders']['data'];
-            return data
-                .map((allorders) =>
-                    allOrdersData.add(DataAllOrders.fromJson(allorders)))
-                .toList();
-          } else {
-            throw Exception('Failed to load courses');
-          }
-        } else {
-          var cacheData = await APICacheManager().getCacheData("API_AllOrders");
-
+        if (response.statusCode == 200) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+            key: "AllOrder",
+            syncData: response.body,
+          );
+          await APICacheManager().addCacheData(cacheDBModel);
           final extractedData =
-              json.decode(cacheData.syncData) as Map<String, dynamic>;
+              json.decode(response.body) as Map<String, dynamic>;
 
           final data = extractedData['orders']['data'];
-
           return data
-              .map((salesReport) =>
-                  allOrdersData.add(DataAllOrders.fromJson(salesReport)))
+              .map((allorders) =>
+                  allOrdersData.add(DataAllOrders.fromJson(allorders)))
               .toList();
+        } else {
+          throw Exception('Failed to load courses');
         }
       } else {
-        var cacheData = await APICacheManager().getCacheData("API_AllOrders");
+        var cacheData = await APICacheManager().getCacheData("AllOrder");
 
         final extractedData =
             json.decode(cacheData.syncData) as Map<String, dynamic>;
@@ -122,8 +103,7 @@ class AllOrderDataProvider {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode(
-          {
+        body: jsonEncode({
           "tableColumns": [
             "created_at",
             "order_number",
@@ -134,15 +114,14 @@ class AllOrderDataProvider {
             "actions"
           ],
           "draw": 0,
-          "length": 100,
+          "length": 10000,
           "search": searchName,
           "column": 0,
           "field": "client",
           "relationship": true,
           "relationship_field": "first_name",
           "dir": "desc"
-        }
-        ),
+        }),
       );
 
       if (response.statusCode == 200) {
