@@ -14,6 +14,7 @@ class UserDataProvider {
 
   final String baseUrl = 'http://csv.jithvar.com/api/v1';
 
+
   Future<LoggedUserInfo?> offlineLogin(LoginInfo loginInfo) async {
     LoggedUserInfo? loggedUserInfo;
     try {

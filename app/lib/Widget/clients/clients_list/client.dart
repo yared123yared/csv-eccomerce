@@ -62,9 +62,13 @@ class ClientCard extends StatelessWidget {
                   EditButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(
-                        NewClientScreen.routeName,
+                        ClientEditScreen.routeName,
                         arguments: this.client,
-                      );
+                      ).then((value){
+                           SyncClientEvent syncClientEvent = SyncClientEvent();
+                        BlocProvider.of<ClientsBloc>(context)
+                            .add(syncClientEvent);
+                      });
                     },
                   ),
                   SizedBox(

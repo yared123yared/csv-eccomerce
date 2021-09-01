@@ -19,24 +19,24 @@ import 'package:app/Widget/clients/new_client/steper.dart';
 import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
 
-class NewClientScreen extends StatefulWidget {
+class ClientEditScreen extends StatefulWidget {
   static const routeName = 'client_new';
 
   // const NewClientScreen({
   //   required this.user,
   // });
   final Client? client;
-  NewClientScreen({
+  ClientEditScreen({
     this.client,
   });
 
   @override
-  _NewClientScreenState createState() => _NewClientScreenState();
+  _ClientEditScreenState createState() => _ClientEditScreenState();
 }
 
 // final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class _NewClientScreenState extends State<NewClientScreen> {
+class _ClientEditScreenState extends State<ClientEditScreen> {
   int currentStep = 0;
   final TextEditingController firstNameController = new TextEditingController();
   final TextEditingController lastNameController = new TextEditingController();

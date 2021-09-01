@@ -88,15 +88,15 @@ class AppRoutes {
           client: settings.arguments as Client.Client,
         ),
       );
-    } else if (settings.name == NewClientScreen.routeName) {
+    } else if (settings.name == ClientEditScreen.routeName) {
       if (settings.arguments != null) {
         // print("--route ----${settings.arguments}");
         return MaterialPageRoute(
-            builder: (context) => NewClientScreen(
+            builder: (context) => ClientEditScreen(
                   client: settings.arguments as Client.Client,
                 ));
       }
-      return MaterialPageRoute(builder: (context) => NewClientScreen());
+      return MaterialPageRoute(builder: (context) => ClientEditScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ResetPasswordScreen(
@@ -119,14 +119,14 @@ class AppRoutes {
       );
     }  else if (settings.name ==  UpdateOrder.routeName) {
       return MaterialPageRoute(
-        builder: (context) =>  UpdateOrder() 
+        builder: (context) =>  UpdateOrder()
       );
     }
     else if (settings.name == AddClient.routeName) {
       return MaterialPageRoute(
         builder: (context) => AddClient(),
       );
-     
+
     } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CustomerByDebtScreen(),

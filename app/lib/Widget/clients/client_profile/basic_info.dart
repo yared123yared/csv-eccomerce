@@ -1,5 +1,5 @@
-import 'package:app/Widget/clients/Common/pill_text.dart';
 import 'package:app/models/navigation/profile_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../Common/client_data_row.dart';
@@ -29,7 +29,20 @@ class ClientBasicProfile extends StatelessWidget {
         radius: 40,
         child: Container(
           clipBehavior: Clip.hardEdge,
-          child: Image.network('${baseUrl}/${client.photoPath}'),
+          child: CachedNetworkImage(
+            imageUrl: '${baseUrl}/${client.photoPath}',
+            height: MediaQuery.of(context).size.height * 0.18,
+            width: double.infinity,
+            fit: BoxFit.fill,
+            placeholder: (context, url) => Container(
+              color: Colors.white,
+            ),
+            errorWidget: (context, url, error) => Container(
+              color: Colors.black,
+              child: Icon(Icons.error),
+            ),
+          ),
+          // child: Image.network('${baseUrl}/${client.photoPath}'),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
           ),
@@ -74,15 +87,20 @@ class ClientBasicProfile extends StatelessWidget {
                         Icon(Icons.ballot),
                       ],
                     ),
-                    SizedBox(height: 10.0),
-                    InkWell(
-                      onTap: () {},
-                      child: PillText(
-                        text: 'Edit',
-                        bgColor: Color(0xFFF2F6F9),
-                        fgColor: Colors.grey.shade700,
-                      ),
-                    ),
+                    SizedBox(height: 20.0),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.of(context).pushNamed(
+                    //       ClientEditScreen.routeName,
+                    //       arguments: this.client,
+                    //     );
+                    //   },
+                    //   child: PillText(
+                    //     text: 'Edit',
+                    //     bgColor: Color(0xFFF2F6F9),
+                    //     fgColor: Colors.grey.shade700,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -104,7 +122,7 @@ class ClientBasicProfile extends StatelessWidget {
             top: -40,
             child: CircleAvatar(
               radius: 40,
-              child:photo,
+              child: photo,
             ),
           ),
         ],

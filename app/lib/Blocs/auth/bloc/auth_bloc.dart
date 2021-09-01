@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app/db/db.dart';
+import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
