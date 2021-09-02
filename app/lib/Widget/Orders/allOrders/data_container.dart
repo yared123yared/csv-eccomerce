@@ -1,6 +1,4 @@
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
-import 'package:app/Pdf/api/pdf_api.dart';
-import 'package:app/Widget/Orders/allOrders/print_button.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/screens/cart_screens/update_order.dart';
 import 'package:flutter/material.dart';
@@ -193,9 +191,6 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            PrintButton(
-                              index: index,
-                            ),
                             SizedBox(
                               width: 5,
                             ),

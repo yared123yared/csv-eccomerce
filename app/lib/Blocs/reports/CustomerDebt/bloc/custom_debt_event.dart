@@ -5,9 +5,7 @@ abstract class CustomDebtEvent {
   const CustomDebtEvent();
 }
 
-class FeatchCustomDebtEvent extends CustomDebtEvent {
-  const FeatchCustomDebtEvent();
-}
+class FeatchCustomDebtEvent extends CustomDebtEvent {}
 
 class SearchCustomDebtEvent extends CustomDebtEvent {
   final String searchName;

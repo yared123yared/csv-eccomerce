@@ -24,16 +24,15 @@ class CustomDebtBloc extends Bloc<CustomDebtEvent, CustomDebtState> {
       } catch (e) {
         yield CustomDebtErrorState(e.toString());
       }
+    } else if (event is SearchCustomDebtEvent) {
+      yield SearchCustomDebtLoadingState();
+      try {
+        var searchcustomDebt = await customDebtDataProvider
+            .getCustomReportSearch(event.searchName);
+        yield SearchCustomDebtSuccessState(searchcustomDebt);
+      } catch (e) {
+        yield CustomDebtErrorState(e.toString());
+      }
     }
-    //  else if (event is SearchCustomDebtEvent) {
-    //   yield SearchCustomDebtLoadingState();
-    //   try {
-    //     var searchcustomDebt = await customDebtDataProvider
-    //         .getCustomReportSearch(event.searchName);
-    //     yield SearchCustomDebtSuccessState(searchcustomDebt);
-    //   } catch (e) {
-    //     yield CustomDebtErrorState(e.toString());
-    //   }
-    // }
   }
 }

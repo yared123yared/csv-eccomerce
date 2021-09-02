@@ -29,7 +29,6 @@ class _SearchCustomerDebtState extends State<SearchCustomerDebt> {
                 BlocProvider.of<CustomDebtBloc>(context)
                     .add(SearchCustomDebtEvent(value));
               },
-              onChanged: (String value) {},
               decoration: InputDecoration(
                 hintText: 'Search by Name',
                 border: InputBorder.none,
