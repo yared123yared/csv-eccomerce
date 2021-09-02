@@ -33,8 +33,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Stream<ProductState> mapEventToState(
     ProductEvent event,
   ) async* {
-
-     productList.forEach((product) async {
+    productList.forEach((product) async {
       await CsvDatabse.instance.createProduct(product);
     });
     bool connected = await ConnectionChecker.CheckInternetConnection();
@@ -77,13 +76,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
           List<Data> productsFromServer =
               await this.productRepository.getProducts(page, this.categoryId);
-
+          productList = productsFromServer;
           // print("This is the data that come from the repository $products");
           if (productsFromServer == [] || productsFromServer == null) {
             print("bloc--fetch--product--5");
 
             yield ProductOperationFailure(
-              message: "Failed to fetch products",
+              message: "Failed to fetch products", 
               page: page,
               products: state.products,
               selectedCategoryId: state.selectedCategoryId,
@@ -106,15 +105,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             });
             print("bloc--fetch--product--7");
 
-            List<Data>? products = await CsvDatabse.instance.readProducts(null);
-            if (products != null) {
-              productList = products;
-            }
+            // List<Data>? products = await CsvDatabse.instance.readProducts(null);
+            // if (products != null) {
+            //   productList = products;
+            // }
 
             print("bloc--fetch--product--8");
 
             yield ProductLoadSuccess(
-              products: productList,
+              products: productsFromServer,
               selectedCategoryId: state.selectedCategoryId,
               page: page,
             );
@@ -317,4 +316,3 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 }
- 

@@ -32,12 +32,17 @@ class ProductDetail extends StatelessWidget {
     // check the size here.
     List<String?> size = [];
     List<String?> color = [];
+    print("Detail data: ${products.toJson()}");
     if (products.attributes != null) {
+      List<Attributes> attributes = products.attributes as List<Attributes>;
+
+      print("Attributes Size: ${products.attributes![0].name}");
       for (int i = 0; i < products.attributes!.length; i++) {
-        List<Attributes> attributes = products.attributes as List<Attributes>;
-        if (attributes[i].name!.contains('Size')) {
-          print("Size:  ${attributes[i].pivot!.value}");
-          size.add(attributes[i].pivot!.value);
+        print("Attributes: ${products.attributes}");
+        print("products.attributes: ${products.attributes![i].name}");
+        if (products.attributes![i].name!.contains('Size')) {
+          print("Size:  ${products.attributes![i].pivot!.value}");
+          size.add(products.attributes![i].pivot!.value);
         }
       }
       // check color
@@ -50,6 +55,13 @@ class ProductDetail extends StatelessWidget {
         }
       }
     }
+    print("Adding to the color container");
+    List<Widget> colorContainer = [];
+    for (int i = 0; i < color.length; i++) {
+      print("Color for the widget: ${color}");
+      colorContainer.add(ColorContainer(color: Color(int.parse(color[i]!)) , selected: false,));
+    }
+    
     print("Build is sucessfully finished");
     return Scaffold(
         appBar: AppBar(
@@ -132,7 +144,9 @@ class ProductDetail extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: AutoSizeText(
-                   this.products.categories!.length!=0?"${products.categories![0].fullName}":"",
+                    this.products.categories!.length != 0
+                        ? "${products.categories![0].fullName}"
+                        : "",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -165,14 +179,17 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03,
                           ),
-                          ColorContainer(
-                            color: Colors.blueAccent,
-                          ),
-                          ColorContainer(
-                            color: Colors.pinkAccent,
-                          ),
-                          ColorContainer(
-                            color: Colors.purpleAccent,
+                          // ColorContainer(
+                          //   color: Colors.blueAccent,
+                          // ),
+                          // ColorContainer(
+                          //   color: Colors.pinkAccent,
+                          // ),
+                          // ColorContainer(
+                          //   color: Colors.purpleAccent,
+                          // )
+                          Row(
+                            children: colorContainer,
                           )
                         ],
                       ),
