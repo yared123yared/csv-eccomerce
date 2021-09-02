@@ -59,9 +59,12 @@ class ProductDetail extends StatelessWidget {
     List<Widget> colorContainer = [];
     for (int i = 0; i < color.length; i++) {
       print("Color for the widget: ${color}");
-      colorContainer.add(ColorContainer(color: Color(int.parse(color[i]!)) , selected: false,));
+      colorContainer.add(ColorContainer(
+        color: Color(int.parse(color[i]!)),
+        selected: false,
+      ));
     }
-    
+
     print("Build is sucessfully finished");
     return Scaffold(
         appBar: AppBar(
