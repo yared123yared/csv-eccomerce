@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/models/product/data.dart';
+import 'package:app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'conditional.dart';
@@ -30,7 +31,11 @@ class _ProductItemState extends State<ProductItem> {
     return InkWell(
         onTap: () {
           setState(() {
-            widget.product.order += 1;
+             Navigator.pushNamed(context, ProductDetail.routeName,
+                              arguments: [
+                               this.widget.product,
+                               this.onClicked,
+                              ]);
           });
           cartBloc.add(AddProduct(singleProduct: widget.product));
         },
