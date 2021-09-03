@@ -1,9 +1,12 @@
+import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
+
 import 'package:app/models/navigation/navigation.dart';
 // import 'package:app/screens/client_new_screen.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
@@ -127,9 +130,13 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => PaymentsScreen(),
       );
-    }else if (settings.name == DashBoardScreen.routeName) {
+    } else if (settings.name == DashBoardScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => DashBoardScreen(),
+      );
+    } else if (settings.name == PdafScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => PdafScreen(0),
       );
     }
     return MaterialPageRoute(builder: (context) => Login());

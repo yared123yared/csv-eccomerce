@@ -21,7 +21,7 @@ class NumberDashboardBloc
     if (event is FeatchNumberDashevent) {
       yield NumberDashLoadingState();
       try {
-        var numberdash = await numbersDataProvider.getNumberDashBord();
+        final numberdash = await numbersDataProvider.getNumberDashBord();
         yield NumberDashSuccessState(
           numberdash,
         );

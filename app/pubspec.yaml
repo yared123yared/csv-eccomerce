@@ -47,6 +47,7 @@ dependencies:
   #dowanlod image
   permission_handler: ^8.1.4+2
   syncfusion_flutter_charts: ^19.2.57
+  syncfusion_flutter_pdfviewer: ^19.2.59-beta
   flutter_cached_pdfview: ^0.4.0-nullsafety
 
  

@@ -29,7 +29,8 @@ class AllOrderDataProvider {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode({
+            body: jsonEncode(
+              {
               "tableColumns": [
                 "created_at",
                 "order_number",
@@ -47,7 +48,8 @@ class AllOrderDataProvider {
               "relationship": false,
               "relationship_field": "",
               "dir": "desc"
-            }));
+            }
+            ));
 
         if (response.statusCode == 200) {
           APICacheDBModel cacheDBModel = new APICacheDBModel(

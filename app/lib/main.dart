@@ -1,3 +1,4 @@
+import 'package:app/Blocs/PDF/bloc/pdf_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/recent_data_provider.dart';
 import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
+import 'package:app/data_provider/pdf/pdf_data_provider.dart';
 import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
@@ -184,12 +186,6 @@ class App extends StatelessWidget {
                 LocationBloc(locationRepository: this.locationRepository),
           ),
 
-          // BlocProvider<ReportCubit>(
-          //   create: (BuildContext context) => ReportCubit(userPreferences)
-          //     ..postSalesReport(
-          //       nameSearch: "",
-          //       dateFrom: "",
-          //     ),
           BlocProvider<SalesReportCubit>(
               create: (BuildContext context) =>
                   SalesReportCubit(userPreferences)),
@@ -200,13 +196,7 @@ class App extends StatelessWidget {
           ),
           BlocProvider<CollectionReportCubit>(
               create: (BuildContext context) =>
-                  CollectionReportCubit(userPreferences)
-              // ..postCollectionReport(
-              //   nameSearch: "",
-              //   dateFrom: "",
-              //   dateTo: "",
-              // ),
-              ),
+                  CollectionReportCubit(userPreferences)),
           BlocProvider<CollectionBloc>(
             create: (_) => CollectionBloc(
               CollectionDataProvider(userPreferences),
@@ -240,25 +230,28 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider<NumberDashboardBloc>(
-              create: (_) => NumberDashboardBloc(
-                    NumbersDataProvider(userPreferences),
-                  )
-              // ..add(FeatchNumberDashevent()),
-              ),
+            create: (_) => NumberDashboardBloc(
+              NumbersDataProvider(userPreferences),
+            ),
+          ),
           BlocProvider<RecentOrderBloc>(
               create: (_) => RecentOrderBloc(
                     RecentDataProvider(userPreferences),
-                  )
-              // ..add(FeatchRecentOrderEvent()),
-              ),
+                  )),
           BlocProvider<DailyChartBloc>(
               create: (_) => DailyChartBloc(
                     DailyChartDataProvider(userPreferences),
                   )),
           BlocProvider<MonthlyChartBloc>(
-              create: (_) => MonthlyChartBloc(
-                    MOnthlyChartDataProvider(userPreferences),
-                  )),
+            create: (_) => MonthlyChartBloc(
+              MOnthlyChartDataProvider(userPreferences),
+            ),
+          ),
+          BlocProvider<PdfBloc>(
+            create: (_) => PdfBloc(
+              PdfDataProvider(userPreferences),
+            )..add(FeatchPdfEvent(0)),
+          ),
         ],
         child: MaterialApp(
           title: 'CSV',
