@@ -97,8 +97,6 @@ class RecentDataProvider {
 
         final data = extractedData['orders']['data'];
 
-        // print(recentOrder.length);
-
         return data
             .map((searchrecentorder) => searchRecentOrder
                 .add(RecentOrderData.fromJson(searchrecentorder)))

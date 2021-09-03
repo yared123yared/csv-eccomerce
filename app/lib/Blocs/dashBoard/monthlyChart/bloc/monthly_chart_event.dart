@@ -10,9 +10,3 @@ class FeatchMonthlyChartEvent extends MonthlyChartEvent {
 
   FeatchMonthlyChartEvent(this.dateFromSearch);
 }
-
-// class MonthlyChartFromTOEvent extends MonthlyChartEvent {
-
-
-//   MonthlyChartFromTOEvent(this.dateFromSearch);
-// }

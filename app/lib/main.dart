@@ -1,4 +1,4 @@
-import 'package:app/Blocs/PDF/bloc/pdf_bloc.dart';
+
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
@@ -19,7 +19,6 @@ import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/recent_data_provider.dart';
 import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
-import 'package:app/data_provider/pdf/pdf_data_provider.dart';
 import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
 import 'package:app/repository/location_repository.dart';
@@ -247,11 +246,7 @@ class App extends StatelessWidget {
               MOnthlyChartDataProvider(userPreferences),
             ),
           ),
-          BlocProvider<PdfBloc>(
-            create: (_) => PdfBloc(
-              PdfDataProvider(userPreferences),
-            )..add(FeatchPdfEvent(0)),
-          ),
+         
         ],
         child: MaterialApp(
           title: 'CSV',

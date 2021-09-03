@@ -3,7 +3,6 @@ import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart'
 import 'package:app/Widget/reports/salesReport/data_container.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
-import 'package:app/Widget/reports/salesReport/search_data_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,31 +52,26 @@ class SalesReportScreens extends StatelessWidget {
               Column(
                 children: [
                   FromToContainer(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: primaryColor,
-                      minimumSize: const Size(400, 40),
-                      shape: const StadiumBorder(),
-                    ),
-                    onPressed: () {
-                      cubit.clearAll();
-                      // cubit.postSalesReport(
-                      //   nameSearch: "",
-                      //   dateFrom: "",
-                      //   dateTo: "",
-                      // );
-                    },
-                    child: const Text(
-                      "Clear",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 20,
+                  // ),
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     primary: primaryColor,
+                  //     minimumSize: const Size(400, 40),
+                  //     shape: const StadiumBorder(),
+                  //   ),
+                  //   onPressed: () {
+                  //     cubit.clearAll();
+                  //   },
+                  //   child: const Text(
+                  //     "Clear",
+                  //     style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontSize: 16,
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 10,
                   ),
@@ -85,33 +79,9 @@ class SalesReportScreens extends StatelessWidget {
                   SizedBox(
                     height: 15,
                   ),
-                  Text(
-                    "Showing 1 to 5 of 5 entries",
-                    style: TextStyle(
-                      color: Colors.black45,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
                 ],
               ),
-              if (cubit.dateFromText.isNotEmpty)
-                Expanded(
-                  child: SearchDataContainer(),
-                )
-              else if (cubit.dateToText.isNotEmpty)
-                Expanded(
-                  child: SearchDataContainer(),
-                )
-              else if (cubit.searchController.text.isNotEmpty)
-                Expanded(
-                  child: SearchDataContainer(),
-                )
-              else
-                Expanded(
-                  child: DataContainer(),
-                ),
+              Expanded(child: DataContainer()),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(

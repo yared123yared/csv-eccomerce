@@ -9,8 +9,7 @@ class FromToDashBoard extends StatefulWidget {
 }
 
 class _FromToDashBoardState extends State<FromToDashBoard> {
-  TextEditingController fromsearchController = TextEditingController();
-  TextEditingController toearchController = TextEditingController();
+ 
   bool isFormDate = false;
   bool isToDate = false;
   DateTime dateForm = DateTime.now();
@@ -121,39 +120,6 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                   ),
                 ],
               ),
-              // child: TextFormField(
-              //   // controller: fromsearchController,
-              //   keyboardType: TextInputType.streetAddress,
-              //   //readOnly: true,
-
-              //   // enableInteractiveSelection: true,
-              //   // onFieldSubmitted: (String value) {},
-
-              //   onFieldSubmitted: (value) {
-              //     BlocProvider.of<MonthlyChartBloc>(context)
-              //         .add(FeatchMonthlyChartEvent(value));
-              //   },
-              //   // onSaved: (String ? value) {
-              //   //   dateFromText = value;
-              //   // },
-              //   decoration: InputDecoration(
-              //     hintText: isFormDate ? dateFromText : "From",
-              //     border: InputBorder.none,
-              //     hintStyle: TextStyle(
-              //       fontSize: 18,
-              //       color: Color(0xff414e79),
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //     suffixIcon: IconButton(
-              //       onPressed: () {
-              //         setState(() {
-              //           selectFormTimePicker(context);
-              //         });
-              //       },
-              //       icon: Image.asset("assets/images/date.png"),
-              //     ),
-              //   ),
-              // ),
             ),
           ),
           Container(
@@ -207,34 +173,6 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                   ),
                 ],
               ),
-              // child: TextFormField(
-              //   readOnly: true,
-              //   controller: toearchController,
-              //   keyboardType: TextInputType.text,
-              //   onFieldSubmitted: (String value) {
-              //     // BlocProvider.of<DailyChartBloc>(context)
-              //     //     .add(DateFromToEvent(value, ""));
-              //     //print("WALIIDIDIDI $value");
-              //   },
-              //   onChanged: (String value) {},
-              //   decoration: InputDecoration(
-              //     hintText: isToDate ? dateToText : "To",
-              //     border: InputBorder.none,
-              //     hintStyle: TextStyle(
-              //       fontSize: 18,
-              //       color: Color(0xff414e79),
-              //       fontWeight: FontWeight.bold,
-              //     ),
-              //     suffixIcon: IconButton(
-              //       onPressed: () {
-              //         setState(() {
-              //           selectToTimePicker(context);
-              //         });
-              //       },
-              //       icon: Image.asset("assets/images/date.png"),
-              //     ),
-              //   ),
-              // ),
             ),
           ),
         ],

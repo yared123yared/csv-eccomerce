@@ -140,62 +140,62 @@ class SalesReportCubit extends Cubit<SalesReportState> {
   //   emit(FeatchDataSucessState());
   // }
 
-  Future postSalesReport({
-    required String nameSearch,
-    required String dateFrom,
-    required String dateTo,
-  }) async {
-    String? token = await this.userPreferences.getUserToken();
+  // Future postSalesReport({
+  //   required String nameSearch,
+  //   required String dateFrom,
+  //   required String dateTo,
+  // }) async {
+  //   String? token = await this.userPreferences.getUserToken();
 
-    try {
-      final url =
-          Uri.parse('http://csv.jithvar.com/api/v1/orders/sales-report');
-      final response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode({
-            "tableColumns": [
-              "order_number",
-              "order_number",
-              "client",
-              "total",
-              "amount_paid",
-              "amount_remaining"
-            ],
-            "draw": 0,
-            "length": 10,
-            "column": 0,
-            "dir": "desc",
-            "created_at": "",
-            "order_number": "",
-            "name": nameSearch,
-            "total": "",
-            "amount_remaining": "",
-            "amount_paid": "",
-            "to": dateTo,
-            "from": dateFrom
-          }));
+  //   try {
+  //     final url =
+  //         Uri.parse('http://csv.jithvar.com/api/v1/orders/sales-report');
+  //     final response = await http.post(url,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Accept': 'application/json',
+  //           'Authorization': 'Bearer $token',
+  //         },
+  //         body: jsonEncode({
+  //           "tableColumns": [
+  //             "order_number",
+  //             "order_number",
+  //             "client",
+  //             "total",
+  //             "amount_paid",
+  //             "amount_remaining"
+  //           ],
+  //           "draw": 0,
+  //           "length": 10,
+  //           "column": 0,
+  //           "dir": "desc",
+  //           "created_at": "",
+  //           "order_number": "",
+  //           "name": nameSearch,
+  //           "total": "",
+  //           "amount_remaining": "",
+  //           "amount_paid": "",
+  //           "to": dateTo,
+  //           "from": dateFrom
+  //         }));
 
-      if (response.statusCode == 200) {
-        isComeData = true;
-        final extractedData =
-            json.decode(response.body) as Map<String, dynamic>;
+  //     if (response.statusCode == 200) {
+  //       isComeData = true;
+  //       final extractedData =
+  //           json.decode(response.body) as Map<String, dynamic>;
 
-        final data = extractedData['orders'];
+  //       final data = extractedData['orders'];
 
-        saleReportModel = SaleReportModel.fromJson(data);
+  //       saleReportModel = SaleReportModel.fromJson(data);
 
-        print("Walid : ${saleReportModel.data![0].client!.mobile}");
-      } else {
-        isComeData = false;
-        throw Exception('Failed to load courses');
-      }
-    } catch (e) {
-      print("Exception throuwn $e");
-    }
-    emit(FeatchDataSucessState());
-  }
+  //       print("Walid : ${saleReportModel.data![0].client!.mobile}");
+  //     } else {
+  //       isComeData = false;
+  //       throw Exception('Failed to load courses');
+  //     }
+  //   } catch (e) {
+  //     print("Exception throuwn $e");
+  //   }
+  //   emit(FeatchDataSucessState());
+  // }
 }

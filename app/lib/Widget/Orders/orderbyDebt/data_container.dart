@@ -1,4 +1,5 @@
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
+import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,29 +55,20 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
                     children: [
                       buildrowData(
                           text: 'DATE',
-                          // dateApi:
-                          //     "${cubit.orderByDebtModel.data![index].createdAt}",
                           dateApi: "${state.orderbydept[index].createdAt}"),
                       buildrowData(
                         text: 'ORDER',
-                        // dateApi:
-                        //     "${cubit.orderByDebtModel.data![index].orderNumber}",
                         dateApi: "${state.orderbydept[index].orderNumber}",
                       ),
                       buildrowData(
                           text: 'CLIENT ',
-                          // dateApi:
-                          //     "${cubitData![index].client!.firstName} ${cubitData[index].client!.lastName}",
                           dateApi:
-                              "${state.orderbydept[index].client!.firstName} ${state.orderbydept[index].client!.lastName}}"),
+                              "${state.orderbydept[index].client!.firstName} ${state.orderbydept[index].client!.lastName}"),
                       buildrowData(
                           text: 'TOTAL',
-                          // dateApi: '${cubit.orderByDebtModel.data![index].total}',
                           dateApi: '${state.orderbydept[index].total}'),
                       buildrowData(
                           text: 'DEBT',
-                          // dateApi:
-                          // '${cubit.orderByDebtModel.data![index].amountRemaining}',
                           dateApi:
                               '${state.orderbydept[index].amountRemaining}'),
                       Padding(
@@ -93,9 +85,9 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  // PrintButton(
-                                  //   index: index,
-                                  // );
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => PdafScreen(
+                                          state.orderbydept[index].id)));
                                 },
                               ),
                             ),
@@ -173,7 +165,7 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
                       buildrowData(
                           text: 'CLIENT ',
                           dateApi:
-                              "${state.searchOrderByDebt[index].client!.firstName} ${state.searchOrderByDebt[index].client!.lastName}}"),
+                              "${state.searchOrderByDebt[index].client!.firstName} ${state.searchOrderByDebt[index].client!.lastName}"),
                       buildrowData(
                           text: 'TOTAL',
                           dateApi: '${state.searchOrderByDebt[index].total}'),

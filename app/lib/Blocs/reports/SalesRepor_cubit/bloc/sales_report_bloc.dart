@@ -20,10 +20,28 @@ class SalesReportBloc extends Bloc<SalesReportEvent, SalesReportState> {
     if (event is FeatchSalesReportEvent) {
       yield SalesReportLoadingState();
       try {
-        var salesReports = await salesReportDataProvider.getSalesReport();
+        final salesReports = await salesReportDataProvider.getSalesReport();
         yield SalesReportSuccessState(
           salesReports,
         );
+      } catch (e) {
+        yield SalesReportErrorState(e.toString());
+      }
+    } else if (event is SearchSealsReportEvent) {
+      try {
+        final searchOrder = await salesReportDataProvider.getSearchSalesReport(
+            nameSearch: event.searchName);
+        yield SearchSalesReportSuccessState(searchOrder);
+      } catch (e) {
+        yield SalesReportErrorState(e.toString());
+      }
+    } else if (event is FromToReportEvent) {
+      yield FromToSalesReportLoadingState();
+      try {
+        final fromToSalesReport =
+            await salesReportDataProvider.getFromToSalesReport(
+                fromDate: event.fromDate, toDate: event.toDate);
+        yield FromToSalesReportSuccessState(fromToSalesReport);
       } catch (e) {
         yield SalesReportErrorState(e.toString());
       }

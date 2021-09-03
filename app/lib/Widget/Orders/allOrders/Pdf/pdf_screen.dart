@@ -60,9 +60,6 @@ class _PdafScreenState extends State<PdafScreen> {
             json.decode(response.body) as Map<String, dynamic>;
 
         urlImagePdf = extractedData;
-        print("================");
-        print("https://csv.jithvar.com${urlImagePdf!['url']}");
-        print("================");
 
         //pdfScreen = PdfModel.fromJson(extractedData);
       } else {
@@ -98,19 +95,6 @@ class _PdafScreenState extends State<PdafScreen> {
               "https://csv.jithvar.com${urlImagePdf!['url']}",
               controller: _pdfViewerController,
             ),
-      // body: FutureBuilder(
-      //   future: getPdfScreen(0),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return SfPdfViewer.network(
-      //         "https://csv.jithvar.com${urlImagePdf!['url']}",
-      //         controller: _pdfViewerController,
-      //       );
-      //     } else {
-      //       return Center(child: CircularProgressIndicator());
-      //     }
-      //   },
-      // ),
     );
   }
 }
