@@ -19,13 +19,30 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     if (event is FeatchCollectionEvent) {
       yield CollectionLoadingState();
       try {
-        var collection = await collectionDataProvider.getCollectionReport();
+        final collection = await collectionDataProvider.getCollectionReport();
         yield CollectionSuccessState(
           collection,
         );
       } catch (e) {
         yield CollectionErrorState(e.toString());
       }
+    } else if (event is SearchCollectionEvent) {
+      yield SearchCollectionLoadingState();
+      try {
+        final searchCollection = await collectionDataProvider
+            .getSearchCollectionReport(event.searchName);
+        yield SearchCollectionSuccessState(searchCollection);
+      } catch (e) {
+        yield CollectionErrorState(e.toString());
+      }
+    } else if (event is FromToCollectionEvent) {
+      yield FromToCollectionLoadingState();
+      try {
+        final fromToCollection =
+            await collectionDataProvider.getFromToCollectionReport(
+                dateTo: event.toDate, dateFrom: event.fromDate);
+        yield FromToCollectionSuccessState(fromToCollection);
+      } catch (e) {}
     }
   }
 }

@@ -1,6 +1,4 @@
 import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

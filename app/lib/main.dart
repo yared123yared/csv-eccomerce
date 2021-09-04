@@ -1,6 +1,4 @@
-
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
-
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
@@ -11,8 +9,6 @@ import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
-import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
-import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
 import 'package:app/data_provider/dashboard/daliy_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
@@ -30,9 +26,10 @@ import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
 import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
+import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
+import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
 import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
-import 'Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
 import 'data_provider/dashboard/numbers_data_provider.dart';
 import 'data_provider/orderDrawer/orderbyDebt_data_provider.dart';
 import 'data_provider/payments/payment_data_provider.dart';
@@ -184,10 +181,6 @@ class App extends StatelessWidget {
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),
           ),
-
-          BlocProvider<SalesReportCubit>(
-              create: (BuildContext context) =>
-                  SalesReportCubit(userPreferences)),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),
@@ -246,7 +239,6 @@ class App extends StatelessWidget {
               MOnthlyChartDataProvider(userPreferences),
             ),
           ),
-         
         ],
         child: MaterialApp(
           title: 'CSV',

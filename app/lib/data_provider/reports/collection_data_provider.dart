@@ -13,71 +13,12 @@ class CollectionDataProvider {
   Future<List<DataCollection>> getCollectionReport() async {
     String? token = await this.userPreferences.getUserToken();
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    var isCacheExist =
-        await APICacheManager().isAPICacheKeyExist("API_CollectionReport");
+
+    await APICacheManager().isAPICacheKeyExist("off_CollectionReport");
     late List<DataCollection> datatCollection = [];
-    if (connected) {
-      try {
-        final url = Uri.parse(
-            'http://csv.jithvar.com/api/v1/payments/reports/collection');
-        final response = await http.post(
-          url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: jsonEncode({
-            "tableColumns": [
-              "created_at",
-              "payment_method",
-              "id",
-              "client",
-              "amount_remaining",
-              "status",
-              "reason_denied",
-              "actions"
-            ],
-            "draw": 0,
-            "length": 10,
-            "column": 0,
-            "dir": "desc",
-            "created_at": "",
-            "name": "",
-            "amount_paid": "",
-            "to": "",
-            "from": "",
-            "orderNumber": "",
-            "payment_method": "",
-            "status": ""
-          }),
-        );
-        if (response.statusCode == 200) {
-          await APICacheManager().deleteCache("API_CollectionReport");
-          APICacheDBModel cacheDBModel = new APICacheDBModel(
-            key: "API_CollectionReport",
-            syncData: response.body,
-          );
-          await APICacheManager().addCacheData(cacheDBModel);
-          final extractedData =
-              json.decode(response.body) as Map<String, dynamic>;
 
-          final data = extractedData['collections']['data'];
-
-          // print(data);
-          return data
-              .map((salesReport) =>
-                  datatCollection.add(DataCollection.fromJson(salesReport)))
-              .toList();
-        } else {
-          throw Exception('Failed to load courses');
-        }
-      } catch (e) {
-        print("Exception throuwn $e");
-      }
-    }
     try {
-      if (!isCacheExist) {
+      if (connected) {
         final url = Uri.parse(
             'http://csv.jithvar.com/api/v1/payments/reports/collection');
         final response = await http.post(
@@ -99,7 +40,7 @@ class CollectionDataProvider {
               "actions"
             ],
             "draw": 0,
-            "length": 10,
+            "length": 10000,
             "column": 0,
             "dir": "desc",
             "created_at": "",
@@ -114,7 +55,7 @@ class CollectionDataProvider {
         );
         if (response.statusCode == 200) {
           APICacheDBModel cacheDBModel = new APICacheDBModel(
-            key: "API_CollectionReport",
+            key: "off_CollectionReport",
             syncData: response.body,
           );
           await APICacheManager().addCacheData(cacheDBModel);
@@ -123,7 +64,6 @@ class CollectionDataProvider {
 
           final data = extractedData['collections']['data'];
 
-          // print(data);
           return data
               .map((salesReport) =>
                   datatCollection.add(DataCollection.fromJson(salesReport)))
@@ -133,13 +73,12 @@ class CollectionDataProvider {
         }
       } else {
         var cacheData =
-            await APICacheManager().getCacheData("API_CollectionReport");
+            await APICacheManager().getCacheData("off_CollectionReport");
         final extractedData =
             json.decode(cacheData.syncData) as Map<String, dynamic>;
 
         final data = extractedData['collections']['data'];
 
-        // print(data);
         return data
             .map((salesReport) =>
                 datatCollection.add(DataCollection.fromJson(salesReport)))
@@ -149,5 +88,125 @@ class CollectionDataProvider {
       print("Exception throuwn $e");
     }
     return datatCollection;
+  }
+
+//////////////Search name
+
+  Future<List<DataCollection>> getSearchCollectionReport(
+      String nameSearch) async {
+    String? token = await this.userPreferences.getUserToken();
+    late List<DataCollection> searchCollection = [];
+
+    try {
+      final url = Uri.parse(
+          'http://csv.jithvar.com/api/v1/payments/reports/collection');
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode({
+            "tableColumns": [
+              "created_at",
+              "payment_method",
+              "id",
+              "client",
+              "amount_remaining",
+              "status",
+              "reason_denied",
+              "actions"
+            ],
+            "draw": 0,
+            "length": 10000,
+            "column": 0,
+            "dir": "desc",
+            "created_at": "",
+            "name": nameSearch,
+            "amount_paid": "",
+            "to": "",
+            "from": "",
+            "orderNumber": "",
+            "payment_method": "",
+            "status": ""
+          }));
+      if (response.statusCode == 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        final data = extractedData['collections']['data'];
+
+        return data
+            .map((salesReport) =>
+                searchCollection.add(DataCollection.fromJson(salesReport)))
+            .toList();
+      } else {
+        throw Exception('Failed to load courses');
+      }
+    } catch (e) {
+      print("Exception throuwn $e");
+    }
+    return searchCollection;
+  }
+
+  ///fro, to search
+
+  Future<List<DataCollection>> getFromToCollectionReport({
+    required String dateTo,
+    required String dateFrom,
+  }) async {
+    String? token = await this.userPreferences.getUserToken();
+    late List<DataCollection> fromToCollection = [];
+
+    try {
+      final url = Uri.parse(
+          'http://csv.jithvar.com/api/v1/payments/reports/collection');
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode({
+            "tableColumns": [
+              "created_at",
+              "payment_method",
+              "id",
+              "client",
+              "amount_remaining",
+              "status",
+              "reason_denied",
+              "actions"
+            ],
+            "draw": 0,
+            "length": 10000,
+            "column": 0,
+            "dir": "desc",
+            "created_at": "",
+            "name": "",
+            "amount_paid": "",
+            "to": dateTo,
+            "from": dateFrom,
+            "orderNumber": "",
+            "payment_method": "",
+            "status": ""
+          }));
+      if (response.statusCode == 200) {
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+
+        final data = extractedData['collections']['data'];
+
+        return data
+            .map((salesReport) =>
+                fromToCollection.add(DataCollection.fromJson(salesReport)))
+            .toList();
+      } else {
+        throw Exception('Failed to load courses');
+      }
+    } catch (e) {
+      print("Exception throuwn $e");
+    }
+    return fromToCollection;
   }
 }

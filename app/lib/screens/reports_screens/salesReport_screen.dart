@@ -1,11 +1,8 @@
-import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
-import 'package:app/Blocs/reports/SalesRepor_cubit/cubit/salesreport_state.dart';
 import 'package:app/Widget/reports/salesReport/data_container.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
 import 'package:app/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../drawer.dart';
@@ -19,10 +16,7 @@ class SalesReportScreens extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SalesReportCubit, SalesReportState>(
-      builder: (context, state) {
-        final cubit = SalesReportCubit.get(context);
-        return Scaffold(
+    return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
             backgroundColor: primaryColor,
@@ -52,26 +46,7 @@ class SalesReportScreens extends StatelessWidget {
               Column(
                 children: [
                   FromToContainer(),
-                  // SizedBox(
-                  //   height: 20,
-                  // ),
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(
-                  //     primary: primaryColor,
-                  //     minimumSize: const Size(400, 40),
-                  //     shape: const StadiumBorder(),
-                  //   ),
-                  //   onPressed: () {
-                  //     cubit.clearAll();
-                  //   },
-                  //   child: const Text(
-                  //     "Clear",
-                  //     style: TextStyle(
-                  //       color: Colors.white,
-                  //       fontSize: 16,
-                  //     ),
-                  //   ),
-                  // ),
+                 
                   SizedBox(
                     height: 10,
                   ),
@@ -103,8 +78,6 @@ class SalesReportScreens extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
   }
 
   Widget buildItem(int number) => Container(
