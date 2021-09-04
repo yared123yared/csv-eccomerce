@@ -6,3 +6,9 @@ abstract class BankslipEvent {
 }
 
 class FeatchBankslipEvent extends BankslipEvent {}
+
+class SearchBankslipEvent extends BankslipEvent {
+  final String searchAmount;
+
+  SearchBankslipEvent(this.searchAmount);
+}

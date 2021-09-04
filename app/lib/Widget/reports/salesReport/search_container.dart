@@ -36,6 +36,8 @@ class _SearchContainerState extends State<SearchContainer> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<SalesReportBloc>(context)
+                        .add(FeatchSalesReportEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

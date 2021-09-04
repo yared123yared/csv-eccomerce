@@ -197,6 +197,8 @@ class _FromToContainerColleState extends State<FromToContainerColle> {
                 isFormDate = false;
                 isToDate = false;
               });
+              BlocProvider.of<CollectionBloc>(context)
+                  .add(FeatchCollectionEvent());
             },
             child: const Text(
               "Clear",

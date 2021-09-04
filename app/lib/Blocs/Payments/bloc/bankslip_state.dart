@@ -18,3 +18,11 @@ class BankslipErrorState extends BankslipState {
 
   BankslipErrorState(this.message);
 }
+
+class SearchBankslipLoadingState extends BankslipState {}
+
+class SearchBankslipSuccessState extends BankslipState {
+  final List<DataPayment> searchBankslip;
+
+  SearchBankslipSuccessState(this.searchBankslip);
+}

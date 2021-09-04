@@ -36,6 +36,8 @@ class _SearchContinerAllOrderState extends State<SearchContinerAllOrder> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<AllorderrBloc>(context)
+                        .add(FeatcAllorderrEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

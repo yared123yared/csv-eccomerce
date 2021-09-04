@@ -196,6 +196,8 @@ class _FromToContainerState extends State<FromToContainer> {
                 isFormDate = false;
                 isToDate = false;
               });
+              BlocProvider.of<SalesReportBloc>(context)
+                  .add(FeatchSalesReportEvent());
             },
             child: const Text(
               "Clear",

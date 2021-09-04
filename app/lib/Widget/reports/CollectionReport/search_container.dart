@@ -1,5 +1,3 @@
-
-
 import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,6 +35,8 @@ class _SearchContainerCollState extends State<SearchContainerColl> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<CollectionBloc>(context)
+                        .add(FeatchCollectionEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

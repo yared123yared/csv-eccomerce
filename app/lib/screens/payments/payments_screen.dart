@@ -102,35 +102,10 @@ class PaymentsScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                cubit.isComeData
-                    ? Text(
-                        "Showing 1 to 5 of 5 entries",
-                        style: TextStyle(
-                          color: Colors.black45,
-                        ),
-                      )
-                    : Text(
-                        "Showing 1 to 5 of 5 entries",
-                        style: TextStyle(
-                          color: Colors.black45,
-                        ),
-                      ),
-                SizedBox(
-                  height: 20,
-                ),
 
                 Expanded(
                   child: DataPaymentsContainer(),
                 ),
-                // cubit.isComeData
-                //     ? Expanded(
-                //         child: DataPaymentsContainer(),
-                //       )
-                //     : Center(
-                //         child: Center(
-                //           child: CircularProgressIndicator(),
-                //         ),
-                //       ),
               ],
             ),
           );

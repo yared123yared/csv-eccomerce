@@ -19,8 +19,17 @@ class BankslipBloc extends Bloc<BankslipEvent, BankslipState> {
     if (event is FeatchBankslipEvent) {
       yield BankslipLoadingState();
       try {
-        var bankSlip = await paymentDataProvider.getPayMentConatiner();
+        final bankSlip = await paymentDataProvider.getPayMentConatiner();
         yield BankslipSuccessState(bankSlip);
+      } catch (e) {
+        yield BankslipErrorState(e.toString());
+      }
+    } else if (event is SearchBankslipEvent) {
+      yield SearchBankslipLoadingState();
+      try {
+        final searchBankSlip = await paymentDataProvider
+            .getSearchPayMentConatiner(event.searchAmount);
+        yield SearchBankslipSuccessState(searchBankSlip);
       } catch (e) {
         yield BankslipErrorState(e.toString());
       }

@@ -78,6 +78,10 @@ class _PdafScreenState extends State<PdafScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text(
+          "CSV",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             onPressed: () {
