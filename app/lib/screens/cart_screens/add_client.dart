@@ -96,6 +96,7 @@ class _AddClientState extends State<AddClient> {
                           scrollDirection: Axis.vertical,
                           controller: _scrollController,
                           child: Column(
+                            
                             children: [
                               UpperContainer(),
                               //
@@ -115,6 +116,7 @@ class _AddClientState extends State<AddClient> {
                                   },
                                 ),
                               ),
+
                               PaymentContainer(
                                 formKey: _formKey,
                                 onStateChange: this.setPayment,

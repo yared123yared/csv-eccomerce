@@ -147,7 +147,7 @@ class Company {
   String? address_2;
   String? city;
   String? state;
-  Country? country;
+  String? country;
   String? zipCode;
   int? status;
   Map<String, dynamic>? creator;
@@ -175,7 +175,7 @@ class Company {
     print("c10");
     state = null;
     print("c11");
-    country = Country.fromJson(json['country']);
+    country = json['country'];
     print("c12");
     zipCode = json['zip_code'];
     print("c13");
@@ -199,9 +199,10 @@ class Company {
     _data['address_2'] = address_2;
     _data['city'] = city;
     _data['state'] = state;
-    if (country != null) {
-      _data['country'] = country!.toJson();
-    }
+    // if (country != null) {
+    //   _data['country'] = country!.toJson();
+    // }
+    _data['country'] = country;
     _data['zip_code'] = zipCode;
     _data['status'] = status;
     _data['creator'] = creator;
