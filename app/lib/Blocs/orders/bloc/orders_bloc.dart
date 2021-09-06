@@ -13,7 +13,7 @@ import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
+import 'package:flutter_sms/flutter_sms.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
@@ -40,9 +40,15 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-          yield (OrderCreatedSuccess(
-            request: state.request
-          ));
+          //
+          String _result =
+              await sendSMS(message: "Test", recipients: ['0916897173'])
+                  .catchError((onError) {
+            print(onError);
+          });
+          print(_result);
+//
+          yield (OrderCreatedSuccess(request: state.request));
         } else {
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));
@@ -53,9 +59,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
               (await CsvDatabse.instance.createRequest(event.request!));
           if (value == true) {
             print("Order Successfully created locally");
-            yield (OrderCreatedSuccess(
-              request: state.request
-            ));
+            yield (OrderCreatedSuccess(request: state.request));
           } else {
             print("failed to create order locally");
             yield (OrderCreatingFailed(message: "Failed to create order"));
