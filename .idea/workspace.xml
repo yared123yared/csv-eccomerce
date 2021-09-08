@@ -28,6 +28,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
 <<<<<<< HEAD
@@ -69,12 +70,19 @@
       <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
 >>>>>>> walid
     </list>
+=======
+    <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="" />
+>>>>>>> a5deca64ff5d2428e34fbc58d2ed811957c17b45
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30.avd]" />
+=======
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@RF8N82B2B6T]" />
+>>>>>>> a5deca64ff5d2428e34fbc58d2ed811957c17b45
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -95,7 +103,7 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunManager">
@@ -157,9 +165,10 @@
       <screen x="0" y="25" width="1440" height="788" />
     </state>
     <state x="325" y="63" key="#Plugins/0.25.1440.788@0.25.1440.788" timestamp="1630076385852" />
-    <state x="107" y="54" key="SettingsEditor" timestamp="1630440508625">
-      <screen x="0" y="25" width="1440" height="788" />
+    <state x="107" y="54" width="1213" height="728" key="SettingsEditor" timestamp="1630519108166">
+      <screen x="0" y="25" width="1440" height="791" />
     </state>
     <state x="107" y="54" key="SettingsEditor/0.25.1440.788@0.25.1440.788" timestamp="1630440508625" />
+    <state x="107" y="54" width="1213" height="728" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1630519108166" />
   </component>
 </project>

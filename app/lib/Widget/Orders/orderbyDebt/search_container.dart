@@ -36,6 +36,8 @@ class _SearchOrderBtDebtState extends State<SearchOrderBtDebt> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<OrderbydebtBloc>(context)
+                        .add(FeatchOrderbydebtEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

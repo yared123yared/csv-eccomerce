@@ -14,62 +14,44 @@ class OrderByDebtDataProvider {
   Future<List<DataOrderByDebt>> getOrdersByDebt() async {
     String? token = await this.userPreferences.getUserToken();
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    var isCacheExist =
-        await APICacheManager().isAPICacheKeyExist("API_OrderByDebt");
+    await APICacheManager().isAPICacheKeyExist("off_OrderByDebt");
     late List<DataOrderByDebt> orderByDebtdata = [];
 
     try {
       if (connected) {
-        await APICacheManager().deleteCache("API_OrderByDebt");
-        if (!isCacheExist) {
-          final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/debts');
-          final response = await http.post(url,
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer $token',
-              },
-              body: jsonEncode({
-                "tableColumns": [
-                  "created_at",
-                  "order_number",
-                  "client",
-                  "total",
-                  "amount_remaining",
-                  "actions"
-                ],
-                "draw": 10,
-                "length": 100,
-                "search": "",
-                "column": 0,
-                "field": "",
-                "relationship": false,
-                "relationship_field": "",
-                "dir": "desc"
-              }));
-          if (response.statusCode == 200) {
-            APICacheDBModel cacheDBModel = new APICacheDBModel(
-              key: "API_OrderByDebt",
-              syncData: response.body,
-            );
-            await APICacheManager().addCacheData(cacheDBModel);
-            final extractedData =
-                json.decode(response.body) as Map<String, dynamic>;
-
-            final data = extractedData['orders']['data'];
-
-            return data
-                .map((orderbydebts) =>
-                    orderByDebtdata.add(DataOrderByDebt.fromJson(orderbydebts)))
-                .toList();
-          } else {
-            throw Exception('Failed to load courses');
-          }
-        } else {
-          var cacheData =
-              await APICacheManager().getCacheData("API_OrderByDebt");
+        final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/debts');
+        final response = await http.post(url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: jsonEncode({
+              "tableColumns": [
+                "created_at",
+                "order_number",
+                "client",
+                "total",
+                "amount_remaining",
+                "actions"
+              ],
+              "draw": 10,
+              "length": 10000,
+              "search": "",
+              "column": 0,
+              "field": "",
+              "relationship": false,
+              "relationship_field": "",
+              "dir": "desc"
+            }));
+        if (response.statusCode == 200) {
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+            key: "off_OrderByDebt",
+            syncData: response.body,
+          );
+          await APICacheManager().addCacheData(cacheDBModel);
           final extractedData =
-              json.decode(cacheData.syncData) as Map<String, dynamic>;
+              json.decode(response.body) as Map<String, dynamic>;
 
           final data = extractedData['orders']['data'];
 
@@ -77,9 +59,11 @@ class OrderByDebtDataProvider {
               .map((orderbydebts) =>
                   orderByDebtdata.add(DataOrderByDebt.fromJson(orderbydebts)))
               .toList();
+        } else {
+          throw Exception('Failed to load courses');
         }
       } else {
-        var cacheData = await APICacheManager().getCacheData("API_OrderByDebt");
+        var cacheData = await APICacheManager().getCacheData("off_OrderByDebt");
         final extractedData =
             json.decode(cacheData.syncData) as Map<String, dynamic>;
 
@@ -118,7 +102,7 @@ class OrderByDebtDataProvider {
               "actions"
             ],
             "draw": 0,
-            "length": 100,
+            "length": 10000,
             "search": searchName,
             "column": 0,
             "field": "client",

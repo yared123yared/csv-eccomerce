@@ -31,7 +31,6 @@ class User {
   String? emailVerifiedAt;
   int? active;
   int? forcePwChange;
-
   User.fromJson(Map<String, dynamic> json) {
     print("1");
     id = json['id'];
@@ -70,7 +69,6 @@ class User {
     forcePwChange = json['force_pw_change'];
     print("16");
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -97,7 +95,6 @@ class User {
     return _data;
   }
 }
-
 class Role {
   Role({
     required this.id,
@@ -105,12 +102,10 @@ class Role {
   });
   late final int id;
   late final String name;
-
   Role.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -118,7 +113,6 @@ class Role {
     return _data;
   }
 }
-
 class Company {
   Company({
     this.id,
@@ -152,7 +146,6 @@ class Company {
   int? status;
   Map<String, dynamic>? creator;
   Map<String, dynamic>? updater;
-
   Company.fromJson(Map<String, dynamic> json) {
     print("c1");
     id = json['id'];
@@ -186,7 +179,6 @@ class Company {
     updater = json['updator'];
     print("c16");
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -210,7 +202,6 @@ class Company {
     return _data;
   }
 }
-
 class Country {
   Country({
     required this.id,
@@ -232,7 +223,6 @@ class Country {
   String? phonecode;
   int? status;
   String? createdAt;
-
   Country.fromJson(Map<String, dynamic> json) {
     print("ct1");
     id = json['id'];
@@ -254,7 +244,6 @@ class Country {
     createdAt = json['created_at'];
     print("ct10");
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
@@ -269,7 +258,6 @@ class Country {
     return _data;
   }
 }
-
 class Photo {
   Photo({
     this.id,
@@ -285,7 +273,6 @@ class Photo {
   int? forceDownload;
   String? filePath;
   String? createdAt;
-
   Photo.fromJson(Map<String, dynamic> json) {
     print("p1");
     id = json['id'];
@@ -301,7 +288,6 @@ class Photo {
     createdAt = json['created_at'];
     print("p7");
   }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;

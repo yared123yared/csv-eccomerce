@@ -35,6 +35,8 @@ class _SearchCustomerDebtState extends State<SearchCustomerDebt> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<CustomDebtBloc>(context)
+                        .add(FeatchCustomDebtEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

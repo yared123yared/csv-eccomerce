@@ -19,6 +19,7 @@ class AllorderrBloc extends Bloc<AllorderrEvent, AllorderrState> {
   @override
   Stream<AllorderrState> mapEventToState(
     AllorderrEvent event,
+    
   ) async* {
     if (event is FeatcAllorderrEvent) {
       yield AllOrderrLoadingState();

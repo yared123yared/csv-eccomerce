@@ -35,6 +35,8 @@ class _SearchCDashBoardState extends State<SearchCDashBoard> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     searchController.clear();
+                    BlocProvider.of<RecentOrderBloc>(context)
+                        .add(FeatchRecentOrderEvent());
                   },
                   icon: Icon(Icons.close),
                 ),

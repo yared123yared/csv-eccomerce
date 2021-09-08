@@ -29,7 +29,6 @@ dependencies:
   flutter_progress_hud: ^2.0.0
   awesome_dialog: ^2.1.0
   font_awesome_flutter: ^9.1.0
-
   flutter_swiper: ^1.1.6
   flutter_swiper_null_safety: ^1.0.2
   auto_size_text: ^3.0.0-nullsafety.0
@@ -53,8 +52,16 @@ dependencies:
   flutter_cached_pdfview: ^0.4.0-nullsafety
   flutter_sms: ^2.3.1
   sms: ^0.2.4
-  open_file: ^3.2.1
+
   pdf: ^3.5.0
+  syncfusion_flutter_pdfviewer: ^19.2.59-beta
+  image_gallery_saver: ^1.6.9
+  #Export Excel
+  syncfusion_flutter_xlsio: ^19.2.60-beta
+  path_provider: ^2.0.3
+  open_file: ^3.2.1
+
+  
 
  
 
