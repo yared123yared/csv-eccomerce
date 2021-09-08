@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/db/db.dart';
-import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
@@ -12,8 +9,7 @@ import 'package:app/models/request/request.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_sms/flutter_sms.dart';
+// import 'package:flutter_sms/flutter_sms.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
@@ -41,12 +37,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
           //
-          String _result =
-              await sendSMS(message: "Test", recipients: ['0916897173'])
-                  .catchError((onError) {
-            print(onError);
-          });
-          print(_result);
+          // String _result =
+          //     await sendSMS(message: "Test", recipients: ['0916897173'])
+          //         .catchError((onError) {
+          //   print(onError);
+          // });
+          // print(_result);
 //
           yield (OrderCreatedSuccess(request: state.request));
         } else {
@@ -83,11 +79,13 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       List<Cart> carts = [];
       for (int i = 0; i < event.cartProducts.length; i++) {
         print("Cart Value: ${event.cartProducts[i].id}");
+        print("Prodcut Attributes: ${event.cartProducts[i].selectedAttributes}");
         carts.add(
           Cart(
               id: event.cartProducts[i].id,
               amountInCart: event.cartProducts[i].order,
-              selectedAttributes: []),
+              selectedAttributes:event.cartProducts[i].selectedAttributes
+              ),
         );
       }
       request.cart = carts;

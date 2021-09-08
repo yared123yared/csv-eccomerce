@@ -10,25 +10,29 @@ class CustomeDropDown extends StatefulWidget {
 }
 
 class _CustomeDropDownState extends State<CustomeDropDown> {
-  late String? dropdownValue = '';
+  Attributes? dropdownValue = null;
+  // List<Attributes> selectedAttributesObject = [];
 
   @override
   Widget build(BuildContext context) {
     Data product = widget.product;
-    List<String?> size = [];
+    List<Attributes?> size = [];
 
     for (int i = 0; i < product.attributes!.length; i++) {
       List<Attributes> attributes = product.attributes as List<Attributes>;
       if (attributes[i].name!.contains('Size')) {
         print("Size:  ${attributes[i].pivot!.value}");
-        size.add(attributes[i].pivot!.value);
+        size.add(attributes[i]);
       }
     }
-    if (dropdownValue == '') {
+
+    if (dropdownValue == null) {
       dropdownValue = size[0];
+      // selectedAttributesObject.add(dropdownValue!);
+       product.selectedAttributes!.add(dropdownValue!.pivot!.id as int);
     }
 
-    return DropdownButton<String>(
+    return DropdownButton<Attributes>(
         value: dropdownValue,
         icon: const Icon(Icons.arrow_downward),
         iconSize: 24,
@@ -38,17 +42,48 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
           height: 2,
           color: Colors.deepPurpleAccent,
         ),
-        onChanged: (String? newValue) {
+        onChanged: (Attributes? newValue) {
+          print("Newly selected attributes: ${newValue!.pivot!.id}");
           setState(() {
-            dropdownValue = newValue!;
+            dropdownValue = newValue;
+            // selectedAttributesObject = [];
           });
+          // for (int i = 0; i < selectedAttributesObject.length; i++) {
+          //   //
+          //   if (selectedAttributesObject[i].id == newValue.id) {
+          //     print("this attributes have already been selected");
+          //     selectedAttributesObject.remove(selectedAttributesObject[i]);
+          //     selectedAttributesObject.add(newValue);
+          //   }
+          // }
+          // selectedAttributesObject.add(newValue);
+          // for(int i=0;i< selectedAttributesObject.length;i++){
+          //   //
+          //   if()
+
+          // }
+          // for (int i = 0; i < selectedAttributesObject.length; i++) {
+          //   if (product.selectedAttributes!
+          //       .contains(selectedAttributesObject[i].pivot!.id)) {
+          //     print("Attributes selected");
+          //   } else {
+          //     product.selectedAttributes!
+          //         .add(selectedAttributesObject[i].pivot!.id as int);
+          //   }
+          // }
+          product.selectedAttributes!.removeLast();
+          product.selectedAttributes!.add(dropdownValue!.pivot!.id as int);
+
+          // product.selectedAttributes!.add(newValue.pivot!.id as int);
+          print("Attributes: ${product.selectedAttributes}");
         },
+        // ignore: unnecessary_null_comparison
         items: size == null
             ? null
-            : size.map<DropdownMenuItem<String>>((String? value) {
-                return DropdownMenuItem<String>(
+            : size.map<DropdownMenuItem<Attributes>>((Attributes? value) {
+                return DropdownMenuItem<Attributes>(
                   value: value,
-                  child: Text(value!),
+                  child: Text(value!.pivot!.value!),
                 );
               }).toList());
   }
