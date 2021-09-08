@@ -1,10 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/patments_state.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/models/payment/payment_container_model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class DataPaymentsContainer extends StatefulWidget {
@@ -63,6 +68,22 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
         }
       },
     );
+  }
+
+  //Dowanload Image
+
+  saveImage(String url) async {
+    var status = await Permission.storage.request();
+
+    if (status.isGranted) {
+      var response = await Dio()
+          .get(url, options: Options(responseType: ResponseType.bytes));
+      final result = await ImageGallerySaver.saveImage(
+          Uint8List.fromList(response.data),
+          quality: 60,
+          name: "hello");
+      print(result);
+    }
   }
 
   @override
@@ -141,24 +162,20 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                             buildrowData(
                                 text: 'AMOUNT',
                                 dateApi: "${state.bankslip[index].amount}"),
-                            BlocBuilder<PaymentsCubit, PaymentsState>(
-                              builder: (context, state) {
-                                final cubits = PaymentsCubit.get(context);
-                                return builDowanloadImage(
-                                  onpress: () {
-                                    cubits.saveImage(index: index);
-                                    if (cubits.isImageLoding = true) {
-                                      Fluttertoast.showToast(
-                                          msg: "Successful Download",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.CENTER,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
-                                    }
-                                  },
-                                );
+                            builDowanloadImage(
+                              onpress: () {
+                              
+                                saveImage(
+                                    "https://csv.jithvar.com/storage/${state.bankslip[index].photo!.filePath}");
+
+                                Fluttertoast.showToast(
+                                    msg: "Successful Download",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
                               },
                             ),
                             buildrowData(

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
   args:
     dependency: transitive
     description:
@@ -359,6 +366,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
+  image_gallery_saver:
+    dependency: "direct main"
+    description:
+      name: image_gallery_saver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.6.9"
   image_picker:
     dependency: "direct main"
     description:
@@ -450,6 +471,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  open_file:
+    dependency: "direct main"
+    description:
+      name: open_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.1"
   otp_text_field:
     dependency: "direct main"
     description:
@@ -464,10 +492,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  path_provider:
+    dependency: "direct main"
+    description:
+      name: path_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   path_provider_linux:
     dependency: transitive
     description:
       name: path_provider_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  path_provider_macos:
+    dependency: transitive
+    description:
+      name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
@@ -685,7 +727,7 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.59"
+    version: "19.2.60"
   syncfusion_flutter_pdf:
     dependency: transitive
     description:
@@ -721,6 +763,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "19.2.59-beta"
+  syncfusion_flutter_xlsio:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_xlsio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "19.2.60-beta"
+  syncfusion_officecore:
+    dependency: transitive
+    description:
+      name: syncfusion_officecore
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "19.2.60-beta"
   synchronized:
     dependency: transitive
     description:

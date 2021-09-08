@@ -14,35 +14,7 @@ class UploadSlipContainer extends StatefulWidget {
 }
 
 class _UploadSlipContainerState extends State<UploadSlipContainer> {
-  // File? file;
 
-  // Future pickerCamera() async {
-  //   final myFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     file = File(myFile!.path);
-  //   });
-  // }
-
-  // Future uploadImage() async {
-  //   if (file == null) return;
-
-  //   String base64 = base64Encode(file!.readAsBytesSync());
-  //   String imageName = file!.path.split("/").last;
-  //   //print(base64);
-  //   final url = Uri.parse('http://csv.jithvar.com/api/v2/user-cash');
-  //   await http.post(url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'Authorization':
-  //             'Bearer 2608|xAcZUbFNkZpRW4l3nNDv8D27PpNZ7Jn1497j8KUm',
-  //       },
-  //       body: jsonEncode({
-  //         "amount": 9939,
-  //         "date": "2021-08-23",
-  //         "uploaded_photo": "data:image/jpeg;base64,$base64"
-  //       }));
-  // }
 
   @override
   Widget build(BuildContext context) {

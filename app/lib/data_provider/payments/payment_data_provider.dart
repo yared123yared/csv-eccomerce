@@ -27,13 +27,15 @@ class PaymentDataProvider {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode({
+            body: jsonEncode(
+              {
               "draw": 0,
               "length": 10000,
               "search": "",
               "column": 0,
               "dir": "asc"
-            }));
+            }
+            ));
         if (response.statusCode == 200) {
           APICacheDBModel cacheDBModel = new APICacheDBModel(
             key: "off_payment",
@@ -84,13 +86,15 @@ class PaymentDataProvider {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({
+        body: jsonEncode(
+          {
           "draw": 0,
           "length": 10000,
           "search": searchAmount,
           "column": 0,
           "dir": "asc"
-        }),
+        }
+        ),
       );
       if (response.statusCode == 200) {
         final extractedData =
