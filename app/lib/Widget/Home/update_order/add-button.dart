@@ -2,7 +2,7 @@ import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 
 class AddProductButton extends StatelessWidget {
-  final Data product;
+  Data product;
   final VoidCallback onTapped;
   AddProductButton({required this.product, required this.onTapped});
 

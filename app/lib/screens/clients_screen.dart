@@ -85,7 +85,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
     print("-----tttt---");
     if (_connectionStatus != ConnectivityResult.none) {
       print("did change dipendency connected");
-      SyncClientEvent syncClientEvent = SyncClientEvent();
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
       BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
     }
   }
@@ -110,7 +110,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
     }
     if (result != ConnectivityResult.none) {
       print("connected");
-      SyncClientEvent syncClientEvent = SyncClientEvent();
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
       BlocProvider.of<ClientsBloc>(context, listen: false).add(syncClientEvent);
     }
 
@@ -123,7 +123,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
 
       if (_connectionStatus != ConnectivityResult.none) {
         print("connected");
-        SyncClientEvent syncClientEvent = SyncClientEvent();
+        SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
         BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
       }
     });

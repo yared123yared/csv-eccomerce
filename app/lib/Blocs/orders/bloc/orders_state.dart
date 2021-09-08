@@ -12,7 +12,8 @@ class OrdersInitial extends OrdersState {
 
 class OrderCreatedSuccess extends OrdersState {
   final Request request;
-  OrderCreatedSuccess({required this.request}) : super(orderCreated: true, request: Request());
+  OrderCreatedSuccess({required this.request})
+      : super(orderCreated: true, request: Request());
 }
 
 class OrderIsBeingCreating extends OrdersState {
@@ -31,5 +32,41 @@ class RequestUpdateSuccess extends OrdersState {
   final Request request;
   // OrdersCheckedOutSuccess();
   RequestUpdateSuccess({required this.request})
+      : super(orderCreated: false, request: request);
+}
+
+class FetchingOrderToBeUpdated extends OrdersState {
+  final Request request;
+  FetchingOrderToBeUpdated({required this.request}) : super(orderCreated: false, request: request);
+}
+
+class FetchingOrderToBeUpdatedFailed extends OrdersState {
+  FetchingOrderToBeUpdatedFailed()
+      : super(orderCreated: false, request: Request());
+}
+
+class FetchingOrderToBeUpdatedSuccess extends OrdersState {
+  final Request request;
+  final List<OrderToBeUpdated> data;
+  FetchingOrderToBeUpdatedSuccess({required this.data,required this.request})
+      : super(orderCreated: false, request: Request());
+}
+
+class OrderUpdateSuccess extends OrdersState {
+  final Request request;
+  OrderUpdateSuccess({required this.request})
+      : super(orderCreated: true, request: request);
+}
+
+class OrderUpdating extends OrdersState {
+  final Request request;
+  OrderUpdating({required this.request})
+      : super(orderCreated: false, request: request);
+}
+
+class OrderUpdatingFailed extends OrdersState {
+  final Request request;
+  final String message;
+  OrderUpdatingFailed({required this.request,required this.message})
       : super(orderCreated: false, request: request);
 }

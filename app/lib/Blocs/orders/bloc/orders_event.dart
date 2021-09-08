@@ -52,3 +52,31 @@ class AddRemainingAmountEvent extends OrdersEvent {
   final int amount;
   AddRemainingAmountEvent({required this.amount});
 }
+
+class AddTotalEvent extends OrdersEvent {
+  final int total;
+  AddTotalEvent({required this.total});
+}
+class SetRequestEvent extends OrdersEvent {
+  final Request request;
+  SetRequestEvent({required this.request});
+}
+
+class FetchOrderToBeUpdated extends OrdersEvent {
+  final String id;
+  FetchOrderToBeUpdated({required this.id});
+}
+
+class AddToCart extends OrdersEvent {
+  final CartItem cart;
+  AddToCart({required this.cart});
+}
+class RemoveFromCart extends OrdersEvent {
+  final CartItem cart;
+  RemoveFromCart({required this.cart});
+}
+
+class UpdateOrderEvent extends OrdersEvent {
+  final Request request;
+  UpdateOrderEvent({required this.request});
+}

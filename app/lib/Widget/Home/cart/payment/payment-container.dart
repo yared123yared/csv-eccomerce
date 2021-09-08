@@ -63,8 +63,11 @@ class PaymentContainer extends StatelessWidget {
                   BlocBuilder<OrdersBloc, OrdersState>(
                     builder: (context, state) {
                       if (state.request.paymentWhen == 'Pay Later') {
+                        print("pay--later");
                         return Container();
                       } else {
+                        print("pay--now");
+
                         return Column(children: [
                           PaymentMethodDropDown(),
                           Visibility(

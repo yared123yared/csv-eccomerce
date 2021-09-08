@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/data_provider/user_data_provider.dart';
 import 'package:app/db/db.dart';
 import 'package:app/logic/cart_logic.dart';
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
@@ -40,9 +42,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-          yield (OrderCreatedSuccess(
-            request: state.request
-          ));
+          yield (OrderCreatedSuccess(request: state.request));
         } else {
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));
@@ -53,9 +53,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
               (await CsvDatabse.instance.createRequest(event.request!));
           if (value == true) {
             print("Order Successfully created locally");
-            yield (OrderCreatedSuccess(
-              request: state.request
-            ));
+            yield (OrderCreatedSuccess(request: state.request));
           } else {
             print("failed to create order locally");
             yield (OrderCreatingFailed(message: "Failed to create order"));
@@ -90,11 +88,13 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
       print(request.toJson());
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is ClientAddEvent) {
       Request request = state.request;
       request.clientId = event.client.id;
       print('Request: ${state.request.toJson()}');
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is PaymentAddEvent) {
       // Request request = state.request;
       // Payment payment = event.payment;
@@ -116,6 +116,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.when}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is AddPaymentMethodEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -124,6 +125,16 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.method}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
+    } else if (event is AddTotalEvent) {
+      Request request = state.request;
+      // print("Entered to the payment bloc");
+      // print(state.request.toJson());
+      request.total = event.total;
+      // print("When:${event.method}");
+
+      yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is AddPaymentTypeEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -132,6 +143,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.type}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is AddTransactionIdEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -140,6 +152,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.transactionId}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is AddPaidAmountEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -149,6 +162,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.amount}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
     } else if (event is AddRemainingAmountEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -157,6 +171,119 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("When:${event.amount}");
 
       yield RequestUpdateSuccess(request: request);
+      return;
+    } else if (event is FetchOrderToBeUpdated) {
+      yield FetchingOrderToBeUpdated(request: state.request);
+      try {
+        List<OrderToBeUpdated> data =
+            await this.orderRepository.OrderData(event.id);
+        yield FetchingOrderToBeUpdatedSuccess(
+            data: data, request: state.request);
+        return;
+      } catch (e) {
+        yield FetchingOrderToBeUpdatedFailed();
+      }
+      return;
+    } else if (event is SetRequestEvent) {
+      print("setting request");
+      Request request = state.request;
+      request = event.request;
+      yield RequestUpdateSuccess(request: request);
+      return;
+    } else if (event is AddToCart) {
+      print("----add to cart --invoked--");
+      Request request = state.request;
+      List<CartItem>? carts = request.cartItem;
+      if (carts != null) {
+        try {
+          CartItem car = carts
+              .where((element) => element.productId == event.cart.productId)
+              .first;
+
+          carts.remove(car);
+          if (car.quantity != null) {
+            int x = car.quantity;
+            ++x;
+            car.quantity = x;
+          }
+          car.id = -1;
+          carts.add(car);
+          request.cartItem = carts;
+          yield RequestUpdateSuccess(request: request);
+        } catch (e) {
+          CartItem car = event.cart;
+          car.id = -1;
+          carts.add(event.cart);
+          request.cartItem = carts;
+          yield RequestUpdateSuccess(request: request);
+        }
+      }
+      yield RequestUpdateSuccess(request: request);
+      return;
+    } else if (event is RemoveFromCart) {
+      Request request = state.request;
+      List<CartItem>? carts = request.cartItem;
+      if (carts != null) {
+        try {
+          CartItem car = carts
+              .where((element) => element.productId == event.cart.productId)
+              .first;
+          carts.remove(car);
+          if (car.quantity != null) {
+            int x = car.quantity;
+            --x;
+            car.quantity = x;
+          }
+          carts.add(car);
+          request.cartItem = carts;
+        } catch (e) {
+          // carts.add(event.cart);
+          request.cartItem = carts;
+        }
+      }
+      yield RequestUpdateSuccess(request: request);
+      return;
+    } else if (event is UpdateOrderEvent) {
+      print("Entered to the update order event");
+      print("State Request: ${state.request.toJson()}");
+      print("Eve Request: ${event.request.toJson()}");
+
+      bool connected = await ConnectionChecker.CheckInternetConnection();
+      // print("-update order--connected--${connected}");
+
+      yield OrderUpdating(request: state.request);
+      if (connected) {
+        // yield OrderUpdateSuccess(request: event.request);
+        // return;
+
+        bool value = await this.orderRepository.UpdateOrder(event.request);
+        if (value == true) {
+          print("Order---Successfully created");
+          // cartbloc=BlocProvider.of(context)<CartBloc>();
+          // InitializeCart
+          yield (OrderUpdateSuccess(request: event.request));
+        } else {
+          print("failed to create--order");
+          yield (OrderUpdatingFailed(
+              request: state.request, message: "Failed to update order"));
+        }
+        return;
+      } else {
+        bool value =
+            (await CsvDatabse.instance.createUpdateOrderRequest(event.request));
+        if (value == true) {
+          print("Order Successfully updated locally");
+          yield (OrderCreatedSuccess(request: state.request));
+          return;
+        } else {
+          print("failed to updated order locally");
+          // yield (OrderCreatingFailed(message: "Failed to updated order"));
+          yield (OrderCreatedSuccess(request: state.request));
+          return;
+        }
+      }
+
+      // }
     }
   }
 
