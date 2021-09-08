@@ -200,9 +200,33 @@ class Company {
     _data['city'] = city;
     _data['state'] = state;
     // if (country != null) {
+      // _data['country'] = country!.toJson();
+    // }
+      _data['country'] = country;
+    _data['zip_code'] = zipCode;
+    _data['status'] = status;
+    _data['creator'] = creator;
+    _data['updater'] = updater;
+    return _data;
+  }
 }
+
+class Country {
+  Country({
+    required this.id,
+    required this.iso,
     required this.name,
+    required this.nicename,
+    required this.iso3,
+    required this.numcode,
+    required this.phonecode,
+    required this.status,
     required this.createdAt,
+  });
+  int? id;
+  String? iso;
+  String? name;
+  String? nicename;
   String? iso3;
   int? numcode;
   String? phonecode;

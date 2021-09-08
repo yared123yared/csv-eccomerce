@@ -20,7 +20,7 @@ class OrderDataProvider {
   Future<bool> createOrder(Request? request) async {
     String? token = await this.userPreferences.getUserToken();
     // late List<Data> products_return = [];
-    print("This is the caategory Id");
+    print("+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders');
 
