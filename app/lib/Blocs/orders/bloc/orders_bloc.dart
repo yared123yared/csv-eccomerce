@@ -82,14 +82,20 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       List<Cart> carts = [];
       for (int i = 0; i < event.cartProducts.length; i++) {
         print("Cart Value: ${event.cartProducts[i].id}");
-        print("Prodcut Attributes: ${event.cartProducts[i].selectedAttributes}");
-        carts.add(
-          Cart(
-              id: event.cartProducts[i].id,
-              amountInCart: event.cartProducts[i].order,
-              selectedAttributes:event.cartProducts[i].selectedAttributes
-              ),
-        );
+        print(
+            "Prodcut Attributes: ${event.cartProducts[i].selectedAttributes}");
+        List<int> selectedAttributes = [];
+        for (int j = 0;
+            j < event.cartProducts[i].selectedAttributes!.length;
+            j++) {
+          selectedAttributes.add(
+              event.cartProducts[i].selectedAttributes![j].pivot!.id as int);
+        }
+        carts.add(Cart(
+          id: event.cartProducts[i].id,
+          amountInCart: event.cartProducts[i].order,
+          selectedAttributes: selectedAttributes,
+        ));
       }
       request.cart = carts;
 

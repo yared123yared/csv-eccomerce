@@ -53,7 +53,7 @@ class Data {
   List<Categories>? categories;
   List<Attributes>? attributes;
   int order = 0;
-  List<int>? selectedAttributes = [];
+  List<Attributes>? selectedAttributes = [];
   //
 
   Data({

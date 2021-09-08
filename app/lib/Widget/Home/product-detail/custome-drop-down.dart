@@ -27,9 +27,27 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
     }
 
     if (dropdownValue == null) {
+      print("Initially the dropdown attributes is null");
       dropdownValue = size[0];
       // selectedAttributesObject.add(dropdownValue!);
-       product.selectedAttributes!.add(dropdownValue!.pivot!.id as int);
+      int counter = 0;
+      for (int i = 0; i < product.selectedAttributes!.length; i++) {
+        if (product.selectedAttributes![i].name!.contains("Size")) {
+          print("Size attribute already selected.");
+
+          // product.selectedAttributes!
+          //     .remove(product.selectedAttributes![i]);
+          product.selectedAttributes![i] = dropdownValue!;
+          counter += 1;
+        }
+      }
+      if (counter == 0) {
+        print("First selection of the attribute");
+        product.selectedAttributes!.add(dropdownValue!);
+      } else {
+        print("Updating the attribute");
+      }
+      // product.selectedAttributes!.add(dropdownValue!);
     }
 
     return DropdownButton<Attributes>(
@@ -48,31 +66,24 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
             dropdownValue = newValue;
             // selectedAttributesObject = [];
           });
-          // for (int i = 0; i < selectedAttributesObject.length; i++) {
-          //   //
-          //   if (selectedAttributesObject[i].id == newValue.id) {
-          //     print("this attributes have already been selected");
-          //     selectedAttributesObject.remove(selectedAttributesObject[i]);
-          //     selectedAttributesObject.add(newValue);
-          //   }
-          // }
-          // selectedAttributesObject.add(newValue);
-          // for(int i=0;i< selectedAttributesObject.length;i++){
-          //   //
-          //   if()
+          int counter = 0;
+          // product.selectedAttributes!=[];
+          for (int i = 0; i < product.selectedAttributes!.length; i++) {
+            if (product.selectedAttributes![i].name!.contains("Size")) {
+              print("Size attribute already selected.");
 
-          // }
-          // for (int i = 0; i < selectedAttributesObject.length; i++) {
-          //   if (product.selectedAttributes!
-          //       .contains(selectedAttributesObject[i].pivot!.id)) {
-          //     print("Attributes selected");
-          //   } else {
-          //     product.selectedAttributes!
-          //         .add(selectedAttributesObject[i].pivot!.id as int);
-          //   }
-          // }
-          product.selectedAttributes!.removeLast();
-          product.selectedAttributes!.add(dropdownValue!.pivot!.id as int);
+              // product.selectedAttributes!
+              //     .remove(product.selectedAttributes![i]);
+              product.selectedAttributes![i] = dropdownValue!;
+              counter += 1;
+            }
+          }
+          if (counter == 0) {
+            print("First selection of the attribute");
+            product.selectedAttributes!.add(dropdownValue!);
+          } else {
+            print("Updating the attribute");
+          }
 
           // product.selectedAttributes!.add(newValue.pivot!.id as int);
           print("Attributes: ${product.selectedAttributes}");
