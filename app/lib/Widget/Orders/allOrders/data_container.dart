@@ -1,6 +1,12 @@
+import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
-import 'package:app/models/OrdersDrawer/all_orders_model.dart';
-import 'package:app/screens/cart_screens/update_order.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+// import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
+import 'package:app/Widget/Orders/allOrders/print_button.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/request/request.dart';
+// import 'package:app/screens/cart_screens/add_client.dart';
+import 'package:app/screens/cart_screens/update_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
@@ -12,6 +18,8 @@ class DataContainerAllOrders extends StatefulWidget {
 
 class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   late AllorderrBloc bloc;
+  late AddClientBloc addClientBloc;
+  late OrdersBloc ordersBloc;
 
   ScrollController _scrollController = ScrollController();
 
@@ -32,12 +40,15 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   @override
   void dispose() {
     bloc.close();
-    _scrollController.dispose();
+    addClientBloc.close();
+    ordersBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return BlocBuilder<AllorderrBloc, AllorderrState>(
       builder: (context, state) {
         if (state is AllorderrInitial) {
@@ -203,17 +214,55 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  // print("orders data:${ state.allorderdata[index].id}");
-                                  Navigator.pushNamed(
-                                      context, UpdateOrder.routeName,
-                                      arguments: state.searchallorderdata[index]);
+                                        "--------invoked data--container ---120");
+                                    addClientBloc.add(ClientDisplayEvent(
+                                        client:
+                                            state.allorderdata[index].client!));
+                                    ordersBloc.add(ClientAddEvent(
+                                        client:
+                                            state.allorderdata[index].client!));
+                                    ordersBloc.add(
+                                        AddPaymentWhenEvent(when: 'Pay Later'));
+                                    ordersBloc.add(
+                                      SetRequestEvent(
+                                        request: Request(
+                                          id: state.allorderdata[index].id,
+                                          amountPaid: double.parse(state
+                                                  .allorderdata[index]
+                                                  .amountPaid)
+                                              .round(),
+                                          //double.parse(state.allorderdata[index].amountRemaining).round()
+                                          amountRemaining: 0,
+                                          transactionId: "4545",
+                                          paymentWhen: 'Pay Later',
+                                          cart: [],
+                                          cartItem: [],
+                                          clientId: state
+                                              .allorderdata[index].clientId,
+                                          addressId: state.allorderdata[index]
+                                              .client?.orders?[0].addressId,
+                                          total: 0,
+                                        ),
+                                      ),
+                                    );
+                                    ordersBloc.add(
+                                      FetchOrderToBeUpdated(
+                                        id: state.allorderdata[index].id
+                                            .toString(),
+                                      ),
+                                    );
+                                    Navigator.pushNamed(
+                                      context,
+                                      UpdateOrder.routeName,
+                                      arguments: state.allorderdata[index],
+                                    );
+                                  }
+>>>>>>> alefew
                                 },
                               ),
                             ),
                           ],
-                        ),
                       ),
-                    ],
                   ),
                 ),
               );

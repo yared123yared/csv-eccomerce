@@ -54,8 +54,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       yield* _mapSearchClientsEventToState(
         event.key,
       );
-    } else if (event is SyncClientEvent) {
-      syncClients();
+    } else if (event is SyncDataToServerEvent) {
+      syncLocalDataToServer();
     }
   }
 
@@ -66,7 +66,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     yield ClientFetchingState();
     if (isFirstFetch) {
       if (!syncing) {
-        await syncClients();
+        await syncLocalDataToServer();
       }
     }
     int prevPage = page;
@@ -296,7 +296,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     }
   }
 
-  Future<void> syncClients() async {
+  Future<void> syncLocalDataToServer() async {
     if (syncing) {
       return;
     }
@@ -335,16 +335,16 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             }
           }
         }
-        print("delete satrted");
+        // print("delete satrted");
         List<int> deletedIds =
             await CsvDatabse.instance.readAllDeletedClientIds();
         for (var id in deletedIds) {
           await clientsRepository.deleteClient(id.toString());
           CsvDatabse.instance.deleteClientID(id);
           int prevPageCount = this.clients.length ~/ 5;
-          print("prev -length--${this.clients.length}");
+          // print("prev -length--${this.clients.length}");
           this.clients.removeWhere((cl) => cl.id.toString() == id);
-          print("current -length--${this.clients.length}");
+          // print("current -length--${this.clients.length}");
 
           int currentPageCount = this.clients.length ~/ 5;
           if (this.clients.length == 0) {
@@ -361,9 +361,25 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             try {
               await this.orderRepository.createOrder(req);
             } catch (e) {
-              print("syncing--req--failed");
+              print("syncing--create--req--failed");
               print(e);
             }
+          }
+        }
+        List<Request>? updateRequest =
+            await CsvDatabse.instance.readUpdateOrderRequest();
+        if (updateRequest != null) {
+          for (var req in updateRequest) {
+            try {
+              await this.orderRepository.UpdateOrder(req);
+              int? id =
+                  await CsvDatabse.instance.deleteUpdateOrderRequest(req.id);
+              print("deleted--update--order--${id}");
+            } catch (e) {
+              print("syncing--update--req--failed");
+              print(e);
+            }
+            print("update request synced successfully");
           }
         }
       } catch (e) {
@@ -371,6 +387,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         print("bloc---error--sync-clients");
         print(e);
       }
+      print("data synced successfully");
       syncing = false;
     }
   }

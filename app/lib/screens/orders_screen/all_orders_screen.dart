@@ -1,10 +1,12 @@
-import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_state.dart';
 import 'package:app/Widget/Orders/allOrders/data_container.dart';
 import 'package:app/Widget/Orders/allOrders/search_container.dart';
 import 'package:app/Widget/dashboard/daily_debt.dart';
-
 import 'package:app/constants/constants.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 
@@ -19,8 +21,68 @@ class AllOrdersScreen extends StatefulWidget {
 
 class _AllOrdersScreenState extends State<AllOrdersScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
-  late AllorderrBloc bloc;
+
+  }
+   @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("-----tttt---");
+    if (_connectionStatus != ConnectivityResult.none) {
+      print("did change dipendency connected");
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
+      BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
+    }
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print("all--order--screen--53");
+      print(e.toString());
+      return;
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) {
+      return Future.value(null);
+    }
+    if (result != ConnectivityResult.none) {
+      // print("connected");
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
+      BlocProvider.of<ClientsBloc>(context, listen: false).add(syncClientEvent);
+    }
+
+    // return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+
+      if (_connectionStatus != ConnectivityResult.none) {
+        print("connected");
+        SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
+        BlocProvider.of<ClientsBloc>(context).add(syncClientEvent);
+      }
+    });
+  }
+
 
   @override
   void initState() {
@@ -28,12 +90,10 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
     bloc.add(FeatcAllorderrEvent());
 
     super.initState();
-  }
 
   @override
   void dispose() {
     bloc.close();
-    super.dispose();
   }
 
   @override

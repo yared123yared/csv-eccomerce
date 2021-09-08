@@ -1,3 +1,5 @@
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+
 import 'cart.dart';
 
 class RequestFields {
@@ -7,7 +9,13 @@ class RequestFields {
     amountPaid, amountRemaining, addressId, clientId,
     // type,isLocal
   ];
-
+   static final List<String> values2 = [
+    /// Add all fields
+    idX, total, paymentWhen, paymentMethod, typeOfWallet, transactionId,
+    amountPaid, amountRemaining, addressId, clientId,
+    // type,isLocal
+  ];
+  static final String idX = "id";
   static final String id = '_id';
   static final String total = 'total';
   static final String paymentWhen = 'payment_when';
@@ -34,6 +42,7 @@ class Request {
   int? addressId;
   int? clientId;
   List<Cart>? cart;
+  List<CartItem>? cartItem;
   // String? type;
   // String? isLocal;
 
@@ -49,6 +58,7 @@ class Request {
     this.addressId,
     this.clientId,
     this.cart,
+    this.cartItem,
     // this.type,
     // this.isLocal
   });
@@ -84,8 +94,23 @@ class Request {
     // type = json[RequestFields.type];
     // isLocal = json[RequestFields.isLocal];
   }
+   Request.fromUpdateDB(Map<String, dynamic> json) {
+    id = json['id'];
+    total = json[RequestFields.total];
+    paymentWhen = json[RequestFields.paymentWhen];
+    paymentMethod = json[RequestFields.paymentMethod];
+    typeOfWallet = json[RequestFields.typeOfWallet];
+    transactionId = json[RequestFields.transactionId];
+    amountPaid = json[RequestFields.amountPaid];
+    amountRemaining = json[RequestFields.amountRemaining];
+    addressId = json[RequestFields.addressId];
+    clientId = json[RequestFields.clientId];
+    // type = json[RequestFields.type];
+    // isLocal = json[RequestFields.isLocal];
+  }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data["id"] = this.id;
     data['total'] = this.total;
     data['payment_when'] = this.paymentWhen;
     data['payment_method'] = this.paymentMethod;
@@ -95,9 +120,26 @@ class Request {
     data['amount_remaining'] = this.amountRemaining;
     data['address_id'] = this.addressId;
     data['client_id'] = this.clientId;
-    if (this.cart != null) {
-      data['cart'] = this.cart!.map((v) => v.toJson()).toList();
+    if (this.cartItem != null) {
+      data['cart'] = this.cartItem!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+   Map<String, dynamic> toUpdateJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data["id"] = this.id;
+    data['total'] = this.total;
+    data['payment_when'] = this.paymentWhen;
+    data['payment_method'] = this.paymentMethod;
+    data['type_of_wallet'] = this.typeOfWallet;
+    data['transaction_id'] = this.transactionId;
+    data['amount_paid'] = this.amountPaid;
+    data['amount_remaining'] = this.amountRemaining;
+    data['address_id'] = this.addressId;
+    data['client_id'] = this.clientId;
+    // if (this.cartItem != null) {
+    //   data['cart'] = this.cartItem!.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 

@@ -65,7 +65,7 @@ class ClientCard extends StatelessWidget {
                         ClientEditScreen.routeName,
                         arguments: this.client,
                       ).then((value){
-                           SyncClientEvent syncClientEvent = SyncClientEvent();
+                           SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
                         BlocProvider.of<ClientsBloc>(context)
                             .add(syncClientEvent);
                       });

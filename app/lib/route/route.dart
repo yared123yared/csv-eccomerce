@@ -9,7 +9,7 @@ import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
-import 'package:app/screens/cart_screens/update_order.dart';
+import 'package:app/screens/cart_screens/update_order_screen.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
@@ -120,7 +120,7 @@ class AppRoutes {
       );
     }  else if (settings.name ==  UpdateOrder.routeName) {
       return MaterialPageRoute(
-        builder: (context) =>  UpdateOrder()
+        builder: (context) =>  UpdateOrder(order: settings.arguments as DataAllOrders,)
       );
     }
     else if (settings.name == AddClient.routeName) {

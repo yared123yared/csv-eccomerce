@@ -23,7 +23,7 @@ class SearchClient extends StatelessWidget {
               child: Container(
                 // margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
                 // width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.37,
+                height: MediaQuery.of(context).size.height * 0.40,
                 width: MediaQuery.of(context).size.width,
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),

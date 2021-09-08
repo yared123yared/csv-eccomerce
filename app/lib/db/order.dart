@@ -61,7 +61,6 @@ extension Order on CsvDatabse {
     return true;
   }
 
-
   Future<List<Request>?> readrequests() async {
     final db = await CsvDatabse.instance.database;
     List<Request>? requests;
@@ -141,6 +140,130 @@ extension Order on CsvDatabse {
       }
     } catch (e) {
       print("db--req--delete--error");
+      print(e);
+    }
+  }
+
+  Future<bool> createUpdateOrderRequest(Request req) async {
+    final db = await CsvDatabse.instance.database;
+    try {
+      if (db != null) {
+        await db.transaction((txn) async {
+          print("local--order-update--db");
+          print(jsonEncode(req).toString());
+          int id = await txn.insert(
+            tableUpdateOrderTable,
+            req.toUpdateJson(),
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
+          print("db--order-update---1");
+
+          List<CartItem> carts = [];
+          if (req.cartItem != null) {
+            carts = req.cartItem!;
+          }
+
+          print("-----db--order-update---2");
+
+          Batch batch = txn.batch();
+          carts.forEach((cart) {
+            cart.orderId = id;
+            batch.insert(
+              tableCartItem,
+              cart.toDbJson(),
+              conflictAlgorithm: ConflictAlgorithm.replace,
+            );
+          });
+          await batch.commit();
+        });
+      }
+    } catch (e) {
+      print("---db--order-update---local--failed");
+      print(e);
+      return false;
+    }
+    return true;
+  }
+
+  Future<List<Request>?> readUpdateOrderRequest() async {
+    final db = await CsvDatabse.instance.database;
+    List<Request>? requests;
+    try {
+      if (db != null) {
+        await db.transaction((txn) async {
+          print("db--read--order-update--1");
+
+          final reqMap = await txn.query(
+            tableUpdateOrderTable,
+            columns: RequestFields.values2,
+          );
+          print("db--read--order-update---2");
+          print(jsonEncode(reqMap).toString());
+          if (reqMap.isNotEmpty) {
+            requests =
+                reqMap.map((json) => Request.fromUpdateDB(json)).toList();
+          } else {
+            // throw Exception('ID  not found');
+          }
+          print("db-read--order--update---3");
+
+          if (requests != null) {
+            int i = 0;
+            for (var req in requests!) {
+              List<CartItem> carts = [];
+              final cartMap = await txn.query(
+                tableCartItem,
+                where: '${CartItemFields.orderID} = ?',
+                whereArgs: [req.id],
+              );
+              print("db--read-order--update---4");
+              if (cartMap.isNotEmpty) {
+                print(jsonEncode(cartMap).toString());
+                carts = cartMap.map((json) => CartItem.fromDB(json)).toList();
+                print("db--read-order--update---5");
+              }
+              print("cart-items");
+              // print(carts)
+              if (requests != null) {
+                requests![i].cartItem = carts;
+              }
+              i++;
+
+              print("db--read-order--update---8");
+            }
+          }
+        });
+        print("update request read from db");
+        // print(jsonEncode(requests).toString());
+        if (requests != null) {
+          for (var i = 0; i < requests!.length; i++) {
+            print("request");
+            print(jsonEncode(requests![i]));
+            print("cart items");
+            print(jsonEncode(requests![i].cartItem));
+          }
+        }
+        print("finished");
+        return requests;
+      }
+    } catch (e) {
+      print("read update failed");
+      print(e);
+    }
+  }
+
+  Future<int?> deleteUpdateOrderRequest(int? id) async {
+    final db = await CsvDatabse.instance.database;
+    try {
+      if (db != null) {
+        return await db.delete(
+          tableUpdateOrderTable,
+          where: '${RequestFields.idX} = ?',
+          whereArgs: [id],
+        );
+      }
+    } catch (e) {
+      print("db--update--order--delete--error");
       print(e);
     }
   }

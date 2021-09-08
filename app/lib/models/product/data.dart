@@ -23,6 +23,21 @@ class ProductDataFields {
   static final String order = 'orders';
 }
 
+class OrderToBeUpdated {
+  int cartId;
+  int quantity;
+  double total;
+  double price;
+  Data data;
+  OrderToBeUpdated({
+    required this.cartId,
+    required this.data,
+    required this.price,
+    required this.total,
+    required this.quantity,
+  });
+}
+
 class Data {
   int? id;
   String? name;

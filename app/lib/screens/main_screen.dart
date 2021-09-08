@@ -66,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
     }
     if (result != ConnectivityResult.none) {
       print("connected");
-      SyncClientEvent syncClientEvent = SyncClientEvent();
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
       BlocProvider.of<ClientsBloc>(context, listen: false).add(syncClientEvent);
     }
 

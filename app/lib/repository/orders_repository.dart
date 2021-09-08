@@ -14,4 +14,13 @@ class OrderRepository {
     print("Data arrived at the data provider $data");
     return data;
   }
+
+  Future<List<OrderToBeUpdated>> OrderData(String id) async {
+    return await orderDataProvider.OrderData(id);
+  }
+
+  Future<bool> UpdateOrder(Request request) async {
+    return await orderDataProvider.updateOrder(request);
+
+  }
 }
