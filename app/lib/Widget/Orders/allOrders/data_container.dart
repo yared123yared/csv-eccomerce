@@ -32,13 +32,13 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   @override
   void dispose() {
     bloc.close();
-    // addClientBloc.close();
     ordersBloc.close();
+    addClientBloc.close;
     super.dispose();
   }
-  void FetchClientDetail(BuildContext context){
-     OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
 
+  void FetchClientDetail(BuildContext context) {
+    OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
   }
 
   @override
@@ -127,7 +127,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                       null) {
                                     print(
                                         "--------invoked data--container ---120");
-                              //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
+                                    //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
 
                                     addClientBloc.add(ClientDisplayEvent(
                                         client:
