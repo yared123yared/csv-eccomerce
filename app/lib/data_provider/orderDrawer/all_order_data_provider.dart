@@ -47,7 +47,7 @@ class AllOrderDataProvider {
               "relationship_field": "",
               "dir": "desc"
             }));
-           
+
         if (response.statusCode == 200) {
           await APICacheManager().deleteCache("API_AllOrders");
           APICacheDBModel cacheDBModel = new APICacheDBModel(
