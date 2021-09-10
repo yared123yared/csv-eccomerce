@@ -105,9 +105,7 @@ class PaymentContainer extends StatelessWidget {
                           // },
                           PaymentFieldContainer(
                             paid:false,
-                            initialValue: state is RequestUpdateSuccess
-                                ? state.request.amountRemaining.toString()
-                                : state.request.amountRemaining.toString(),
+                            initialValue: "0",
                             hintName: 'Remaining Amount',
                             readOnly: true,
                             onChanged: this.addRemainingAmount,
@@ -128,11 +126,12 @@ class PaymentContainer extends StatelessWidget {
   }
 
   void addPaidAmount(String value) async {
-    
+    if (value != "")
     ordersBloc.add(AddPaidAmountEvent(amount: int.parse(value)));
   }
 
   void addRemainingAmount(String value) {
+    if(value!="")
     ordersBloc.add(AddRemainingAmountEvent(amount: int.parse(value)));
   }
 }

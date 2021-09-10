@@ -17,7 +17,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-
 import 'package:sms/sms.dart';
 
 class AddClient extends StatefulWidget {
@@ -99,7 +98,7 @@ class _AddClientState extends State<AddClient> {
                 // });
                   },
                 )..show();
-               
+
               }
             },
             builder: (context, state) {

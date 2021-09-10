@@ -29,32 +29,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-button.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/search-client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/search-client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/upper-container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/upper-container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/view-client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/view-client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/image.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-time-payment-dropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-time-payment-dropdown.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/single-cart-item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/single-cart-item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/orders_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/orders_data_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/OrdersDrawer/all_orders_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/OrdersDrawer/all_orders_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/request/request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/request.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/repository/orders_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/orders_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/cart_screens/cart_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/cart_screens/cart_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/cart_screens/update_order.dart" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/android/settings_aar.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30_x86.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
