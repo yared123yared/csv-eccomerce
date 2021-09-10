@@ -23,6 +23,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   @override
   void initState() {
     bloc = BlocProvider.of<AllorderrBloc>(context);
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     bloc.add(FeatcAllorderrEvent());
     super.initState();
   }
@@ -30,15 +32,20 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   @override
   void dispose() {
     bloc.close();
-    addClientBloc.close();
+    // addClientBloc.close();
     ordersBloc.close();
     super.dispose();
+  }
+  void FetchClientDetail(BuildContext context){
+     OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
+
   }
 
   @override
   Widget build(BuildContext context) {
-    addClientBloc = BlocProvider.of<AddClientBloc>(context);
-    ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    // AddClientBloc addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    // ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return BlocBuilder<AllorderrBloc, AllorderrState>(
       builder: (context, state) {
         if (state is AllorderrInitial) {
@@ -120,6 +127,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                       null) {
                                     print(
                                         "--------invoked data--container ---120");
+                              //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
+
                                     addClientBloc.add(ClientDisplayEvent(
                                         client:
                                             state.allorderdata[index].client!));
@@ -138,7 +147,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                               .round(),
                                           //double.parse(state.allorderdata[index].amountRemaining).round()
                                           amountRemaining: 0,
-                                          transactionId: "4545",
+                                          transactionId: "",
                                           paymentWhen: 'Pay Later',
                                           cart: [],
                                           cartItem: [],

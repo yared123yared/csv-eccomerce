@@ -16,6 +16,7 @@ import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
   late ProductBloc productBloc;
   late AddClientBloc addClientBloc;
   late AllorderrBloc allorderrBloc;
-  // late OrdersBloc ordersBloc;
+  // late CartBloc allorderrBloc;
   List<OrderToBeUpdated> orderToBeUpdated = [];
   List<Data> data = [];
   double price = 0;
@@ -72,12 +73,13 @@ class _UpdateOrderState extends State<UpdateOrder> {
       desc: 'Fill all the information carefully!',
       btnCancelOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
+      
       },
       btnOkOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
       },
     );
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Order"),
@@ -96,19 +98,19 @@ class _UpdateOrderState extends State<UpdateOrder> {
               //     });
 
               // }
+              progress?.dismiss();
               progress?.showWithText("Updating");
             } else if (state is OrderUpdateSuccess) {
               print("order update success");
               this.isShowing = false;
               // cartbloc.add(InitializeCart());
               progress?.dismiss();
-
               dialog..dismiss();
-              dispose();
               productBloc.add(FetchProduct());
               allorderrBloc.add(FeatcAllorderrEvent());
-              Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
+              Navigator.pushReplacementNamed(context, AllOrdersScreen.routeName);
               // return Container(child: Text("Created Successfully"));
+              // ordersbloc.add(OrdersEvent())
               return;
             } else if (state is OrderUpdatingFailed) {
               print("order update fail");
@@ -116,6 +118,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               progress?.dismiss();
               dialog..show();
             } else if (state is FetchingOrderToBeUpdatedSuccess) {
+              progress?.dismiss();
               print("--success--");
               // data = state.data;
               orderToBeUpdated = state.data;
@@ -130,12 +133,51 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   AddToCart(
                     cart: CartItem(
                       quantity: item.quantity,
-                      id: item.cartId,
+                      id: -1,
+                      // id: item.cartId,
                       productId: item.data.id,
                     ),
                   ),
                 );
               }
+              // List<Data> cartData = CartBloc().state.cartProducts;
+              // if (cartData.length > 0) {
+              //   for (var item in cartData) {
+              //     data.add(item);
+              //   }
+              //   double cartItemPrice = 0.0;
+              //   for (var item in cartData) {
+              //     if (item.price != null) {
+              //       setState(() {
+              //         try {
+              //           cartItemPrice=double.parse(item.price!);
+              //           price += double.parse(item.price!);
+              //         } catch (e) {
+              //           print(e);
+              //         }
+              //       });
+              //     }
+
+              //     orderToBeUpdated.add(
+              //       OrderToBeUpdated(
+              //         cartId: -1,
+              //         data: item,
+              //         price: cartItemPrice,
+              //         total: cartItemPrice*item.order,
+              //         quantity: item.order,
+              //         )
+              //     );
+              //     ordersbloc.add(
+              //       AddToCart(
+              //         cart: CartItem(
+              //           quantity: item.order,
+              //           id: -1,
+              //           productId: item.id,
+              //         ),
+              //       ),
+              //     );
+              //   }
+              // }
             }
           },
           builder: (context, state) {
@@ -166,7 +208,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               //     ),
               //   );
               // }
-              print("from ---bloc");
+              print("from ---bloc--fetch--order--detail--success");
               print(data.length);
             }
             print("--current--update--order----state");
@@ -176,6 +218,51 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(
+                    //     vertical: 8.0,
+                    //   ),
+                    //   width: MediaQuery.of(context).size.width * 0.9,
+                    //   alignment: Alignment.center,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Text(
+                    //         "CART",
+                    //         style: TextStyle(
+                    //           fontSize: 20,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
+                    //       GestureDetector(
+                    //         onTap: () {
+                    //           // addClientBloc.add(ClientDisplayEvent(client: this.client));
+                    //           // ordersBloc.add(ClientAddEvent(client: this.client));
+                    //           setState(() {
+                    //             Navigator.popAndPushNamed(
+                    //                 context, MainScreen.routeName);
+                    //           });
+                    //         },
+                    //         child: Container(
+                    //           width: MediaQuery.of(context).size.width * 0.16,
+                    //           height: MediaQuery.of(context).size.height * 0.04,
+                    //           decoration: BoxDecoration(
+                    //               color: Theme.of(context).primaryColor,
+                    //               borderRadius: BorderRadius.circular(15)),
+                    //           child: Center(
+                    //             child: Text(
+                    //               "Add",
+                    //               style: TextStyle(color: Colors.white),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 5,
+                    // ),
                     orderToBeUpdated.length > 0
                         ? Container(
                             height: MediaQuery.of(context).size.height * 0.4,
@@ -186,20 +273,20 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                   height: 0,
                                 );
                               },
-                              itemBuilder: (context, index) => index >=
-                                      orderToBeUpdated.length
-                                  ? Container(child: Text("The end"))
-                                  : UpdateSingleCartItem(
-                                      decreasePrice: decreasePrice,
-                                      increasePrice: addPrice,
-                                      order: orderToBeUpdated[index],
-                                      // product: orderToBeUpdated[index].data,
-                                      // cartID: orderToBeUpdated[index].cartId,
-                                      // price: orderToBeUpdated[index].price,
-                                      // quantity:
+                              itemBuilder: (context, index) =>
+                                  index >= orderToBeUpdated.length
+                                      ? Container(child: Text("The end"))
+                                      : UpdateSingleCartItem(
+                                          decreasePrice: decreasePrice,
+                                          increasePrice: addPrice,
+                                          order: orderToBeUpdated[index],
+                                          // product: orderToBeUpdated[index].data,
+                                          // cartID: orderToBeUpdated[index].cartId,
+                                          // price: orderToBeUpdated[index].price,
+                                          // quantity:
                                           // orderToBeUpdated[index].quantity,
-                                      // total: orderToBeUpdated[index].total,
-                                    ),
+                                          // total: orderToBeUpdated[index].total,
+                                        ),
                               itemCount: orderToBeUpdated.length,
                             ),
                           )
@@ -214,23 +301,23 @@ class _UpdateOrderState extends State<UpdateOrder> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
-                    MenuItem(
-                      title: 'Shipping Addresses',
-                      childrens: [...shippingAddresses],
-                    ),
+                    // MenuItem(
+                    //   title: 'Shipping Addresses',
+                    //   childrens: [...shippingAddresses],
+                    // ),
                     PaymentContainer(
                       formKey: _formKey,
                       onStateChange: this.setPayment,
                     ),
                     ConditionalButton(
-                      name: "Order",
+                      name: "UPDATE ORDER",
                       onPressed: () {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
                           if (state.request.clientId != null) {
                             // If the form is valid, display a snackbar. In the real world,
                             // you'd often call a server or save the information in a database.
-                            int total =price.toInt();
+                            int total = price.toInt();
                             ordersbloc.add(AddTotalEvent(total: total));
                             print("Order method is invoked");
                             // Request request = state.request;

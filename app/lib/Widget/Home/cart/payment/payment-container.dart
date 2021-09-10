@@ -39,13 +39,14 @@ class PaymentContainer extends StatelessWidget {
                   Container(
                     // alignment: Alignment.topCenter,
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.06,
 
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular((30)),
                           topRight: Radius.circular((30))),
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor,
+                      // color: Theme.of(context).primaryColor.withOpacity(0.1),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -53,8 +54,12 @@ class PaymentContainer extends StatelessWidget {
                           left: MediaQuery.of(context).size.width * 0.05),
                       child: Text(
                         "Payment",
+
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),

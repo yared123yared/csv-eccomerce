@@ -262,6 +262,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
           yield (OrderUpdateSuccess(request: event.request));
+          return;
         } else {
           print("failed to create--order");
           yield (OrderUpdatingFailed(
@@ -278,7 +279,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         } else {
           print("failed to updated order locally");
           // yield (OrderCreatingFailed(message: "Failed to updated order"));
-          yield (OrderCreatedSuccess(request: state.request));
+          yield (OrderUpdatingFailed(request: state.request, message: "Failed to update order"));
           return;
         }
       }

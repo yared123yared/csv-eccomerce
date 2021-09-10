@@ -29,18 +29,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21,_11_04_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21__11_04_AM__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/db/db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/db.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/db/order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/order.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/request/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/cart.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/search-client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/search-client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/upper-container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/upper-container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/view-client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/add-client/view-client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/image.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-time-payment-dropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/payment/payment-time-payment-dropdown.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Home/cart/single-cart-item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Home/cart/single-cart-item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/orders_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/orders_data_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/models/OrdersDrawer/all_orders_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/OrdersDrawer/all_orders_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/lib/models/request/request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/request.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/repository/orders_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/repository/orders_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/cart_screens/cart_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/cart_screens/cart_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/cart_screens/update_order.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
