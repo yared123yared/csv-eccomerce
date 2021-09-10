@@ -167,7 +167,7 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-            create: (_) => OrdersBloc(orderRepository: this.orderRepository),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository)..add(PaymentInitialization()),
           ),
           //
           BlocProvider<AddClientBloc>(

@@ -1,4 +1,7 @@
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/models/login_info.dart';
+import 'package:app/models/users.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,25 +80,31 @@ class PaymentContainer extends StatelessWidget {
                             child: Column(children: [
                               PaymentTypeDropDown(),
                               PaymentFieldContainer(
+                                paid: false,
                                   initialValue:
                                       state.request.transactionId.toString(),
                                   hintName: 'Transaction Id',
+                                  readOnly:false,
                                   onChanged: this.addTansactionId),
                             ]),
                           ),
                           PaymentFieldContainer(
+                            paid: true,
                             initialValue: state.request.amountPaid.toString(),
                             hintName: 'Paid Amount',
+                            readOnly: false,
                             onChanged: this.addPaidAmount,
                           ),
                           // if(state is RequestUpdateSuccess){
                           //   return Container();
                           // },
                           PaymentFieldContainer(
+                            paid:false,
                             initialValue: state is RequestUpdateSuccess
                                 ? state.request.amountRemaining.toString()
                                 : state.request.amountRemaining.toString(),
                             hintName: 'Remaining Amount',
+                            readOnly: true,
                             onChanged: this.addRemainingAmount,
                           ),
                         ]);
@@ -113,7 +122,8 @@ class PaymentContainer extends StatelessWidget {
     ordersBloc.add(AddTransactionIdEvent(transactionId: value));
   }
 
-  void addPaidAmount(String value) {
+  void addPaidAmount(String value) async {
+    
     ordersBloc.add(AddPaidAmountEvent(amount: int.parse(value)));
   }
 

@@ -18,6 +18,7 @@ import 'package:app/Widget/clients/new_client/shipping_address.dart';
 import 'package:app/Widget/clients/new_client/steper.dart';
 import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
+import 'package:sms/sms.dart';
 
 class ClientEditScreen extends StatefulWidget {
   static const routeName = 'client_new';
@@ -572,6 +573,10 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
                 });
                 progress.dismiss();
               }
+              // message will be send here.
+                List<String> recipents = ["916897173", "0939546094"];
+
+                _sendSMS("message", recipents);
               navigateToClientScreen(widgetContext);
 
               // Navigator.of(context).pop();
@@ -854,5 +859,24 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
                 : StepState.complete,
       ),
     ];
+  }
+  void _sendSMS(String message, List<String> recipents) async {
+    // String _result = await sendSMS(message: message, recipients: recipents)
+    //     .catchError((onError) {
+    //   print(onError);
+    // });
+    // print(_result);
+    SmsSender sender = SmsSender();
+    String address = "0916897173";
+
+    SmsMessage message = SmsMessage(address, 'New Client Created!');
+    message.onStateChanged.listen((state) {
+      if (state == SmsMessageState.Sent) {
+        print("SMS is sent!");
+      } else if (state == SmsMessageState.Delivered) {
+        print("SMS is delivered!");
+      }
+    });
+    sender.sendSms(message);
   }
 }

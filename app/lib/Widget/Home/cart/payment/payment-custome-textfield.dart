@@ -10,6 +10,7 @@ class PaymentCustomTextField extends StatelessWidget {
   final bool? isRequired;
   final String? initialValue;
   final Function? onChanged;
+  final bool readonly;
   PaymentCustomTextField({
     this.textFieldName,
     this.controller,
@@ -18,6 +19,7 @@ class PaymentCustomTextField extends StatelessWidget {
     this.isRequired,
     this.initialValue,
     this.onChanged,
+    required this.readonly,
   });
 
   @override
@@ -27,6 +29,7 @@ class PaymentCustomTextField extends StatelessWidget {
     return Container(
       width: loginSize.getTextFieldWidth,
       child: TextFormField(
+        readOnly: readonly,
         controller: this.controller,
         // obscureText: this.obsecureText,
         initialValue: this.initialValue,
@@ -59,7 +62,6 @@ class PaymentCustomTextField extends StatelessWidget {
         },
         // keyboardType: TextInputType.emailAddress,
       ),
-      
     );
   }
 }

@@ -20,7 +20,8 @@ class OrderDataProvider {
   Future<bool> createOrder(Request? request) async {
     String? token = await this.userPreferences.getUserToken();
     // late List<Data> products_return = [];
-    print("+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
+    print(
+        "+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders');
 
@@ -31,7 +32,7 @@ class OrderDataProvider {
             'Authorization': 'Bearer $token',
           },
           body: jsonEncode({
-            "total": request!.total,
+            "total": request.total,
             "payment_when": request.paymentWhen,
             "payment_method": request.paymentMethod,
             "type_of_wallet": request.typeOfWallet,

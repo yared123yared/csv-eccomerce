@@ -3,7 +3,8 @@ part of 'orders_bloc.dart';
 class OrdersState {
   final bool orderCreated;
   final Request request;
-  OrdersState({required this.orderCreated, required this.request});
+  final double? credit;
+  OrdersState({required this.orderCreated, required this.request, this.credit});
 }
 
 class OrdersInitial extends OrdersState {
@@ -30,14 +31,16 @@ class OrderCreatingFailed extends OrdersState {
 
 class RequestUpdateSuccess extends OrdersState {
   final Request request;
+  final double? credit;
   // OrdersCheckedOutSuccess();
-  RequestUpdateSuccess({required this.request})
-      : super(orderCreated: false, request: request);
+  RequestUpdateSuccess({required this.request,  this.credit})
+      : super(orderCreated: false, request: request, credit: credit);
 }
 
 class FetchingOrderToBeUpdated extends OrdersState {
   final Request request;
-  FetchingOrderToBeUpdated({required this.request}) : super(orderCreated: false, request: request);
+  FetchingOrderToBeUpdated({required this.request})
+      : super(orderCreated: false, request: request);
 }
 
 class FetchingOrderToBeUpdatedFailed extends OrdersState {
@@ -48,7 +51,7 @@ class FetchingOrderToBeUpdatedFailed extends OrdersState {
 class FetchingOrderToBeUpdatedSuccess extends OrdersState {
   final Request request;
   final List<OrderToBeUpdated> data;
-  FetchingOrderToBeUpdatedSuccess({required this.data,required this.request})
+  FetchingOrderToBeUpdatedSuccess({required this.data, required this.request})
       : super(orderCreated: false, request: Request());
 }
 
@@ -67,6 +70,6 @@ class OrderUpdating extends OrdersState {
 class OrderUpdatingFailed extends OrdersState {
   final Request request;
   final String message;
-  OrderUpdatingFailed({required this.request,required this.message})
+  OrderUpdatingFailed({required this.request, required this.message})
       : super(orderCreated: false, request: request);
 }

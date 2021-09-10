@@ -37,7 +37,7 @@ class _AddClientState extends State<AddClient> {
   late AddClientBloc addClientBloc;
   @override
   Widget build(BuildContext context) {
-    this.isShowing = false;
+    // this.isShowing = false;
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
@@ -45,6 +45,7 @@ class _AddClientState extends State<AddClient> {
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
+    ordersbloc.add(PaymentInitialization());
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(title: Text("Add Client")),
@@ -62,9 +63,14 @@ class _AddClientState extends State<AddClient> {
                 //     });
 
                 // }
-                progress!.showWithText("Creating");
+                setState(() {
+                  isShowing = true;
+                });
+                if (isShowing == true) {
+                  progress!.showWithText("Creating");
+                }
               } else if (state is OrderCreatedSuccess) {
-                this.isShowing = false;
+                // this.isShowing = false;
                 String message = "This is a test message!";
                 List<String> recipents = ["916897173", "0939546094"];
 
@@ -79,14 +85,21 @@ class _AddClientState extends State<AddClient> {
                   dialogType: DialogType.ERROR,
                   animType: AnimType.BOTTOMSLIDE,
                   title: 'Order Creating failed',
-                  desc: 'Fill all the information carefully!',
+                  desc: 'Remaining amount greater than your credit limit!',
                   btnCancelOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
+                //      setState(() {
+                //   isShowing = false;
+                // });
                   },
                   btnOkOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
+                //      setState(() {
+                //   isShowing = false;
+                // });
                   },
                 )..show();
+               
               }
             },
             builder: (context, state) {
