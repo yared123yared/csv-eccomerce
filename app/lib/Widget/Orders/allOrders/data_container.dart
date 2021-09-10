@@ -33,6 +33,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   void dispose() {
     bloc.close();
     ordersBloc.close();
+    
     addClientBloc.close;
     super.dispose();
   }
