@@ -3,14 +3,13 @@ import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
-import 'package:app/Widget/Home/bottom-navigation/bottomNavigation.dart';
+
 import 'package:app/Widget/Home/cart/add-client/Price-info.dart';
 import 'package:app/Widget/Home/cart/add-client/next-button.dart';
 import 'package:app/Widget/Home/cart/add-client/upper-container.dart';
-import 'package:app/Widget/Home/cart/checkout-button.dart';
+
 import 'package:app/Widget/Home/cart/payment/payment-container.dart';
-import 'package:app/Widget/Home/cart/product-price-info.dart';
-import 'package:app/Widget/Home/cart/single-cart-item.dart';
+
 import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
@@ -18,6 +17,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+
+import 'package:sms/sms.dart';
 
 class AddClient extends StatefulWidget {
   static const routeName = '/cart/add-client';
@@ -36,7 +37,7 @@ class _AddClientState extends State<AddClient> {
   late AddClientBloc addClientBloc;
   @override
   Widget build(BuildContext context) {
-    this.isShowing = false;
+    // this.isShowing = false;
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
@@ -44,6 +45,7 @@ class _AddClientState extends State<AddClient> {
     CartLogic cartLogic = new CartLogic(products: []);
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
+    ordersbloc.add(PaymentInitialization());
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(title: Text("Add Client")),
@@ -61,9 +63,18 @@ class _AddClientState extends State<AddClient> {
                 //     });
 
                 // }
-                progress!.showWithText("Creating");
+                setState(() {
+                  isShowing = true;
+                });
+                if (isShowing == true) {
+                  progress!.showWithText("Creating");
+                }
               } else if (state is OrderCreatedSuccess) {
-                this.isShowing = false;
+                // this.isShowing = false;
+                String message = "This is a test message!";
+                List<String> recipents = ["916897173", "0939546094"];
+
+                _sendSMS(message, recipents);
                 cartbloc.add(InitializeCart());
                 productBloc.add(FetchProduct());
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
@@ -74,14 +85,21 @@ class _AddClientState extends State<AddClient> {
                   dialogType: DialogType.ERROR,
                   animType: AnimType.BOTTOMSLIDE,
                   title: 'Order Creating failed',
-                  desc: 'Fill all the information carefully!',
+                  desc: 'Remaining amount greater than your credit limit!',
                   btnCancelOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
+                //      setState(() {
+                //   isShowing = false;
+                // });
                   },
                   btnOkOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
+                //      setState(() {
+                //   isShowing = false;
+                // });
                   },
                 )..show();
+               
               }
             },
             builder: (context, state) {
@@ -115,6 +133,7 @@ class _AddClientState extends State<AddClient> {
                                   },
                                 ),
                               ),
+
                               PaymentContainer(
                                 formKey: _formKey,
                                 onStateChange: this.setPayment,
@@ -171,5 +190,25 @@ class _AddClientState extends State<AddClient> {
     setState(() {
       this.payment = payment;
     });
+  }
+
+  void _sendSMS(String message, List<String> recipents) async {
+    // String _result = await sendSMS(message: message, recipients: recipents)
+    //     .catchError((onError) {
+    //   print(onError);
+    // });
+    // print(_result);
+    SmsSender sender = SmsSender();
+    String address = "+14404881961";
+
+    SmsMessage message = SmsMessage(address, 'New Order Created!');
+    message.onStateChanged.listen((state) {
+      if (state == SmsMessageState.Sent) {
+        print("SMS is sent!");
+      } else if (state == SmsMessageState.Delivered) {
+        print("SMS is delivered!");
+      }
+    });
+    sender.sendSms(message);
   }
 }

@@ -6,3 +6,9 @@ abstract class CustomDebtEvent {
 }
 
 class FeatchCustomDebtEvent extends CustomDebtEvent {}
+
+class SearchCustomDebtEvent extends CustomDebtEvent {
+  final String searchName;
+
+  SearchCustomDebtEvent(this.searchName);
+}

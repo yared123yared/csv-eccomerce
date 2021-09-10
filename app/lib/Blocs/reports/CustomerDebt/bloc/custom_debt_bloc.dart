@@ -16,11 +16,20 @@ class CustomDebtBloc extends Bloc<CustomDebtEvent, CustomDebtState> {
   Stream<CustomDebtState> mapEventToState(
     CustomDebtEvent event,
   ) async* {
-    if (event is CustomDebtEvent) {
+    if (event is FeatchCustomDebtEvent) {
       yield CustomDebtLoadingState();
       try {
         var customDebt = await customDebtDataProvider.getCustomReport();
         yield CustomDebtSuccessState(customDebt);
+      } catch (e) {
+        yield CustomDebtErrorState(e.toString());
+      }
+    } else if (event is SearchCustomDebtEvent) {
+      yield SearchCustomDebtLoadingState();
+      try {
+        var searchcustomDebt = await customDebtDataProvider
+            .getCustomReportSearch(event.searchName);
+        yield SearchCustomDebtSuccessState(searchcustomDebt);
       } catch (e) {
         yield CustomDebtErrorState(e.toString());
       }

@@ -18,30 +18,35 @@ class CartScreen extends StatelessWidget {
         builder: (context, state) {
           print("This is the cart state: ${state.cartProducts}");
           if (state.cartProducts != []) {
-            return Column(
-              children: [
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: ListView.separated(
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 0,
-                        );
-                      },
-                      itemBuilder: (context, index) =>
-                          index >= state.cartProducts.length
-                              ? Container(child: Text("The end"))
-                              : SingleCartItem(
-                                  product: state.cartProducts[index],
-                                ),
-                      itemCount: state.cartProducts.length,
-                    )),
-                //
-                ProductPriceInfo(
-                  products: state.cartProducts,
-                ),
-                // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: ListView.separated(
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            height: 0,
+                          );
+                        },
+                        itemBuilder: (context, index) =>
+                            index >= state.cartProducts.length
+                                ? Container(child: Text("The end"))
+                                : SingleCartItem(
+                                    product: state.cartProducts[index],
+                                  ),
+                        itemCount: state.cartProducts.length,
+                      )
+                      ),
+                  //
+                  ProductPriceInfo(
+                    products: state.cartProducts,
+                  ),
+
+
+                  // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                ],
+              ),
             );
           } else {
             return Center(child: Text("No Item in Cart"));

@@ -2,12 +2,17 @@ import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
+import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
+import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
+import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
-import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
-import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/dashboard/daliy_chart_data_provider.dart';
+import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
+import 'package:app/data_provider/dashboard/recent_data_provider.dart';
 import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
@@ -18,14 +23,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
+import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
 import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
+import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
+import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
-import 'Blocs/reports/CustomerDebt/cubit/customer_cubit.dart';
 import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
-import 'Blocs/reports/SalesRepor_cubit/cubit/salesreport_cubit.dart';
+import 'data_provider/dashboard/numbers_data_provider.dart';
+import 'data_provider/orderDrawer/orderbyDebt_data_provider.dart';
 import 'data_provider/payments/payment_data_provider.dart';
-import 'data_provider/product_data_provider.dart';
+import 'data_provider/product_data_provider.dart'; 
 import 'data_provider/reports/collection_data_provider.dart';
 import 'data_provider/reports/salesReport_data_provider.dart';
 import 'route/route.dart';
@@ -47,6 +55,9 @@ void main() {
 
   final UserPreferences userPreferences = UserPreferences();
 
+  // final ScrollController scrollController = ScrollController();
+  
+  
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
@@ -83,6 +94,7 @@ void main() {
       categoryRepository: categoryRepository,
       orderRepository: orderRepository,
       locationRepository: locationRepository,
+      // scrollController: scrollController,
     ),
   );
 }
@@ -155,7 +167,7 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-            create: (_) => OrdersBloc(orderRepository: this.orderRepository),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository)..add(PaymentInitialization()),
           ),
           //
           BlocProvider<AddClientBloc>(
@@ -166,69 +178,62 @@ class App extends StatelessWidget {
             create: (_) =>
                 LocationBloc(locationRepository: this.locationRepository),
           ),
-
-          // BlocProvider<ReportCubit>(
-          //   create: (BuildContext context) => ReportCubit(userPreferences)
-          //     ..postSalesReport(
-          //       nameSearch: "",
-          //       dateFrom: "",
-          //     ),
-          BlocProvider<SalesReportCubit>(
-            create: (BuildContext context) => SalesReportCubit(userPreferences),
-          ),
           BlocProvider<SalesReportBloc>(
             create: (_) => SalesReportBloc(
               SalesReportDataProvider(userPreferences),
             ),
           ),
           BlocProvider<CollectionReportCubit>(
-            create: (BuildContext context) =>
-                CollectionReportCubit(userPreferences)
-                  ..postCollectionReport(
-                    nameSearch: "",
-                    dateFrom: "",
-                    dateTo: "",
-                  ),
-          ),
+              create: (BuildContext context) =>
+                  CollectionReportCubit(userPreferences)),
           BlocProvider<CollectionBloc>(
             create: (_) => CollectionBloc(
               CollectionDataProvider(userPreferences),
             ),
           ),
-          BlocProvider<CustomerDebtCubit>(
-            create: (_) => CustomerDebtCubit(userPreferences)
-              ..postCustomReport()
-              ..postCustomReportSearch(searchClientName: ''),
-          ),
+
           BlocProvider<CustomDebtBloc>(
             create: (_) => CustomDebtBloc(
               CustomDebtDataProvider(userPreferences),
             ),
           ),
           BlocProvider<AllOrdersCubit>(
-            create: (_) => AllOrdersCubit(userPreferences)
-              ..postAllSearchOrders(searchNmae: ""),
-          ),
+              create: (_) => AllOrdersCubit(userPreferences)),
           BlocProvider<AllorderrBloc>(
             create: (_) => AllorderrBloc(
               AllOrderDataProvider(userPreferences),
-            ),
+            )..add(FeatcAllorderrEvent()),
           ),
           BlocProvider<OrderByDebtCubit>(
-            create: (_) => OrderByDebtCubit(userPreferences)
-              ..postOrdersByDebt()
-              ..postOrdersByDebtSearch(searchName: "")
-              ..featchTotalDebt(),
-          ),
-          BlocProvider<PaymentsCubit>(
-              create: (_) => PaymentsCubit(userPreferences)
-              // ..postPayMentConatiner(),
+              create: (_) => OrderByDebtCubit(userPreferences)),
+          BlocProvider<OrderbydebtBloc>(
+              create: (_) => OrderbydebtBloc(
+                    OrderByDebtDataProvider(userPreferences),
+                  )..add(FeatchOrderbydebtEvent())),
 
-              // ..postPayMentUplaodData(),
-              ),
+          BlocProvider<PaymentsCubit>(
+              create: (_) => PaymentsCubit(userPreferences)),
           BlocProvider<BankslipBloc>(
             create: (_) => BankslipBloc(
               PaymentDataProvider(userPreferences),
+            ),
+          ),
+          BlocProvider<NumberDashboardBloc>(
+            create: (_) => NumberDashboardBloc(
+              NumbersDataProvider(userPreferences),
+            ),
+          ),
+          BlocProvider<RecentOrderBloc>(
+              create: (_) => RecentOrderBloc(
+                    RecentDataProvider(userPreferences),
+                  )),
+          BlocProvider<DailyChartBloc>(
+              create: (_) => DailyChartBloc(
+                    DailyChartDataProvider(userPreferences),
+                  )),
+          BlocProvider<MonthlyChartBloc>(
+            create: (_) => MonthlyChartBloc(
+              MOnthlyChartDataProvider(userPreferences),
             ),
           ),
         ],

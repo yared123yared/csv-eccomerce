@@ -13,12 +13,14 @@ class PivotFields {
   static final String updatedAt = 'updated_at';
 }
 
+
 class Pivot {
   int? productId;
   int? attributeId;
   String? value;
-  int? unitId;
-  String? unitName;
+  Null? unitId;
+  Null? unitName;
+  int? id;
   String? createdAt;
   String? updatedAt;
 
@@ -28,6 +30,7 @@ class Pivot {
       this.value,
       this.unitId,
       this.unitName,
+      this.id,
       this.createdAt,
       this.updatedAt});
 
@@ -37,6 +40,7 @@ class Pivot {
     value = json['value'];
     unitId = json['unit_id'];
     unitName = json['unit_name'];
+    id = json['id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -48,6 +52,7 @@ class Pivot {
     data['value'] = this.value;
     data['unit_id'] = this.unitId;
     data['unit_name'] = this.unitName;
+    data['id'] = this.id;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

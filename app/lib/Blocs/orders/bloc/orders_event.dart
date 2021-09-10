@@ -16,7 +16,9 @@ class ClientAddEvent extends OrdersEvent {
   final Client client;
   ClientAddEvent({required this.client});
 }
+class PaymentInitialization extends OrdersEvent{
 
+}
 class PaymentAddEvent extends OrdersEvent {
   final Payment payment;
   PaymentAddEvent({required this.payment});

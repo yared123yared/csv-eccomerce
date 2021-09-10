@@ -10,8 +10,9 @@ class CollectionLoadingState extends CollectionState {}
 class CollectionSuccessState extends CollectionState {
   final List<DataCollection> collextions;
 
-
-  CollectionSuccessState(this.collextions,);
+  CollectionSuccessState(
+    this.collextions,
+  );
 }
 
 class CollectionErrorState extends CollectionState {
@@ -19,3 +20,20 @@ class CollectionErrorState extends CollectionState {
 
   CollectionErrorState(this.message);
 }
+
+class SearchCollectionLoadingState extends CollectionState {}
+
+class SearchCollectionSuccessState extends CollectionState {
+  final List<DataCollection> searchCollextions;
+
+  SearchCollectionSuccessState(this.searchCollextions);
+}
+
+class FromToCollectionLoadingState extends CollectionState {}
+
+class FromToCollectionSuccessState extends CollectionState {
+  final List<DataCollection> fromTlCollextions;
+
+  FromToCollectionSuccessState(this.fromTlCollextions);
+}
+

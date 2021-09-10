@@ -94,8 +94,10 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   //dowanload image
   bool isImageLoding = false;
   saveImage({required int index}) async {
+    // final url =
+    //     "https://csv.jithvar.com/storage/${payMentContainerModel.data![index].photo!.filePath}";
     final url =
-        "https://csv.jithvar.com/storage/${payMentContainerModel.data![index].photo!.filePath}";
+        "https://images.unsplash.com/photo-1630589739537-4d0f64a49845?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
     var status = await Permission.storage.request();
 
     if (status.isGranted) {
@@ -106,12 +108,12 @@ class PaymentsCubit extends Cubit<PaymentsState> {
           quality: 60,
           name: "${payMentContainerModel.data![index].photo!.name}");
       isImageLoding = true;
-      //isImageLoding = true;
+  
       emit(PaymentsImageDowanloadedState());
 
       print(result);
     }
-    //isImageLoding = false;
+    isImageLoding = false;
   }
 
   //uploade image

@@ -1,21 +1,19 @@
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
-import 'package:app/data_provider/user_data_provider.dart';
 import 'package:app/db/db.dart';
-import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/login_info.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/models/users.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-
+// import 'package:flutter_sms/flutter_sms.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
@@ -24,7 +22,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   final OrderRepository orderRepository;
   OrdersBloc({required this.orderRepository}) : super(OrdersInitial());
   // CartBloc cartbloc;
-
+  int total = 0;
+  List<Cart> carts = [];
   @override
   Stream<OrdersState> mapEventToState(
     OrdersEvent event,
@@ -42,6 +41,14 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
+          //
+          // String _result =
+          //     await sendSMS(message: "Test", recipients: ['0916897173'])
+          //         .catchError((onError) {
+          //   print(onError);
+          // });
+          // print(_result);
+//
           yield (OrderCreatedSuccess(request: state.request));
         } else {
           print("failed to create--order");
@@ -63,37 +70,68 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         }
       }
     } else if (event is CartCheckoutEvent) {
+      //
+      print("Credit state:${state.credit}");
+      //
       Request request = state.request;
 
       // CartLogic cartLogic = new CartLogic(products: event.cartProducts);
-      request.total = this.getTotalPrice(event.cartProducts).toInt();
+      total = this.getTotalPrice(event.cartProducts).toInt();
+      request.total = total;
       request.paymentWhen = 'Pay Later';
       request.paymentMethod = 'Wallet';
       request.typeOfWallet = 'Smilepay';
       request.amountPaid = 0;
       request.transactionId = "";
       request.amountRemaining = (request.total! - (request.amountPaid as int));
+      request.cart = carts;
       print("Total Value: ${this.getTotalPrice(event.cartProducts).toInt()}");
-      List<Cart> carts = [];
+      // List<Cart> carts = [];
       for (int i = 0; i < event.cartProducts.length; i++) {
         print("Cart Value: ${event.cartProducts[i].id}");
-        carts.add(
-          Cart(
-              id: event.cartProducts[i].id,
-              amountInCart: event.cartProducts[i].order,
-              selectedAttributes: []),
-        );
+        print(
+            "Prodcut Attributes: ${event.cartProducts[i].selectedAttributes}");
+
+        List<int> selectedAttributes = [];
+
+        for (int j = 0;
+            j < event.cartProducts[i].selectedAttributes!.length;
+            j++) {
+          selectedAttributes.add(
+              event.cartProducts[i].selectedAttributes![j].pivot!.id as int);
+        }
+        carts.add(Cart(
+          id: event.cartProducts[i].id,
+          amountInCart: event.cartProducts[i].order,
+          selectedAttributes: selectedAttributes,
+        ));
       }
+
       request.cart = carts;
 
       print(request.toJson());
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
+    } else if (event is PaymentInitialization) {
+      UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      double credit = double.parse(user.credit as String);
+      Request request = state.request;
+      request.total = total;
+      request.paymentWhen = 'Pay Later';
+      request.paymentMethod = 'Wallet';
+      request.typeOfWallet = 'Smilepay';
+      request.amountPaid = 0;
+      request.transactionId = "";
+      request.amountRemaining = (request.total! - (request.amountPaid as int));
+      yield RequestUpdateSuccess(request: request, credit: credit);
     } else if (event is ClientAddEvent) {
       Request request = state.request;
       request.clientId = event.client.id;
       print('Request: ${state.request.toJson()}');
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is PaymentAddEvent) {
       // Request request = state.request;
@@ -107,7 +145,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       // print('Request: ${state.request.toString()}');
       // // ordersbloc.add(
       // //                           CreateOrderEvent(request: state_old.request));
-      // yield RequestUpdateSuccess(request: request);
+      //yield RequestUpdateSuccess(request: request, credit:state.credit);
     } else if (event is AddPaymentWhenEvent) {
       Request request = state.request;
       print("Entered to the payment bloc");
@@ -115,7 +153,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.paymentWhen = event.when;
       print("When:${event.when}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaymentMethodEvent) {
       Request request = state.request;
@@ -124,7 +162,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.paymentMethod = event.method;
       print("When:${event.method}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddTotalEvent) {
       Request request = state.request;
@@ -133,7 +171,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.total = event.total;
       // print("When:${event.method}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaymentTypeEvent) {
       Request request = state.request;
@@ -142,7 +180,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.typeOfWallet = event.type;
       print("When:${event.type}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddTransactionIdEvent) {
       Request request = state.request;
@@ -151,7 +189,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.transactionId = event.transactionId;
       print("When:${event.transactionId}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaidAmountEvent) {
       Request request = state.request;
@@ -161,7 +199,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.amountRemaining = (request.total! - (request.amountPaid as int));
       print("When:${event.amount}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddRemainingAmountEvent) {
       Request request = state.request;
@@ -170,7 +208,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.amountRemaining = event.amount;
       print("When:${event.amount}");
 
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is FetchOrderToBeUpdated) {
       yield FetchingOrderToBeUpdated(request: state.request);
@@ -188,7 +226,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("setting request");
       Request request = state.request;
       request = event.request;
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddToCart) {
       print("----add to cart --invoked--");
@@ -209,16 +247,20 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           car.id = -1;
           carts.add(car);
           request.cartItem = carts;
-          yield RequestUpdateSuccess(request: request);
+          yield RequestUpdateSuccess(
+            request: request,
+          );
         } catch (e) {
           CartItem car = event.cart;
           car.id = -1;
           carts.add(event.cart);
           request.cartItem = carts;
-          yield RequestUpdateSuccess(request: request);
+          yield RequestUpdateSuccess(
+            request: request,
+          );
         }
       }
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is RemoveFromCart) {
       Request request = state.request;
@@ -241,7 +283,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           request.cartItem = carts;
         }
       }
-      yield RequestUpdateSuccess(request: request);
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is UpdateOrderEvent) {
       print("Entered to the update order event");
@@ -296,7 +338,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       total += double.parse(value) * products[i].order;
     }
 
-    double taxedValue = total - 20;
-    return taxedValue;
+    // double taxedValue = total - 20;
+    return total;
   }
 }

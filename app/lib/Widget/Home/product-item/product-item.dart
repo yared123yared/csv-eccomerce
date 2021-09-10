@@ -2,10 +2,10 @@ import 'dart:ffi';
 
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/models/product/data.dart';
+import 'package:app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'conditional.dart';
-
 
 class ProductItem extends StatefulWidget {
   final Data product;
@@ -30,9 +30,12 @@ class _ProductItemState extends State<ProductItem> {
     return InkWell(
         onTap: () {
           setState(() {
-            widget.product.order += 1;
+            Navigator.pushNamed(context, ProductDetail.routeName, arguments: [
+              this.widget.product,
+              this.onClicked,
+            ]);
           });
-          cartBloc.add(AddProduct(singleProduct: widget.product));
+          // cartBloc.add(AddProduct(singleProduct: widget.product));
         },
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.5,
@@ -56,6 +59,7 @@ class _ProductItemState extends State<ProductItem> {
   void onClicked() {
     print("item add method have called");
     setState(() {
+      print("Products: ${widget.product.attributes!.length}");
       widget.product.order += 1;
     });
   }

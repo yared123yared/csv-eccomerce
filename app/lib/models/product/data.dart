@@ -53,6 +53,7 @@ class Data {
   List<Categories>? categories;
   List<Attributes>? attributes;
   int order = 0;
+  List<Attributes>? selectedAttributes = [];
   //
 
   Data({
@@ -99,6 +100,7 @@ class Data {
       });
     }
     if (json['attributes'] != null) {
+      print("Length: ${json['attributes'].length}");
       attributes = <Attributes>[];
       json['attributes'].forEach((v) {
         attributes!.add(new Attributes.fromJson(v));
@@ -127,6 +129,9 @@ class Data {
     // }
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
+    }
+    if (this.attributes != null) {
+      data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
