@@ -73,7 +73,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
       desc: 'Fill all the information carefully!',
       btnCancelOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
-      
+
       },
       btnOkOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
@@ -393,8 +393,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
       }
     }
 
-    double taxedValue = total - 20;
-    return taxedValue;
+    // double taxedValue = total - 20;
+    return total;
   }
 
   void setPayment(Payment payment) {

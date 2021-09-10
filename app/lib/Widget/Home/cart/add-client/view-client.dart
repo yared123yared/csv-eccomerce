@@ -24,7 +24,8 @@ class ViewCient extends StatelessWidget {
                 level: 'Premiem',
                 email: state.client!.email.toString(),
                 phone: state.client!.mobile.toString(),
-                
+                creditLimitEndDate: "",
+                creditLimitStartDate: ""
               ),
             );
           }

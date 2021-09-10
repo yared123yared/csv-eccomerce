@@ -11,8 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-
-
 class DataContainerAllOrders extends StatefulWidget {
   @override
   _DataContainerAllOrdersState createState() => _DataContainerAllOrdersState();
@@ -20,8 +18,8 @@ class DataContainerAllOrders extends StatefulWidget {
 
 class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   late AllorderrBloc bloc;
-late AddClientBloc addClientBloc;
- late OrdersBloc ordersBloc;
+  late AddClientBloc addClientBloc;
+  late OrdersBloc ordersBloc;
   ScrollController _scrollController = ScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -34,9 +32,9 @@ late AddClientBloc addClientBloc;
 
   @override
   void initState() {
-    bloc = BlocProvider.of<AllorderrBloc>(context);
-    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    bloc = BlocProvider.of<AllorderrBloc>(context);
     bloc.add(FeatcAllorderrEvent());
 
     super.initState();
@@ -80,78 +78,84 @@ late AddClientBloc addClientBloc;
   void dispose() {
     bloc.close();
     ordersBloc.close();
-
-    addClientBloc.close;
+    addClientBloc.close();
+    _scrollController.dispose();
     super.dispose();
-  }
-
-  void FetchClientDetail(BuildContext context) {
-    OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
-    // AddClientBloc addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    // addClientBloc = BlocProvider.of<AddClientBloc>(context);
     // ordersBloc = BlocProvider.of<OrdersBloc>(context);
-    return BlocBuilder<AllorderrBloc, AllorderrState>(
-      builder: (context, state) {
-        if (state is AllorderrInitial) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is AllOrderrLoadingState) {
-          return Center(child: CircularProgressIndicator());
-        } else if (state is AllOrdersSuccessState) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  width: 400,
-                  height: 230,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      buildrowData(
-                          text: 'DATE',
-                          // dateApi:
-                          //     "${cubit.allOrdersModel.data![index].createdAt}",
-                          dateApi: "${state.allorderdata[index].createdAt}"),
-                      buildrowData(
-                          text: 'ORDER',
-                          // dateApi:
-                          //     "${cubit.allOrdersModel.data![index].orderNumber}",
-                          dateApi: "${state.allorderdata[index].orderNumber}"),
-                      buildrowData(
-                          text: 'CLIENT ',
-                          // dateApi:
-                          //     "${cubitData![index].client!.firstName} ${cubitData[index].client!.lastName}",
-                          dateApi:
-                              "${state.allorderdata[index].client!.firstName} ${state.allorderdata[index].client!.lastName}"),
-                      buildrowData(
-                          text: 'TOTAL',
-                          //dateApi: '${cubit.allOrdersModel.data![index].total}',
-                          dateApi: "${state.allorderdata[index].total}"),
-                      buildrowData(
-                        text: 'PAID AMOUNT',
-                        // dateApi:
-                        //     '${cubit.allOrdersModel.data![index].amountPaid}',
-                        dateApi: "${state.allorderdata[index].amountPaid}",
-                      ),
-                      buildrowData(
-                        text: 'DEBT',
-                        // dateApi: '${cubitData[index].client!.debts}',
-                        dateApi: "${state.allorderdata[index].client!.debts}",
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 20, left: 5, right: 5),
+          child: SearchContinerAllOrder(),
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        BlocBuilder<AllorderrBloc, AllorderrState>(
+          builder: (context, state) {
+            if (state is AllOrdersSuccessState) {
+              return Text(
+                "showing ${start} to ${total} of ${total} entries",
+                style: TextStyle(
+                  color: Colors.black45,
+                ),
+              );
+            } else if (state is SearchDataSccessState) {
+              return Text(
+                "showing ${start} to ${total} of ${total} entries",
+                style: TextStyle(
+                  color: Colors.black45,
+                ),
+              );
+            }
+            return Text(
+              "Showing 1 to 5 of 5 entries",
+              style: TextStyle(
+                color: Colors.black45,
+              ),
+            );
+          },
+        ),
+        SizedBox(
+          height: 30,
+        ),
+        BlocBuilder<AllorderrBloc, AllorderrState>(
+          builder: (context, state) {
+            if (state is AllorderrInitial) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is AllOrderrLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is AllOrdersSuccessState) {
+              dataAllOrder = state.allorderdata;
+              if (state.allorderdata.isNotEmpty) {
+                total = state.allorderdata.length;
+              }
+
+              return Expanded(
+                child: ScrollablePositionedList.builder(
+                  itemCount: state.allorderdata.length,
+                  itemScrollController: itemScrollController,
+                  itemPositionsListener: itemPositionsListener,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 20),
+                      child: Container(
+                        width: 400,
+                        height: 230,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
                                 text: 'DATE',
@@ -215,59 +219,62 @@ late AddClientBloc addClientBloc;
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
-                                  print(
-                                      "orders data:${state.allorderdata[index].id}");
+                                        print(
+                                            "orders data:${state.allorderdata[index].id}");
 
-                                  if (state.allorderdata[index].client !=
-                                      null) {
-                                    print(
-                                        "--------invoked data--container ---120");
-                                    //  OrdersBloc ordersBloc = BlocProvider.of<OrdersBloc>(context);
-
-                                    addClientBloc.add(ClientDisplayEvent(
-                                        client:
-                                            state.allorderdata[index].client!));
-                                    ordersBloc.add(ClientAddEvent(
-                                        client:
-                                            state.allorderdata[index].client!));
-                                    ordersBloc.add(
-                                        AddPaymentWhenEvent(when: 'Pay Later'));
-                                    ordersBloc.add(
-                                      SetRequestEvent(
-                                        request: Request(
-                                          id: state.allorderdata[index].id,
-                                          amountPaid: double.parse(state
-                                                  .allorderdata[index]
-                                                  .amountPaid)
-                                              .round(),
-                                          //double.parse(state.allorderdata[index].amountRemaining).round()
-                                          amountRemaining: 0,
-                                          transactionId: "",
-                                          paymentWhen: 'Pay Later',
-                                          cart: [],
-                                          cartItem: [],
-                                          clientId: state
-                                              .allorderdata[index].clientId,
-                                          addressId: state.allorderdata[index]
-                                              .client?.orders?[0].addressId,
-                                          total: 0,
-                                        ),
-                                      ),
-                                    );
-                                    ordersBloc.add(
-                                      FetchOrderToBeUpdated(
-                                        id: state.allorderdata[index].id
-                                            .toString(),
-                                      ),
-                                    );
-                                    Navigator.pushNamed(
-                                      context,
-                                      UpdateOrder.routeName,
-                                      arguments: state.allorderdata[index],
-                                    );
-                                  }
-                                },
-
+                                        if (state.allorderdata[index].client !=
+                                            null) {
+                                          print(
+                                              "--------invoked data--container ---120");
+                                          addClientBloc.add(ClientDisplayEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          ordersBloc.add(ClientAddEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          ordersBloc.add(AddPaymentWhenEvent(
+                                              when: 'Pay Later'));
+                                          ordersBloc.add(
+                                            SetRequestEvent(
+                                              request: Request(
+                                                id: state
+                                                    .allorderdata[index].id,
+                                                amountPaid: double.parse(state
+                                                        .allorderdata[index]
+                                                        .amountPaid)
+                                                    .round(),
+                                                //double.parse(state.allorderdata[index].amountRemaining).round()
+                                                amountRemaining: 0,
+                                                transactionId: "4545",
+                                                paymentWhen: 'Pay Later',
+                                                cart: [],
+                                                cartItem: [],
+                                                clientId: state
+                                                    .allorderdata[index]
+                                                    .clientId,
+                                                addressId: state
+                                                    .allorderdata[index]
+                                                    .client
+                                                    ?.orders?[0]
+                                                    .addressId,
+                                                total: 0,
+                                              ),
+                                            ),
+                                          );
+                                          ordersBloc.add(
+                                            FetchOrderToBeUpdated(
+                                              id: state.allorderdata[index].id
+                                                  .toString(),
+                                            ),
+                                          );
+                                          Navigator.pushNamed(
+                                            context,
+                                            UpdateOrder.routeName,
+                                            arguments:
+                                                state.allorderdata[index],
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],
@@ -276,11 +283,10 @@ late AddClientBloc addClientBloc;
                           ],
                         ),
                       ),
-                    ]),
-
+                    );
+                  },
                 ),
               );
-            },);
             } else if (state is SearchAllOrderLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is AllorderrErrorState) {
@@ -388,7 +394,9 @@ late AddClientBloc addClientBloc;
             }
             return Container();
           },
-        );
+        ),
+      ],
+    );
   }
 
   Widget buildrowData({
