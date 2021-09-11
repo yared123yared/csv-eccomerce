@@ -32,7 +32,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
 
   @override
   void initState() {
-     addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
     bloc = BlocProvider.of<AllorderrBloc>(context);
     bloc.add(FeatcAllorderrEvent());
@@ -85,8 +85,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
 
   @override
   Widget build(BuildContext context) {
-    // addClientBloc = BlocProvider.of<AddClientBloc>(context);
-    // ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
 
     return Column(
       children: [
