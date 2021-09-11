@@ -37,6 +37,10 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
+  - flutter_pdfview (1.0.2):
+    - Flutter
+  - flutter_sms (1.1.0):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
@@ -49,9 +53,15 @@ PODS:
     - Flutter
   - hexcolor (0.0.1):
     - Flutter
+  - image_gallery_saver (1.5.0):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
   - location (0.0.1):
+    - Flutter
+  - open_file (0.0.1):
+    - Flutter
+  - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
@@ -61,6 +71,8 @@ PODS:
   - SDWebImage/Core (5.11.1)
   - shared_preferences (0.0.1):
     - Flutter
+  - sms (0.0.1):
+    - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -68,21 +80,30 @@ PODS:
   - syncfusion_flutter_pdfviewer (0.0.1):
     - Flutter
   - Toast (4.0.0)
+  - url_launcher (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
+  - flutter_pdfview (from `.symlinks/plugins/flutter_pdfview/ios`)
+  - flutter_sms (from `.symlinks/plugins/flutter_sms/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
+  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - location (from `.symlinks/plugins/location/ios`)
+  - open_file (from `.symlinks/plugins/open_file/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sms (from `.symlinks/plugins/sms/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
@@ -101,6 +122,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
+  flutter_pdfview:
+    :path: ".symlinks/plugins/flutter_pdfview/ios"
+  flutter_sms:
+    :path: ".symlinks/plugins/flutter_sms/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   geocoding:
@@ -109,18 +134,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   hexcolor:
     :path: ".symlinks/plugins/hexcolor/ios"
+  image_gallery_saver:
+    :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
+  open_file:
+    :path: ".symlinks/plugins/open_file/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sms:
+    :path: ".symlinks/plugins/sms/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   syncfusion_flutter_pdfviewer:
     :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   connectivity_plus: 5f0eb61093bec56935f21a1699dd2758bc895587
@@ -128,21 +163,28 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_pdfview: 25f53dd6097661e6395b17de506e6060585946bd
+  flutter_sms: 91ce41530f55c85d6524d82307a5d555844c086a
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
   geolocator_apple: 108615a04c68489a41e7d3bda915245938a267a6
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
+  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
+  open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  sms: 1e6c3082da09f2a4961d61bc254cc86865993ffd
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
   syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 
