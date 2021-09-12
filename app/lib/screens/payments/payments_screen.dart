@@ -77,14 +77,26 @@ class PaymentsScreen extends StatelessWidget {
                     cubit.uploadImage(
                       date: cubit.dateFromText,
                     );
-                    Fluttertoast.showToast(
-                        msg: "Successful Uploaded",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                    if (cubit.dateFromText.isEmpty) {
+                      Fluttertoast.showToast(
+                          msg: "Please Upload info",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: "Successful Uploaded",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+
                     cubit.clealuploade();
                   },
                   child: const Text(

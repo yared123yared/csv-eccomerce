@@ -17,7 +17,7 @@ dependencies:
   dio: ^4.0.0
   splashscreen:
   hexcolor: ^2.0.5
-  bloc: ^7.0.0
+  bloc: ^7.1.0
   equatable: ^2.0.3
   http: ^0.13.3
   flutter_bloc: ^7.2.0
