@@ -20,7 +20,7 @@ class ClientDataRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            width: 90,
+            width: 130,
             child: Text(
               this.property,
               style: TextStyle(
@@ -31,23 +31,24 @@ class ClientDataRow extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 20,
+            width: 10,
           ),
-          (this.property == 'STATUS')
-              //Colors.greenAccent.shade700
-              ? ((this.value == 'ACTIVE')
-                  ? PillText(
-                      text: 'ACTIVE',
-                      bgColor: Colors.greenAccent.shade700,
-                      fgColor: Colors.white,
-                    )
-                  : PillText(
-                      text: this.value,
-                      bgColor: Colors.grey,
-                      fgColor: Colors.black,
-                    ))
-              : Container(
-                width: 210,
+          // (this.property == 'STATUS')
+          //     //Colors.greenAccent.shade700
+          //     ? ((this.value == 'ACTIVE')
+          //         ? PillText(
+          //             text: 'ACTIVE',
+          //             bgColor: Colors.greenAccent.shade700,
+          //             fgColor: Colors.white,
+          //           )
+          //         : PillText(
+          //             text: this.value,
+          //             bgColor: Colors.grey,
+          //             fgColor: Colors.black,
+          //           ))
+          //     :
+               Container(
+                width: 160,
                   child: AutoSizeText(
                     this.value,
                     maxLines: 2,

@@ -49,6 +49,8 @@ class _ClientProfileState extends State<ClientProfile> {
                 level: 'Premiem',
                 email: 'fokamolvier@gmail.com',
                 phone: '237945521',
+                creditLimitEndDate: "",
+                creditLimitStartDate: "",
               ),
             ),
             MenuItem(

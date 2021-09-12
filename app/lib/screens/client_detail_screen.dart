@@ -63,6 +63,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 level: 'Premiem',
                 email: '${widget.client.email}',
                 phone: '${widget.client.mobile}',
+                creditLimitEndDate: "",
+                creditLimitStartDate: "",
               ),
             ),
             MenuItem(

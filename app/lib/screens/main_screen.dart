@@ -7,7 +7,7 @@ import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
-import 'package:app/screens/client_profile.dart';
+// import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/client_profile_copy.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:app/screens/dashBorad_screen.dart';
@@ -89,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
     cartBloc = BlocProvider.of<CartBloc>(context);
 
     return Scaffold(
-      key: _scaffoldKey, 
+      key: _scaffoldKey,
       appBar: AppBar(
         title: this.check == 0
           ? Text('CSV')

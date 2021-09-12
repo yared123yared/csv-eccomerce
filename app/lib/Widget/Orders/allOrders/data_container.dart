@@ -11,8 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-
-
 class DataContainerAllOrders extends StatefulWidget {
   @override
   _DataContainerAllOrdersState createState() => _DataContainerAllOrdersState();
@@ -20,8 +18,8 @@ class DataContainerAllOrders extends StatefulWidget {
 
 class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   late AllorderrBloc bloc;
-late AddClientBloc addClientBloc;
- late OrdersBloc ordersBloc;
+  late AddClientBloc addClientBloc;
+  late OrdersBloc ordersBloc;
   ScrollController _scrollController = ScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -34,6 +32,8 @@ late AddClientBloc addClientBloc;
 
   @override
   void initState() {
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     bloc = BlocProvider.of<AllorderrBloc>(context);
     bloc.add(FeatcAllorderrEvent());
 
@@ -77,6 +77,8 @@ late AddClientBloc addClientBloc;
   @override
   void dispose() {
     bloc.close();
+    ordersBloc.close();
+    addClientBloc.close();
     _scrollController.dispose();
     super.dispose();
   }
@@ -217,57 +219,62 @@ late AddClientBloc addClientBloc;
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
-                                  print(
-                                      "orders data:${state.allorderdata[index].id}");
+                                        print(
+                                            "orders data:${state.allorderdata[index].id}");
 
-                                  if (state.allorderdata[index].client !=
-                                      null) {
-                                    print(
-                                        "--------invoked data--container ---120");
-                                    addClientBloc.add(ClientDisplayEvent(
-                                        client:
-                                            state.allorderdata[index].client!));
-                                    ordersBloc.add(ClientAddEvent(
-                                        client:
-                                            state.allorderdata[index].client!));
-                                    ordersBloc.add(
-                                        AddPaymentWhenEvent(when: 'Pay Later'));
-                                    ordersBloc.add(
-                                      SetRequestEvent(
-                                        request: Request(
-                                          id: state.allorderdata[index].id,
-                                          amountPaid: double.parse(state
-                                                  .allorderdata[index]
-                                                  .amountPaid)
-                                              .round(),
-                                          //double.parse(state.allorderdata[index].amountRemaining).round()
-                                          amountRemaining: 0,
-                                          transactionId: "4545",
-                                          paymentWhen: 'Pay Later',
-                                          cart: [],
-                                          cartItem: [],
-                                          clientId: state
-                                              .allorderdata[index].clientId,
-                                          addressId: state.allorderdata[index]
-                                              .client?.orders?[0].addressId,
-                                          total: 0,
-                                        ),
-                                      ),
-                                    );
-                                    ordersBloc.add(
-                                      FetchOrderToBeUpdated(
-                                        id: state.allorderdata[index].id
-                                            .toString(),
-                                      ),
-                                    );
-                                    Navigator.pushNamed(
-                                      context,
-                                      UpdateOrder.routeName,
-                                      arguments: state.allorderdata[index],
-                                    );
-                                  }
-                                },
-
+                                        if (state.allorderdata[index].client !=
+                                            null) {
+                                          print(
+                                              "--------invoked data--container ---120");
+                                          addClientBloc.add(ClientDisplayEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          ordersBloc.add(ClientAddEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          ordersBloc.add(AddPaymentWhenEvent(
+                                              when: 'Pay Later'));
+                                          ordersBloc.add(
+                                            SetRequestEvent(
+                                              request: Request(
+                                                id: state
+                                                    .allorderdata[index].id,
+                                                amountPaid: double.parse(state
+                                                        .allorderdata[index]
+                                                        .amountPaid)
+                                                    .round(),
+                                                //double.parse(state.allorderdata[index].amountRemaining).round()
+                                                amountRemaining: 0,
+                                                transactionId: "4545",
+                                                paymentWhen: 'Pay Later',
+                                                cart: [],
+                                                cartItem: [],
+                                                clientId: state
+                                                    .allorderdata[index]
+                                                    .clientId,
+                                                addressId: state
+                                                    .allorderdata[index]
+                                                    .client
+                                                    ?.orders?[0]
+                                                    .addressId,
+                                                total: 0,
+                                              ),
+                                            ),
+                                          );
+                                          ordersBloc.add(
+                                            FetchOrderToBeUpdated(
+                                              id: state.allorderdata[index].id
+                                                  .toString(),
+                                            ),
+                                          );
+                                          Navigator.pushNamed(
+                                            context,
+                                            UpdateOrder.routeName,
+                                            arguments:
+                                                state.allorderdata[index],
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],

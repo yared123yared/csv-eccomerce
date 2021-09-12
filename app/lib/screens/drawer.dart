@@ -136,13 +136,13 @@ class _AppDrawerState extends State<AppDrawer> {
                                   leading: Icon(
                                     Icons.home,
                                     size: 40.0,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                   title: Text(
                                     'Dashboard',
                                     style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
                                       fontSize: 20.0,
                                     ),
                                   ),

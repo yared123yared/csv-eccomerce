@@ -28,61 +28,17 @@
     </select>
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21,_11_04_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_8_13_21__11_04_AM__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/Product/bloc/produt_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/clients/bloc/clients_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orders/bloc/orders_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/db/db.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/db.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/db/order.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/db/order.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/request/cart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/cart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/request/request.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/request/request.dart" afterDir="false" />
-=======
+      <change afterPath="$PROJECT_DIR$/app/android/settings_aar.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/dashBoard/recentOrder/bloc/recent_order_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/Orders/allOrders/data_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/daily_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/daily_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/daily_debt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/daily_debt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/from_to_dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/from_to_dashboard.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/monthly_debt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/monthly_debt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/recent_total_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/recent_total_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Widget/dashboard/search_container.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Widget/dashboard/search_container.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/dashboard/recent_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/dashboard/recent_data_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/orderDrawer/all_order_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/orderDrawer/all_order_data_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/data_provider/orderDrawer/orderbyDebt_data_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/data_provider/orderDrawer/orderbyDebt_data_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/route/route.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/route/route.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/dashBorad_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/dashBorad_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/orders_screen/all_orders_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/orders_screen/all_orders_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
->>>>>>> walid
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
     </list>
-=======
-    <list default="true" id="b8f8dca9-3dbd-401d-b9d0-80512f3c9901" name="Default Changelist" comment="" />
->>>>>>> a5deca64ff5d2428e34fbc58d2ed811957c17b45
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-<<<<<<< HEAD
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30.avd]" />
-=======
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@RF8N82B2B6T]" />
->>>>>>> a5deca64ff5d2428e34fbc58d2ed811957c17b45
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/alefew/.android/avd/Pixel_3a_API_30_x86.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -111,6 +67,11 @@
       <option name="filePath" value="$PROJECT_DIR$/app/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -159,16 +120,5 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="update client" />
     <option name="LAST_COMMIT_MESSAGE" value="update client" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="325" y="63" key="#Plugins" timestamp="1630076385852">
-      <screen x="0" y="25" width="1440" height="788" />
-    </state>
-    <state x="325" y="63" key="#Plugins/0.25.1440.788@0.25.1440.788" timestamp="1630076385852" />
-    <state x="107" y="54" width="1213" height="728" key="SettingsEditor" timestamp="1630519108166">
-      <screen x="0" y="25" width="1440" height="791" />
-    </state>
-    <state x="107" y="54" key="SettingsEditor/0.25.1440.788@0.25.1440.788" timestamp="1630440508625" />
-    <state x="107" y="54" width="1213" height="728" key="SettingsEditor/0.25.1440.791@0.25.1440.791" timestamp="1630519108166" />
   </component>
 </project>

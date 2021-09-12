@@ -42,13 +42,14 @@ class PaymentContainer extends StatelessWidget {
                   Container(
                     // alignment: Alignment.topCenter,
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.06,
 
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular((30)),
                           topRight: Radius.circular((30))),
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor,
+                      // color: Theme.of(context).primaryColor.withOpacity(0.1),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
@@ -57,7 +58,10 @@ class PaymentContainer extends StatelessWidget {
                       child: Text(
                         "Payment",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -80,11 +84,11 @@ class PaymentContainer extends StatelessWidget {
                             child: Column(children: [
                               PaymentTypeDropDown(),
                               PaymentFieldContainer(
-                                paid: false,
+                                  paid: false,
                                   initialValue:
                                       state.request.transactionId.toString(),
                                   hintName: 'Transaction Id',
-                                  readOnly:false,
+                                  readOnly: false,
                                   onChanged: this.addTansactionId),
                             ]),
                           ),
@@ -99,10 +103,9 @@ class PaymentContainer extends StatelessWidget {
                           //   return Container();
                           // },
                           PaymentFieldContainer(
-                            paid:false,
-                            initialValue: state is RequestUpdateSuccess
-                                ? state.request.amountRemaining.toString()
-                                : state.request.amountRemaining.toString(),
+                            paid: false,
+                            initialValue:
+                                state.request.amountRemaining.toString(),
                             hintName: 'Remaining Amount',
                             readOnly: true,
                             onChanged: this.addRemainingAmount,
@@ -123,11 +126,12 @@ class PaymentContainer extends StatelessWidget {
   }
 
   void addPaidAmount(String value) async {
-    
-    ordersBloc.add(AddPaidAmountEvent(amount: int.parse(value)));
+    if (value != "")
+      ordersBloc.add(AddPaidAmountEvent(amount: int.parse(value)));
   }
 
   void addRemainingAmount(String value) {
-    ordersBloc.add(AddRemainingAmountEvent(amount: int.parse(value)));
+    if (value != "")
+      ordersBloc.add(AddRemainingAmountEvent(amount: int.parse(value)));
   }
 }

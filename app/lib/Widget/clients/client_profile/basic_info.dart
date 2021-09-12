@@ -63,7 +63,7 @@ class ClientBasicProfile extends StatelessWidget {
               elevation: 5,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 305,
+                height: 555,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -102,7 +102,7 @@ class ClientBasicProfile extends StatelessWidget {
                     //   ),
                     // ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     ClientDataRow(property: 'NAME', value: this.client.name),
                     ClientDataRow(
@@ -113,6 +113,12 @@ class ClientBasicProfile extends StatelessWidget {
                         property: 'EMAIL', value: '${this.client.email}'),
                     ClientDataRow(
                         property: 'PHONE', value: '${this.client.phone}'),
+                    ClientDataRow(
+                        property: 'CREDIT LIMIT START DATE',
+                        value: '${this.client.creditLimitStartDate}'),
+                    ClientDataRow(
+                        property: 'CREDIT LIMIT END DATE',
+                        value: '${this.client.creditLimitEndDate}')
                   ],
                 ),
               ),

@@ -292,7 +292,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
       bool connected = await ConnectionChecker.CheckInternetConnection();
       // print("-update order--connected--${connected}");
-
+      if (state.request.paymentWhen == "Pay Later") {
+        state.request.amountRemaining = state.request.total;
+      }
       yield OrderUpdating(request: state.request);
       if (connected) {
         // yield OrderUpdateSuccess(request: event.request);
@@ -304,6 +306,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
           yield (OrderUpdateSuccess(request: event.request));
+          return;
         } else {
           print("failed to create--order");
           yield (OrderUpdatingFailed(
@@ -320,7 +323,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         } else {
           print("failed to updated order locally");
           // yield (OrderCreatingFailed(message: "Failed to updated order"));
-          yield (OrderCreatedSuccess(request: state.request));
+          yield (OrderUpdatingFailed(
+              request: state.request, message: "Failed to update order"));
           return;
         }
       }

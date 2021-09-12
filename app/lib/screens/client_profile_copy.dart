@@ -30,6 +30,8 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
 
   String name = '';
   String email = '';
+  String creditLimitStartDate = '';
+  String creditLimitEndDate = '';
   String phone = '';
   String credit = "0";
   String? photopath = null;
@@ -76,6 +78,14 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                       photopath = snapshot.data!.user!.photo!.filePath!;
                     }
                   }
+                  if (snapshot.data!.user!.creditLimitEndDate != null) {
+                    creditLimitEndDate =
+                        snapshot.data!.user!.creditLimitEndDate!;
+                  }
+                  if (snapshot.data!.user!.creditLimitStartDate != null) {
+                    creditLimitStartDate =
+                        snapshot.data!.user!.creditLimitStartDate!;
+                  }
                 }
               }
               return Column(
@@ -91,6 +101,8 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                       email: email,
                       phone: phone,
                       photoPath: photopath,
+                      creditLimitEndDate: creditLimitEndDate,
+                      creditLimitStartDate: creditLimitStartDate,
                     ),
                   ),
                 ],

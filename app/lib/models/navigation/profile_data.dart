@@ -4,6 +4,8 @@ class ClientProfileData {
   final String level;
   final String email;
   final String phone;
+  final String creditLimitStartDate;
+  final String creditLimitEndDate;
   String? photoPath;
   ClientProfileData({
     required this.name,
@@ -11,6 +13,8 @@ class ClientProfileData {
     required this.level,
     required this.email,
     required this.phone,
+    required this.creditLimitEndDate,
+    required this.creditLimitStartDate,
     this.photoPath,
   });
 }

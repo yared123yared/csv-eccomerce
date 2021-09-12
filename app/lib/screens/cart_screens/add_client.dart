@@ -11,13 +11,15 @@ import 'package:app/Widget/Home/cart/add-client/upper-container.dart';
 import 'package:app/Widget/Home/cart/payment/payment-container.dart';
 
 import 'package:app/logic/cart_logic.dart';
+import 'package:app/models/login_info.dart';
 import 'package:app/models/request/payment.dart';
+import 'package:app/models/users.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
-
 import 'package:sms/sms.dart';
 
 class AddClient extends StatefulWidget {
@@ -99,7 +101,7 @@ class _AddClientState extends State<AddClient> {
                 // });
                   },
                 )..show();
-               
+
               }
             },
             builder: (context, state) {
@@ -193,13 +195,13 @@ class _AddClientState extends State<AddClient> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    // String _result = await sendSMS(message: message, recipients: recipents)
-    //     .catchError((onError) {
-    //   print(onError);
-    // });
-    // print(_result);
+     UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      
     SmsSender sender = SmsSender();
-    String address = "+14404881961";
+    String address =user.company!.mobile as String;
 
     SmsMessage message = SmsMessage(address, 'New Order Created!');
     message.onStateChanged.listen((state) {

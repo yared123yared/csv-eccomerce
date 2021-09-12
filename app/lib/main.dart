@@ -25,7 +25,7 @@ import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
-import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
+import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart'; 
 import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
@@ -118,7 +118,7 @@ class App extends StatelessWidget {
   });
 
   final LocationRepository locationRepository;
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(

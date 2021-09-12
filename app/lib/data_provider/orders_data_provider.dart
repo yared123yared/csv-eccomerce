@@ -140,6 +140,8 @@ class OrderDataProvider {
                 int quantity = v["quantity"];
                 double price = double.parse(v["price"]);
                 double total = double.parse(v["total"]);
+                // double remaining = double.parse(v["amount_remaining"]);
+                // double paid = double.parse(v["amount_paid"]);
 
                 OrderToBeUpdated cartX = new OrderToBeUpdated(
                   cartId: cartId,
@@ -147,6 +149,8 @@ class OrderDataProvider {
                   quantity: quantity,
                   total: total,
                   price: price,
+                  // amountRemaining: remaining,
+
                 );
                 data.add(cartX);
               }
