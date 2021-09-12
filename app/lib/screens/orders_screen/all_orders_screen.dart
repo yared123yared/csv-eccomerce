@@ -152,7 +152,7 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
           ),
         );
       },
-       
+
     );
   }
 }

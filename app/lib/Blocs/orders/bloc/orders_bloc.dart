@@ -128,9 +128,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       request.amountRemaining = (request.total! - (request.amountPaid as int));
       yield RequestUpdateSuccess(request: request, credit: credit);
     } else if (event is ClientAddEvent) {
+      print("ClientAddEvent bloc");
       Request request = state.request;
       request.clientId = event.client.id;
-      print('Request: ${state.request.toJson()}');
+      // print('Request: ${state.request.toJson()}');
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is PaymentAddEvent) {
@@ -165,6 +166,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddTotalEvent) {
+      print("AddTotalEvent bloc");
       Request request = state.request;
       // print("Entered to the payment bloc");
       // print(state.request.toJson());
@@ -211,6 +213,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is FetchOrderToBeUpdated) {
+      print("FetchOrderToBeUpdated bloc");
       yield FetchingOrderToBeUpdated(request: state.request);
       try {
         List<OrderToBeUpdated> data =
@@ -293,7 +296,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       bool connected = await ConnectionChecker.CheckInternetConnection();
       // print("-update order--connected--${connected}");
       if (state.request.paymentWhen == "Pay Later") {
-        state.request.amountRemaining = state.request.total;
+        state.request.amountRemaining = 0;
+        state.request.amountPaid = 0;
+        state.request.transactionId = "";
       }
       yield OrderUpdating(request: state.request);
       if (connected) {

@@ -33,7 +33,7 @@ import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'data_provider/dashboard/numbers_data_provider.dart';
 import 'data_provider/orderDrawer/orderbyDebt_data_provider.dart';
 import 'data_provider/payments/payment_data_provider.dart';
-import 'data_provider/product_data_provider.dart'; 
+import 'data_provider/product_data_provider.dart';
 import 'data_provider/reports/collection_data_provider.dart';
 import 'data_provider/reports/salesReport_data_provider.dart';
 import 'route/route.dart';
@@ -56,8 +56,8 @@ void main() {
   final UserPreferences userPreferences = UserPreferences();
 
   // final ScrollController scrollController = ScrollController();
-  
-  
+
+
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
@@ -272,3 +272,5 @@ class App extends StatelessWidget {
     );
   }
 }
+
+//flutter run --no-sound-null-safety

@@ -49,8 +49,25 @@ class _UpdateOrderState extends State<UpdateOrder> {
   double price = 0;
   @override
   void initState() {
+    // ordersbloc = BlocProvider.of<OrdersBloc>(context);
+    // cartbloc = BlocProvider.of<CartBloc>(context);
+    // productBloc = BlocProvider.of<ProductBloc>(context);
+    // addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    // allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
     super.initState();
   }
+
+  @override
+  void dispose() {
+    // ordersbloc.close();
+    // cartbloc.close();
+    // productBloc.close();
+    // addClientBloc.close();
+    // allorderrBloc.close();
+    super.dispose();
+  }
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +78,13 @@ class _UpdateOrderState extends State<UpdateOrder> {
     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
     ordersbloc.add(CartCheckoutEvent(cartProducts: data));
+    ordersbloc.add(PaymentInitialization());
+
+    // this.isShowing = false;
+
     // CartLogic cartLogic = new CartLogic(products: []);
     // ScrollController _scrollController = ScrollController();
     // TextEditingController payingTimeController = new TextEditingController();
-    final _formKey = GlobalKey<FormState>();
     AwesomeDialog dialog = AwesomeDialog(
       context: context,
       dialogType: DialogType.ERROR,
@@ -73,7 +93,6 @@ class _UpdateOrderState extends State<UpdateOrder> {
       desc: 'Fill all the information carefully!',
       btnCancelOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
-
       },
       btnOkOnPress: () {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
@@ -83,6 +102,13 @@ class _UpdateOrderState extends State<UpdateOrder> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Order"),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
+          },
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+        ),
       ),
       backgroundColor: Theme.of(context).accentColor,
       body: ProgressHUD(
@@ -103,20 +129,23 @@ class _UpdateOrderState extends State<UpdateOrder> {
             } else if (state is OrderUpdateSuccess) {
               print("order update success");
               this.isShowing = false;
-              // cartbloc.add(InitializeCart());
               progress?.dismiss();
               dialog..dismiss();
               productBloc.add(FetchProduct());
               allorderrBloc.add(FeatcAllorderrEvent());
-              Navigator.pushReplacementNamed(context, AllOrdersScreen.routeName);
-              // return Container(child: Text("Created Successfully"));
-              // ordersbloc.add(OrdersEvent())
+              // Navigator.pushReplacementNamed(
+              //     context, AllOrdersScreen.routeName);
+              Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
+
               return;
             } else if (state is OrderUpdatingFailed) {
               print("order update fail");
 
               progress?.dismiss();
               dialog..show();
+              BlocProvider.of<AddClientBloc>(context)
+                  .add(ClientDisplayEvent(client: widget.order.client!));
+              ordersbloc.add(PaymentInitialization());
             } else if (state is FetchingOrderToBeUpdatedSuccess) {
               progress?.dismiss();
               print("--success--");
@@ -127,7 +156,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               }
               for (var item in orderToBeUpdated) {
                 setState(() {
-                  price += item.price;
+                  price += item.price * item.quantity;
                 });
                 ordersbloc.add(
                   AddToCart(
@@ -140,44 +169,58 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   ),
                 );
               }
-              // List<Data> cartData = CartBloc().state.cartProducts;
-              // if (cartData.length > 0) {
-              //   for (var item in cartData) {
-              //     data.add(item);
-              //   }
-              //   double cartItemPrice = 0.0;
-              //   for (var item in cartData) {
-              //     if (item.price != null) {
-              //       setState(() {
-              //         try {
-              //           cartItemPrice=double.parse(item.price!);
-              //           price += double.parse(item.price!);
-              //         } catch (e) {
-              //           print(e);
-              //         }
-              //       });
-              //     }
+              List<Data> cartData = cartbloc.state.cartProducts;
+              print("cart--data");
+              print(cartData.length);
+              if (cartData.length > 0) {
+                for (var item in cartData) {
+                  data.add(item);
+                }
+                double cartItemPrice = 0.0;
+                for (var item in cartData) {
+                  if (item.price != null) {
+                    setState(() {
+                      try {
+                        cartItemPrice = double.parse(item.price!);
+                        price += double.parse(item.price!) * item.order;
+                      } catch (e) {
+                        print(e);
+                      }
+                    });
+                  }
 
-              //     orderToBeUpdated.add(
-              //       OrderToBeUpdated(
-              //         cartId: -1,
-              //         data: item,
-              //         price: cartItemPrice,
-              //         total: cartItemPrice*item.order,
-              //         quantity: item.order,
-              //         )
-              //     );
-              //     ordersbloc.add(
-              //       AddToCart(
-              //         cart: CartItem(
-              //           quantity: item.order,
-              //           id: -1,
-              //           productId: item.id,
-              //         ),
-              //       ),
-              //     );
-              //   }
-              // }
+                  bool itemFoundInOrderToBeUpdated = false;
+                  for (var i = 0; i < orderToBeUpdated.length; i++) {
+                    if (orderToBeUpdated[i].data.id == item.id) {
+                      int quant = orderToBeUpdated[i].quantity + item.order;
+                      orderToBeUpdated[i].quantity = quant;
+                      double tot = (quant.toDouble() * cartItemPrice);
+                      orderToBeUpdated[i].total = tot;
+                      itemFoundInOrderToBeUpdated = true;
+                    }
+                  }
+                  if (!itemFoundInOrderToBeUpdated) {
+                    orderToBeUpdated.add(OrderToBeUpdated(
+                      cartId: -1,
+                      data: item,
+                      price: cartItemPrice,
+                      total: cartItemPrice * item.order,
+                      quantity: item.order,
+                    ));
+                  }
+                  ordersbloc.add(
+                    AddToCart(
+                      cart: CartItem(
+                        quantity: item.order,
+                        id: -1,
+                        productId: item.id,
+                      ),
+                    ),
+                  );
+                }
+              }
+
+              ordersbloc.add(CartCheckoutEvent(cartProducts: data));
             }
           },
           builder: (context, state) {
@@ -218,51 +261,51 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    // Container(
-                    //   padding: EdgeInsets.symmetric(
-                    //     vertical: 8.0,
-                    //   ),
-                    //   width: MediaQuery.of(context).size.width * 0.9,
-                    //   alignment: Alignment.center,
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         "CART",
-                    //         style: TextStyle(
-                    //           fontSize: 20,
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           // addClientBloc.add(ClientDisplayEvent(client: this.client));
-                    //           // ordersBloc.add(ClientAddEvent(client: this.client));
-                    //           setState(() {
-                    //             Navigator.popAndPushNamed(
-                    //                 context, MainScreen.routeName);
-                    //           });
-                    //         },
-                    //         child: Container(
-                    //           width: MediaQuery.of(context).size.width * 0.16,
-                    //           height: MediaQuery.of(context).size.height * 0.04,
-                    //           decoration: BoxDecoration(
-                    //               color: Theme.of(context).primaryColor,
-                    //               borderRadius: BorderRadius.circular(15)),
-                    //           child: Center(
-                    //             child: Text(
-                    //               "Add",
-                    //               style: TextStyle(color: Colors.white),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: 5,
-                    // ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 8.0,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "CART",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // addClientBloc.add(ClientDisplayEvent(client: this.client));
+                              // ordersBloc.add(ClientAddEvent(client: this.client));
+                              setState(() {
+                                Navigator.popAndPushNamed(
+                                    context, MainScreen.routeName);
+                              });
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.16,
+                              height: MediaQuery.of(context).size.height * 0.04,
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).primaryColor,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Center(
+                                child: Text(
+                                  "Add",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
                     orderToBeUpdated.length > 0
                         ? Container(
                             height: MediaQuery.of(context).size.height * 0.4,
@@ -336,10 +379,10 @@ class _UpdateOrderState extends State<UpdateOrder> {
                             // ordersbloc
                             //     .add(PaymentAddEvent(payment: this.payment));
 
-                            if (state is RequestUpdateSuccess) {
-                              // ordersbloc.add(
-                              //     CreateOrderEvent(request: state.request));
-                            }
+                            // if (state is RequestUpdateSuccess) {
+                            // ordersbloc.add(
+                            //     CreateOrderEvent(request: state.request));
+                            // }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

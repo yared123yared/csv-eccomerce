@@ -105,7 +105,7 @@ class PaymentContainer extends StatelessWidget {
                           // },
                           PaymentFieldContainer(
                             paid:false,
-                            initialValue: "0",
+                            initialValue: state.request.amountRemaining.toString(),
                             hintName: 'Remaining Amount',
                             readOnly: true,
                             onChanged: this.addRemainingAmount,
