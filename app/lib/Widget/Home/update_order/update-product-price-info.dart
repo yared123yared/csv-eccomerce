@@ -70,23 +70,23 @@ class _UpdateProductPriceInfoState extends State<UpdateProductPriceInfo> {
                   ),
                 ),
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
-                child: Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Tax(10%)"),
-                      AutoSizeText(
-                        "\$20",
-                        maxLines: 2,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
+              //   child: Container(
+              //     width: double.infinity,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text("Tax(10%)"),
+              //         AutoSizeText(
+              //           "\$20",
+              //           maxLines: 2,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 28),
@@ -106,7 +106,7 @@ class _UpdateProductPriceInfoState extends State<UpdateProductPriceInfo> {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text(
-                        "\$${widget.price + 20}",
+                        "\$${widget.price }",
                         style: TextStyle(fontSize: 15),
                       ),
                     ],

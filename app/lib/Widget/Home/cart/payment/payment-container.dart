@@ -106,6 +106,7 @@ class PaymentContainer extends StatelessWidget {
                             paid: false,
                             initialValue:
                                 state.request.amountRemaining.toString(),
+                            
                             hintName: 'Remaining Amount',
                             readOnly: true,
                             onChanged: this.addRemainingAmount,

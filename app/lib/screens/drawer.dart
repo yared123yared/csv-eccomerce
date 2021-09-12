@@ -12,6 +12,7 @@ import 'package:app/screens/payments/payments_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
+  final String baseUrl = 'http://csv.jithvar.com/storage';
 
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
@@ -53,8 +55,12 @@ class _AppDrawerState extends State<AppDrawer> {
     Navigator.pushNamed(context, ClientsScreen.routeName);
   }
 
+  String photoPath = "assets/images/circular.png";
+
   @override
   Widget build(BuildContext context) {
+    Widget photo;
+
     return Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Theme.of(context)
@@ -68,6 +74,73 @@ class _AppDrawerState extends State<AppDrawer> {
               listener: (context, state) {},
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
+                  photoPath = state.user.user?.photo?.filePath ?? photoPath;
+                  if (state.user.user != null) {
+                    if (state.user.user!.photo != null) {
+                      if (state.user.user!.photo!.filePath != null) {
+                        photoPath =
+                            state.user.user?.photo?.filePath ?? photoPath;
+
+                        photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: CachedNetworkImage(
+                              imageUrl: '${baseUrl}/${photoPath}',
+                              height: MediaQuery.of(context).size.height * 0.18,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Container(
+                                color: Colors.white,
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.black,
+                                child: Icon(Icons.error),
+                              ),
+                            ),
+                            // child: Image.network('${baseUrl}/${client.photoPath}'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      }else{
+                         photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.asset('assets/images/circular.png'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      }
+                    }else{
+                       photo = CircleAvatar(
+                        radius: 45,
+                        child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.asset('assets/images/circular.png'),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                      );
+                    }
+
+                  } else {
+                    photo = CircleAvatar(
+                      radius: 45,
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        child: Image.asset('assets/images/circular.png'),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    );
+                  }
                   return Column(
                     children: [
                       Expanded(
@@ -89,11 +162,12 @@ class _AppDrawerState extends State<AppDrawer> {
                                   child: Container(
                                     child: Column(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 45.0,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/16.jpg'),
-                                        ),
+                                        photo,
+                                        // CircleAvatar(
+                                        //   radius: 45.0,
+                                        //   backgroundImage:
+                                        //       AssetImage(photoPath),
+                                        // ),
                                         // ignore: todo
                                         //TODO nullcheck
                                         Text(
@@ -226,7 +300,8 @@ class _AppDrawerState extends State<AppDrawer> {
                               DrawerExpansionTile(
                                 'Client Management',
                                 [
-                                  ExapandedListItem('Clients', ()=> navigateToClientScreen(context)),
+                                  ExapandedListItem('Clients',
+                                      () => navigateToClientScreen(context)),
                                   ExapandedListItem('Invoices', () {}),
                                 ],
                                 0,

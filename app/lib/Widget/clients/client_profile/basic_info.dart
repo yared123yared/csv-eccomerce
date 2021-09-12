@@ -113,12 +113,10 @@ class ClientBasicProfile extends StatelessWidget {
                         property: 'EMAIL', value: '${this.client.email}'),
                     ClientDataRow(
                         property: 'PHONE', value: '${this.client.phone}'),
-                    ClientDataRow(
-                        property: 'CREDIT LIMIT START DATE',
-                        value: '${this.client.creditLimitStartDate}'),
-                    ClientDataRow(
-                        property: 'CREDIT LIMIT END DATE',
-                        value: '${this.client.creditLimitEndDate}')
+                    //     ClientDataRow(
+                    //     property: 'CREDIT LIMIT START DATE', value: '${this.client.creditLimitStartDate}'),
+                    // ClientDataRow(
+                    //     property: 'CREDIT LIMIT END DATE', value: '${this.client.creditLimitEndDate}')
                   ],
                 ),
               ),
