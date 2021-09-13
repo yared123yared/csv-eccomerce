@@ -49,9 +49,15 @@ PODS:
     - Flutter
   - hexcolor (0.0.1):
     - Flutter
+  - image_gallery_saver (1.5.0):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
   - location (0.0.1):
+    - Flutter
+  - open_file (0.0.1):
+    - Flutter
+  - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.1.0+2)":
     - Flutter
@@ -77,8 +83,11 @@ DEPENDENCIES:
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
+  - image_gallery_saver (from `.symlinks/plugins/image_gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - location (from `.symlinks/plugins/location/ios`)
+  - open_file (from `.symlinks/plugins/open_file/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -109,10 +118,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   hexcolor:
     :path: ".symlinks/plugins/hexcolor/ios"
+  image_gallery_saver:
+    :path: ".symlinks/plugins/image_gallery_saver/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
+  open_file:
+    :path: ".symlinks/plugins/open_file/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
   shared_preferences:
@@ -133,8 +148,11 @@ SPEC CHECKSUMS:
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
   geolocator_apple: 108615a04c68489a41e7d3bda915245938a267a6
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
+  image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
+  open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
