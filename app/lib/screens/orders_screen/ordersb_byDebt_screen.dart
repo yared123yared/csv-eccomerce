@@ -62,7 +62,9 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
         ),
         centerTitle: true,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: (){},
+      ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
       body: Column(

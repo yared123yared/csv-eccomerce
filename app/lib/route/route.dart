@@ -48,7 +48,8 @@ class AppRoutes {
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
               print("Login success state with user ${state.user}");
-              return MainScreen();
+              int check = settings.arguments as int;
+              return MainScreen(checkValue: check,);
             } else if (state is AutoLoginFailedState) {
               isAuthenticated = false;
               return Login();
@@ -58,8 +59,10 @@ class AppRoutes {
         ),
       );
     } else if (settings.name == MainScreen.routeName) {
+       int check = settings.arguments as int;
       return MaterialPageRoute(
           builder: (context) => MainScreen(
+            checkValue: check,
               // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
@@ -121,16 +124,15 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => CollectionReportScreen(),
       );
-    }  else if (settings.name ==  UpdateOrder.routeName) {
+    } else if (settings.name == UpdateOrder.routeName) {
       return MaterialPageRoute(
-        builder: (context) =>  UpdateOrder(order: settings.arguments as DataAllOrders,)
-      );
-    }
-    else if (settings.name == AddClient.routeName) {
+          builder: (context) => UpdateOrder(
+                order: settings.arguments as DataAllOrders,
+              ));
+    } else if (settings.name == AddClient.routeName) {
       return MaterialPageRoute(
         builder: (context) => AddClient(),
       );
-
     } else if (settings.name == CustomerByDebtScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => CustomerByDebtScreen(),

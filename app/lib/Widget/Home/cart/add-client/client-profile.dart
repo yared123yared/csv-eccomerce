@@ -12,6 +12,8 @@ class ClientProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String image =
+        'https://csv.jithvar.com/storage/${this.client.photoPath.toString()}';
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Stack(
@@ -71,7 +73,7 @@ class ClientProfile extends StatelessWidget {
               radius: 40,
               child: Container(
                 clipBehavior: Clip.hardEdge,
-                child: Image.asset('assets/images/16.jpg'),
+                child: Image.network(image),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
                 ),

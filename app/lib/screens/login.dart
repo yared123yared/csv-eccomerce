@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
           listener: (context, state) {
             if (state is LoginSuccessState) {
               callFetchEvents();
-              Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(MainScreen.routeName, arguments: 1);
             }
           },
           builder: (context, state) {
