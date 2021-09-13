@@ -65,7 +65,7 @@ class ClientBasicProfile extends StatelessWidget {
               elevation: 5,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 355,
+                height: 555,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,

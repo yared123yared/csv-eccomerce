@@ -49,7 +49,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // });
           // print(_result);
 //
+          carts = [];
           yield (OrderCreatedSuccess(request: state.request));
+          yield (OrdersInitial());
         } else {
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));

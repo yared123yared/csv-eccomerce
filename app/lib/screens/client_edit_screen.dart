@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app/Blocs/location/bloc/location_bloc.dart';
+import 'package:app/models/login_info.dart';
+import 'package:app/models/users.dart';
+import 'package:app/preferences/user_preference_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -864,13 +867,15 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    // String _result = await sendSMS(message: message, recipients: recipents)
-    //     .catchError((onError) {
-    //   print(onError);
-    // });
-    // print(_result);
+     UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      
     SmsSender sender = SmsSender();
-    String address = "0916897173";
+    String address =user.company!.mobile as String;
+    // SmsSender sender = SmsSender();
+    // String address = "0916897173";
 
     SmsMessage message = SmsMessage(address, 'New Client Created!');
     message.onStateChanged.listen((state) {
