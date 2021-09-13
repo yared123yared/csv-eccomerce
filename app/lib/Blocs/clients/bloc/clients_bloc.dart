@@ -91,7 +91,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
               CreateEditData(
                 id: reqData.clients.client![i].id.toString(),
                 type: '',
-                uploadedPhoto: reqData.clients.client![i].firstName,
+                uploadedPhoto: reqData.clients.client![i].photo?.filePath??"",
                 documents: reqData.clients.client![i].documents,
                 firstName: reqData.clients.client![i].firstName.toString(),
                 lastName: reqData.clients.client![i].lastName.toString(),
