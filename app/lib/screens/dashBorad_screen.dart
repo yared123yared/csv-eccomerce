@@ -67,7 +67,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         TitleContainers(
                           text: "CREDIT START AT",
                           number:
-                              '${state.user.user?.creditLimitEndDate ?? "Unknown"}',
+                              '${state.user.user?.creditLimitStartDate ?? "Unknown"}',
                           image: "assets/images/calendar-icon.png",
                           color: orangDashBoard,
                           imagebackgroundcolor: Color(0xFFf2a24e),
@@ -77,7 +77,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         TitleContainers(
                           text: "CREDIT END AT",
-                          number:'${state.user.user?.creditLimitStartDate ?? "Unknown"}',
+                          number:'${state.user.user?.creditLimitEndDate ?? "Unknown"}',
                           image: "assets/images/calendar-icon.png",
                           color: purpleDashBoard,
                           imagebackgroundcolor: Color(0xFFaa4cec),
