@@ -25,7 +25,7 @@ import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
-import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
+import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart'; 
 import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
@@ -57,6 +57,7 @@ void main() {
 
   // final ScrollController scrollController = ScrollController();
 
+
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
@@ -79,11 +80,10 @@ void main() {
         httpClient: httpClient, userPreferences: userPreferences),
   );
   final OrderRepository orderRepository = OrderRepository(
-      orderDataProvider: OrderDataProvider(
-          httpClient: httpClient, userPreferences: userPreferences));
+    orderDataProvider: OrderDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
   final LocationRepository locationRepository = LocationRepository();
-  // Products products = await productRepository.getProducts(1);
-  // print(products.currentPage);
 
   runApp(
     App(
@@ -97,7 +97,6 @@ void main() {
       // scrollController: scrollController,
     ),
   );
-  // runApp(MyApp());
 }
 
 class App extends StatelessWidget {
@@ -119,13 +118,7 @@ class App extends StatelessWidget {
   });
 
   final LocationRepository locationRepository;
-  // App({
-  //   required this.userRepository,
-  //   required this.productRepository,
-  //   required this.userPreferences,
-  //   required this.clientsRepository,
-  //   required this.locationRepository,
-  // });
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -165,6 +158,7 @@ class App extends StatelessWidget {
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
+              orderRepository: this.orderRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
           BlocProvider<CategoriesBloc>(
@@ -173,9 +167,12 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-              create: (_) => OrdersBloc(orderRepository: this.orderRepository)),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository)..add(PaymentInitialization()),
+          ),
           //
-          BlocProvider<AddClientBloc>(create: (_) => AddClientBloc()),
+          BlocProvider<AddClientBloc>(
+            create: (_) => AddClientBloc(),
+          ),
           //
           BlocProvider<LocationBloc>(
             create: (_) =>
@@ -275,3 +272,5 @@ class App extends StatelessWidget {
     );
   }
 }
+
+//flutter run --no-sound-null-safety

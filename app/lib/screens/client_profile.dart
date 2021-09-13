@@ -45,10 +45,12 @@ class _ClientProfileState extends State<ClientProfile> {
             ClientBasicProfile(
               client: ClientProfileData(
                 name: 'Folakam Olivier',
-                credit: 0,
+                credit: "0",
                 level: 'Premiem',
                 email: 'fokamolvier@gmail.com',
                 phone: '237945521',
+                creditLimitEndDate: "",
+                creditLimitStartDate: "",
               ),
             ),
             MenuItem(

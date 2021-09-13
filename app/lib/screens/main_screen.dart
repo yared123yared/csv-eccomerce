@@ -7,7 +7,8 @@ import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
-import 'package:app/screens/client_profile.dart';
+// import 'package:app/screens/client_profile.dart';
+import 'package:app/screens/client_profile_copy.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:app/screens/dashBorad_screen.dart';
 import 'package:app/screens/setting_screen.dart';
@@ -18,7 +19,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
-
+  final int checkValue;
+  MainScreen({required this.checkValue});
   // final LoggedUserInfo user;
   // MainScreen({required this.user});
 
@@ -38,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    check = widget.checkValue;
   }
 
   @override
@@ -66,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
     }
     if (result != ConnectivityResult.none) {
       print("connected");
-      SyncClientEvent syncClientEvent = SyncClientEvent();
+      SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
       BlocProvider.of<ClientsBloc>(context, listen: false).add(syncClientEvent);
     }
 
@@ -83,6 +86,7 @@ class _MainScreenState extends State<MainScreen> {
 
   late CartBloc cartBloc;
   int check = 1;
+
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -90,10 +94,17 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(
-          "CSV",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-        ),
+        title: this.check == 0
+            ? Text('CSV')
+            : this.check == 1
+                ? Text('CSV')
+                : this.check == 2
+                    ? Text('CSV')
+                    : Text('Client Profile'),
+        // title: Text(
+        //   "CSV",
+        //   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        // ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         leading: GestureDetector(
@@ -110,7 +121,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
 
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: this.changeToDashbord,
+      ),
       drawerEnableOpenDragGesture: true,
       // drawer:
       body: this.check == 0
@@ -119,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
               ? CategoryScreen()
               : this.check == 2
                   ? CartScreen()
-                  : SettingScreen(),
+                  : ClientProfileCopy(),
       bottomNavigationBar: BottomAppBar(
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +172,7 @@ class _MainScreenState extends State<MainScreen> {
                 return IconButton(
                   icon: Cart(
                     value: state.counter,
-                    check: check,
+                    check: check as int,
                   ),
                   onPressed: () {
                     setState(() {
@@ -187,5 +200,11 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  void changeToDashbord() {
+    setState(() {
+      check = 0;
+    });
   }
 }

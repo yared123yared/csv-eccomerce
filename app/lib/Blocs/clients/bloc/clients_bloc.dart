@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:app/db/db.dart';
+import 'package:app/models/request/request.dart';
+import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:app/validation/validator.dart';
 import 'package:meta/meta.dart';
@@ -13,12 +15,17 @@ part 'clients_state.dart';
 
 class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   final ClientsRepository clientsRepository;
+  final OrderRepository orderRepository;
+
   List<Client> clients = [];
   int page = 1;
   bool endOfPage = false;
   bool syncing = false;
   bool isFirstFetch = false;
-  ClientsBloc({required this.clientsRepository}) : super(ClientsInitial());
+  ClientsBloc({
+    required this.clientsRepository,
+    required this.orderRepository,
+  }) : super(ClientsInitial());
 
   @override
   Stream<ClientsState> mapEventToState(
@@ -47,8 +54,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       yield* _mapSearchClientsEventToState(
         event.key,
       );
-    } else if (event is SyncClientEvent) {
-      syncClients();
+    } else if (event is SyncDataToServerEvent) {
+      syncLocalDataToServer();
     }
   }
 
@@ -59,7 +66,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     yield ClientFetchingState();
     if (isFirstFetch) {
       if (!syncing) {
-        await syncClients();
+        await syncLocalDataToServer();
       }
     }
     int prevPage = page;
@@ -122,6 +129,20 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   ) async* {
     yield ClientFetchingState();
     try {
+      bool connected = await ConnectionChecker.CheckInternetConnection();
+      print("-s--connected--${connected}");
+      if (!connected) {
+        yield ClientFetchingSuccessState(
+          clients: this
+              .clients
+              .where((element) => (element.firstName == key ||
+                  element.mobile == key ||
+                  element.email == key ||
+                  element.lastName == key))
+              .toList(),
+        );
+        return;
+      }
       List<Client>? cl = [];
       final reqData = await clientsRepository.searchClients(key);
       if (reqData != null) {
@@ -209,6 +230,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             lastName: clientCreated.lastName,
             mobile: clientCreated.mobile,
             email: clientCreated.email,
+            status: 1,
+            // debts: data,
             id: int.parse(
               clientCreated.id.toString(),
             ),
@@ -273,67 +296,100 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     }
   }
 
-  Future<void> syncClients() async {
+  Future<void> syncLocalDataToServer() async {
     if (syncing) {
       return;
     }
-    syncing = true;
-    print("syncing started");
-    try {
-      print("0");
-      List<CreateEditData>? clients = await CsvDatabse.instance.readClients();
-      print("1");
-      if (clients != null) {
-        print("2");
-        for (var client in clients) {
-          print("3");
+    bool connected = await ConnectionChecker.CheckInternetConnection();
+    if (connected) {
+      syncing = true;
+      print("syncing started");
+      try {
+        print("0");
+        List<CreateEditData>? clients = await CsvDatabse.instance.readClients();
+        print("1");
+        if (clients != null) {
+          print("2");
+          for (var client in clients) {
+            print("3");
 
-          try {
-            if (client.type == 'CREATE') {
-              Client? clientX = await clientsRepository.createClient(client);
-              print("created on server");
-              client.type = '';
-              await CsvDatabse.instance.updateClientDataStatus(client);
-            } else if (client.type == 'UPDATE') {
-              Client? clientX = await clientsRepository.updateClient(client);
-              print("updated on server");
-              if (client.id != null) {
+            try {
+              if (client.type == 'CREATE') {
+                print("creating---");
+                Client? clientX = await clientsRepository.createClient(client);
+                print("created on server");
                 client.type = '';
                 await CsvDatabse.instance.updateClientDataStatus(client);
+              } else if (client.type == 'UPDATE') {
+                print("updating---");
+                Client? clientX = await clientsRepository.updateClient(client);
+                print("updated on server");
+                if (client.id != null) {
+                  client.type = '';
+                  await CsvDatabse.instance.updateClientDataStatus(client);
+                }
               }
+            } catch (e) {
+              print("inner--bloc---error--sync-clients");
+              print(e);
             }
-          } catch (e) {
-            print("inner--bloc---error--sync-clients");
-            print(e);
           }
         }
-      }
-      print("delete satrted");
-      List<int> deletedIds =
-          await CsvDatabse.instance.readAllDeletedClientIds();
-      for (var id in deletedIds) {
-        await clientsRepository.deleteClient(id.toString());
-        CsvDatabse.instance.deleteClientID(id);
-        int prevPageCount = this.clients.length ~/ 5;
-        print("prev -length--${this.clients.length}");
-        this.clients.removeWhere((cl) => cl.id.toString() == id);
-        print("current -length--${this.clients.length}");
+        // print("delete satrted");
+        List<int> deletedIds =
+            await CsvDatabse.instance.readAllDeletedClientIds();
+        for (var id in deletedIds) {
+          await clientsRepository.deleteClient(id.toString());
+          CsvDatabse.instance.deleteClientID(id);
+          int prevPageCount = this.clients.length ~/ 5;
+          // print("prev -length--${this.clients.length}");
+          this.clients.removeWhere((cl) => cl.id.toString() == id);
+          // print("current -length--${this.clients.length}");
 
-        int currentPageCount = this.clients.length ~/ 5;
-        if (this.clients.length == 0) {
-          page = 1;
-        } else {
-          if (currentPageCount < prevPageCount) {
-            page--;
+          int currentPageCount = this.clients.length ~/ 5;
+          if (this.clients.length == 0) {
+            page = 1;
+          } else {
+            if (currentPageCount < prevPageCount) {
+              page--;
+            }
           }
         }
+        List<Request>? requests = await CsvDatabse.instance.readrequests();
+        if (requests != null) {
+          for (var req in requests) {
+            try {
+              await this.orderRepository.createOrder(req);
+            } catch (e) {
+              print("syncing--create--req--failed");
+              print(e);
+            }
+          }
+        }
+        List<Request>? updateRequest =
+            await CsvDatabse.instance.readUpdateOrderRequest();
+        if (updateRequest != null) {
+          for (var req in updateRequest) {
+            try {
+              await this.orderRepository.UpdateOrder(req);
+              int? id =
+                  await CsvDatabse.instance.deleteUpdateOrderRequest(req.id);
+              print("deleted--update--order--${id}");
+            } catch (e) {
+              print("syncing--update--req--failed");
+              print(e);
+            }
+            print("update request synced successfully");
+          }
+        }
+      } catch (e) {
+        syncing = false;
+        print("bloc---error--sync-clients");
+        print(e);
       }
-    } catch (e) {
+      print("data synced successfully");
       syncing = false;
-      print("bloc---error--sync-clients");
-      print(e);
     }
-    syncing = false;
   }
 }
 

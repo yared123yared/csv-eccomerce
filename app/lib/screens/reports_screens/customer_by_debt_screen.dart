@@ -39,7 +39,9 @@ class _CustomerByDebtScreenState extends State<CustomerByDebtScreen> {
         ),
         centerTitle: true,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: (){},
+      ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
       body: Column(

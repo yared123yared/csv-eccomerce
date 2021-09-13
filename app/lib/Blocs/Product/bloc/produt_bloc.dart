@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:app/db/db.dart';
 import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/product.dart';
@@ -21,7 +22,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   List<Data> searchedProducts = [];
   int? categoryId = null;
   String? searchProductName = null;
-  int page = 0;
+  int page = 1;
   int categoryPage = 1;
 
   ProductBloc({required this.productRepository})
@@ -32,8 +33,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Stream<ProductState> mapEventToState(
     ProductEvent event,
   ) async* {
+    productList.forEach((product) async {
+      await CsvDatabse.instance.createProduct(product);
+    });
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    print("-s--connected--${connected}");
+    print("-is--connected--${connected}");
     if (event is FetchProduct) {
       print("bloc--fetch--product--1");
       productList = [];
@@ -72,13 +76,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
           List<Data> productsFromServer =
               await this.productRepository.getProducts(page, this.categoryId);
-
+          productList = productsFromServer;
           // print("This is the data that come from the repository $products");
           if (productsFromServer == [] || productsFromServer == null) {
             print("bloc--fetch--product--5");
 
             yield ProductOperationFailure(
-              message: "Failed to fetch products",
+              message: "Failed to fetch products", 
               page: page,
               products: state.products,
               selectedCategoryId: state.selectedCategoryId,
@@ -101,14 +105,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             });
             print("bloc--fetch--product--7");
 
-            List<Data>? products = await CsvDatabse.instance.readProducts(null);
-            if (products != null) {
-              productList = products;
-            }
+            // List<Data>? products = await CsvDatabse.instance.readProducts(null);
+            // if (products != null) {
+            //   productList = products;
+            // }
+
             print("bloc--fetch--product--8");
 
             yield ProductLoadSuccess(
-              products: productList,
+              products: productsFromServer,
               selectedCategoryId: state.selectedCategoryId,
               page: page,
             );
@@ -120,9 +125,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         print("bloc--fetch--product--fail");
         print(e);
       }
+    } else if (event is AllCategories) {
+      yield ProductLoadSuccess(
+        products: productList,
+        page: state.page,
+        selectedCategoryId: null,
+      );
     } else if (event is SelectEvent) {
       print("select event from product bloc");
-       //
+      //
       this.selectedCategories = [];
       print("Select event i scalled");
       this.categoryId = event.categories.id;
@@ -136,13 +147,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         if (productCatID.contains(event.categories.id)) {
           this.selectedCategories.add(productList[i]);
         }
-
+        print("Products: ${this.selectedCategories}");
         yield (ProductLoadSuccess(
             page: page,
             products: this.selectedCategories,
             selectedCategoryId: event.categories.id!.toInt()));
       }
-
+      print("Products: ${this.selectedCategories[0].order}");
     } else if (event is SearchEvent) {
       //
       this.searchedProducts = [];
@@ -184,7 +195,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         page: state.page,
       );
     } else if (event is LazyFetchProduct) {
+      print("page number:${page}");
       try {
+        // page++;
         if (!connected) {
           print("bloc--fetch--lazy--1");
 
@@ -220,19 +233,29 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
         // print("This is the data that come from the repository $products");
         // ignore: unnecessary_null_comparison
-        if (products == null) {
+        print("Fetched products : ${products}");
+        if (products.length == 0) {
           page--;
           print("bloc--fetch--lazy--5");
 
-          yield ProductOperationFailure(
-            message: "Failed to fetch products",
-            page: page,
-            products: state.products,
+          // yared coment
+          // yield ProductOperationFailure(
+          //   message: "Failed to fetch products",
+          //   page: page,
+          //   products: state.products,
+          //   selectedCategoryId: state.selectedCategoryId,
+          // );
+          yield ProductLoadSuccess(
+            products: productList,
+            // products: this.categoryId != null
+            //     ? this.selectedCategories
+            //     : this.productList,
             selectedCategoryId: state.selectedCategoryId,
+            page: page,
           );
         } else {
           // List<Data> paginated_products = state.products;
-          // print("This is the state products.${productList}");
+          print("This is the state products.${productList}");
           // print("Page number: $page , category Id : ");
 
           // for (int i = 0; i < products.length; i++) {
@@ -242,38 +265,38 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           //   }
           // }
           ///-------alefew comment it-----------
-          // for (int i = 0; i < products.length; i++) {
-          //   if (productList.contains(products[i])) {
-          //   } else {
-          //     if (this.categoryId != null) {
-          //       this.selectedCategories.add(products[i]);
-          //     } else {
-          //       productList.add(products[i]);
-          //     }
-          //   }
-          // }
+          for (int i = 0; i < products.length; i++) {
+            if (productList.contains(products[i])) {
+            } else {
+              if (this.categoryId != null) {
+                this.selectedCategories.add(products[i]);
+              } else {
+                productList.add(products[i]);
+              }
+            }
+          }
           print("bloc--fetch--lazy--6");
 
           products.forEach((product) async {
             await CsvDatabse.instance.createProduct(product);
           });
           print("bloc--fetch--lazy--7");
+// <<<<<<< yared comment
+          // List<Data>? productsFetched =
+          //     await CsvDatabse.instance.readProducts(this.categoryId);
+          // print("bloc--fetch--lazy--8");
 
-          List<Data>? productsFetched =
-              await CsvDatabse.instance.readProducts(this.categoryId);
-          print("bloc--fetch--lazy--8");
+          // if (productsFetched != null) {
+          //   if (this.categoryId != null) {
+          //     print("bloc--fetch--lazy--9");
 
-          if (productsFetched != null) {
-            if (this.categoryId != null) {
-              print("bloc--fetch--lazy--9");
+          //     selectedCategories = productsFetched;
+          //   } else {
+          //     print("bloc--fetch--lazy--10");
 
-              selectedCategories = productsFetched;
-            } else {
-              print("bloc--fetch--lazy--10");
-
-              productList = productsFetched;
-            }
-          }
+          //     productList = productsFetched;
+          //   }
+          // }
 
           yield ProductLoadSuccess(
             products: productList,

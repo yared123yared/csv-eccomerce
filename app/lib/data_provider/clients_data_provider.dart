@@ -205,22 +205,26 @@ class ClientsDataProvider {
       }
 
       print("data to be update");
-      print(jsonDecode(data.addresses.toString()));
-      if (data.addresses != null) {
-        int i = 1;
-        for (var address in data.addresses) {
-          String x =
-              '{"id":"${address.id}","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
-          request.fields['addresses[$i]'] = x;
-          i++;
-        }
-      }
+      print(jsonEncode(data).toString());
+      // print(jsonDecode(data.addresses.toString()));
+      // if (data.addresses != null) {
+      //   int i = 1;
+      //   for (var address in data.addresses) {
+      //     String x =
+      //         '{"id":"${address.id}","street_number":"${address.streetAddress}","sublocality_level_1":"${address.locality}","locality":"${address.locality}","administrative_area_level_1":"${address.state}","country":"${address.country}","postal_code":"${address.zipCode}","is_billing":${address.isBilling},"is_default":${address.isDefault}}';
+      //     request.fields['addresses[$i]'] = x;
+      //     print(x);
+      //     i++;
+      //   }
+      // }
 
       http.Response res = await http.Response.fromStream(await request.send());
       print("dp--update 1");
+      print("status--code--${res.statusCode}");
       if (res.statusCode != 200) {
         print("dp---update---2");
-        throw HttpException('Error Occured While Creating User');
+        print(jsonDecode(res.body).toString());
+        throw HttpException('Error Occured While Updating User');
       } else {
         clientX = Client.fromJson(jsonDecode(res.body));
       }

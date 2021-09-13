@@ -33,6 +33,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       state.cartProducts.remove(event.singleProduct);
       yield CartState(
           counter: state.counter - 1, cartProducts: state.cartProducts);
+    } else if (event is InitializeCart) {
+       yield CartState(
+          counter: 0, cartProducts:[]);
     }
   }
 }
+

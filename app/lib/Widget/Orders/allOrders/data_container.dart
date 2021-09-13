@@ -1,14 +1,15 @@
-
+import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
 import 'package:app/Widget/Orders/allOrders/search_container.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/models/request/request.dart';
+import 'package:app/screens/cart_screens/update_order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
-
 
 class DataContainerAllOrders extends StatefulWidget {
   @override
@@ -17,7 +18,8 @@ class DataContainerAllOrders extends StatefulWidget {
 
 class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
   late AllorderrBloc bloc;
-
+  late AddClientBloc addClientBloc;
+  late OrdersBloc ordersBloc;
   ScrollController _scrollController = ScrollController();
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
@@ -30,10 +32,13 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
 
   @override
   void initState() {
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    ordersBloc = BlocProvider.of<OrdersBloc>(context);
     bloc = BlocProvider.of<AllorderrBloc>(context);
     bloc.add(FeatcAllorderrEvent());
 
     super.initState();
+    print("initialize");
 
     itemPositionsListener.itemPositions.addListener(
       () {
@@ -70,15 +75,27 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
     });
   }
 
+
+
   @override
   void dispose() {
-    bloc.close();
+    // bloc.close();
+    // ordersBloc.close();
+    // addClientBloc.close();
     _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    // ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    // print("data---container---1");
+    // print(ordersBloc);
+    // print(addClientBloc);
+    // print(bloc);
+    // print("------");
+
     return Column(
       children: [
         Padding(
@@ -88,36 +105,40 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
         SizedBox(
           height: 30,
         ),
+        // BlocBuilder<AllorderrBloc, AllorderrState>(
+        //   builder: (context, state) {
+        //     if (state is AllOrdersSuccessState) {
+        //       return Text(
+        //         "showing ${start} to ${total} of ${total} entries",
+        //         style: TextStyle(
+        //           color: Colors.black45,
+        //         ),
+        //       );
+        //     } else if (state is SearchDataSccessState) {
+        //       return Text(
+        //         "showing ${start} to ${total} of ${total} entries",
+        //         style: TextStyle(
+        //           color: Colors.black45,
+        //         ),
+        //       );
+        //     }
+        //     return Text(
+        //       "Showing 1 to 5 of 5 entries",
+        //       style: TextStyle(
+        //         color: Colors.black45,
+        //       ),
+        //     );
+        //   },
+        // ),
+        // SizedBox(
+        //   height: 30,
+        // ),
         BlocBuilder<AllorderrBloc, AllorderrState>(
           builder: (context, state) {
-            if (state is AllOrdersSuccessState) {
-              return Text(
-                "showing ${start} to ${total} of ${total} entries",
-                style: TextStyle(
-                  color: Colors.black45,
-                ),
-              );
-            } else if (state is SearchDataSccessState) {
-              return Text(
-                "showing ${start} to ${total} of ${total} entries",
-                style: TextStyle(
-                  color: Colors.black45,
-                ),
-              );
-            }
-            return Text(
-              "Showing 1 to 5 of 5 entries",
-              style: TextStyle(
-                color: Colors.black45,
-              ),
-            );
-          },
-        ),
-        SizedBox(
-          height: 30,
-        ),
-        BlocBuilder<AllorderrBloc, AllorderrState>(
-          builder: (context, state) {
+            // print("data---container---2");
+            // print(ordersBloc);
+            // print(addClientBloc);
+            // print(bloc);
             if (state is AllorderrInitial) {
               return Center(child: CircularProgressIndicator());
             } else if (state is AllOrderrLoadingState) {
@@ -209,7 +230,82 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                         Icons.edit,
                                         color: Colors.white,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        print(
+                                            "orders data:${state.allorderdata[index].id}");
+                                        // AddClientBloc addCBloc =
+                                        //     BlocProvider.of<AddClientBloc>(
+                                        //         context);
+                                        // OrdersBloc oBloc =
+                                        //     BlocProvider.of<OrdersBloc>(
+                                        //         context);
+                                        // AllorderrBloc bloc =
+                                        //     BlocProvider.of<AllorderrBloc>(
+                                        //         context);
+                                        if (state.allorderdata[index].client !=
+                                            null) {
+                                          print(
+                                              "--------invoked data--container ---120");
+
+                                          addClientBloc.add(ClientDisplayEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          print("111");
+                                          ordersBloc.add(ClientAddEvent(
+                                              client: state.allorderdata[index]
+                                                  .client!));
+                                          print("222");
+
+                                          ordersBloc.add(AddPaymentWhenEvent(
+                                              when: 'Pay Later'));
+
+                                          print("333");
+
+                                          ordersBloc.add(
+                                            SetRequestEvent(
+                                              request: Request(
+                                                id: state
+                                                    .allorderdata[index].id,
+                                                amountPaid: double.parse(state
+                                                        .allorderdata[index]
+                                                        .amountPaid)
+                                                    .round(),
+                                                //double.parse(state.allorderdata[index].amountRemaining).round()
+                                                amountRemaining: 0,
+                                                transactionId: "4545",
+                                                paymentWhen: 'Pay Later',
+                                                cart: [],
+                                                cartItem: [],
+                                                clientId: state
+                                                    .allorderdata[index]
+                                                    .clientId,
+                                                addressId: state
+                                                    .allorderdata[index]
+                                                    .client
+                                                    ?.orders?[0]
+                                                    .addressId,
+                                                total: 0,
+                                              ),
+                                            ),
+                                          );
+                                          print("444");
+
+                                          ordersBloc.add(
+                                            FetchOrderToBeUpdated(
+                                              id: state.allorderdata[index].id
+                                                  .toString(),
+                                            ),
+                                          );
+                                          print("555");
+
+                                          Navigator.pushNamed(
+                                            context,
+                                            UpdateOrder.routeName,
+                                            arguments:
+                                                state.allorderdata[index],
+                                          );
+                                        }
+                                      },
                                     ),
                                   ),
                                 ],

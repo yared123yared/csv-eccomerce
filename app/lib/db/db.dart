@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/category/categories.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/product/photo.dart';
 import 'package:app/models/product/pivot.dart';
+import 'package:app/models/request/cart.dart';
+import 'package:app/models/request/request.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,6 +28,12 @@ final String tableCategories = 'categories';
 final String tableProductCategories = 'product_categories';
 final String tableAttributes = 'table_atributes';
 final String tablePivot = 'table_pivot';
+final String tableRequest = 'request';
+final String tableCart = 'cart';
+final String tableCartAttributes = 'cart_attributes';
+final String tableUpdateOrderTable= 'orders_updated';
+final String tableCartItem = 'cart_item';
+
 
 class CsvDatabse {
   static final CsvDatabse instance = CsvDatabse._init();
@@ -205,6 +216,68 @@ CREATE TABLE $tableDeletedClientID (
   )
 ''');
       print("table create--12");
+
+
+    await db.execute('''
+CREATE TABLE $tableRequest (
+  ${RequestFields.id} $idType,
+  ${RequestFields.total} $integerTypeNullable,
+  ${RequestFields.paymentWhen} $textType,
+  ${RequestFields.paymentMethod} $textType,
+  ${RequestFields.typeOfWallet} $textType,
+  ${RequestFields.transactionId} $textType,
+  ${RequestFields.amountPaid} $integerTypeNullable,
+  ${RequestFields.amountRemaining} $integerTypeNullable,
+  ${RequestFields.addressId} $integerTypeNullable,
+  ${RequestFields.clientId} $integerTypeNullable
+  )
+''');
+      print("table create--14");
+await db.execute('''
+CREATE TABLE $tableCart (
+  ${CartFields.id} $idType,
+  ${CartFields.amountInCart} $integerTypeNullable,
+  ${CartFields.prodID} $integerTypeNullable,
+  FOREIGN KEY (${CartFields.prodID})
+       REFERENCES $tableRequest (${RequestFields.id}) ON DELETE CASCADE
+  )
+''');
+ print("table create--15");
+ await db.execute('''
+CREATE TABLE $tableCartAttributes (
+  cart_id $integerTypeNullable,
+  id $integerTypeNullable,
+  FOREIGN KEY (cart_id)
+       REFERENCES $tableCart (${CartFields.id}) ON DELETE CASCADE
+  )
+''');
+      print("table create--16");
+          await db.execute('''
+CREATE TABLE $tableUpdateOrderTable (
+  ${RequestFields.idX} $idType,
+  ${RequestFields.total} $integerTypeNullable,
+  ${RequestFields.paymentWhen} $textType,
+  ${RequestFields.paymentMethod} $textType,
+  ${RequestFields.typeOfWallet} $textType,
+  ${RequestFields.transactionId} $textType,
+  ${RequestFields.amountPaid} $integerTypeNullable,
+  ${RequestFields.amountRemaining} $integerTypeNullable,
+  ${RequestFields.addressId} $integerTypeNullable,
+  ${RequestFields.clientId} $integerTypeNullable
+  )
+''');
+      print("table create--17");
+      await db.execute('''
+CREATE TABLE $tableCartItem (
+  ${CartItemFields.id} $idTypeNullable,
+  ${CartItemFields.quantity} $integerTypeNullable,
+  ${CartItemFields.prodID} $integerTypeNullable,
+  ${CartItemFields.orderID} $integerTypeNullable,
+  FOREIGN KEY (${CartItemFields.orderID})
+       REFERENCES $tableUpdateOrderTable (${RequestFields.idX}) ON DELETE CASCADE
+  )
+''');
+      print("table create--18");
 
     } catch (e) {
       print("db--table--create--failed");

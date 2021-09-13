@@ -39,7 +39,9 @@ class PaymentsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: () {},
+      ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
       body: BlocBuilder<PaymentsCubit, PaymentsState>(

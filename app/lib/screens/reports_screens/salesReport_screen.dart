@@ -40,7 +40,7 @@ class _SalesReportScreensState extends State<SalesReportScreens> {
             child: ImageIcon(
               AssetImage('assets/images/left-align.png'),
             ),
-          ),
+          ), 
         ),
         title: const Text(
           "Sales Report",
@@ -48,7 +48,9 @@ class _SalesReportScreensState extends State<SalesReportScreens> {
         ),
         centerTitle: true,
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: (){},
+      ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
       body: Column(

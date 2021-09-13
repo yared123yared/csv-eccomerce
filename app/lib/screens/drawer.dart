@@ -12,6 +12,7 @@ import 'package:app/screens/payments/payments_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
 import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,8 @@ import 'orders_screen/ordersb_byDebt_screen.dart';
 UserPreferences pref = UserPreferences();
 
 class AppDrawer extends StatefulWidget {
+  final Function onPressed;
+  AppDrawer({required this.onPressed});
   // late int selectedDrawer;
 
   // AppDrawer({
@@ -40,6 +43,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
+  final String baseUrl = 'http://csv.jithvar.com/storage';
 
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
@@ -53,8 +57,12 @@ class _AppDrawerState extends State<AppDrawer> {
     Navigator.pushNamed(context, ClientsScreen.routeName);
   }
 
+  String photoPath = "assets/images/circular.png";
+
   @override
   Widget build(BuildContext context) {
+    Widget photo;
+
     return Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Theme.of(context)
@@ -68,6 +76,72 @@ class _AppDrawerState extends State<AppDrawer> {
               listener: (context, state) {},
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
+                  photoPath = state.user.user?.photo?.filePath ?? photoPath;
+                  if (state.user.user != null) {
+                    if (state.user.user!.photo != null) {
+                      if (state.user.user!.photo!.filePath != null) {
+                        photoPath =
+                            state.user.user?.photo?.filePath ?? photoPath;
+
+                        photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: CachedNetworkImage(
+                              imageUrl: '${baseUrl}/${photoPath}',
+                              height: MediaQuery.of(context).size.height * 0.18,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Container(
+                                color: Colors.white,
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.black,
+                                child: Icon(Icons.error),
+                              ),
+                            ),
+                            // child: Image.network('${baseUrl}/${client.photoPath}'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      } else {
+                        photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.asset('assets/images/circular.png'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      photo = CircleAvatar(
+                        radius: 45,
+                        child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.asset('assets/images/circular.png'),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    photo = CircleAvatar(
+                      radius: 45,
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        child: Image.asset('assets/images/circular.png'),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    );
+                  }
                   return Column(
                     children: [
                       Expanded(
@@ -81,19 +155,20 @@ class _AppDrawerState extends State<AppDrawer> {
                                 padding: EdgeInsets.all(16.0),
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      ClientProfile.routeName,
-                                      arguments: state.user,
-                                    );
+                                    // Navigator.of(context).pushNamed(
+                                    //   ClientProfile.routeName,
+                                    //   arguments: state.user,
+                                    // );
                                   },
                                   child: Container(
                                     child: Column(
                                       children: [
-                                        CircleAvatar(
-                                          radius: 45.0,
-                                          backgroundImage: AssetImage(
-                                              'assets/images/16.jpg'),
-                                        ),
+                                        photo,
+                                        // CircleAvatar(
+                                        //   radius: 45.0,
+                                        //   backgroundImage:
+                                        //       AssetImage(photoPath),
+                                        // ),
                                         // ignore: todo
                                         //TODO nullcheck
                                         Text(
@@ -129,54 +204,101 @@ class _AppDrawerState extends State<AppDrawer> {
                                   // },
                                   onTap: () {
                                     setState(() {
+                                      //
+
                                       Navigator.pushNamed(
-                                          context, MainScreen.routeName);
+                                          context, MainScreen.routeName,
+                                          arguments: 0);
+
+                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
                                     Icons.home,
                                     size: 40.0,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                   title: Text(
                                     'Dashboard',
                                     style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
                                       fontSize: 20.0,
                                     ),
                                   ),
                                 ),
                               ),
-                              DrawerListTile(
-                                'Categories',
-                                0,
-                                Icons.list_alt,
-                                () => {},
-                              ),
-                              DrawerListTile(
-                                  'Products', 4, Icons.shop, () => {}),
-                              DrawerListTile(
-                                'Clients',
-                                0,
-                                Icons.person,
-                                // () => setState(() {
-                                // this.check = 7;
-                                // BlocProvider.of<ClientsBloc>(context,
-                                //         listen: false)
-                                //     .add(fetchClientEvent);
-                                // }),
-                                () => navigateToClientScreen(context),
-                              ),
+                              // DrawerListTile(
+                              //   'Shop',
+                              //   0,
+                              //   Icons.list_alt,
+                              //   () => {},
+                              // ),
+                              // DrawerListTile(
+                              //     'Products', 4, Icons.shop, () => {}),
+                              // DrawerListTile(
+                              //   'Clients',
+                              //   0,
+                              //   Icons.person,
+                              //   // () => setState(() {
+                              //   // this.check = 7;
+                              //   // BlocProvider.of<ClientsBloc>(context,
+                              //   //         listen: false)
+                              //   //     .add(fetchClientEvent);
+                              //   // }),
+                              //   () => navigateToClientScreen(context),
+                              // ),
 
-                              DrawerListTile(
-                                'Product Catalog',
-                                0,
-                                Icons.production_quantity_limits_sharp,
-                                () => Navigator.of(context)
-                                    .pushNamed(MainScreen.routeName),
-                              ),
+                              // DrawerListTile(
+                              //     'Shop',
+                              //     0,
+                              //     Icons.production_quantity_limits_sharp,
+                              //     () => () {
+                              //           Navigator.pushNamed(
+                              //               context, MainScreen.routeName,
+                              //               arguments: 1);
+                              //         }),
                               //walid
+                              Container(
+                                margin: EdgeInsets.only(right: 25),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.white,
+                                //   borderRadius: BorderRadius.only(
+                                //     topRight: Radius.circular(30),
+                                //     bottomRight: Radius.circular(30),
+                                //   ),
+                                // ),
+                                child: ListTile(
+                                  // onTap: () {
+                                  //   Navigator.pushNamed(
+                                  //       context, MainScreen.routeName);
+                                  // },
+                                  onTap: () {
+                                    setState(() {
+                                      //
+
+                                      Navigator.pushNamed(
+                                          context, MainScreen.routeName,
+                                          arguments: 1);
+
+                                      // widget.onPressed();
+                                    });
+                                  },
+                                  leading: Icon(
+                                    Icons.production_quantity_limits_sharp,
+                                    size: 40.0,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text(
+                                    'Shop',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               DrawerExpansionTile(
                                 'Orders',
                                 [
@@ -189,7 +311,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                         OrdersByDebtScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.shopping_bag,
                               ),
                               DrawerExpansionTile(
@@ -200,7 +322,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                         .pushNamed(PaymentsScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.payment,
                               ),
                               DrawerExpansionTile(
@@ -219,18 +341,18 @@ class _AppDrawerState extends State<AppDrawer> {
                                         CustomerByDebtScreen.routeName);
                                   }),
                                 ],
-                                4,
+                                0,
                                 Icons.insights,
                               ),
 
                               DrawerExpansionTile(
                                 'Client Management',
                                 [
-                                  ExapandedListItem('Clients', () {}),
+                                  ExapandedListItem('Clients',
+                                      () => navigateToClientScreen(context)),
                                   ExapandedListItem('Invoices', () {}),
-                                  ExapandedListItem('Add Money', () {}),
                                 ],
-                                4,
+                                0,
                                 Icons.handyman,
                               ), // DrawerHeader(child: )
                             ],
@@ -312,39 +434,49 @@ class _AppDrawerState extends State<AppDrawer> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              Container(
-                                margin: EdgeInsets.only(right: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    bottomRight: Radius.circular(30),
-                                  ),
-                                ),
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.home,
-                                    size: 40.0,
-                                    color: Colors.black,
-                                  ),
-                                  title: Text(
-                                    'Dashboard',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                    ),
-                                  ),
+                              // Container(
+                              //   margin: EdgeInsets.only(right: 25),
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.white,
+                              //     borderRadius: BorderRadius.only(
+                              //       topRight: Radius.circular(30),
+                              //       bottomRight: Radius.circular(30),
+                              //     ),
+                              //   ),
+                              //   child: InkWell(
+                              //     child: ListTile(
+                              //       leading: Icon(
+                              //         Icons.home,
+                              //         size: 40.0,
+                              //         color: Colors.black,
+                              //       ),
+                              //       title: Text(
+                              //         'Dashboard',
+                              //         style: TextStyle(
+                              //           // color: Colors.black,
+                              //           fontWeight: FontWeight.bold,
+                              //           fontSize: 20.0,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              InkWell(
+                                child: DrawerListTile(
+                                    'Dashboard', 0, Icons.home, () => {}),
+                              ),
+                              InkWell(
+                                child: DrawerListTile(
+                                  'Categories',
+                                  0,
+                                  Icons.list_alt,
+                                  () => {},
                                 ),
                               ),
-                              DrawerListTile(
-                                'Categories',
-                                0,
-                                Icons.list_alt,
-                                () => {},
+                              InkWell(
+                                child: DrawerListTile(
+                                    'Products', 4, Icons.shop, () => {}),
                               ),
-                              DrawerListTile(
-                                  'Products', 4, Icons.shop, () => {}),
                               DrawerListTile(
                                 'Clients',
                                 4,

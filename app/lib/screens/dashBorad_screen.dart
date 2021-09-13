@@ -1,3 +1,4 @@
+import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Widget/dashboard/daily_debt.dart';
 import 'package:app/Widget/dashboard/recent_total_container.dart';
@@ -47,6 +48,49 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Column(
             children: [
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  if (state is LoginSuccessState) {
+                    return Column(
+                      children: [
+                        TitleContainers(
+                          text: "CREDIT LIMIT",
+                          number: '${state.user.user?.credit ?? "Unknown"}',
+                          image: "assets/images/debit-card.png",
+                          color: Color(0xFFAEEA00),
+                          imagebackgroundcolor: Color(0xFFAEEA00),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TitleContainers(
+                          text: "CREDIT START AT",
+                          number:
+                              '${state.user.user?.creditLimitStartDate ?? "Unknown"}',
+                          image: "assets/images/calendar-icon.png",
+                          color: Color(0xFF004D40),
+                          imagebackgroundcolor: Color(0xFF004D40),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TitleContainers(
+                          text: "CREDIT END AT",
+                          number:
+                              '${state.user.user?.creditLimitEndDate ?? "Unknown"}',
+                          image: "assets/images/calendar-icon.png",
+                          color: Color(0xFF263238),
+                          imagebackgroundcolor: Color(0xFF263238),
+                        ),
+                      ],
+                    );
+                  }
+                  return Container();
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
               BlocBuilder<NumberDashboardBloc, NumberDashboardState>(
                 builder: (context, state) {
                   if (state is NumberDashboardInitial) {

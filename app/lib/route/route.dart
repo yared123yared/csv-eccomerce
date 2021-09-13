@@ -1,14 +1,19 @@
+import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/models/client.dart';
+import 'package:app/models/client.dart';
 import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
 
 import 'package:app/models/navigation/navigation.dart';
 // import 'package:app/screens/client_new_screen.dart';
-import 'package:app/models/client.dart';
+import 'package:app/models/client.dart' as Client;
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
+import 'package:app/screens/cart_screens/update_order_screen.dart';
+import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
@@ -43,7 +48,8 @@ class AppRoutes {
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
               print("Login success state with user ${state.user}");
-              return MainScreen();
+              int check = settings.arguments as int;
+              return MainScreen(checkValue: check,);
             } else if (state is AutoLoginFailedState) {
               isAuthenticated = false;
               return Login();
@@ -53,8 +59,10 @@ class AppRoutes {
         ),
       );
     } else if (settings.name == MainScreen.routeName) {
+       int check = settings.arguments as int;
       return MaterialPageRoute(
           builder: (context) => MainScreen(
+            checkValue: check,
               // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
@@ -81,15 +89,21 @@ class AppRoutes {
               // scaffoldKey: settings.arguments as GlobalKey<ScaffoldState>,
               // user: settings.arguments as LoggedUserInfo,
               ));
-    } else if (settings.name == NewClientScreen.routeName) {
+    } else if (settings.name == ClientDetailScreen.routeName) {
+      return MaterialPageRoute(
+        builder: (context) => ClientDetailScreen(
+          client: settings.arguments as Client.Client,
+        ),
+      );
+    } else if (settings.name == ClientEditScreen.routeName) {
       if (settings.arguments != null) {
-        print("--route ----${settings.arguments}");
+        // print("--route ----${settings.arguments}");
         return MaterialPageRoute(
-            builder: (context) => NewClientScreen(
-                  client: settings.arguments as Client,
+            builder: (context) => ClientEditScreen(
+                  client: settings.arguments as Client.Client,
                 ));
       }
-      return MaterialPageRoute(builder: (context) => NewClientScreen());
+      return MaterialPageRoute(builder: (context) => ClientEditScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ResetPasswordScreen(
@@ -110,6 +124,11 @@ class AppRoutes {
       return MaterialPageRoute(
         builder: (context) => CollectionReportScreen(),
       );
+    } else if (settings.name == UpdateOrder.routeName) {
+      return MaterialPageRoute(
+          builder: (context) => UpdateOrder(
+                order: settings.arguments as DataAllOrders,
+              ));
     } else if (settings.name == AddClient.routeName) {
       return MaterialPageRoute(
         builder: (context) => AddClient(),

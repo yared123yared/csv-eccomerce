@@ -20,10 +20,12 @@ class ViewCient extends StatelessWidget {
               client: ClientProfileData(
                 name:
                     "${state.client!.firstName.toString()}  ${state.client!.lastName.toString()}",
-                credit: 0,
+                credit: "0",
                 level: 'Premiem',
                 email: state.client!.email.toString(),
                 phone: state.client!.mobile.toString(),
+                creditLimitEndDate: "",
+                creditLimitStartDate: ""
               ),
             );
           }

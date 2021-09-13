@@ -47,14 +47,14 @@ class DetailContainer extends StatelessWidget {
             ),
             SizedBox(width: MediaQuery.of(context).size.width * 0.1),
             Container(
-              width: MediaQuery.of(context).size.width * 0.3,
+              width: MediaQuery.of(context).size.width * 0.6,
               child: AutoSizeText(
                 "${product.model}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.w300),
-                maxLines: 2,
+                maxLines: 1,
               ),
             ),
             // Text(
@@ -79,12 +79,16 @@ class DetailContainer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-            Text(
-              "12",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: AutoSizeText(
+                "12",
+                maxLines: 1,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300),
+              ),
             ),
           ],
         ),

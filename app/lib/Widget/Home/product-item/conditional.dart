@@ -1,7 +1,7 @@
 import 'package:app/models/product/data.dart';
-import 'package:app/models/product/product.dart';
 import 'package:app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Conditional extends StatelessWidget {
   final int value;
@@ -53,10 +53,23 @@ class Conditional extends StatelessWidget {
                     (15),
                   ),
                 ),
-                child: Image.network(image,
-                    height: MediaQuery.of(context).size.height * 0.18,
-                    width: double.infinity,
-                    fit: BoxFit.fill),
+                // child: Image.network(image,
+                //     height: MediaQuery.of(context).size.height * 0.18,
+                //     width: double.infinity,
+                //     fit: BoxFit.fill),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  height: MediaQuery.of(context).size.height * 0.18 ,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(
+                    color: Colors.white,
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.black,
+                    child: Icon(Icons.error),
+                  ),
+                ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Container(
@@ -68,6 +81,8 @@ class Conditional extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          print("product: ${this.product}");
+                          print("onClick:${this.onClick}");
                           Navigator.pushNamed(context, ProductDetail.routeName,
                               arguments: [
                                 this.product,

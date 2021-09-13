@@ -17,37 +17,41 @@ class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
-    return CustomeDropDownButton(
-      dropDownItems: [
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Wallet",
-                textAlign: TextAlign.start,
+    return BlocBuilder<OrdersBloc, OrdersState>(
+      builder: (context, state) {
+        return CustomeDropDownButton(
+          dropDownItems: [
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Wallet",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Wallet",
             ),
-          ),
-          value: "Wallet",
-        ),
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Cash",
-                textAlign: TextAlign.start,
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Cash",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Cash",
             ),
-          ),
-          value: "Cash",
-        ),
-      ],
-      onChanged: this.onChanged,
-      value: this.value,
+          ],
+          onChanged: this.onChanged,
+          value: state.request.paymentMethod as String,
+        );
+      },
     );
   }
 

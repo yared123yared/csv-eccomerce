@@ -15,7 +15,9 @@ class NextButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap: this.onPressed(),
+          onTap: () {
+            this.onPressed();
+          },
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(

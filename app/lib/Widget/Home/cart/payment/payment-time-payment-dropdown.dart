@@ -18,42 +18,47 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
-    return CustomeDropDownButton(
-      dropDownItems: [
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Pay Later",
-                textAlign: TextAlign.start,
+    return BlocBuilder<OrdersBloc, OrdersState>(
+      builder: (context, state) {
+        return CustomeDropDownButton(
+          dropDownItems: [
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Pay Later",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Pay Later",
             ),
-          ),
-          value: "Pay Later",
-        ),
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Pay Now",
-                textAlign: TextAlign.start,
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Pay Now",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Pay Now",
             ),
-          ),
-          value: "Pay Now",
-        ),
-      ],
-      onChanged: this.onChanged,
-      value: this.value,
+          ],
+          onChanged: this.onChanged,
+          value: state.request.paymentWhen as String,
+        );
+      },
     );
   }
 
   void onChanged(String? value) {
     print("payment time on changed method");
+    print(value);
     setState(() {
       value = value;
       // print(widget.dropDownItems[_value].chil);

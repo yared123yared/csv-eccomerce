@@ -17,37 +17,41 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
-    return CustomeDropDownButton(
-      dropDownItems: [
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Smilepay",
-                textAlign: TextAlign.start,
+    return BlocBuilder<OrdersBloc, OrdersState>(
+      builder: (context, state) {
+        return CustomeDropDownButton(
+          dropDownItems: [
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Smilepay",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Smilepay",
             ),
-          ),
-          value: "Smilepay",
-        ),
-        DropdownMenuItem(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 11.0),
-              child: Text(
-                "Orange pay",
-                textAlign: TextAlign.start,
+            DropdownMenuItem(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 11.0),
+                  child: Text(
+                    "Orange pay",
+                    textAlign: TextAlign.start,
+                  ),
+                ),
               ),
+              value: "Orange pay",
             ),
-          ),
-          value: "Orange pay",
-        ),
-      ],
-      onChanged: this.onChanged,
-      value: this.value,
+          ],
+          onChanged: this.onChanged,
+          value: state.request.typeOfWallet as String,
+        );
+      },
     );
   }
 

@@ -11,40 +11,100 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
-class ProductDetail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   static const routeName = '/product/details';
   final Data products;
   final VoidCallback onClicked;
+
   ProductDetail({required this.products, required this.onClicked});
+
+  @override
+  _ProductDetailState createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+  Attributes? selectedColor = null;
+
+  void changeSelectedColor(Attributes color) {
+    setState(() {
+      selectedColor = color;
+    });
+    int counter = 0;
+    for (int i = 0; i < widget.products.selectedAttributes!.length; i++) {
+      if (widget.products.selectedAttributes![i].name!.contains("Color")) {
+        print("Size attribute already selected.");
+
+        // products.selectedAttributes!
+        //     .remove(products.selectedAttributes![i]);
+        widget.products.selectedAttributes![i] = selectedColor!;
+        counter += 1;
+      }
+    }
+    if (counter == 0) {
+      print("First selection of the attribute");
+      widget.products.selectedAttributes!.add(selectedColor!);
+    } else {
+      print("Updating the attribute");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Data? products = ModalRoute.of(context)!.settings.arguments as Data;
     String image =
-        'https://csv.jithvar.com/storage/${products.photos![0].filePath.toString()}';
+        'https://csv.jithvar.com/storage/${widget.products.photos![0].filePath.toString()}';
     List<String> photos = [];
-    for (int i = 0; i < this.products.photos!.length; i++) {
-      photos.add(
-          'https://csv.jithvar.com/storage/${products.photos![i].filePath.toString()}');
+    if (this.widget.products.photos != []) {
+      for (int i = 0; i < this.widget.products.photos!.length; i++) {
+        photos.add(
+            'https://csv.jithvar.com/storage/${widget.products.photos![i].filePath.toString()}');
+      }
     }
 
     // check the size here.
     List<String?> size = [];
-    for (int i = 0; i < products.attributes!.length; i++) {
-      List<Attributes> attributes = products.attributes as List<Attributes>;
-      if (attributes[i].name!.contains('Size')) {
-        print("Size:  ${attributes[i].pivot!.value}");
-        size.add(attributes[i].pivot!.value);
+    List<Attributes> color = [];
+    print("Detail data: ${widget.products.toJson()}");
+    if (widget.products.attributes != null) {
+      List<Attributes> attributes =
+          widget.products.attributes as List<Attributes>;
+
+      print("Attributes Size: ${widget.products.attributes![0].name}");
+      for (int i = 0; i < widget.products.attributes!.length; i++) {
+        print("Attributes: ${widget.products.attributes}");
+        print("products.attributes: ${widget.products.attributes![i].name}");
+        if (widget.products.attributes![i].name!.contains('Size')) {
+          print("Size:  ${widget.products.attributes![i].pivot!.value}");
+          size.add(widget.products.attributes![i].pivot!.value);
+        }
+      }
+      // check color
+
+      for (int i = 0; i < widget.products.attributes!.length; i++) {
+        List<Attributes> attributes =
+            widget.products.attributes as List<Attributes>;
+        if (attributes[i].name!.contains('Color')) {
+          // print("Color:  ${attributes[i].pivot!.value}");
+          color.add(attributes[i]);
+        }
       }
     }
-    // check color
-    List<String?> color = [];
-    for (int i = 0; i < products.attributes!.length; i++) {
-      List<Attributes> attributes = products.attributes as List<Attributes>;
-      if (attributes[i].name!.contains('Color')) {
-        print("Color:  ${attributes[i].pivot!.value}");
-        color.add(attributes[i].pivot!.value);
-      }
+    if (selectedColor == null) {
+      selectedColor = color[0];
     }
+    print("Adding to the color container");
+    List<Widget> colorContainer = [];
+    for (int i = 0; i < color.length; i++) {
+      print("Color for the widget: ${color}");
+      colorContainer.add(ColorContainer(
+        color: color[i],
+        selectedColor: this.selectedColor as Attributes,
+        onPressed: this.changeSelectedColor,
+      ));
+    }
+    // ignore: unnecessary_null_comparison
+
+    print("Build is sucessfully finished");
     return Scaffold(
         appBar: AppBar(
           title: Text("Products", style: TextStyle()),
@@ -105,7 +165,7 @@ class ProductDetail extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: AutoSizeText(
-                        "${this.products.name}",
+                        "${this.widget.products.name}",
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -114,7 +174,7 @@ class ProductDetail extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "\$${this.products.price}",
+                      "\$${this.widget.products.price}",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -126,7 +186,9 @@ class ProductDetail extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: AutoSizeText(
-                    "${products.categories![0].fullName}",
+                    this.widget.products.categories!.length != 0
+                        ? "${widget.products.categories![0].fullName}"
+                        : "",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
                     ),
@@ -148,7 +210,7 @@ class ProductDetail extends StatelessWidget {
                                         0.09,
                                   ),
                                   CustomeDropDown(
-                                    product: products,
+                                    product: widget.products,
                                   ),
                                 ])),
                       // CustomeDropDown(product: products,),
@@ -159,14 +221,8 @@ class ProductDetail extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03,
                           ),
-                          ColorContainer(
-                            color: Colors.blueAccent,
-                          ),
-                          ColorContainer(
-                            color: Colors.pinkAccent,
-                          ),
-                          ColorContainer(
-                            color: Colors.purpleAccent,
+                          Row(
+                            children: colorContainer,
                           )
                         ],
                       ),
@@ -175,14 +231,14 @@ class ProductDetail extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 ProductInfo(
-                  product: this.products,
+                  product: this.widget.products,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 AddToCart(
-                  onTapped: this.onClicked,
-                  product: this.products,
+                  onTapped: this.widget.onClicked,
+                  product: this.widget.products,
                 )
               ],
             ),
