@@ -13,16 +13,17 @@ class SearchBar extends StatelessWidget {
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(40)),
-        width: MediaQuery.of(context).size.width * 0.35,
-        height: MediaQuery.of(context).size.height * 0.035,
+        width: MediaQuery.of(context).size.width * 0.90,
+        height: MediaQuery.of(context).size.height * 0.068,
         child: TextField(
-          controller: null,
+          // controller: null,
           // obscureText: !ispassshow,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
+          textAlignVertical: TextAlignVertical.center,
           onChanged: (val) {
             print("---value--${val}");
-            if (val != null && val != '') {
+            if (val != '') {
               SearchClientsEvent searchClientEvent =
                   new SearchClientsEvent(key: val);
               BlocProvider.of<ClientsBloc>(context, listen: false)
@@ -37,8 +38,8 @@ class SearchBar extends StatelessWidget {
           onEditingComplete: () => FocusScope.of(context).unfocus(),
           style: TextStyle(fontSize: 14, color: Colors.grey),
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.0007),
+            // contentPadding: EdgeInsets.only(
+            //     top: MediaQuery.of(context).size.height * 0.00),
             prefixIcon: Icon(Icons.search, color: Colors.grey),
             border: InputBorder.none,
             // suffixIcon: IconButton(
@@ -51,8 +52,13 @@ class SearchBar extends StatelessWidget {
             //     });
             //   },
             // ),
+
             hintText: "Search",
-            hintStyle: TextStyle(color: Colors.black.withOpacity(0.3)),
+            hintStyle: TextStyle(
+              color: Colors.black.withOpacity(0.3),
+              fontSize: 20,
+              // textBaseline: TextBa
+            ),
           ),
         ),
       ),

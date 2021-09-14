@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'invoice-client-search-screen.dart';
 import 'orders_screen/ordersb_byDebt_screen.dart';
 
 // import 'home_screen.dart';
@@ -26,11 +27,6 @@ UserPreferences pref = UserPreferences();
 class AppDrawer extends StatefulWidget {
   final Function onPressed;
   AppDrawer({required this.onPressed});
-  // late int selectedDrawer;
-
-  // AppDrawer({
-  //   required this.selectedDrawer,
-  // });
 
   @override
   _AppDrawerState createState() => _AppDrawerState();
@@ -48,13 +44,18 @@ class _AppDrawerState extends State<AppDrawer> {
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.pushNamed(context, MainScreen.routeName,
+    Navigator.pushReplacementNamed(context, MainScreen.routeName,
         arguments: loggedUserInfo);
   }
 
   void navigateToClientScreen(BuildContext context) {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.pushNamed(context, ClientsScreen.routeName);
+    Navigator.pushReplacementNamed(context, ClientsScreen.routeName);
+  }
+
+  void navigateToInvoiceClientScreen(BuildContext context) {
+    // BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
+    Navigator.pushReplacementNamed(context, InvoiceClientSearch.routeName);
   }
 
   String photoPath = "assets/images/circular.png";
@@ -73,9 +74,7 @@ class _AppDrawerState extends State<AppDrawer> {
           width: MediaQuery.of(context).size.width * 0.80,
           child: Drawer(
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-
-              },
+              listener: (context, state) {},
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
                   photoPath = state.user.user?.photo?.filePath ?? photoPath;
@@ -206,13 +205,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                   // },
                                   onTap: () {
                                     setState(() {
-                                      //
-
                                       Navigator.pushNamed(
-                                          context, MainScreen.routeName,
-                                          arguments: 0);
-
-                                      // widget.onPressed();
+                                          context, MainScreen.routeName);
                                     });
                                   },
                                   leading: Icon(
@@ -230,77 +224,14 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              // DrawerListTile(
-                              //   'Shop',
-                              //   0,
-                              //   Icons.list_alt,
-                              //   () => {},
-                              // ),
-                              // DrawerListTile(
-                              //     'Products', 4, Icons.shop, () => {}),
-                              // DrawerListTile(
-                              //   'Clients',
-                              //   0,
-                              //   Icons.person,
-                              //   // () => setState(() {
-                              //   // this.check = 7;
-                              //   // BlocProvider.of<ClientsBloc>(context,
-                              //   //         listen: false)
-                              //   //     .add(fetchClientEvent);
-                              //   // }),
-                              //   () => navigateToClientScreen(context),
-                              // ),
-
-                              // DrawerListTile(
-                              //     'Shop',
-                              //     0,
-                              //     Icons.production_quantity_limits_sharp,
-                              //     () => () {
-                              //           Navigator.pushNamed(
-                              //               context, MainScreen.routeName,
-                              //               arguments: 1);
-                              //         }),
-                              //walid
-                              Container(
-                                margin: EdgeInsets.only(right: 25),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: BorderRadius.only(
-                                //     topRight: Radius.circular(30),
-                                //     bottomRight: Radius.circular(30),
-                                //   ),
-                                // ),
-                                child: ListTile(
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(
-                                  //       context, MainScreen.routeName);
-                                  // },
-                                  onTap: () {
-                                    setState(() {
-                                      //
-
-                                      Navigator.pushNamed(
-                                          context, MainScreen.routeName,
-                                          arguments: 1);
-
-                                      // widget.onPressed();
-                                    });
-                                  },
-                                  leading: Icon(
-                                    Icons.production_quantity_limits_sharp,
-                                    size: 40.0,
-                                    color: Colors.white,
-                                  ),
-                                  title: Text(
-                                    'Shop',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                    ),
-                                  ),
-                                ),
+                              DrawerListTile(
+                                'Shop',
+                                0,
+                                Icons.production_quantity_limits_sharp,
+                                () => Navigator.of(context)
+                                    .pushNamed(MainScreen.routeName),
                               ),
+                              //walid
                               DrawerExpansionTile(
                                 'Orders',
                                 [
@@ -352,7 +283,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 [
                                   ExapandedListItem('Clients',
                                       () => navigateToClientScreen(context)),
-                                  ExapandedListItem('Invoices', () {}),
+                                  ExapandedListItem(
+                                      'Invoices',
+                                      () => navigateToInvoiceClientScreen(
+                                          context)),
                                 ],
                                 0,
                                 Icons.handyman,
