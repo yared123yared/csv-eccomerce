@@ -19,7 +19,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
-
+  final int checkValue;
+  MainScreen({required this.checkValue});
   // final LoggedUserInfo user;
   // MainScreen({required this.user});
 
@@ -39,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
 
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    check = widget.checkValue;
   }
 
   @override
@@ -84,11 +86,6 @@ class _MainScreenState extends State<MainScreen> {
 
   late CartBloc cartBloc;
   int check = 1;
-  set   GoToDashboard(int check){
-   setState(() {
-      check=check;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -97,12 +94,12 @@ class _MainScreenState extends State<MainScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: this.check == 0
-          ? Text('DASHBOARD')
-          : this.check == 1
-              ? Text('CSV')
-              : this.check == 2
-                  ? Text('CSV')
-                  : Text('Client Profile'),
+            ? Text('CSV')
+            : this.check == 1
+                ? Text('CSV')
+                : this.check == 2
+                    ? Text('CSV')
+                    : Text('Client Profile'),
         // title: Text(
         //   "CSV",
         //   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -123,7 +120,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
 
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        onPressed: this.changeToDashbord,
+      ),
       drawerEnableOpenDragGesture: true,
       // drawer:
       body: this.check == 0
@@ -172,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                 return IconButton(
                   icon: Cart(
                     value: state.counter,
-                    check: check,
+                    check: check as int,
                   ),
                   onPressed: () {
                     setState(() {
@@ -200,5 +199,11 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  void changeToDashbord() {
+    setState(() {
+      check = 0;
+    });
   }
 }

@@ -134,7 +134,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+      onPressed: (){},
+      ),
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(

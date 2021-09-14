@@ -55,11 +55,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       children: [
                         TitleContainers(
                           text: "CREDIT LIMIT",
-                          number:
-                              '${state.user.user?.credit ?? "Unknown"}',
+                          number: '${state.user.user?.credit ?? "Unknown"}',
                           image: "assets/images/debit-card.png",
-                          color: redDashBoard,
-                          imagebackgroundcolor: Color(0xFFee3a3b),
+                          color: Color(0xFFAEEA00),
+                          imagebackgroundcolor: Color(0xFFAEEA00),
                         ),
                         SizedBox(
                           height: 10,
@@ -69,18 +68,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           number:
                               '${state.user.user?.creditLimitStartDate ?? "Unknown"}',
                           image: "assets/images/calendar-icon.png",
-                          color: orangDashBoard,
-                          imagebackgroundcolor: Color(0xFFf2a24e),
+                          color: Color(0xFF004D40),
+                          imagebackgroundcolor: Color(0xFF004D40),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         TitleContainers(
                           text: "CREDIT END AT",
-                          number:'${state.user.user?.creditLimitEndDate ?? "Unknown"}',
+                          number:
+                              '${state.user.user?.creditLimitEndDate ?? "Unknown"}',
                           image: "assets/images/calendar-icon.png",
-                          color: purpleDashBoard,
-                          imagebackgroundcolor: Color(0xFFaa4cec),
+                          color: Color(0xFF263238),
+                          imagebackgroundcolor: Color(0xFF263238),
                         ),
                       ],
                     );

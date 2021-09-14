@@ -24,6 +24,8 @@ import 'orders_screen/ordersb_byDebt_screen.dart';
 UserPreferences pref = UserPreferences();
 
 class AppDrawer extends StatefulWidget {
+  final Function onPressed;
+  AppDrawer({required this.onPressed});
   // late int selectedDrawer;
 
   // AppDrawer({
@@ -106,8 +108,8 @@ class _AppDrawerState extends State<AppDrawer> {
                             ),
                           ),
                         );
-                      }else{
-                         photo = CircleAvatar(
+                      } else {
+                        photo = CircleAvatar(
                           radius: 45,
                           child: Container(
                             clipBehavior: Clip.hardEdge,
@@ -118,8 +120,8 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                         );
                       }
-                    }else{
-                       photo = CircleAvatar(
+                    } else {
+                      photo = CircleAvatar(
                         radius: 45,
                         child: Container(
                           clipBehavior: Clip.hardEdge,
@@ -130,7 +132,6 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       );
                     }
-
                   } else {
                     photo = CircleAvatar(
                       radius: 45,
@@ -205,8 +206,13 @@ class _AppDrawerState extends State<AppDrawer> {
                                   // },
                                   onTap: () {
                                     setState(() {
+                                      //
+
                                       Navigator.pushNamed(
-                                          context, MainScreen.routeName);
+                                          context, MainScreen.routeName,
+                                          arguments: 0);
+
+                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
@@ -224,14 +230,77 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              DrawerListTile(
-                                'Shop',
-                                0,
-                                Icons.production_quantity_limits_sharp,
-                                () => Navigator.of(context)
-                                    .pushNamed(MainScreen.routeName),
-                              ),
+                              // DrawerListTile(
+                              //   'Shop',
+                              //   0,
+                              //   Icons.list_alt,
+                              //   () => {},
+                              // ),
+                              // DrawerListTile(
+                              //     'Products', 4, Icons.shop, () => {}),
+                              // DrawerListTile(
+                              //   'Clients',
+                              //   0,
+                              //   Icons.person,
+                              //   // () => setState(() {
+                              //   // this.check = 7;
+                              //   // BlocProvider.of<ClientsBloc>(context,
+                              //   //         listen: false)
+                              //   //     .add(fetchClientEvent);
+                              //   // }),
+                              //   () => navigateToClientScreen(context),
+                              // ),
+
+                              // DrawerListTile(
+                              //     'Shop',
+                              //     0,
+                              //     Icons.production_quantity_limits_sharp,
+                              //     () => () {
+                              //           Navigator.pushNamed(
+                              //               context, MainScreen.routeName,
+                              //               arguments: 1);
+                              //         }),
                               //walid
+                              Container(
+                                margin: EdgeInsets.only(right: 25),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.white,
+                                //   borderRadius: BorderRadius.only(
+                                //     topRight: Radius.circular(30),
+                                //     bottomRight: Radius.circular(30),
+                                //   ),
+                                // ),
+                                child: ListTile(
+                                  // onTap: () {
+                                  //   Navigator.pushNamed(
+                                  //       context, MainScreen.routeName);
+                                  // },
+                                  onTap: () {
+                                    setState(() {
+                                      //
+
+                                      Navigator.pushNamed(
+                                          context, MainScreen.routeName,
+                                          arguments: 1);
+
+                                      // widget.onPressed();
+                                    });
+                                  },
+                                  leading: Icon(
+                                    Icons.production_quantity_limits_sharp,
+                                    size: 40.0,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text(
+                                    'Shop',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ),
+                              ),
                               DrawerExpansionTile(
                                 'Orders',
                                 [
