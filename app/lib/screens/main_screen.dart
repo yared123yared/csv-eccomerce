@@ -86,7 +86,6 @@ class _MainScreenState extends State<MainScreen> {
 
   late CartBloc cartBloc;
   int check = 1;
-
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -172,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                 return IconButton(
                   icon: Cart(
                     value: state.counter,
-                    check: check as int,
+                    check: check,
                   ),
                   onPressed: () {
                     setState(() {

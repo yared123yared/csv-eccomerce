@@ -29,6 +29,7 @@ class OrderToBeUpdated {
   double total;
   double price;
   Data data;
+
   OrderToBeUpdated({
     required this.cartId,
     required this.data,

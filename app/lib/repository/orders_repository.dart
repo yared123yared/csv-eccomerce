@@ -2,6 +2,7 @@ import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/data_provider/product_data_provider.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/models/response.dart';
 
 class OrderRepository {
   late final OrderDataProvider orderDataProvider;
@@ -15,11 +16,11 @@ class OrderRepository {
     return data;
   }
 
-  Future<List<OrderToBeUpdated>> OrderData(String id) async {
+  Future<OrderDetail> OrderData(String id) async {
     return await orderDataProvider.OrderData(id);
   }
 
-  Future<bool> UpdateOrder(Request request) async {
+  Future<APIResponse> UpdateOrder(Request request) async {
     return await orderDataProvider.updateOrder(request);
 
   }

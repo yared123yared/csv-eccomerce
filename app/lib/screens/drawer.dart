@@ -73,7 +73,9 @@ class _AppDrawerState extends State<AppDrawer> {
           width: MediaQuery.of(context).size.width * 0.80,
           child: Drawer(
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+
+              },
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
                   photoPath = state.user.user?.photo?.filePath ?? photoPath;

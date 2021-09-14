@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/db/db.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/client.dart';
@@ -8,6 +9,7 @@ import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/models/response.dart';
 import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/repository/orders_repository.dart';
@@ -54,7 +56,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           yield (OrderCreatedSuccess(request: state.request));
           yield (OrdersInitial());
         } else {
-          
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));
         }
@@ -199,17 +200,19 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       return;
     } else if (event is AddPaidAmountEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
+      print("Adding paid amount");
       print(state.request.toJson());
       request.amountPaid = event.amount;
       request.amountRemaining = (request.total! - (request.amountPaid as int));
-      print("When:${event.amount}");
+      print("Remaining amount:${request.amountRemaining}");
+      // request.amountRemaining = (request.total! - (request.amountPaid as int));
+      // print("When:${event.amount}");
 
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddRemainingAmountEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
+      print("Adding remaining amount");
       print(state.request.toJson());
       request.amountRemaining = event.amount;
       print("When:${event.amount}");
@@ -220,10 +223,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("FetchOrderToBeUpdated bloc");
       yield FetchingOrderToBeUpdated(request: state.request);
       try {
-        List<OrderToBeUpdated> data =
-            await this.orderRepository.OrderData(event.id);
+        OrderDetail data = await this.orderRepository.OrderData(event.id);
         yield FetchingOrderToBeUpdatedSuccess(
-            data: data, request: state.request);
+            data: data.data, addressId: data.addressId, request: state.request);
         return;
       } catch (e) {
         yield FetchingOrderToBeUpdatedFailed();
@@ -309,8 +311,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         // yield OrderUpdateSuccess(request: event.request);
         // return;
 
-        bool value = await this.orderRepository.UpdateOrder(event.request);
-        if (value == true) {
+        APIResponse value =
+            await this.orderRepository.UpdateOrder(event.request);
+        if (value.IsSuccess == true) {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
@@ -319,7 +322,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         } else {
           print("failed to create--order");
           yield (OrderUpdatingFailed(
-              request: state.request, message: "Failed to update order"));
+              request: state.request, message: value.Message));
         }
         return;
       } else {
@@ -339,6 +342,15 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
 
       // }
+    } else if (event is AddAddressIdEvent) {
+      Request request = state.request;
+      print("Add adress Id");
+      print(state.request.toJson());
+      request.addressId = event.id;
+      print("address-is:${event.id}");
+
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
+      return;
     }
   }
 
