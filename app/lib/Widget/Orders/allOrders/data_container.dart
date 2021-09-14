@@ -271,7 +271,10 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                         .amountPaid)
                                                     .round(),
                                                 //double.parse(state.allorderdata[index].amountRemaining).round()
-                                                amountRemaining: 0,
+                                                amountRemaining: double.parse(
+                                                  state.allorderdata[index]
+                                                        .amountRemaining
+                                                ).toInt(),
                                                 transactionId: "4545",
                                                 paymentWhen: 'Pay Later',
                                                 cart: [],
