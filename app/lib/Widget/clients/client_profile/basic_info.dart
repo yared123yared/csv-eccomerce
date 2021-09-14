@@ -11,6 +11,7 @@ class ClientBasicProfile extends StatelessWidget {
   ClientBasicProfile({required this.client});
 
   final String baseUrl = 'http://csv.jithvar.com/storage';
+  
 
   @override
   Widget build(BuildContext context) {

@@ -157,6 +157,7 @@ class ClientsDataProvider {
       // final respStr = await res.stream.bytesToString();
       // print('---create client--${res.statusCode}');
       // print(respStr);
+      
       http.Response res = await http.Response.fromStream(await request.send());
       print("dp--create 1");
       if (res.statusCode != 201) {

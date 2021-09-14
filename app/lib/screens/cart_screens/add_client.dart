@@ -119,6 +119,7 @@ class _AddClientState extends State<AddClient> {
                             children: [
                               UpperContainer(),
                               //
+                              
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.04,
@@ -154,6 +155,7 @@ class _AddClientState extends State<AddClient> {
                               // you'd often call a server or save the information in a database.
 
                               print("Order method is invoked");
+
                               ordersbloc.add(
                                   CreateOrderEvent(request: state.request));
                               addClientBloc.add(ClientSearchEvent());

@@ -41,10 +41,13 @@ import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
 import 'repository/user_repository.dart';
 import 'preferences/user_preference_data.dart';
+
 import 'Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/data_provider/clients_data_provider.dart';
+
 import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
