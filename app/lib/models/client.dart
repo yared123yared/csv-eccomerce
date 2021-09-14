@@ -171,7 +171,6 @@ class Client {
   int? companyId;
   int? status;
   int? debts;
-  // List<Photo>? photo;
   List<Orders>? orders;
   List<Addresses>? addresses;
   List<Docs>? documents;
@@ -198,7 +197,7 @@ class Client {
     this.addresses,
     this.documents,
     this.isLocal,
-    this.photo,
+    // this.photo,
   });
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -226,12 +225,6 @@ class Client {
           orders!.add(new Orders.fromJson(v));
         });
       }
-      //  if (json['photo'] != null) {
-      //   photo = [];
-      //   json['photo'].forEach((v) {
-      //     photo!.add(new Photo.fromJson(v));
-      //   });
-      // }
       if (json['addresses'] != null) {
         addresses = [];
         json['addresses'].forEach((v) {
