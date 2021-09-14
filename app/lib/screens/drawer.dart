@@ -71,7 +71,9 @@ class _AppDrawerState extends State<AppDrawer> {
           width: MediaQuery.of(context).size.width * 0.80,
           child: Drawer(
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+
+              },
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
                   photoPath = state.user.user?.photo?.filePath ?? photoPath;
@@ -222,27 +224,6 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              // DrawerListTile(
-                              //   'Shop',
-                              //   0,
-                              //   Icons.list_alt,
-                              //   () => {},
-                              // ),
-                              // DrawerListTile(
-                              //     'Products', 4, Icons.shop, () => {}),
-                              // DrawerListTile(
-                              //   'Clients',
-                              //   0,
-                              //   Icons.person,
-                              //   // () => setState(() {
-                              //   // this.check = 7;
-                              //   // BlocProvider.of<ClientsBloc>(context,
-                              //   //         listen: false)
-                              //   //     .add(fetchClientEvent);
-                              //   // }),
-                              //   () => navigateToClientScreen(context),
-                              // ),
-
                               DrawerListTile(
                                 'Shop',
                                 0,

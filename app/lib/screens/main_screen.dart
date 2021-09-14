@@ -84,6 +84,11 @@ class _MainScreenState extends State<MainScreen> {
 
   late CartBloc cartBloc;
   int check = 1;
+  set   GoToDashboard(int check){
+   setState(() {
+      check=check;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
@@ -92,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: this.check == 0
-          ? Text('CSV')
+          ? Text('DASHBOARD')
           : this.check == 1
               ? Text('CSV')
               : this.check == 2

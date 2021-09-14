@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/add-client/next-button.dart';
 import 'package:app/Widget/Home/cart/add-client/upper-container.dart';
 import 'package:app/Widget/Home/cart/payment/payment-container.dart';
+import 'package:app/Widget/Home/cart/update-payment/payment-container.dart';
 import 'package:app/Widget/Home/update_order/update-product-price-info.dart';
 import 'package:app/Widget/Home/update_order/update-single-cart-item.dart';
 import 'package:app/Widget/clients/client_profile/address_info.dart';
@@ -47,13 +50,15 @@ class _UpdateOrderState extends State<UpdateOrder> {
   List<OrderToBeUpdated> orderToBeUpdated = [];
   List<Data> data = [];
   double price = 0;
+  PaymentValues values = new PaymentValues(Remaining: 0);
+  late Request request;
   @override
   void initState() {
-    // ordersbloc = BlocProvider.of<OrdersBloc>(context);
-    // cartbloc = BlocProvider.of<CartBloc>(context);
-    // productBloc = BlocProvider.of<ProductBloc>(context);
-    // addClientBloc = BlocProvider.of<AddClientBloc>(context);
-    // allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
+    ordersbloc = BlocProvider.of<OrdersBloc>(context);
+    cartbloc = BlocProvider.of<CartBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
+    addClientBloc = BlocProvider.of<AddClientBloc>(context);
+    allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
     super.initState();
   }
 
@@ -126,6 +131,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               // }
               progress?.dismiss();
               progress?.showWithText("Updating");
+              request = state.request;
             } else if (state is OrderUpdateSuccess) {
               print("order update success");
               this.isShowing = false;
@@ -146,7 +152,9 @@ class _UpdateOrderState extends State<UpdateOrder> {
               BlocProvider.of<AddClientBloc>(context)
                   .add(ClientDisplayEvent(client: widget.order.client!));
               ordersbloc.add(PaymentInitialization());
+              request = state.request;
             } else if (state is FetchingOrderToBeUpdatedSuccess) {
+              request = state.request;
               progress?.dismiss();
               print("--success--");
               // data = state.data;
@@ -219,8 +227,19 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   );
                 }
               }
-
-              ordersbloc.add(CartCheckoutEvent(cartProducts: data));
+              ordersbloc.add(AddPaymentWhenEvent(
+                when: 'Pay Now',
+              ));
+              ordersbloc.add(AddRemainingAmountEvent(
+                amount: (price - state.request.amountPaid!).toInt(),
+              ));
+              int addrId = 0;
+              if (state.addressId != null) {
+                addrId = state.addressId!;
+              }
+              print("address---id");
+              print(addrId);
+              ordersbloc.add(AddAddressIdEvent(id: addrId));
             }
           },
           builder: (context, state) {
@@ -348,9 +367,43 @@ class _UpdateOrderState extends State<UpdateOrder> {
                     //   title: 'Shipping Addresses',
                     //   childrens: [...shippingAddresses],
                     // ),
-                    PaymentContainer(
+                    UpdatePaymentContainer(
                       formKey: _formKey,
-                      onStateChange: this.setPayment,
+                      onAddPaidPressed: this.addPaidAmount,
+                      // paymentValues: values,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Material(
+                        elevation: 1,
+                        borderRadius: BorderRadius.circular(30),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          // padding: EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 4.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "    Remaining Amount:",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text('${state.request.amountRemaining}')
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     ConditionalButton(
                       name: "UPDATE ORDER",
@@ -367,6 +420,9 @@ class _UpdateOrderState extends State<UpdateOrder> {
                             // if (request.cart != null) {
                             // request.total =
                             //     );
+                            ordersbloc.add(AddRemainingAmountEvent(
+                                amount: values.Remaining.toInt()));
+
                             ordersbloc
                                 .add(UpdateOrderEvent(request: state.request));
                             addClientBloc.add(ClientSearchEvent());
@@ -417,6 +473,24 @@ class _UpdateOrderState extends State<UpdateOrder> {
     setState(() {
       price -= priceX;
     });
+  }
+
+  void addPaidAmount(String value) async {
+    if (value == "") {
+      value = "0";
+    }
+    double val = 0;
+    double paid = 0;
+    try {
+      paid = double.parse(value);
+    } catch (e) {
+      print(e);
+    }
+    val = price - paid;
+    print("-------");
+    print(val.toInt());
+    ordersbloc.add(AddRemainingAmountEvent(amount: val.toInt()));
+    ordersbloc.add(AddPaidAmountEvent(amount: int.parse(value)));
   }
 
   double getTotalPrice(List<CartItem> carts) {

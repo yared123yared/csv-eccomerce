@@ -45,6 +45,11 @@ class AddTransactionIdEvent extends OrdersEvent {
   AddTransactionIdEvent({required this.transactionId});
 }
 
+class AddAddressIdEvent extends OrdersEvent {
+  final int id;
+  AddAddressIdEvent({required this.id});
+}
+
 class AddPaidAmountEvent extends OrdersEvent {
   final int amount;
   AddPaidAmountEvent({required this.amount});

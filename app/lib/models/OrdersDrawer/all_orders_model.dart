@@ -68,7 +68,6 @@ class DataAllOrders {
   late String status;
   late int clientId;
   Client? client;
-
   DataAllOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
