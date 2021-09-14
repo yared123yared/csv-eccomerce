@@ -23,6 +23,8 @@ import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
 import 'package:sms/sms.dart';
 
+import 'clients_screen.dart';
+
 class ClientEditScreen extends StatefulWidget {
   static const routeName = 'client_new';
 
@@ -460,7 +462,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   void navigateToClientScreen(BuildContext context) {
     FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.of(context).pop();
+    Navigator.popAndPushNamed(context, ClientsScreen.routeName);
   }
 
   void updateAddressValues() {
@@ -577,9 +579,9 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
                 progress.dismiss();
               }
               // message will be send here.
-                List<String> recipents = ["916897173", "0939546094"];
+              List<String> recipents = ["916897173", "0939546094"];
 
-                _sendSMS("message", recipents);
+              _sendSMS("message", recipents);
               navigateToClientScreen(widgetContext);
 
               // Navigator.of(context).pop();
@@ -863,6 +865,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
       ),
     ];
   }
+
   void _sendSMS(String message, List<String> recipents) async {
      UserPreferences userPreference = new UserPreferences();
       LoggedUserInfo loggedUserInfo =

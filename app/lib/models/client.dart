@@ -113,6 +113,47 @@ class Clients {
   }
 }
 
+class Photo {
+  Photo({
+    required this.id,
+    this.referenceId,
+    this.referenceType,
+    this.name,
+    this.forceDownload,
+    this.filePath,
+    this.createdAt,
+  });
+  late final int id;
+  int? referenceId;
+  String? referenceType;
+  String? name;
+  int? forceDownload;
+  String? filePath;
+  String? createdAt;
+
+  Photo.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    referenceId = json['reference_id'];
+    referenceType = json['reference_type'];
+    name = json['name'];
+    forceDownload = json['force_download'];
+    filePath = json['file_path'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['reference_id'] = referenceId;
+    _data['reference_type'] = referenceType;
+    _data['name'] = name;
+    _data['force_download'] = forceDownload;
+    _data['file_path'] = filePath;
+    _data['created_at'] = createdAt;
+    return _data;
+  }
+}
+
 class Client {
   int? id;
   String? firstName;
@@ -134,6 +175,7 @@ class Client {
   List<Orders>? orders;
   List<Addresses>? addresses;
   List<Docs>? documents;
+  Photo? photo;
   bool? isLocal = false;
   Client({
     this.id,
@@ -177,6 +219,7 @@ class Client {
       companyId = json['company_id'];
       status = json['status'];
       debts = json['debts'];
+      photo=Photo.fromJson(json['photo']);
       if (json['orders'] != null) {
         orders = [];
         json['orders'].forEach((v) {
