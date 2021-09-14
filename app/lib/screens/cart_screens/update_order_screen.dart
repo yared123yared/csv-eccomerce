@@ -231,7 +231,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 when: 'Pay Now',
               ));
               ordersbloc.add(AddRemainingAmountEvent(
-                amount: (price - state.request.amountPaid!).toInt(),
+                amount:  state.request.amountRemaining!.toInt(),
               ));
               int addrId = 0;
               if (state.addressId != null) {
