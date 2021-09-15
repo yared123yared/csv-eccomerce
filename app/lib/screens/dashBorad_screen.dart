@@ -1,4 +1,5 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
+import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Widget/dashboard/daily_debt.dart';
 import 'package:app/Widget/dashboard/recent_total_container.dart';
@@ -18,7 +19,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  late CreditBloc creditBloc;
   // final keyRefresh = GlobalKey<RefreshIndicatorState>();
 
   late NumberDashboardBloc bloc;
@@ -40,6 +41,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    creditBloc = BlocProvider.of<CreditBloc>(context);
+    creditBloc.add(CreditInitialization());
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: lightColor,
@@ -48,14 +51,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Column(
             children: [
-              BlocBuilder<AuthBloc, AuthState>(
+              BlocBuilder<CreditBloc, CreditState>(
                 builder: (context, state) {
-                  if (state is LoginSuccessState) {
+                  if (state is CreditUpdated) {
                     return Column(
                       children: [
                         TitleContainers(
                           text: "CREDIT LIMIT",
-                          number: '${state.user.user?.credit ?? "Unknown"}',
+                          number: '\$${state.credit}',
                           image: "assets/images/debit-card.png",
                           color: Color(0xFFAEEA00),
                           imagebackgroundcolor: Color(0xFFAEEA00),
@@ -65,8 +68,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         TitleContainers(
                           text: "CREDIT START AT",
-                          number:
-                              '${state.user.user?.creditLimitStartDate ?? "Unknown"}',
+                          number: '${state.creditLimitStartDate}',
                           image: "assets/images/calendar-icon.png",
                           color: Color(0xFF004D40),
                           imagebackgroundcolor: Color(0xFF004D40),
@@ -76,8 +78,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         TitleContainers(
                           text: "CREDIT END AT",
-                          number:
-                              '${state.user.user?.creditLimitEndDate ?? "Unknown"}',
+                          number: '${state.creditLimitEndDate}',
                           image: "assets/images/calendar-icon.png",
                           color: Color(0xFF263238),
                           imagebackgroundcolor: Color(0xFF263238),

@@ -302,7 +302,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                               // ordersBloc.add(ClientAddEvent(client: this.client));
                               setState(() {
                                 Navigator.popAndPushNamed(
-                                    context, MainScreen.routeName);
+                                    context, MainScreen.routeName, arguments:1);
                               });
                             },
                             child: Container(

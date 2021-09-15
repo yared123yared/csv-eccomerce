@@ -1,6 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 
@@ -37,9 +38,11 @@ class _AddClientState extends State<AddClient> {
   late CartBloc cartbloc;
   late ProductBloc productBloc;
   late AddClientBloc addClientBloc;
+  late CreditBloc creditBloc;
   @override
   Widget build(BuildContext context) {
     // this.isShowing = false;
+    creditBloc = BlocProvider.of<CreditBloc>(context);
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
@@ -73,6 +76,9 @@ class _AddClientState extends State<AddClient> {
                 }
               } else if (state is OrderCreatedSuccess) {
                 // this.isShowing = false;
+                print("Amount Paid: ${state.request.amountPaid}");
+                creditBloc
+                    .add(CreditUpdate(credit: state.request.amountPaid as int));
                 String message = "This is a test message!";
                 List<String> recipents = ["916897173", "0939546094"];
 
@@ -90,18 +96,17 @@ class _AddClientState extends State<AddClient> {
                   desc: 'Remaining amount greater than your credit limit!',
                   btnCancelOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
-                //      setState(() {
-                //   isShowing = false;
-                // });
+                    //      setState(() {
+                    //   isShowing = false;
+                    // });
                   },
                   btnOkOnPress: () {
                     Navigator.popAndPushNamed(context, AddClient.routeName);
-                //      setState(() {
-                //   isShowing = false;
-                // });
+                    //      setState(() {
+                    //   isShowing = false;
+                    // });
                   },
                 )..show();
-
               }
             },
             builder: (context, state) {
@@ -119,7 +124,7 @@ class _AddClientState extends State<AddClient> {
                             children: [
                               UpperContainer(),
                               //
-                              
+
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.04,
@@ -197,13 +202,13 @@ class _AddClientState extends State<AddClient> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-     UserPreferences userPreference = new UserPreferences();
-      LoggedUserInfo loggedUserInfo =
-          await userPreference.getUserInformation() as LoggedUserInfo;
-      User user = loggedUserInfo.user as User;
-      
+    UserPreferences userPreference = new UserPreferences();
+    LoggedUserInfo loggedUserInfo =
+        await userPreference.getUserInformation() as LoggedUserInfo;
+    User user = loggedUserInfo.user as User;
+
     SmsSender sender = SmsSender();
-    String address =user.company!.mobile as String;
+    String address = user.company!.mobile as String;
 
     SmsMessage message = SmsMessage(address, 'New Order Created!');
     message.onStateChanged.listen((state) {

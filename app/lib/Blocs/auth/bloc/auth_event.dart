@@ -56,3 +56,7 @@ class ConfirmOTPEvent extends AuthEvent {
   @override
   List<Object> get props => [];
 }
+class CreditLimitUpdate extends AuthEvent{
+  final int credit;
+  CreditLimitUpdate({required this.credit});
+}

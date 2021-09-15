@@ -2,6 +2,7 @@ import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
@@ -25,7 +26,7 @@ import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
-import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart'; 
+import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
 import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
@@ -59,7 +60,6 @@ void main() {
   final UserPreferences userPreferences = UserPreferences();
 
   // final ScrollController scrollController = ScrollController();
-
 
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
@@ -158,6 +158,9 @@ class App extends StatelessWidget {
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
           ),
+          BlocProvider<CreditBloc>(
+            create: (_) => CreditBloc(),
+          ),
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
@@ -170,7 +173,8 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-            create: (_) => OrdersBloc(orderRepository: this.orderRepository)..add(PaymentInitialization()),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository)
+              ..add(PaymentInitialization()),
           ),
           //
           BlocProvider<AddClientBloc>(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/db/db.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
@@ -15,12 +16,14 @@ import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_sms/flutter_sms.dart';
 part 'orders_event.dart';
 part 'orders_state.dart';
 
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   // late Request request;
+  // late CreditBloc creditBloc;
   final OrderRepository orderRepository;
   OrdersBloc({required this.orderRepository}) : super(OrdersInitial());
   // CartBloc cartbloc;
@@ -51,7 +54,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // });
           // print(_result);
 //
-
+          
           carts = [];
           yield (OrderCreatedSuccess(request: state.request));
           yield (OrdersInitial());
@@ -204,7 +207,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print(state.request.toJson());
       request.amountPaid = event.amount;
       request.amountRemaining = (request.total! - (request.amountPaid as int));
-      print("Remaining amount:${request.amountRemaining}");
+      print("Remaining");
       // request.amountRemaining = (request.total! - (request.amountPaid as int));
       // print("When:${event.amount}");
 
