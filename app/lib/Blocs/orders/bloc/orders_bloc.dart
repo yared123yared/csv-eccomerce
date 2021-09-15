@@ -56,7 +56,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           yield (OrderCreatedSuccess(request: state.request));
           yield (OrdersInitial());
         } else {
-          
           print("failed to create--order");
           yield (OrderCreatingFailed(message: "Failed to create order"));
         }
@@ -155,19 +154,18 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       //yield RequestUpdateSuccess(request: request, credit:state.credit);
     } else if (event is AddPaymentWhenEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
+      print("Add payment when");
       print(state.request.toJson());
       request.paymentWhen = event.when;
       print("When:${event.when}");
-
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaymentMethodEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
+      print("Add payment method");
       print(state.request.toJson());
       request.paymentMethod = event.method;
-      print("When:${event.method}");
+      print("method:${event.method}");
 
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
@@ -183,20 +181,18 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       return;
     } else if (event is AddPaymentTypeEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
+      print("Add payment type");
       print(state.request.toJson());
       request.typeOfWallet = event.type;
-      print("When:${event.type}");
-
+      print("Type :${event.type}");
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddTransactionIdEvent) {
       Request request = state.request;
-      print("Entered to the payment bloc");
-      print(state.request.toJson());
+      print("Add transaction Id");
+      // print(state.request.toJson());
       request.transactionId = event.transactionId;
-      print("When:${event.transactionId}");
-
+      print("transaction is:${event.transactionId}");
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaidAmountEvent) {
@@ -214,7 +210,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("Adding remaining amount");
       print(state.request.toJson());
       request.amountRemaining = event.amount;
-      print("When:${event.amount}");
+      print("remaining amount :${event.amount}");
 
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
@@ -222,10 +218,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("FetchOrderToBeUpdated bloc");
       yield FetchingOrderToBeUpdated(request: state.request);
       try {
-        OrderDetail data =
-            await this.orderRepository.OrderData(event.id);
+        OrderDetail data = await this.orderRepository.OrderData(event.id);
         yield FetchingOrderToBeUpdatedSuccess(
-            data: data.data,addressId: data.addressId, request: state.request);
+            data: data.data, addressId: data.addressId, request: state.request,client: data.client);
         return;
       } catch (e) {
         yield FetchingOrderToBeUpdatedFailed();
@@ -233,9 +228,15 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       return;
     } else if (event is SetRequestEvent) {
       print("setting request");
+      // state.request = event.request;
+      UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      double credit = double.parse(user.credit as String);
       Request request = state.request;
       request = event.request;
-      yield RequestUpdateSuccess(request: request, credit: state.credit);
+      yield RequestUpdateSuccess(request: request, credit: credit);
       return;
     } else if (event is AddToCart) {
       print("----add to cart --invoked--");
@@ -311,7 +312,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         // yield OrderUpdateSuccess(request: event.request);
         // return;
 
-        APIResponse value = await this.orderRepository.UpdateOrder(event.request);
+        APIResponse value =
+            await this.orderRepository.UpdateOrder(event.request);
         if (value.IsSuccess == true) {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
@@ -341,12 +343,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
 
       // }
-    }else if(event is AddAddressIdEvent){
+    } else if (event is AddAddressIdEvent) {
       Request request = state.request;
       print("Add adress Id");
       print(state.request.toJson());
       request.addressId = event.id;
-      print("address-is:${event.id}");
+      print("address-id:${event.id}");
 
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;

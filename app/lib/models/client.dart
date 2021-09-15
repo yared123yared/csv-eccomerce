@@ -218,7 +218,7 @@ class Client {
       companyId = json['company_id'];
       status = json['status'];
       debts = json['debts'];
-      photo=Photo.fromJson(json['photo']);
+      photo = Photo.fromJson(json['photo']);
       if (json['orders'] != null) {
         orders = [];
         json['orders'].forEach((v) {
@@ -267,6 +267,9 @@ class Client {
       }
       if (this.addresses != null) {
         Client['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+      }
+      if (this.photo != null) {
+        Client['photo'] = this.photo!;
       }
     } catch (e) {
       print("203------${e.toString()}");

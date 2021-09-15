@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
@@ -74,8 +76,6 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
       }
     });
   }
-
-
 
   @override
   void dispose() {
@@ -246,7 +246,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                             null) {
                                           print(
                                               "--------invoked data--container ---120");
-
+                                          // print(jsonEncode(state
+                                          //     .allorderdata[index].client!));
                                           addClientBloc.add(ClientDisplayEvent(
                                               client: state.allorderdata[index]
                                                   .client!));
@@ -272,11 +273,14 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                     .round(),
                                                 //double.parse(state.allorderdata[index].amountRemaining).round()
                                                 amountRemaining: double.parse(
-                                                  state.allorderdata[index]
-                                                        .amountRemaining
-                                                ).toInt(),
+                                                        state
+                                                            .allorderdata[index]
+                                                            .amountRemaining)
+                                                    .toInt(),
                                                 transactionId: "4545",
                                                 paymentWhen: 'Pay Later',
+                                                paymentMethod: "Wallet",
+                                                typeOfWallet: "Smilepay",
                                                 cart: [],
                                                 cartItem: [],
                                                 clientId: state

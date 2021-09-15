@@ -1,5 +1,4 @@
 import 'package:app/Widget/clients/Common/client_data_row.dart';
-import 'package:app/Widget/clients/Common/pill_text.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:flutter/material.dart';
 
