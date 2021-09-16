@@ -78,7 +78,7 @@ class _AddClientState extends State<AddClient> {
                 // this.isShowing = false;
                 print("Amount Paid: ${state.request.amountPaid}");
                 creditBloc
-                    .add(CreditUpdate(credit: state.request.amountPaid as int));
+                    .add(CreditUpdate());
                 String message = "This is a test message!";
                 List<String> recipents = ["916897173", "0939546094"];
 

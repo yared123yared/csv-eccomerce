@@ -11,6 +11,7 @@ import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/credit_data_provider.dart';
 import 'package:app/data_provider/dashboard/daliy_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/recent_data_provider.dart';
@@ -18,6 +19,7 @@ import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
+import 'package:app/repository/credit_repository.dart';
 import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +88,10 @@ void main() {
     orderDataProvider: OrderDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
   );
+  final CreditRepository creditRepository = CreditRepository(
+    creditDataProvider: CreditDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
   final LocationRepository locationRepository = LocationRepository();
 
   runApp(
@@ -96,7 +102,7 @@ void main() {
       clientsRepository: clientRepository,
       categoryRepository: categoryRepository,
       orderRepository: orderRepository,
-      locationRepository: locationRepository,
+      locationRepository: locationRepository, creditRepository: creditRepository,
       // scrollController: scrollController,
     ),
   );
@@ -109,6 +115,7 @@ class App extends StatelessWidget {
   final ClientsRepository clientsRepository;
   final CategoryRepository categoryRepository;
   final OrderRepository orderRepository;
+  final CreditRepository creditRepository;
 
   App({
     required this.userRepository,
@@ -118,6 +125,7 @@ class App extends StatelessWidget {
     required this.categoryRepository,
     required this.orderRepository,
     required this.locationRepository,
+    required this.creditRepository,
   });
 
   final LocationRepository locationRepository;
@@ -159,7 +167,7 @@ class App extends StatelessWidget {
             create: (_) => CartBloc(),
           ),
           BlocProvider<CreditBloc>(
-            create: (_) => CreditBloc(),
+            create: (_) => CreditBloc(creditRepository: this.creditRepository),
           ),
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(

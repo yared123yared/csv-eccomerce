@@ -1,7 +1,7 @@
 part of 'credit_bloc.dart';
 
 class CreditState {
-  String credit;
+  String? credit;
   String? creditLimitStartDate;
   String? creditLimitEndDate;
 
@@ -26,4 +26,7 @@ class CreditUpdated extends CreditState {
             creditLimitStartDate: creditLimitStartDate);
 }
 
-
+class CreditUpdateLoading extends CreditState {
+  CreditUpdateLoading() : super(credit: null, creditLimitEndDate: null, creditLimitStartDate: null);
+ 
+}

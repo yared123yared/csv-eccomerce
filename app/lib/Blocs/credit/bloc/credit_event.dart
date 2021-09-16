@@ -14,6 +14,5 @@ class CreditInitialization extends CreditEvent {
 }
 
 class CreditUpdate extends CreditEvent {
-  final int credit;
-  CreditUpdate({required this.credit});
+ 
 }
