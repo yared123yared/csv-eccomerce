@@ -144,12 +144,12 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         return;
       }
       List<Client>? cl = [];
-      final reqData = await clientsRepository.searchClients(key);
-      if (reqData != null) {
-        if (reqData.client != null) {
-          cl.add(reqData.client as Client);
-        }
-      }
+       cl = await clientsRepository.searchClients(key);
+      // if (reqData != null) {
+      //   if (reqData.client != null) {
+      //     cl.add(reqData.client as Client);
+      //   }
+      // }
 
       yield ClientFetchingSuccessState(
         clients: cl,
