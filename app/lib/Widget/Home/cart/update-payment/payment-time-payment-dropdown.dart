@@ -7,7 +7,8 @@ class UpdatePaymentTimeDropDown extends StatefulWidget {
   // final TextEditingController payingTimeController;
   // PaymentTimeDropDown({required this.payingTimeController});
   @override
-  _UpdatePaymentTimeDropDownState createState() => _UpdatePaymentTimeDropDownState();
+  _UpdatePaymentTimeDropDownState createState() =>
+      _UpdatePaymentTimeDropDownState();
 }
 
 class _UpdatePaymentTimeDropDownState extends State<UpdatePaymentTimeDropDown> {
@@ -18,6 +19,7 @@ class _UpdatePaymentTimeDropDownState extends State<UpdatePaymentTimeDropDown> {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return BlocBuilder<OrdersBloc, OrdersState>(
       builder: (context, state) {
+
         return CustomeDropDownButton(
           dropDownItems: [
             DropdownMenuItem(
@@ -31,7 +33,7 @@ class _UpdatePaymentTimeDropDownState extends State<UpdatePaymentTimeDropDown> {
                   ),
                 ),
               ),
-              value: "Pay Later",
+              value: "later",
             ),
             DropdownMenuItem(
               child: Container(
@@ -44,11 +46,11 @@ class _UpdatePaymentTimeDropDownState extends State<UpdatePaymentTimeDropDown> {
                   ),
                 ),
               ),
-              value: "Pay Now",
+              value: "now",
             ),
           ],
           onChanged: this.onChanged,
-          value: state.request.paymentWhen as String,
+          value: state.request.paymentWhen??"now",
         );
       },
     );

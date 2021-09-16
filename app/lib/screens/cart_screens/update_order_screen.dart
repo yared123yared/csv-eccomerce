@@ -140,15 +140,35 @@ class _UpdateOrderState extends State<UpdateOrder> {
               dialog..show();
               BlocProvider.of<AddClientBloc>(context)
                   .add(ClientDisplayEvent(client: widget.order.client!));
-              ordersbloc.add(PaymentInitialization());
-              request = state.request;
+              // ordersbloc.add(PaymentInitialization());
+              // request = state.request;
+              ordersbloc.add(SetRequestEvent(request: request));
             } else if (state is FetchingOrderToBeUpdatedSuccess) {
               request = state.request;
               progress?.dismiss();
-              print("--success--");
+              // print("--success--");
               // data = state.data;
               orderToBeUpdated = state.data;
-
+              ordersbloc.add(
+                SetRequestEvent(
+                  request: Request(
+                    id: widget.order.id,
+                    amountPaid: state.request.amountPaid?.toInt() ?? 0,
+                    //double.parse(state.allorderdata[index].amountRemaining).round()
+                    amountRemaining:
+                        state.request.amountRemaining?.toInt() ?? 0,
+                    transactionId: "4545",
+                    paymentWhen: 'now',
+                    paymentMethod: "wallet",
+                    typeOfWallet: "smilepay",
+                    cart: [],
+                    cartItem: [],
+                    clientId: state.client?.id ?? 0,
+                    addressId: state.addressId ?? 0,
+                    total: 0,
+                  ),
+                ),
+              );
               for (var item in orderToBeUpdated) {
                 data.add(item.data);
               }
@@ -217,9 +237,13 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   );
                 }
               }
-              ordersbloc.add(AddPaymentWhenEvent(
-                when: 'Pay Now',
-              ));
+              addClientBloc.add(ClientDisplayEvent(client: state.client!));
+              // print("111");
+              ordersbloc.add(ClientAddEvent(client: state.client!));
+
+              // ordersbloc.add(AddPaymentWhenEvent(
+              //   when: 'Pay Now',
+              // ));
               ordersbloc.add(AddPaidAmountEvent(
                 amount: state.request.amountPaid?.toInt() ?? 0,
               ));
@@ -233,9 +257,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               // print("address---id");
               // print(addrId);
               ordersbloc.add(AddAddressIdEvent(id: addrId));
-              addClientBloc.add(ClientDisplayEvent(client: state.client!));
-              // print("111");
-              ordersbloc.add(ClientAddEvent(client: state.client!));
+              ordersbloc.add(AddTotalEvent(total: price.toInt()));
             }
           },
           builder: (context, state) {
@@ -282,7 +304,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
                             onTap: () {
                               setState(() {
                                 Navigator.popAndPushNamed(
-                                    context, MainScreen.routeName, arguments:1);
+                                    context, MainScreen.routeName,
+                                    arguments: 1);
                               });
                             },
                             child: Container(
@@ -389,47 +412,53 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       name: "UPDATE ORDER",
                       onPressed: () {
                         // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          if (state.request.clientId != null) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            int total = price.toInt();
-                            ordersbloc.add(AddTotalEvent(total: total));
-                            print("Order method is invoked");
-                            // Request request = state.request;
-                            // if (request.cart != null) {
-                            // request.total =
-                            //     );
-                            ordersbloc.add(AddRemainingAmountEvent(
-                                amount: values.Remaining.toInt()));
+                        if (_formKey.currentState != null) {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState?.save();
+                            if (state.request.clientId != null) {
+                              // If the form is valid, display a snackbar. In the real world,
+                              // you'd often call a server or save the information in a database.
+                              int total = price.toInt();
+                              ordersbloc.add(AddTotalEvent(total: total));
+                              print("Order method is invoked");
+                              // Request request = state.request;
+                              // if (request.cart != null) {
+                              // request.total =
+                              //     );
+                              ordersbloc.add(AddRemainingAmountEvent(
+                                  amount: values.Remaining.toInt()));
 
-                            ordersbloc
-                                .add(UpdateOrderEvent(request: state.request));
-                            addClientBloc.add(ClientSearchEvent());
-                            // } else {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     const SnackBar(content: Text('Cart is empty')),
-                            //   );
-                            // }
+                              ordersbloc.add(
+                                  UpdateOrderEvent(request: state.request));
+                              addClientBloc.add(ClientSearchEvent());
+                              // } else {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(content: Text('Cart is empty')),
+                              //   );
+                              // }
 
-                            // ordersbloc
-                            //     .add(PaymentAddEvent(payment: this.payment));
+                              // ordersbloc
+                              //     .add(PaymentAddEvent(payment: this.payment));
 
-                            // if (state is RequestUpdateSuccess) {
-                            // ordersbloc.add(
-                            //     CreateOrderEvent(request: state.request));
-                            // }
+                              // if (state is RequestUpdateSuccess) {
+                              // ordersbloc.add(
+                              //     CreateOrderEvent(request: state.request));
+                              // }
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Please Select Client')),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text('Please Select Client')),
+                                  content:
+                                      Text('Fill All the required fields')),
                             );
                           }
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Fill All the required fields')),
-                          );
+                          print("form is null");
                         }
                       },
                     )
@@ -447,12 +476,14 @@ class _UpdateOrderState extends State<UpdateOrder> {
     setState(() {
       price += priceX;
     });
+    ordersbloc.add(AddTotalEvent(total: price.toInt()));
   }
 
   void decreasePrice(double priceX) {
     setState(() {
       price -= priceX;
     });
+    ordersbloc.add(AddTotalEvent(total: price.toInt()));
   }
 
   void addPaidAmount(String value) async {
@@ -469,8 +500,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
     val = price - paid;
     print("-------");
     print(val.toInt());
-    ordersbloc.add(AddRemainingAmountEvent(amount: val.toInt()));
     ordersbloc.add(AddPaidAmountEvent(amount: int.parse(value)));
+    ordersbloc.add(AddRemainingAmountEvent(amount: val.toInt()));
   }
 
   double getTotalPrice(List<CartItem> carts) {
