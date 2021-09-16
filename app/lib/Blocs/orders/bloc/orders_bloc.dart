@@ -79,6 +79,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
     } else if (event is CartCheckoutEvent) {
       //
+      carts = [];
       print("Credit state:${state.credit}");
       //
       Request request = state.request;
@@ -225,7 +226,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       try {
         OrderDetail data = await this.orderRepository.OrderData(event.id);
         yield FetchingOrderToBeUpdatedSuccess(
-            data: data.data, addressId: data.addressId, request: state.request,client: data.client);
+            data: data.data,
+            addressId: data.addressId,
+            request: state.request,
+            client: data.client);
         return;
       } catch (e) {
         yield FetchingOrderToBeUpdatedFailed();

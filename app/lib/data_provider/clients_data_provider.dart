@@ -65,7 +65,7 @@ class ClientsDataProvider {
     print("searching client");
 
     SearchClientData? clientX;
-    final urlCl = Uri.parse('${baseUrl}/search-clients');
+    final urlCl = Uri.parse('http://csv.jithvar.com/api/v2/search-clients');
     String? token = await this.userPreferences.getUserToken();
 
     try {

@@ -16,12 +16,15 @@ import 'package:app/models/login_info.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
+import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 import 'package:sms/sms.dart';
+
+import '../main_screen.dart';
 
 class AddClient extends StatefulWidget {
   static const routeName = '/cart/add-client';
@@ -60,6 +63,7 @@ class _AddClientState extends State<AddClient> {
           child: BlocConsumer<OrdersBloc, OrdersState>(
             listener: (context, state) {
               if (state is OrderIsBeingCreating) {
+                print("+++++++++++++OrderIsBeingCreating+++++++++++++++++");
                 final progress = ProgressHUD.of(context);
                 // if (!isShowing) {
                 //   if (progress != null) {
@@ -71,14 +75,14 @@ class _AddClientState extends State<AddClient> {
                 setState(() {
                   isShowing = true;
                 });
+
                 if (isShowing == true) {
                   progress!.showWithText("Creating");
                 }
               } else if (state is OrderCreatedSuccess) {
                 // this.isShowing = false;
                 print("Amount Paid: ${state.request.amountPaid}");
-                creditBloc
-                    .add(CreditUpdate());
+                creditBloc.add(CreditUpdate());
                 String message = "This is a test message!";
                 List<String> recipents = ["916897173", "0939546094"];
 
@@ -88,20 +92,23 @@ class _AddClientState extends State<AddClient> {
                 Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
                 // return Container(child: Text("Created Successfully"));
               } else if (state is OrderCreatingFailed) {
+                print("+++++++++++++Order creatign failed++++++++");
+
                 AwesomeDialog(
                   context: context,
                   dialogType: DialogType.ERROR,
                   animType: AnimType.BOTTOMSLIDE,
                   title: 'Order Creating failed',
                   desc: 'Remaining amount greater than your credit limit!',
-                  btnCancelOnPress: () {
-                    Navigator.popAndPushNamed(context, AddClient.routeName);
-                    //      setState(() {
-                    //   isShowing = false;
-                    // });
-                  },
+                  // btnCancelOnPress: () {
+                  //   Navigator.popAndPushNamed(context, AddClient.routeName);
+                  //   //      setState(() {
+                  //   //   isShowing = false;
+                  //   // });
+                  // },
                   btnOkOnPress: () {
-                    Navigator.popAndPushNamed(context, AddClient.routeName);
+                    Navigator.popAndPushNamed(context, MainScreen.routeName,
+                        arguments: 2);
                     //      setState(() {
                     //   isShowing = false;
                     // });

@@ -2,6 +2,7 @@ import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
 import 'package:app/models/client.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
@@ -77,14 +78,32 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
                 start = 0;
                 end = 0;
               }
-            }
+            } else {}
           } else if (state is ClientFetchingState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is ClientFetchingFailedState) {
             return Center(
-              child: Text('Cient Fetch Failed'),
+              child: GestureDetector(
+                onTap: () {
+                  print("Add new client button have been cliecked");
+                  Navigator.popAndPushNamed(
+                      context, ClientEditScreen.routeName);
+                },
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.04,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                      child: Text(
+                        "Add New Client",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
+              ),
             );
           }
 

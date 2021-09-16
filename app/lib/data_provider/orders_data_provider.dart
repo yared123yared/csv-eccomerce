@@ -30,6 +30,10 @@ class OrderDataProvider {
     // late List<Data> products_return = [];
     // print(
     //     "+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
+    print(
+        "+++++++++______++++++Data Entered  To Order Data Provider_________+++++++");
+    print("Data: ${request!.toJson()}");
+    print("Cart: ${request.cart!.length}");
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders');
 
@@ -177,13 +181,12 @@ class OrderDataProvider {
         // print("----ordered product items---");
         // print(json.encode(data).toString);
         // print(data.length);
-        return OrderDetail(data: data, addressId: addressId,client: client);
-
+        return OrderDetail(data: data, addressId: addressId, client: client);
       }
     } catch (e) {
       print("Exception fetching order detail");
       print(e);
     }
-    return OrderDetail(data: data, addressId: addressId,client: client);
+    return OrderDetail(data: data, addressId: addressId, client: client);
   }
 }
