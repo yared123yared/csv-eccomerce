@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/models/navigation/profile_data.dart';
 
@@ -16,6 +18,8 @@ class ViewCient extends StatelessWidget {
       BlocBuilder<AddClientBloc, AddClientState>(
         builder: (context, state) {
           if (state is StateChanged) {
+            print("client ");
+            print(jsonEncode(state.client!).toString());
             return ClientProfile(
               client: ClientProfileData(
                 name:
@@ -25,7 +29,8 @@ class ViewCient extends StatelessWidget {
                 email: state.client!.email.toString(),
                 phone: state.client!.mobile.toString(),
                 creditLimitEndDate: "",
-                creditLimitStartDate: ""
+                creditLimitStartDate: "",
+                photoPath: state.client?.photo?.filePath ?? "",
               ),
             );
           }

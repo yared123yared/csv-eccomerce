@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:app/models/client.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/models/response.dart';
@@ -9,10 +10,12 @@ import 'package:http/http.dart' as http;
 
 class OrderDetail {
   List<OrderToBeUpdated> data;
+  Client? client;
   int? addressId;
   OrderDetail({
     required this.data,
-    required this.addressId,
+    this.addressId,
+    this.client,
   });
 }
 
@@ -119,7 +122,7 @@ class OrderDataProvider {
     String? token = await this.userPreferences.getUserToken();
     List<OrderToBeUpdated> data = [];
     int? addressId;
-
+    Client? client;
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/${id}');
 
@@ -141,7 +144,7 @@ class OrderDataProvider {
             json.decode(response.body) as Map<String, dynamic>;
         // print(extractedData);
         addressId = extractedData["address"]["id"];
-
+        client = Client.fromJson(extractedData["client"]);
         if (extractedData['products'] != null) {
           extractedData['products'].forEach((v) {
             if (v != null) {
@@ -174,12 +177,13 @@ class OrderDataProvider {
         // print("----ordered product items---");
         // print(json.encode(data).toString);
         // print(data.length);
-        return OrderDetail(data: data, addressId: addressId);
+        return OrderDetail(data: data, addressId: addressId,client: client);
+
       }
     } catch (e) {
       print("Exception fetching order detail");
       print(e);
     }
-    return OrderDetail(data: data, addressId: addressId);
+    return OrderDetail(data: data, addressId: addressId,client: client);
   }
 }

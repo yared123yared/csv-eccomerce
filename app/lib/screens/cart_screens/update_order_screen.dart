@@ -82,8 +82,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
     productBloc = BlocProvider.of<ProductBloc>(context);
     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
-    ordersbloc.add(CartCheckoutEvent(cartProducts: data));
-    ordersbloc.add(PaymentInitialization());
+    // ordersbloc.add(CartCheckoutEvent(cartProducts: data));
+    // ordersbloc.add(PaymentInitialization());
 
     // this.isShowing = false;
 
@@ -122,13 +122,6 @@ class _UpdateOrderState extends State<UpdateOrder> {
             final progress = ProgressHUD.of(context);
 
             if (state is OrderUpdating) {
-              // if (!isShowing) {
-              //   if (progress != null) {
-              //     setState(() {
-              //       isShowing = true;
-              //     });
-
-              // }
               progress?.dismiss();
               progress?.showWithText("Updating");
               request = state.request;
@@ -139,14 +132,10 @@ class _UpdateOrderState extends State<UpdateOrder> {
               dialog..dismiss();
               productBloc.add(FetchProduct());
               allorderrBloc.add(FeatcAllorderrEvent());
-              // Navigator.pushReplacementNamed(
-              //     context, AllOrdersScreen.routeName);
               Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
-
               return;
             } else if (state is OrderUpdatingFailed) {
               print("order update fail");
-
               progress?.dismiss();
               dialog..show();
               BlocProvider.of<AddClientBloc>(context)
@@ -159,6 +148,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
               print("--success--");
               // data = state.data;
               orderToBeUpdated = state.data;
+
               for (var item in orderToBeUpdated) {
                 data.add(item.data);
               }
@@ -178,8 +168,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 );
               }
               List<Data> cartData = cartbloc.state.cartProducts;
-              print("cart--data");
-              print(cartData.length);
+              // print("cart--data");
+              // print(cartData.length);
               if (cartData.length > 0) {
                 for (var item in cartData) {
                   data.add(item);
@@ -230,16 +220,22 @@ class _UpdateOrderState extends State<UpdateOrder> {
               ordersbloc.add(AddPaymentWhenEvent(
                 when: 'Pay Now',
               ));
+              ordersbloc.add(AddPaidAmountEvent(
+                amount: state.request.amountPaid?.toInt() ?? 0,
+              ));
               ordersbloc.add(AddRemainingAmountEvent(
-                amount:  state.request.amountRemaining!.toInt(),
+                amount: state.request.amountRemaining?.toInt() ?? 0,
               ));
               int addrId = 0;
               if (state.addressId != null) {
                 addrId = state.addressId!;
               }
-              print("address---id");
-              print(addrId);
+              // print("address---id");
+              // print(addrId);
               ordersbloc.add(AddAddressIdEvent(id: addrId));
+              addClientBloc.add(ClientDisplayEvent(client: state.client!));
+              // print("111");
+              ordersbloc.add(ClientAddEvent(client: state.client!));
             }
           },
           builder: (context, state) {
@@ -258,20 +254,6 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   ),
                 ),
               );
-            } else if (state is FetchingOrderToBeUpdatedSuccess) {
-              // data = state.data;
-              // for (var item in data) {
-              //   ordersbloc.add(
-              //     AddToCart(
-              //       cart: Cart(
-              //           amountInCart:1,
-              //           id: item.id,
-              //           prodID: item.id),
-              //     ),
-              //   );
-              // }
-              print("from ---bloc--fetch--order--detail--success");
-              print(data.length);
             }
             print("--current--update--order----state");
             print(state);
@@ -298,8 +280,6 @@ class _UpdateOrderState extends State<UpdateOrder> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // addClientBloc.add(ClientDisplayEvent(client: this.client));
-                              // ordersBloc.add(ClientAddEvent(client: this.client));
                               setState(() {
                                 Navigator.popAndPushNamed(
                                     context, MainScreen.routeName, arguments:1);
