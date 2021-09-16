@@ -17,9 +17,13 @@ class CreditUpdated extends CreditState {
   final String creditLimitEndDate;
 
   CreditUpdated(
-      {required this.credit, required this.creditLimitStartDate, required this.creditLimitEndDate})
+      {required this.credit,
+      required this.creditLimitStartDate,
+      required this.creditLimitEndDate})
       : super(
             credit: credit,
             creditLimitEndDate: creditLimitEndDate,
             creditLimitStartDate: creditLimitStartDate);
 }
+
+

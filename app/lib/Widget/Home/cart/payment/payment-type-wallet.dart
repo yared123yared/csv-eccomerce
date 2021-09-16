@@ -32,7 +32,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
                   ),
                 ),
               ),
-              value: "Smilepay",
+              value: "smilepay",
             ),
             DropdownMenuItem(
               child: Container(
@@ -45,7 +45,7 @@ class _PaymentTypeDropDownState extends State<PaymentTypeDropDown> {
                   ),
                 ),
               ),
-              value: "Orange pay",
+              value: "orangePay",
             ),
           ],
           onChanged: this.onChanged,

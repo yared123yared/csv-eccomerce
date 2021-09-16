@@ -26,3 +26,6 @@ class SearchDataSccessState extends AllorderrState {
 
   SearchDataSccessState(this.searchallorderdata);
 }
+
+
+class CreditLimitState extends AllorderrState{}

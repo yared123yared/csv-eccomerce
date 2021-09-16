@@ -32,7 +32,7 @@ class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
                   ),
                 ),
               ),
-              value: "Wallet",
+              value: "wallet",
             ),
             DropdownMenuItem(
               child: Container(
@@ -45,7 +45,7 @@ class _PaymentMethodDropDownState extends State<PaymentMethodDropDown> {
                   ),
                 ),
               ),
-              value: "Cash",
+              value: "cash",
             ),
           ],
           onChanged: this.onChanged,

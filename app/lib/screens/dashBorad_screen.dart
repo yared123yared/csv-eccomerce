@@ -1,6 +1,7 @@
-import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
+
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
+
 import 'package:app/Widget/dashboard/daily_debt.dart';
 import 'package:app/Widget/dashboard/recent_total_container.dart';
 import 'package:app/Widget/dashboard/monthly_debt.dart';
@@ -39,6 +40,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     creditBloc = BlocProvider.of<CreditBloc>(context);
@@ -56,6 +58,41 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   if (state is CreditUpdated) {
                     return Column(
                       children: [
+                        // BlocBuilder<AllorderrBloc, AllorderrState>(
+                        //   builder: (context, statey) {
+                        //     double creditLimt = double.parse('${state.credit}');
+                        //     double total = 0;
+                        //     double result = 0;
+                        //     if (statey is AllOrdersSuccessState) {
+                        //       for (int i = 0;
+                        //           i < statey.allorderdata.length;
+                        //           i++) {
+                        //         total += double.parse(
+                        //             '${statey.allorderdata[i].total}');
+                        //         result = creditLimt - total;
+                        //         isChangeLimit = false;
+                        //       }
+                        //       return TitleContainers(
+                        //         text: "CREDIT LIMIT",
+                        //         number: isChangeLimit
+                        //             ? '\$${result}'
+                        //             : '\$${state.credit}',
+                        //         image: "assets/images/debit-card.png",
+                        //         color: Color(0xFFAEEA00),
+                        //         imagebackgroundcolor: Color(0xFFAEEA00),
+                        //       );
+                        //     }
+                        //     return Text("");
+                        //     // return TitleContainers(
+                        //     //   text: "CREDIT LIMIT",
+                        //     //   number: '\$${credit}',
+                        //     //   image: "assets/images/debit-card.png",
+                        //     //   color: Color(0xFFAEEA00),
+                        //     //   imagebackgroundcolor: Color(0xFFAEEA00),
+                        //     // );
+                        //   },
+                        // ),
+                    
                         TitleContainers(
                           text: "CREDIT LIMIT",
                           number: '\$${state.credit}',
@@ -86,7 +123,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       ],
                     );
                   }
-                  return Container();
+                  return TitleContainers(
+                    text: "CREDIT LIMIT",
+                    number: '\$${state.credit}',
+                    image: "assets/images/debit-card.png",
+                    color: Color(0xFFAEEA00),
+                    imagebackgroundcolor: Color(0xFFAEEA00),
+                  );
                 },
               ),
               SizedBox(

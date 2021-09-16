@@ -71,7 +71,7 @@ class PaymentContainer extends StatelessWidget {
                   if (state is RequestUpdateSuccess) {
                     print("Request update success method invocked ");
                     print("Amount remaining:${state.request.amountRemaining}");
-                    if (state.request.paymentWhen == 'Pay Later') {
+                    if (state.request.paymentWhen == 'later') {
                       print("pay--later");
                       return Container();
                     } else {
@@ -80,7 +80,7 @@ class PaymentContainer extends StatelessWidget {
                       return Column(children: [
                         PaymentMethodDropDown(),
                         Visibility(
-                          visible: state.request.paymentMethod == "Cash"
+                          visible: state.request.paymentMethod == "cash"
                               ? false
                               : true,
                           child: Column(children: [

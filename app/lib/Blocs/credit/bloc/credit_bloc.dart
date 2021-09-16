@@ -30,9 +30,10 @@ class CreditBloc extends Bloc<CreditEvent, CreditState> {
           creditLimitEndDate: user.creditLimitEndDate as String);
     } else if (event is CreditUpdate) {
       int paidAmount = event.credit;
-      double  credit = double.parse(state.credit) - paidAmount;
+      double credit = double.parse(state.credit);
+      double result = credit - paidAmount;
       yield CreditUpdated(
-          credit: credit.toString(),
+          credit: result.toString(),
           creditLimitStartDate: state.creditLimitStartDate as String,
           creditLimitEndDate: state.creditLimitEndDate as String);
     }

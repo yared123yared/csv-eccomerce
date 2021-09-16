@@ -54,7 +54,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           // });
           // print(_result);
 //
-          
+
           carts = [];
           yield (OrderCreatedSuccess(request: state.request));
           yield (OrdersInitial());
@@ -86,9 +86,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       // CartLogic cartLogic = new CartLogic(products: event.cartProducts);
       total = this.getTotalPrice(event.cartProducts).toInt();
       request.total = total;
-      request.paymentWhen = 'Pay Later';
-      request.paymentMethod = 'Wallet';
-      request.typeOfWallet = 'Smilepay';
+      request.paymentWhen = 'later';
+      request.paymentMethod = 'wallet';
+      request.typeOfWallet = 'smilepay';
       request.amountPaid = 0;
       request.transactionId = "";
       request.amountRemaining = (request.total! - (request.amountPaid as int));
@@ -128,9 +128,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       double credit = double.parse(user.credit as String);
       Request request = state.request;
       request.total = total;
-      request.paymentWhen = 'Pay Later';
-      request.paymentMethod = 'Wallet';
-      request.typeOfWallet = 'Smilepay';
+      request.paymentWhen = 'later';
+      request.paymentMethod = 'wallet';
+      request.typeOfWallet = 'smilepay';
       request.amountPaid = 0;
       request.transactionId = "";
       request.amountRemaining = (request.total! - (request.amountPaid as int));

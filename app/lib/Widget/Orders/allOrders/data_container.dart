@@ -75,8 +75,6 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
     });
   }
 
-
-
   @override
   void dispose() {
     // bloc.close();
@@ -105,34 +103,34 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
         SizedBox(
           height: 30,
         ),
-        // BlocBuilder<AllorderrBloc, AllorderrState>(
-        //   builder: (context, state) {
-        //     if (state is AllOrdersSuccessState) {
-        //       return Text(
-        //         "showing ${start} to ${total} of ${total} entries",
-        //         style: TextStyle(
-        //           color: Colors.black45,
-        //         ),
-        //       );
-        //     } else if (state is SearchDataSccessState) {
-        //       return Text(
-        //         "showing ${start} to ${total} of ${total} entries",
-        //         style: TextStyle(
-        //           color: Colors.black45,
-        //         ),
-        //       );
-        //     }
-        //     return Text(
-        //       "Showing 1 to 5 of 5 entries",
-        //       style: TextStyle(
-        //         color: Colors.black45,
-        //       ),
-        //     );
-        //   },
-        // ),
-        // SizedBox(
-        //   height: 30,
-        // ),
+        BlocBuilder<AllorderrBloc, AllorderrState>(
+          builder: (context, state) {
+            if (state is AllOrdersSuccessState) {
+              return Text(
+                "showing ${start} to ${total} of ${total} entries",
+                style: TextStyle(
+                  color: Colors.black45,
+                ),
+              );
+            } else if (state is SearchDataSccessState) {
+              return Text(
+                "showing ${start} to ${total} of ${total} entries",
+                style: TextStyle(
+                  color: Colors.black45,
+                ),
+              );
+            }
+            return Text(
+              "Showing 1 to 5 of 5 entries",
+              style: TextStyle(
+                color: Colors.black45,
+              ),
+            );
+          },
+        ),
+        SizedBox(
+          height: 30,
+        ),
         BlocBuilder<AllorderrBloc, AllorderrState>(
           builder: (context, state) {
             // print("data---container---2");
@@ -272,9 +270,10 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                     .round(),
                                                 //double.parse(state.allorderdata[index].amountRemaining).round()
                                                 amountRemaining: double.parse(
-                                                  state.allorderdata[index]
-                                                        .amountRemaining
-                                                ).toInt(),
+                                                        state
+                                                            .allorderdata[index]
+                                                            .amountRemaining)
+                                                    .toInt(),
                                                 transactionId: "4545",
                                                 paymentWhen: 'Pay Later',
                                                 cart: [],
