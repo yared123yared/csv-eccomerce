@@ -44,7 +44,7 @@ class OrderDataProvider {
             'Authorization': 'Bearer $token',
           },
           body: jsonEncode({
-            "total": request!.total,
+            "total": request.total,
             "payment_when": request.paymentWhen,
             "payment_method": request.paymentMethod,
             "type_of_wallet": request.typeOfWallet,

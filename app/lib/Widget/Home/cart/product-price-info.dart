@@ -86,7 +86,7 @@ class ProductPriceInfo extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: MediaQuery.of(context).size.height * 0.01,
             ),
             Checkout()
           ],

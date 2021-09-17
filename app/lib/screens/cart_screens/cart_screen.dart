@@ -22,7 +22,7 @@ class CartScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.65,
                       child: ListView.separated(
                         separatorBuilder: (BuildContext context, int index) {
                           return SizedBox(
@@ -36,13 +36,14 @@ class CartScreen extends StatelessWidget {
                                     product: state.cartProducts[index],
                                   ),
                         itemCount: state.cartProducts.length,
-                      )
-                      ),
+                      )),
                   //
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.001,
+                  ),
                   ProductPriceInfo(
                     products: state.cartProducts,
                   ),
-
 
                   // SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 ],
