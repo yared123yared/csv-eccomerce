@@ -14,7 +14,6 @@ class UserDataProvider {
 
   final String baseUrl = 'http://csv.jithvar.com/api/v1';
 
-
   Future<LoggedUserInfo?> offlineLogin(LoginInfo loginInfo) async {
     LoggedUserInfo? loggedUserInfo;
     try {
@@ -45,34 +44,29 @@ class UserDataProvider {
         urlLogin,
         body: loginInfo.toJson(),
       );
-        print(response.statusCode);
+      print(response.statusCode);
       var extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (response.statusCode != 201) {
-        print("Faileddddd");
+        print("Failed loginh");
         print(extractedData["message"]);
         throw HttpException('Incorrect email or password');
       } else {
         extractedData = json.decode(response.body) as Map<String, dynamic>;
-        print("success, ${extractedData}");
         loggedUserInfo = LoggedUserInfo.fromJson(extractedData);
-        print("----55");
         await this.userPreferences.storeUserInformation(loggedUserInfo);
-        print("----56");
-        String expiry = response.headers['Expires'].toString();
-        print("----57");
+        print("---login--dv--");
+        print("headers");
+        // print(jsonEncode(response.headers).toString());
+        String expiry = response.headers['expires'].toString();
+        print(expiry);
         await this
             .userPreferences
             .storeTokenAndExpiration(loggedUserInfo.token!, expiry);
-        print("----58");
         await this.userPreferences.storeEmail(loginInfo.email);
-        print("----59");
         await this.userPreferences.storePassword(loginInfo.password);
-        print('--------------login');
-        print(loggedUserInfo.token);
-        print('--------------login');
       }
     } catch (e) {
-      print("login--failed");
+      // print("login--failed");
       print(e);
       throw e;
     }
