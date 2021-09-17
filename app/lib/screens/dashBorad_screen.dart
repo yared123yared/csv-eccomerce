@@ -1,4 +1,3 @@
-
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 
@@ -39,7 +38,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +90,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         //     // );
                         //   },
                         // ),
-                    
+
                         TitleContainers(
                           text: "CREDIT LIMIT",
                           number: '\$${state.credit}',
@@ -100,22 +98,22 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           color: Color(0xFFAEEA00),
                           imagebackgroundcolor: Color(0xFFAEEA00),
                         ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // TitleContainers(
+                        //   text: "CREDIT START AT",
+                        //   number: '${state.creditLimitStartDate}',
+                        //   image: "assets/images/calendar-icon.png",
+                        //   color: Color(0xFF004D40),
+                        //   imagebackgroundcolor: Color(0xFF004D40),
+                        // ),
                         SizedBox(
                           height: 10,
                         ),
                         TitleContainers(
-                          text: "CREDIT START AT",
-                          number: '${state.creditLimitStartDate}',
-                          image: "assets/images/calendar-icon.png",
-                          color: Color(0xFF004D40),
-                          imagebackgroundcolor: Color(0xFF004D40),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TitleContainers(
-                          text: "CREDIT END AT",
-                          number: '${state.creditLimitEndDate}',
+                          text: "Activity Period:   ",
+                          number: '${state.creditLimitStartDate}  -  ${state.creditLimitEndDate}',
                           image: "assets/images/calendar-icon.png",
                           color: Color(0xFF263238),
                           imagebackgroundcolor: Color(0xFF263238),
