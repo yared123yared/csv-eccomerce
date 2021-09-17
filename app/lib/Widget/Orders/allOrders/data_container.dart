@@ -342,7 +342,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                   itemPositionsListener: itemPositionsListener,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 20),
                       child: Container(
                         width: 400,
                         height: 230,
