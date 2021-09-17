@@ -54,25 +54,30 @@ class FetchingOrderToBeUpdatedSuccess extends OrdersState {
   int? addressId;
   Client? client;
   FetchingOrderToBeUpdatedSuccess(
-      {required this.data, required this.request, this.addressId,this.client})
+      {required this.data, required this.request, this.addressId, this.client})
       : super(orderCreated: false, request: Request());
 }
 
 class OrderUpdateSuccess extends OrdersState {
   final Request request;
-  OrderUpdateSuccess({required this.request})
+  final double? credit;
+  OrderUpdateSuccess({required this.request, required this.credit})
       : super(orderCreated: true, request: request);
 }
 
 class OrderUpdating extends OrdersState {
   final Request request;
-  OrderUpdating({required this.request})
+  final double? credit;
+  OrderUpdating({required this.request, required this.credit})
       : super(orderCreated: false, request: request);
 }
 
 class OrderUpdatingFailed extends OrdersState {
   final Request request;
   final String message;
-  OrderUpdatingFailed({required this.request, required this.message})
+  final double? credit;
+
+  OrderUpdatingFailed(
+      {required this.request, required this.message, required this.credit})
       : super(orderCreated: false, request: request);
 }
