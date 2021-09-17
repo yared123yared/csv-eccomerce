@@ -67,9 +67,11 @@ class PaymentContainer extends StatelessWidget {
                   ),
                 ),
                 PaymentTimeDropDown(),
-                BlocBuilder<OrdersBloc, OrdersState>(
-                  builder: (context, state) {
-                    if (state.request.paymentWhen == 'Pay Later') {
+                BlocBuilder<OrdersBloc, OrdersState>(builder: (context, state) {
+                  if (state is RequestUpdateSuccess) {
+                    print("Request update success method invocked ");
+                    print("Amount remaining:${state.request.amountRemaining}");
+                    if (state.request.paymentWhen == 'later') {
                       print("pay--later");
                       return Container();
                     } else {
@@ -78,7 +80,7 @@ class PaymentContainer extends StatelessWidget {
                       return Column(children: [
                         PaymentMethodDropDown(),
                         Visibility(
-                          visible: state.request.paymentMethod == "Cash"
+                          visible: state.request.paymentMethod == "cash"
                               ? false
                               : true,
                           child: Column(children: [
@@ -102,18 +104,34 @@ class PaymentContainer extends StatelessWidget {
                         // if(state is RequestUpdateSuccess){
                         //   return Container();
                         // },
-                        PaymentFieldContainer(
-                          paid: false,
-                          initialValue:
-                              state.request.amountRemaining.toString(),
-                          hintName: 'Remaining Amount',
-                          readOnly: true,
-                          onChanged: this.addRemainingAmount,
+                        // PaymentFieldContainer(
+                        //   paid: false,
+                        //   initialValue:
+                        //       state.request.amountRemaining.toString(),
+                        //   hintName: 'Remaining Amount',
+                        //   readOnly: true,
+                        //   onChanged: this.addRemainingAmount,
+                        // ),
+                        Container(
+                          padding: EdgeInsets.only(left: 4.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Remaining Amount:",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text('${state.request.amountRemaining}')
+                            ],
+                          ),
                         ),
                       ]);
                     }
-                  },
-                )
+                  }
+                  return Container();
+                })
               ],
             ),
           ),

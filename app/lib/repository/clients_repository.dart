@@ -11,8 +11,8 @@ class ClientsRepository {
     return data;
   }
 
-  Future<SearchClientData?> searchClients(String key) async {
-    SearchClientData? data =
+  Future<List<Client>?> searchClients(String key) async {
+    List<Client>? data =
         await clientsDataProvider.searchClients(key);
     return data;
   }

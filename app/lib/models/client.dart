@@ -113,6 +113,47 @@ class Clients {
   }
 }
 
+class Photo {
+  Photo({
+    required this.id,
+    this.referenceId,
+    this.referenceType,
+    this.name,
+    this.forceDownload,
+    this.filePath,
+    this.createdAt,
+  });
+  late final int id;
+  int? referenceId;
+  String? referenceType;
+  String? name;
+  int? forceDownload;
+  String? filePath;
+  String? createdAt;
+
+  Photo.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    referenceId = json['reference_id'];
+    referenceType = json['reference_type'];
+    name = json['name'];
+    forceDownload = json['force_download'];
+    filePath = json['file_path'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['reference_id'] = referenceId;
+    _data['reference_type'] = referenceType;
+    _data['name'] = name;
+    _data['force_download'] = forceDownload;
+    _data['file_path'] = filePath;
+    _data['created_at'] = createdAt;
+    return _data;
+  }
+}
+
 class Client {
   int? id;
   String? firstName;
@@ -130,10 +171,10 @@ class Client {
   int? companyId;
   int? status;
   int? debts;
-  List<Photo>? photo;
   List<Orders>? orders;
   List<Addresses>? addresses;
   List<Docs>? documents;
+  Photo? photo;
   bool? isLocal = false;
   Client({
     this.id,
@@ -156,7 +197,7 @@ class Client {
     this.addresses,
     this.documents,
     this.isLocal,
-    this.photo,
+    // this.photo,
   });
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -177,16 +218,11 @@ class Client {
       companyId = json['company_id'];
       status = json['status'];
       debts = json['debts'];
+      photo = Photo.fromJson(json['photo']);
       if (json['orders'] != null) {
         orders = [];
         json['orders'].forEach((v) {
           orders!.add(new Orders.fromJson(v));
-        });
-      }
-       if (json['photo'] != null) {
-        photo = [];
-        json['photo'].forEach((v) {
-          photo!.add(new Photo.fromJson(v));
         });
       }
       if (json['addresses'] != null) {
@@ -231,6 +267,9 @@ class Client {
       }
       if (this.addresses != null) {
         Client['addresses'] = this.addresses!.map((v) => v.toJson()).toList();
+      }
+      if (this.photo != null) {
+        Client['photo'] = this.photo!;
       }
     } catch (e) {
       print("203------${e.toString()}");
@@ -744,43 +783,43 @@ class SearchClientData {
         json['client'] != null ? new Client.fromJson(json['client']) : null;
   }
 }
-class Photo {
-  int? id;
-  int? referenceId;
-  String? referenceType;
-  String? name;
-  int? forceDownload;
-  String? filePath;
-  String? createdAt;
+// class Photo {
+//   int? id;
+//   int? referenceId;
+//   String? referenceType;
+//   String? name;
+//   int? forceDownload;
+//   String? filePath;
+//   String? createdAt;
 
-  Photo(
-      {this.id,
-      this.referenceId,
-      this.referenceType,
-      this.name,
-      this.forceDownload,
-      this.filePath,
-      this.createdAt});
+//   Photo(
+//       {this.id,
+//       this.referenceId,
+//       this.referenceType,
+//       this.name,
+//       this.forceDownload,
+//       this.filePath,
+//       this.createdAt});
 
-  Photo.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    referenceId = json['reference_id'];
-    referenceType = json['reference_type'];
-    name = json['name'];
-    forceDownload = json['force_download'];
-    filePath = json['file_path'];
-    createdAt = json['created_at'];
-  }
+//   Photo.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     referenceId = json['reference_id'];
+//     referenceType = json['reference_type'];
+//     name = json['name'];
+//     forceDownload = json['force_download'];
+//     filePath = json['file_path'];
+//     createdAt = json['created_at'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['reference_id'] = this.referenceId;
-    data['reference_type'] = this.referenceType;
-    data['name'] = this.name;
-    data['force_download'] = this.forceDownload;
-    data['file_path'] = this.filePath;
-    data['created_at'] = this.createdAt;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['id'] = this.id;
+//     data['reference_id'] = this.referenceId;
+//     data['reference_type'] = this.referenceType;
+//     data['name'] = this.name;
+//     data['force_download'] = this.forceDownload;
+//     data['file_path'] = this.filePath;
+//     data['created_at'] = this.createdAt;
+//     return data;
+//   }
+// }

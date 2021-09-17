@@ -2,6 +2,7 @@ import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
 import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
+import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
@@ -10,6 +11,7 @@ import 'package:app/Blocs/orderDrawer/AllOrder/cubit/allorders_cubit.dart';
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/data_provider/categories_data_provider.dart';
+import 'package:app/data_provider/credit_data_provider.dart';
 import 'package:app/data_provider/dashboard/daliy_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/monthly_chart_data_provider.dart';
 import 'package:app/data_provider/dashboard/recent_data_provider.dart';
@@ -17,6 +19,7 @@ import 'package:app/data_provider/orderDrawer/all_order_data_provider.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/data_provider/reports/custom_debt_data_provider.dart';
 import 'package:app/repository/categories_repository.dart';
+import 'package:app/repository/credit_repository.dart';
 import 'package:app/repository/location_repository.dart';
 import 'package:app/repository/orders_repository.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +28,7 @@ import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
-import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart'; 
+import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
 import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
@@ -41,10 +44,13 @@ import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
 import 'repository/user_repository.dart';
 import 'preferences/user_preference_data.dart';
+
 import 'Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/data_provider/clients_data_provider.dart';
+
 import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
@@ -56,7 +62,6 @@ void main() {
   final UserPreferences userPreferences = UserPreferences();
 
   // final ScrollController scrollController = ScrollController();
-
 
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
@@ -83,6 +88,10 @@ void main() {
     orderDataProvider: OrderDataProvider(
         httpClient: httpClient, userPreferences: userPreferences),
   );
+  final CreditRepository creditRepository = CreditRepository(
+    creditDataProvider: CreditDataProvider(
+        httpClient: httpClient, userPreferences: userPreferences),
+  );
   final LocationRepository locationRepository = LocationRepository();
 
   runApp(
@@ -93,7 +102,7 @@ void main() {
       clientsRepository: clientRepository,
       categoryRepository: categoryRepository,
       orderRepository: orderRepository,
-      locationRepository: locationRepository,
+      locationRepository: locationRepository, creditRepository: creditRepository,
       // scrollController: scrollController,
     ),
   );
@@ -106,6 +115,7 @@ class App extends StatelessWidget {
   final ClientsRepository clientsRepository;
   final CategoryRepository categoryRepository;
   final OrderRepository orderRepository;
+  final CreditRepository creditRepository;
 
   App({
     required this.userRepository,
@@ -115,6 +125,7 @@ class App extends StatelessWidget {
     required this.categoryRepository,
     required this.orderRepository,
     required this.locationRepository,
+    required this.creditRepository,
   });
 
   final LocationRepository locationRepository;
@@ -155,6 +166,9 @@ class App extends StatelessWidget {
           BlocProvider<CartBloc>(
             create: (_) => CartBloc(),
           ),
+          BlocProvider<CreditBloc>(
+            create: (_) => CreditBloc(creditRepository: this.creditRepository),
+          ),
           BlocProvider<ClientsBloc>(
             create: (_) => ClientsBloc(
               clientsRepository: this.clientsRepository,
@@ -167,7 +181,8 @@ class App extends StatelessWidget {
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-            create: (_) => OrdersBloc(orderRepository: this.orderRepository)..add(PaymentInitialization()),
+            create: (_) => OrdersBloc(orderRepository: this.orderRepository)
+              ..add(PaymentInitialization()),
           ),
           //
           BlocProvider<AddClientBloc>(

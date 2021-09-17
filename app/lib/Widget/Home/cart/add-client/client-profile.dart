@@ -1,6 +1,6 @@
 import 'package:app/Widget/clients/Common/client_data_row.dart';
-import 'package:app/Widget/clients/Common/pill_text.dart';
 import 'package:app/models/navigation/profile_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'change-client-button.dart';
@@ -8,12 +8,16 @@ import 'change-client-button.dart';
 class ClientProfile extends StatelessWidget {
   final ClientProfileData client;
   ClientProfile({required this.client});
-  void editClient() {}
+  void editClient() {
+}
+
 
   @override
   Widget build(BuildContext context) {
-    String image =
-        'https://csv.jithvar.com/storage/${this.client.photoPath.toString()}';
+    final String baseUrl = 'http://csv.jithvar.com/storage';
+    print("Client Photo path: ${client.photoPath}");
+
+    // String image = 'https://csv.jithvar.com/storage/${this.client.photoPath}';
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Stack(
@@ -73,7 +77,19 @@ class ClientProfile extends StatelessWidget {
               radius: 40,
               child: Container(
                 clipBehavior: Clip.hardEdge,
-                child: Image.network(image),
+                child: CachedNetworkImage(
+                  imageUrl: '${baseUrl}/${client.photoPath}',
+                  height: MediaQuery.of(context).size.height * 0.18,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Container(
+                    color: Colors.white,
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.black,
+                    child: Icon(Icons.error),
+                  ),
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
                 ),

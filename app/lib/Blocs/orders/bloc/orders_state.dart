@@ -33,7 +33,7 @@ class RequestUpdateSuccess extends OrdersState {
   final Request request;
   final double? credit;
   // OrdersCheckedOutSuccess();
-  RequestUpdateSuccess({required this.request,  this.credit})
+  RequestUpdateSuccess({required this.request, this.credit})
       : super(orderCreated: false, request: request, credit: credit);
 }
 
@@ -51,7 +51,10 @@ class FetchingOrderToBeUpdatedFailed extends OrdersState {
 class FetchingOrderToBeUpdatedSuccess extends OrdersState {
   final Request request;
   final List<OrderToBeUpdated> data;
-  FetchingOrderToBeUpdatedSuccess({required this.data, required this.request})
+  int? addressId;
+  Client? client;
+  FetchingOrderToBeUpdatedSuccess(
+      {required this.data, required this.request, this.addressId,this.client})
       : super(orderCreated: false, request: Request());
 }
 

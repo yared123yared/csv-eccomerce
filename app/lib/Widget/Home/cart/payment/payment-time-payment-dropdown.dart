@@ -13,7 +13,7 @@ class PaymentTimeDropDown extends StatefulWidget {
 }
 
 class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
-  String value = 'Pay Later';
+   String value = 'later';
   late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
                   ),
                 ),
               ),
-              value: "Pay Later",
+              value: "later",
             ),
             DropdownMenuItem(
               child: Container(
@@ -46,7 +46,7 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
                   ),
                 ),
               ),
-              value: "Pay Now",
+              value: "now",
             ),
           ],
           onChanged: this.onChanged,

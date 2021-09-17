@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'invoice-client-search-screen.dart';
 import 'orders_screen/ordersb_byDebt_screen.dart';
 
 // import 'home_screen.dart';
@@ -56,6 +57,10 @@ class _AppDrawerState extends State<AppDrawer> {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.pushNamed(context, ClientsScreen.routeName);
   }
+  void navigateToInvoiceClientScreen(BuildContext context) {
+    // BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
+    Navigator.pushReplacementNamed(context, InvoiceClientSearch.routeName);
+  }
 
   String photoPath = "assets/images/circular.png";
 
@@ -73,7 +78,9 @@ class _AppDrawerState extends State<AppDrawer> {
           width: MediaQuery.of(context).size.width * 0.80,
           child: Drawer(
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {},
+              listener: (context, state) {
+
+              },
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
                   photoPath = state.user.user?.photo?.filePath ?? photoPath;
@@ -350,7 +357,9 @@ class _AppDrawerState extends State<AppDrawer> {
                                 [
                                   ExapandedListItem('Clients',
                                       () => navigateToClientScreen(context)),
-                                  ExapandedListItem('Invoices', () {}),
+                                  ExapandedListItem('Invoices', () => navigateToInvoiceClientScreen(
+                                          context)),
+
                                 ],
                                 0,
                                 Icons.handyman,

@@ -1,27 +1,39 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:app/models/client.dart';
 import 'package:app/models/product/data.dart';
-import 'package:app/models/product/product.dart';
 import 'package:app/models/request/request.dart';
+import 'package:app/models/response.dart';
 import 'package:app/preferences/user_preference_data.dart';
-import 'package:flutter/cupertino.dart';
 
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 
+class OrderDetail {
+  List<OrderToBeUpdated> data;
+  Client? client;
+  int? addressId;
+  OrderDetail({
+    required this.data,
+    this.addressId,
+    this.client,
+  });
+}
+
 class OrderDataProvider {
-  final _baseUrl = 'http://csv.jithvar.com/api/v1/orders';
   final http.Client httpClient;
   final UserPreferences userPreferences;
 
-  OrderDataProvider({required this.httpClient, required this.userPreferences})
-      : assert(httpClient != null);
+  OrderDataProvider({required this.httpClient, required this.userPreferences});
 
   Future<bool> createOrder(Request? request) async {
     String? token = await this.userPreferences.getUserToken();
     // late List<Data> products_return = [];
+    // print(
+    //     "+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
     print(
-        "+++++++++++++++++++++++++This is the cart:${request!.cart![0].selectedAttributes}");
+        "+++++++++______++++++Data Entered  To Order Data Provider_________+++++++");
+    print("Data: ${request!.toJson()}");
+    print("Cart: ${request.cart!.length}");
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders');
 
@@ -32,7 +44,7 @@ class OrderDataProvider {
             'Authorization': 'Bearer $token',
           },
           body: jsonEncode({
-            "total": request.total,
+            "total": request!.total,
             "payment_when": request.paymentWhen,
             "payment_method": request.paymentMethod,
             "type_of_wallet": request.typeOfWallet,
@@ -58,7 +70,7 @@ class OrderDataProvider {
     return false;
   }
 
-  Future<bool> updateOrder(Request req) async {
+  Future<APIResponse> updateOrder(Request req) async {
     String? token = await this.userPreferences.getUserToken();
     // late List<Data> products_return = [];
     print("---update order data provider");
@@ -88,25 +100,33 @@ class OrderDataProvider {
       request.body = json.encode(req);
       request.headers.addAll(headers);
 
-      http.StreamedResponse response = await request.send();
+      http.Response response =
+          await http.Response.fromStream(await request.send());
 
       if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
-        return true;
+        // print(await response.stream.bytesToString());
+        return APIResponse(
+            IsSuccess: true, Message: "ORDER UPDATED SUCCESSFULLY");
       } else {
-        print(await response.stream.bytesToString());
+        print("failed to update order");
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+        print(response.statusCode);
+        print(extractedData.toString());
         print(response.reasonPhrase);
-        return false;
+        return APIResponse(IsSuccess: false, Message: extractedData["message"]);
       }
     } catch (e) {
       print("Exception thrown $e");
     }
-    return false;
+    return APIResponse(IsSuccess: false, Message: "Failed To Update Order");
   }
 
-  Future<List<OrderToBeUpdated>> OrderData(String id) async {
+  Future<OrderDetail> OrderData(String id) async {
     String? token = await this.userPreferences.getUserToken();
     List<OrderToBeUpdated> data = [];
+    int? addressId;
+    Client? client;
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders/${id}');
 
@@ -127,6 +147,8 @@ class OrderDataProvider {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
         // print(extractedData);
+        addressId = extractedData["address"]["id"];
+        client = Client.fromJson(extractedData["client"]);
         if (extractedData['products'] != null) {
           extractedData['products'].forEach((v) {
             if (v != null) {
@@ -150,7 +172,6 @@ class OrderDataProvider {
                   total: total,
                   price: price,
                   // amountRemaining: remaining,
-
                 );
                 data.add(cartX);
               }
@@ -160,12 +181,12 @@ class OrderDataProvider {
         // print("----ordered product items---");
         // print(json.encode(data).toString);
         // print(data.length);
-        return data;
+        return OrderDetail(data: data, addressId: addressId, client: client);
       }
     } catch (e) {
       print("Exception fetching order detail");
       print(e);
     }
-    return data;
+    return OrderDetail(data: data, addressId: addressId, client: client);
   }
 }

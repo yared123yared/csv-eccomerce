@@ -42,6 +42,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       });
     }
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
         title: Text(
           'Clients Profile',
@@ -59,12 +60,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             ClientBasicProfile(
               client: ClientProfileData(
                 name: '${widget.client.firstName} ${widget.client.lastName}',
-                credit: "0",
+                credit: "${widget.client.debts}",
                 level: 'Premiem',
                 email: '${widget.client.email}',
                 phone: '${widget.client.mobile}',
                 creditLimitEndDate: "",
                 creditLimitStartDate: "",
+                photoPath: "${widget.client.photo?.filePath??""}",
               ),
             ),
             MenuItem(

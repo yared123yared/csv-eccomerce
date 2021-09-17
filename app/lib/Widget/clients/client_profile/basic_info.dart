@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 
 import '../Common/client_data_row.dart';
 
+final String baseUrl = 'http://csv.jithvar.com/storage';
+
 class ClientBasicProfile extends StatelessWidget {
   final ClientProfileData client;
   ClientBasicProfile({required this.client});
-  void editClient() {}
+
   final String baseUrl = 'http://csv.jithvar.com/storage';
+  
 
   @override
   Widget build(BuildContext context) {
