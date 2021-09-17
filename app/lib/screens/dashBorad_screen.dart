@@ -51,6 +51,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               BlocBuilder<AuthBloc, AuthState>(
                 builder: (context, state) {
                   if (state is LoginSuccessState) {
+                  
                     return Column(
                       children: [
                         TitleContainers(
