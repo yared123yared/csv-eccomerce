@@ -141,6 +141,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       Request request = state.request;
       request.clientId = event.client.id;
       // print('Request: ${state.request.toJson()}');
+      print("credit--:--${state.credit}");
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is PaymentAddEvent) {
@@ -200,25 +201,39 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaidAmountEvent) {
+       UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      double credit = double.parse(user.credit ?? 0 as String);
+      print("---${credit}");
       Request request = state.request;
       print("Adding paid amount");
       print(state.request.toJson());
       request.amountPaid = event.amount;
       request.amountRemaining = (request.total! - (request.amountPaid as int));
-      print("Remaining");
+      // print("Remaining");
       // request.amountRemaining = (request.total! - (request.amountPaid as int));
       // print("When:${event.amount}");
+      print("credit--:--${state.credit}");
 
-      yield RequestUpdateSuccess(request: request, credit: state.credit);
+      yield RequestUpdateSuccess(request: request, credit: credit);
       return;
-    } else if (event is AddRemainingAmountEvent) {
+    } else if (event is AddRemainingAmountEvent){
+       UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      double credit = double.parse(user.credit ?? 0 as String);
+      print("---${credit}");
       Request request = state.request;
       print("Adding remaining amount");
-      print(state.request.toJson());
+      // print(state.request.toJson());
       request.amountRemaining = event.amount;
       print("remaining amount :${event.amount}");
+      print("credit--:--${state.credit}");
 
-      yield RequestUpdateSuccess(request: request, credit: state.credit);
+      yield RequestUpdateSuccess(request: request, credit: credit);
       return;
     } else if (event is FetchOrderToBeUpdated) {
       print("FetchOrderToBeUpdated bloc");
@@ -242,7 +257,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       LoggedUserInfo loggedUserInfo =
           await userPreference.getUserInformation() as LoggedUserInfo;
       User user = loggedUserInfo.user as User;
-      double credit = double.parse(user.credit as String);
+      double credit = double.parse(user.credit ?? 0 as String);
+      print("---${credit}");
       Request request = state.request;
       request = event.request;
       yield RequestUpdateSuccess(request: request, credit: credit);
@@ -305,18 +321,23 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is UpdateOrderEvent) {
+      UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
+      double credit = double.parse(user.credit ?? 0 as String);
       print("Entered to the update order event");
-      print("State Request: ${state.request.toJson()}");
-      print("Eve Request: ${event.request.toJson()}");
+      // print("State Request: ${state.request.toJson()}");
+      // print("Eve Request: ${event.request.toJson()}");
 
       bool connected = await ConnectionChecker.CheckInternetConnection();
       // print("-update order--connected--${connected}");
-      if (state.request.paymentWhen == "Pay Later") {
+      if (state.request.paymentWhen == "later") {
         state.request.amountRemaining = 0;
         state.request.amountPaid = 0;
         state.request.transactionId = "";
       }
-      yield OrderUpdating(request: state.request);
+      yield OrderUpdating(request: state.request,credit: credit);
       if (connected) {
         // yield OrderUpdateSuccess(request: event.request);
         // return;
@@ -327,12 +348,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-          yield (OrderUpdateSuccess(request: event.request));
+          yield (OrderUpdateSuccess(request: event.request,credit: credit));
           return;
         } else {
           print("failed to create--order");
           yield (OrderUpdatingFailed(
-              request: state.request, message: value.Message));
+              request: state.request,credit: credit, message: value.Message));
         }
         return;
       } else {
@@ -340,12 +361,13 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             (await CsvDatabse.instance.createUpdateOrderRequest(event.request));
         if (value == true) {
           print("Order Successfully updated locally");
-          yield (OrderCreatedSuccess(request: state.request));
+          yield (OrderCreatedSuccess(request: state.request,));
           return;
         } else {
           print("failed to updated order locally");
           // yield (OrderCreatingFailed(message: "Failed to updated order"));
           yield (OrderUpdatingFailed(
+            credit: credit,
               request: state.request, message: "Failed to update order"));
           return;
         }
@@ -358,7 +380,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print(state.request.toJson());
       request.addressId = event.id;
       print("address-id:${event.id}");
-
+      print("credit--:--${state.credit}");
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     }

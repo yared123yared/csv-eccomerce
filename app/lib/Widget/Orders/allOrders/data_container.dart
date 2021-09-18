@@ -258,7 +258,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                           print("222");
 
                                           ordersBloc.add(AddPaymentWhenEvent(
-                                              when: 'Pay Later'));
+                                              when: 'later'));
 
                                           print("333");
 
@@ -278,9 +278,9 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                             .amountRemaining)
                                                     .toInt(),
                                                 transactionId: "4545",
-                                                paymentWhen: 'Pay Later',
-                                                paymentMethod: "Wallet",
-                                                typeOfWallet: "Smilepay",
+                                                paymentWhen: 'later',
+                                                paymentMethod: "wallet",
+                                                typeOfWallet: "smilepay",
                                                 cart: [],
                                                 cartItem: [],
                                                 clientId: state
@@ -342,7 +342,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                   itemPositionsListener: itemPositionsListener,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 20),
                       child: Container(
                         width: 400,
                         height: 230,

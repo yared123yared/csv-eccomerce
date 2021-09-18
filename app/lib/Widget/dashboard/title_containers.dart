@@ -6,6 +6,8 @@ class TitleContainers extends StatelessWidget {
   final String image;
   final Color color;
   final Color imagebackgroundcolor;
+  final double fontValue;
+  final double fonttext;
 
   const TitleContainers({
     required this.text,
@@ -13,6 +15,8 @@ class TitleContainers extends StatelessWidget {
     required this.image,
     required this.color,
     required this.imagebackgroundcolor,
+    required this.fontValue,
+    required this.fonttext,
   });
 
   @override
@@ -47,7 +51,7 @@ class TitleContainers extends StatelessWidget {
                 text,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: fonttext,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -59,7 +63,7 @@ class TitleContainers extends StatelessWidget {
               number,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: fontValue,
                 fontWeight: FontWeight.bold,
               ),
             ),

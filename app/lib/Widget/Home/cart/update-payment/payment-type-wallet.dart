@@ -31,7 +31,7 @@ class _UpdatePaymentTypeDropDownState extends State<UpdatePaymentTypeDropDown> {
                   ),
                 ),
               ),
-              value: "Smilepay",
+              value: "smilepay",
             ),
             DropdownMenuItem(
               child: Container(
@@ -44,11 +44,11 @@ class _UpdatePaymentTypeDropDownState extends State<UpdatePaymentTypeDropDown> {
                   ),
                 ),
               ),
-              value: "Orange pay",
+              value: "orangePay",
             ),
           ],
           onChanged: this.onChanged,
-          value: state.request.typeOfWallet as String,
+          value: state.request.typeOfWallet??"smilepay",
         );
       },
     );

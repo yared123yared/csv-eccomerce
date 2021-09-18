@@ -56,67 +56,27 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   if (state is CreditUpdated) {
                     return Column(
                       children: [
-                        // BlocBuilder<AllorderrBloc, AllorderrState>(
-                        //   builder: (context, statey) {
-                        //     double creditLimt = double.parse('${state.credit}');
-                        //     double total = 0;
-                        //     double result = 0;
-                        //     if (statey is AllOrdersSuccessState) {
-                        //       for (int i = 0;
-                        //           i < statey.allorderdata.length;
-                        //           i++) {
-                        //         total += double.parse(
-                        //             '${statey.allorderdata[i].total}');
-                        //         result = creditLimt - total;
-                        //         isChangeLimit = false;
-                        //       }
-                        //       return TitleContainers(
-                        //         text: "CREDIT LIMIT",
-                        //         number: isChangeLimit
-                        //             ? '\$${result}'
-                        //             : '\$${state.credit}',
-                        //         image: "assets/images/debit-card.png",
-                        //         color: Color(0xFFAEEA00),
-                        //         imagebackgroundcolor: Color(0xFFAEEA00),
-                        //       );
-                        //     }
-                        //     return Text("");
-                        //     // return TitleContainers(
-                        //     //   text: "CREDIT LIMIT",
-                        //     //   number: '\$${credit}',
-                        //     //   image: "assets/images/debit-card.png",
-                        //     //   color: Color(0xFFAEEA00),
-                        //     //   imagebackgroundcolor: Color(0xFFAEEA00),
-                        //     // );
-                        //   },
-                        // ),
-
                         TitleContainers(
                           text: "CREDIT LIMIT",
                           number: '\$${state.credit}',
                           image: "assets/images/debit-card.png",
                           color: Color(0xFFAEEA00),
                           imagebackgroundcolor: Color(0xFFAEEA00),
+                          fontValue: 16,
+                          fonttext: 16,
                         ),
-                        // SizedBox(
-                        //   height: 10,
-                        // ),
-                        // TitleContainers(
-                        //   text: "CREDIT START AT",
-                        //   number: '${state.creditLimitStartDate}',
-                        //   image: "assets/images/calendar-icon.png",
-                        //   color: Color(0xFF004D40),
-                        //   imagebackgroundcolor: Color(0xFF004D40),
-                        // ),
                         SizedBox(
                           height: 10,
                         ),
                         TitleContainers(
                           text: "Activity Period:   ",
-                          number: '${state.creditLimitStartDate}  -  ${state.creditLimitEndDate}',
+                          number:
+                              '${state.creditLimitStartDate}  -  ${state.creditLimitEndDate}',
                           image: "assets/images/calendar-icon.png",
                           color: Color(0xFF263238),
                           imagebackgroundcolor: Color(0xFF263238),
+                          fontValue: 11,
+                          fonttext: 14,
                         ),
                       ],
                     );
@@ -127,6 +87,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     image: "assets/images/debit-card.png",
                     color: Color(0xFFAEEA00),
                     imagebackgroundcolor: Color(0xFFAEEA00),
+                    fontValue: 16,
+                    fonttext: 16,
                   );
                 },
               ),
@@ -148,6 +110,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           image: "assets/images/value.png",
                           color: redDashBoard,
                           imagebackgroundcolor: Color(0xFFee3a3b),
+                          fontValue: 16,
+                          fonttext: 16,
                         ),
                         SizedBox(
                           height: 10,
@@ -158,6 +122,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           image: "assets/images/graph.png",
                           color: orangDashBoard,
                           imagebackgroundcolor: Color(0xFFf2a24e),
+                          fontValue: 16,
+                          fonttext: 16,
                         ),
                         SizedBox(
                           height: 10,
@@ -168,6 +134,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           image: "assets/images/debit-card.png",
                           color: purpleDashBoard,
                           imagebackgroundcolor: Color(0xFFaa4cec),
+                          fontValue: 16,
+                          fonttext: 16,
                         ),
                       ],
                     );
