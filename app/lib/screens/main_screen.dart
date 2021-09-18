@@ -5,6 +5,8 @@ import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
+import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
 // import 'package:app/screens/client_profile.dart';
@@ -16,6 +18,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = '/main';
@@ -37,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     initConnectivity();
-
+    getLanguagePref();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     check = widget.checkValue;
@@ -82,6 +85,9 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  List<String> flagsChange = ["🇬🇧", "🇫🇷"];
+  String selectedLang = "🇬🇧";
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late CartBloc cartBloc;
@@ -89,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
-
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -106,6 +112,32 @@ class _MainScreenState extends State<MainScreen> {
         // ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: DropdownButton<String>(
+              value: selectedLang,
+              onChanged: (String? langValue) async {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                pref.setString("language", langValue!);
+                cubit.setLanguage(langValue);
+
+                setState(() {
+                  selectedLang = langValue;
+                });
+              },
+              iconEnabledColor: primaryColor,
+              style: TextStyle(fontSize: 18),
+              underline: SizedBox(),
+              items: flagsChange.map((lang) {
+                return DropdownMenuItem(
+                  child: Text(lang),
+                  value: lang,
+                );
+              }).toList(),
+            ),
+          ),
+        ],
         leading: GestureDetector(
           onTap: () {
             _scaffoldKey.currentState!.openDrawer();
@@ -199,6 +231,13 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  getLanguagePref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      selectedLang = pref.getString("language")!;
+    });
   }
 
   void changeToDashbord() {

@@ -1,5 +1,6 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/client_profile.dart';
@@ -57,6 +58,7 @@ class _AppDrawerState extends State<AppDrawer> {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.pushNamed(context, ClientsScreen.routeName);
   }
+
   void navigateToInvoiceClientScreen(BuildContext context) {
     // BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.pushReplacementNamed(context, InvoiceClientSearch.routeName);
@@ -67,6 +69,7 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   Widget build(BuildContext context) {
     Widget photo;
+    final cubit = BlocProvider.of<LanguageCubit>(context);
 
     return Theme(
         data: Theme.of(context).copyWith(
@@ -78,9 +81,7 @@ class _AppDrawerState extends State<AppDrawer> {
           width: MediaQuery.of(context).size.width * 0.80,
           child: Drawer(
             child: BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-
-              },
+              listener: (context, state) {},
               builder: (context, state) {
                 if ((state is LoginSuccessState)) {
                   photoPath = state.user.user?.photo?.filePath ?? photoPath;
@@ -226,7 +227,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                     color: Colors.white,
                                   ),
                                   title: Text(
-                                    'Dashboard',
+                                    cubit.tDashBoard(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       // fontWeight: FontWeight.bold,
@@ -297,7 +298,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                     color: Colors.white,
                                   ),
                                   title: Text(
-                                    'Shop',
+                                    cubit.tShop(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       // fontWeight: FontWeight.bold,
@@ -307,13 +308,13 @@ class _AppDrawerState extends State<AppDrawer> {
                                 ),
                               ),
                               DrawerExpansionTile(
-                                'Orders',
+                                cubit.tOrders(),
                                 [
-                                  ExapandedListItem('All Orders', () {
+                                  ExapandedListItem(cubit.tAllOrders(), () {
                                     Navigator.of(context)
                                         .pushNamed(AllOrdersScreen.routeName);
                                   }),
-                                  ExapandedListItem('Orders By Debt', () {
+                                  ExapandedListItem(cubit.tOrdersByDebt(), () {
                                     Navigator.of(context).pushNamed(
                                         OrdersByDebtScreen.routeName);
                                   }),
@@ -322,9 +323,9 @@ class _AppDrawerState extends State<AppDrawer> {
                                 Icons.shopping_bag,
                               ),
                               DrawerExpansionTile(
-                                'Payments',
+                                cubit.tPayments(),
                                 [
-                                  ExapandedListItem('Bank Deposit', () {
+                                  ExapandedListItem(cubit.tBankDeposit(), () {
                                     Navigator.of(context)
                                         .pushNamed(PaymentsScreen.routeName);
                                   }),
@@ -333,17 +334,19 @@ class _AppDrawerState extends State<AppDrawer> {
                                 Icons.payment,
                               ),
                               DrawerExpansionTile(
-                                'Reports',
+                                cubit.tReports(),
                                 [
-                                  ExapandedListItem('Sales Report', () {
+                                  ExapandedListItem(cubit.tSalesReport(), () {
                                     Navigator.of(context).pushNamed(
                                         SalesReportScreens.routeName);
                                   }),
-                                  ExapandedListItem('Collection Report', () {
+                                  ExapandedListItem(cubit.tCollectionReport(),
+                                      () {
                                     Navigator.of(context).pushNamed(
                                         CollectionReportScreen.routeName);
                                   }),
-                                  ExapandedListItem('Customer By Debt', () {
+                                  ExapandedListItem(cubit.tCustomerByDebt(),
+                                      () {
                                     Navigator.of(context).pushNamed(
                                         CustomerByDebtScreen.routeName);
                                   }),
@@ -353,13 +356,14 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
 
                               DrawerExpansionTile(
-                                'Client Management',
+                                cubit.tClientManagement(),
                                 [
-                                  ExapandedListItem('Clients',
+                                  ExapandedListItem(cubit.tClients(),
                                       () => navigateToClientScreen(context)),
-                                  ExapandedListItem('Invoices', () => navigateToInvoiceClientScreen(
+                                  ExapandedListItem(
+                                      cubit.tInvoices(),
+                                      () => navigateToInvoiceClientScreen(
                                           context)),
-
                                 ],
                                 0,
                                 Icons.handyman,
@@ -383,7 +387,7 @@ class _AppDrawerState extends State<AppDrawer> {
                               size: 20.0,
                             ),
                             title: Text(
-                              'Sign out',
+                              cubit.tSignout(),
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,

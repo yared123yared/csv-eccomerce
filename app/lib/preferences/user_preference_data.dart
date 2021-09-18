@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../main.dart';
 import '../models/login_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,7 @@ class UserPreferences {
 
   Future<void> storeTokenAndExpiration(String token, String expiry) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      print('storing token 1');
+    print('storing token 1');
     print(token);
     await prefs.setString('token', token);
     await prefs.setString('expiry', expiry);
@@ -36,15 +37,18 @@ class UserPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
-   Future<void> storePassword(String password) async {
+
+  Future<void> storePassword(String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('password', password);
   }
+
   Future<String?> getUserPassword() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('password');
   }
-   Future<void> storeEmail(String email) async {
+
+  Future<void> storeEmail(String email) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', email);
   }
@@ -68,6 +72,9 @@ class UserPreferences {
     if (date.isAfter(DateTime.now())) return false;
     return true;
   }
+
+  Future<String?> getLanguagePref(String value) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return language = pref.getString(value)!;
+  }
 }
-
-
