@@ -23,11 +23,11 @@ class LoggedUserInfo {
   LoggedUserInfo({this.token, this.user});
   // read from json
   LoggedUserInfo.fromJson(Map<String, dynamic> json) {
-    print("converting json");
+    // print("converting json");
     token = json['token'];
-    print("---lf--2");
+    // print("---lf--2");
     user =  User.fromJson(json['user']);
-    print("Completed the json converting token:${token} user:${user}");
+    // print("Completed the json converting token:${token} user:${user}");
   }
 // write from json
   Map<String, dynamic> toJson() {

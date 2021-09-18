@@ -45,26 +45,36 @@ class AppRoutes {
         builder: (context) => BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AutoLoginState) {
+              print("auto loging");
               return SplashScreen(title: 'Authenticating');
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
-              print("Login success state with user ${state.user}");
-              int check = settings.arguments as int;
-              return MainScreen(checkValue: check,);
+              // print("Login success state with user ${state.user}");
+              print("auto login success");
+              return MainScreen(
+                checkValue: 1,
+              );
             } else if (state is AutoLoginFailedState) {
+              print("auto login failed");
               isAuthenticated = false;
               return Login();
+            } else if (state is LoginSuccessState) {
+              print("login success");
+              isAuthenticated = false;
+              return MainScreen(
+                checkValue: 1,
+              );
             }
             return Login();
           },
         ),
       );
     } else if (settings.name == MainScreen.routeName) {
-       int check = settings.arguments as int;
+      int check = settings.arguments as int;
       return MaterialPageRoute(
           builder: (context) => MainScreen(
-            checkValue: check,
-              // user: settings.arguments as LoggedUserInfo,
+                checkValue: check,
+                // user: settings.arguments as LoggedUserInfo,
               ));
     } else if (settings.name == SendOtpScreen.routeName) {
       return MaterialPageRoute(builder: (context) => SendOtpScreen());
@@ -161,6 +171,7 @@ class AppRoutes {
     } else if (settings.name == InvoiceClientSearch.routeName) {
       return MaterialPageRoute(builder: (context) => InvoiceClientSearch());
     }
+    print("unknown route");
     return MaterialPageRoute(builder: (context) => Login());
   }
 }

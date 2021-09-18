@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app/db/db.dart';
-import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/utils/connection_checker.dart';
 import 'package:bloc/bloc.dart';
@@ -77,30 +76,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapAutoLoginEventToState() async* {
     yield AutoLoginState();
     try {
+      print(" auto log 1");
       String? token = await this.userPreference.getUserToken();
       if (token == null) {
         yield AutoLoginFailedState();
         return;
       }
+      print(" auto log 2");
+
       String? expiry = await this.userPreference.getExpiryTime();
       if (expiry == null) {
         yield AutoLoginFailedState();
         return;
       }
+      print(" auto log 3");
+
+      print("expiry--${expiry}");
       bool isExpired = this.userPreference.isExpired(expiry);
       if (isExpired) {
+      print(" auto log 4");
+
         yield AutoLoginFailedState();
         return;
       } else {
+      print(" auto log 5");
+
         LoggedUserInfo? user = await this.userPreference.getUserInformation();
         if (user == null) {
           yield AutoLoginFailedState();
-
           return;
         }
-        yield AutoLoginSuccessState(user: user as LoggedUserInfo);
+        yield AutoLoginSuccessState(user: user);
       }
     } catch (e) {
+      print("--bloc--error auto login");
+      print(e.toString());
       yield AutoLoginFailedState();
     }
   }
