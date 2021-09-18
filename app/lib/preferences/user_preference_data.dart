@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../main.dart';
 import '../models/login_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -20,8 +21,8 @@ class UserPreferences {
 
   Future<void> storeTokenAndExpiration(String token, String expiry) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print('storing token 1');
-    // print(token);
+    print('storing token 1');
+    print(token);
     await prefs.setString('token', token);
     await prefs.setString('expiry', expiry);
   }
@@ -77,5 +78,10 @@ class UserPreferences {
     print(date);
     if (date.isAfter(DateTime.now())) return false;
     return true;
+  }
+
+  Future<String?> getLanguagePref(String value) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    return language = pref.getString(value)!;
   }
 }

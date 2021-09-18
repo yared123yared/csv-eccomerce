@@ -39,6 +39,7 @@ import 'data_provider/payments/payment_data_provider.dart';
 import 'data_provider/product_data_provider.dart';
 import 'data_provider/reports/collection_data_provider.dart';
 import 'data_provider/reports/salesReport_data_provider.dart';
+import 'language/bloc/cubit/language_cubit.dart';
 import 'route/route.dart';
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
@@ -54,14 +55,14 @@ import 'package:app/data_provider/clients_data_provider.dart';
 import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
+String language = "🇬🇧";
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
 
-  // final ScrollController scrollController = ScrollController();
+  userPreferences.getLanguagePref("language");
 
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
@@ -102,7 +103,8 @@ void main() {
       clientsRepository: clientRepository,
       categoryRepository: categoryRepository,
       orderRepository: orderRepository,
-      locationRepository: locationRepository, creditRepository: creditRepository,
+      locationRepository: locationRepository,
+      creditRepository: creditRepository,
       // scrollController: scrollController,
     ),
   );
@@ -251,6 +253,7 @@ class App extends StatelessWidget {
               MOnthlyChartDataProvider(userPreferences),
             ),
           ),
+          BlocProvider<LanguageCubit>(create: (_) => LanguageCubit()),
         ],
         child: MaterialApp(
           title: 'CSV',

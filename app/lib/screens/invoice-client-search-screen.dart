@@ -1,6 +1,8 @@
 import 'package:app/Widget/invoice/search-client.dart';
 import 'package:flutter/material.dart';
 
+import 'drawer.dart';
+
 class InvoiceClientSearch extends StatelessWidget {
   const InvoiceClientSearch({Key? key}) : super(key: key);
   static const routeName = "invoice_client_search";
@@ -8,6 +10,9 @@ class InvoiceClientSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
+      drawer: AppDrawer(
+        onPressed: () {},
+      ),
       appBar: AppBar(
         title: Text(
           'Invoices',
