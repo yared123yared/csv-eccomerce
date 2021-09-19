@@ -28,12 +28,14 @@ import 'package:http/http.dart' as http;
 import 'Blocs/cart/bloc/cart_bloc.dart';
 import 'Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'Blocs/location/bloc/location_bloc.dart';
+import 'Blocs/orderDrawer/AllOrderDetails/bloc/allorderdetails_bloc.dart';
 import 'Blocs/orderDrawer/OrderByDebt/orderByDebt_cubit.dart';
 import 'Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
 import 'Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
 import 'Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'data_provider/dashboard/numbers_data_provider.dart';
+import 'data_provider/orderDrawer/order_details_data_provider.dart';
 import 'data_provider/orderDrawer/orderbyDebt_data_provider.dart';
 import 'data_provider/payments/payment_data_provider.dart';
 import 'data_provider/product_data_provider.dart';
@@ -254,6 +256,10 @@ class App extends StatelessWidget {
             ),
           ),
           BlocProvider<LanguageCubit>(create: (_) => LanguageCubit()),
+          BlocProvider<AllorderdetailsBloc>(
+              create: (_) => AllorderdetailsBloc(
+                    OrderDetailsDataProvider(userPreferences),
+                  )),
         ],
         child: MaterialApp(
           title: 'CSV',

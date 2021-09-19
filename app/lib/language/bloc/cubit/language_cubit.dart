@@ -259,9 +259,9 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tCLIENT() {
     if (getLanguage() == "🇬🇧") {
-      return "CLIENT";
+      return "Clients";
     } else {
-      return "CLIENT";
+      return "Clients";
     }
   }
 

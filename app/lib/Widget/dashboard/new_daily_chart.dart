@@ -1,4 +1,5 @@
 import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/dashboard/daliy_chart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class _NewDailyChartState extends State<NewDailyChart> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return BlocBuilder<DailyChartBloc, DailyChartState>(
       builder: (context, state) {
         if (state is DailyChartInitial) {
@@ -48,7 +50,7 @@ class _NewDailyChartState extends State<NewDailyChart> {
                   tooltipBehavior: _tooltipBehavior,
                   series: <SplineSeries>[
                     SplineSeries<DailyChartModel, String>(
-                      name: "Daily Debt Collection",
+                      name: cubit.tDailyDebtCollection(),
                       dataSource: state.daliyChart,
                       xValueMapper: (DailyChartModel daily, _) => daily.date,
                       yValueMapper: (DailyChartModel daily, _) =>

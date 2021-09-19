@@ -2,11 +2,14 @@ import 'package:app/Widget/dashboard/daily_chart.dart';
 import 'package:app/Widget/dashboard/new_monthly_chart.dart';
 
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ManthlyDebt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         Container(
@@ -24,7 +27,7 @@ class ManthlyDebt extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Monthly Debt Collection",
+                cubit.tMonthlyCollection(),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -65,7 +68,7 @@ class ManthlyDebt extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "Monthly Collections",
+                    cubit.tMonthlyCollection(),
                     style: TextStyle(fontSize: 8),
                   ),
                 ],

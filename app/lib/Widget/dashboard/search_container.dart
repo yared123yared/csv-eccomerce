@@ -1,4 +1,5 @@
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,7 @@ class _SearchCDashBoardState extends State<SearchCDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         Padding(
@@ -30,7 +32,7 @@ class _SearchCDashBoardState extends State<SearchCDashBoard> {
                     .add(SearchRecentOrderEvent(value));
               },
               decoration: InputDecoration(
-                hintText: 'Search by Name',
+                hintText: cubit.tSearchbyName(),
                 border: InputBorder.none,
                 suffixIcon: IconButton(
                   onPressed: () {
