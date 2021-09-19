@@ -2,6 +2,8 @@ import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
 import 'package:app/models/client.dart';
 import 'package:flutter/material.dart';
 
+import 'drawer.dart';
+
 class InvoicesScreen extends StatelessWidget {
   final Client client;
   InvoicesScreen({Key? key, required this.client}) : super(key: key);
@@ -13,6 +15,7 @@ class InvoicesScreen extends StatelessWidget {
       key: _scaffoldKey,
       // drawer: AppDrawer(),
       resizeToAvoidBottomInset: false,
+     
       appBar: AppBar(
         title: Text(
           'Invoices',

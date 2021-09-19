@@ -5,7 +5,6 @@ import 'package:app/models/login_info.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/client_profile.dart';
 import 'package:app/screens/clients_screen.dart';
-import 'package:app/screens/dashBorad_screen.dart';
 import 'package:app/screens/login.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
@@ -400,6 +399,72 @@ class _AppDrawerState extends State<AppDrawer> {
                     ],
                   );
                 } else if (state is AutoLoginSuccessState) {
+                  photoPath = state.user.user?.photo?.filePath ?? photoPath;
+                  if (state.user.user != null) {
+                    if (state.user.user!.photo != null) {
+                      if (state.user.user!.photo!.filePath != null) {
+                        photoPath =
+                            state.user.user?.photo?.filePath ?? photoPath;
+
+                        photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: CachedNetworkImage(
+                              imageUrl: '${baseUrl}/${photoPath}',
+                              height: MediaQuery.of(context).size.height * 0.18,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Container(
+                                color: Colors.white,
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.black,
+                                child: Icon(Icons.error),
+                              ),
+                            ),
+                            // child: Image.network('${baseUrl}/${client.photoPath}'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      } else {
+                        photo = CircleAvatar(
+                          radius: 45,
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            child: Image.asset('assets/images/circular.png'),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                        );
+                      }
+                    } else {
+                      photo = CircleAvatar(
+                        radius: 45,
+                        child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.asset('assets/images/circular.png'),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    photo = CircleAvatar(
+                      radius: 45,
+                      child: Container(
+                        clipBehavior: Clip.hardEdge,
+                        child: Image.asset('assets/images/circular.png'),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                    );
+                  }
                   return Column(
                     children: [
                       Expanded(
@@ -407,35 +472,34 @@ class _AppDrawerState extends State<AppDrawer> {
                           child: Column(
                             children: [
                               SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
                               DrawerHeader(
                                 padding: EdgeInsets.all(16.0),
                                 child: InkWell(
-                                  onTap: () => Navigator.of(context).pushNamed(
-                                    ClientProfile.routeName,
-                                    arguments: state.user,
-                                  ),
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(
+                                    //   ClientProfile.routeName,
+                                    //   arguments: state.user,
+                                    // );
+                                  },
                                   child: Container(
                                     child: Column(
                                       children: [
-                                        state.user.user!.photo == null
-                                            ? CircleAvatar(
-                                                radius: 50.0,
-                                                backgroundImage: AssetImage(
-                                                    'assets/images/16.jpg'),
-                                              )
-                                            : CircleAvatar(
-                                                radius: 50.0,
-                                                backgroundImage: NetworkImage(
-                                                    'https://csv.jithvar.com/storage/${state.user.user!.photo!.filePath.toString()}'),
-                                              ),
+                                        photo,
+                                        // CircleAvatar(
+                                        //   radius: 45.0,
+                                        //   backgroundImage:
+                                        //       AssetImage(photoPath),
+                                        // ),
+                                        // ignore: todo
+                                        //TODO nullcheck
                                         Text(
-                                          'Crm Admistratora',
+                                          '${state.user.user!.firstName}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 25.0,
+                                            fontSize: 20.0,
                                           ),
                                         ),
                                       ],
@@ -447,113 +511,201 @@ class _AppDrawerState extends State<AppDrawer> {
                               SizedBox(
                                 height: 20.0,
                               ),
-                              // Container(
-                              //   margin: EdgeInsets.only(right: 25),
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.white,
-                              //     borderRadius: BorderRadius.only(
-                              //       topRight: Radius.circular(30),
-                              //       bottomRight: Radius.circular(30),
-                              //     ),
-                              //   ),
-                              //   child: InkWell(
-                              //     child: ListTile(
-                              //       leading: Icon(
-                              //         Icons.home,
-                              //         size: 40.0,
-                              //         color: Colors.black,
-                              //       ),
-                              //       title: Text(
-                              //         'Dashboard',
-                              //         style: TextStyle(
-                              //           // color: Colors.black,
-                              //           fontWeight: FontWeight.bold,
-                              //           fontSize: 20.0,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              InkWell(
-                                child: DrawerListTile(
-                                    'Dashboard', 0, Icons.home, () => {}),
-                              ),
-                              InkWell(
-                                child: DrawerListTile(
-                                  'Categories',
-                                  0,
-                                  Icons.list_alt,
-                                  () => {},
+                              Container(
+                                margin: EdgeInsets.only(right: 25),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.white,
+                                //   borderRadius: BorderRadius.only(
+                                //     topRight: Radius.circular(30),
+                                //     bottomRight: Radius.circular(30),
+                                //   ),
+                                // ),
+                                child: ListTile(
+                                  // onTap: () {
+                                  //   Navigator.pushNamed(
+                                  //       context, MainScreen.routeName);
+                                  // },
+                                  onTap: () {
+                                    setState(() {
+                                      //
+
+                                      Navigator.pushNamed(
+                                          context, MainScreen.routeName,
+                                          arguments: 0);
+
+                                      // widget.onPressed();
+                                    });
+                                  },
+                                  leading: Icon(
+                                    Icons.home,
+                                    size: 40.0,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text(
+                                    'Dashboard',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              InkWell(
-                                child: DrawerListTile(
-                                    'Products', 4, Icons.shop, () => {}),
-                              ),
-                              DrawerListTile(
-                                'Clients',
-                                4,
-                                Icons.person,
-                                () => {
-                                  Navigator.of(context).pushNamed(
-                                    ClientsScreen.routeName,
-                                    arguments: state.user,
-                                  ),
-                                  BlocProvider.of<ClientsBloc>(context,
-                                          listen: false)
-                                      .add(fetchClientEvent),
-                                },
-                              ),
+                              // DrawerListTile(
+                              //   'Shop',
+                              //   0,
+                              //   Icons.list_alt,
+                              //   () => {},
+                              // ),
+                              // DrawerListTile(
+                              //     'Products', 4, Icons.shop, () => {}),
+                              // DrawerListTile(
+                              //   'Clients',
+                              //   0,
+                              //   Icons.person,
+                              //   // () => setState(() {
+                              //   // this.check = 7;
+                              //   // BlocProvider.of<ClientsBloc>(context,
+                              //   //         listen: false)
+                              //   //     .add(fetchClientEvent);
+                              //   // }),
+                              //   () => navigateToClientScreen(context),
+                              // ),
 
-                              DrawerListTile(
-                                'Product Catalog',
-                                4,
-                                Icons.production_quantity_limits_sharp,
-                                () => Navigator.of(context)
-                                    .pushNamed(ClientsScreen.routeName),
+                              // DrawerListTile(
+                              //     'Shop',
+                              //     0,
+                              //     Icons.production_quantity_limits_sharp,
+                              //     () => () {
+                              //           Navigator.pushNamed(
+                              //               context, MainScreen.routeName,
+                              //               arguments: 1);
+                              //         }),
+                              //walid
+                              Container(
+                                margin: EdgeInsets.only(right: 25),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.white,
+                                //   borderRadius: BorderRadius.only(
+                                //     topRight: Radius.circular(30),
+                                //     bottomRight: Radius.circular(30),
+                                //   ),
+                                // ),
+                                child: ListTile(
+                                  // onTap: () {
+                                  //   Navigator.pushNamed(
+                                  //       context, MainScreen.routeName);
+                                  // },
+                                  onTap: () {
+                                    setState(() {
+                                      //
+
+                                      Navigator.pushNamed(
+                                          context, MainScreen.routeName,
+                                          arguments: 1);
+
+                                      // widget.onPressed();
+                                    });
+                                  },
+                                  leading: Icon(
+                                    Icons.production_quantity_limits_sharp,
+                                    size: 40.0,
+                                    color: Colors.white,
+                                  ),
+                                  title: Text(
+                                    'Shop',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      // fontWeight: FontWeight.bold,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ),
                               ),
                               DrawerExpansionTile(
                                 'Orders',
                                 [
-                                  ExapandedListItem('Sales Report', () {}),
-                                  ExapandedListItem('Collection Report', () {}),
-                                  ExapandedListItem('Order by debt', () {}),
-                                  ExapandedListItem('Customer by debt', () {}),
+                                  ExapandedListItem('All Orders', () {
+                                    Navigator.of(context)
+                                        .pushNamed(AllOrdersScreen.routeName);
+                                  }),
+                                  ExapandedListItem('Orders By Debt', () {
+                                    Navigator.of(context).pushNamed(
+                                        OrdersByDebtScreen.routeName);
+                                  }),
                                 ],
-                                4,
+                                0,
                                 Icons.shopping_bag,
+                              ),
+                              DrawerExpansionTile(
+                                'Payments',
+                                [
+                                  ExapandedListItem('Bank Deposit', () {
+                                    Navigator.of(context)
+                                        .pushNamed(PaymentsScreen.routeName);
+                                  }),
+                                ],
+                                0,
+                                Icons.payment,
+                              ),
+                              DrawerExpansionTile(
+                                'Reports',
+                                [
+                                  ExapandedListItem('Sales Report', () {
+                                    Navigator.of(context).pushNamed(
+                                        SalesReportScreens.routeName);
+                                  }),
+                                  ExapandedListItem('Collection Report', () {
+                                    Navigator.of(context).pushNamed(
+                                        CollectionReportScreen.routeName);
+                                  }),
+                                  ExapandedListItem('Customer By Debt', () {
+                                    Navigator.of(context).pushNamed(
+                                        CustomerByDebtScreen.routeName);
+                                  }),
+                                ],
+                                0,
+                                Icons.insights,
                               ),
 
                               DrawerExpansionTile(
                                 'Client Management',
                                 [
-                                  ExapandedListItem('Clients', () {}),
-                                  ExapandedListItem('Invoices', () {}),
-                                  ExapandedListItem('Add Money', () {}),
+                                  ExapandedListItem('Clients',
+                                      () => navigateToClientScreen(context)),
+                                  ExapandedListItem(
+                                      'Invoices',
+                                      () => navigateToInvoiceClientScreen(
+                                          context)),
                                 ],
-                                4,
+                                0,
                                 Icons.handyman,
                               ), // DrawerHeader(child: )
                             ],
                           ),
                         ),
                       ),
-                      Container(
-                        height: 60.0,
-                        width: MediaQuery.of(context).size.width * 4 / 5,
-                        child: ListTile(
-                          tileColor: primaryDark,
-                          leading: Icon(
-                            Icons.logout,
-                            color: Colors.white,
-                            size: 20.0,
-                          ),
-                          title: Text(
-                            'Sign out',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, Login.routeName);
+                        },
+                        child: Container(
+                          height: 60.0,
+                          width: MediaQuery.of(context).size.width * 4 / 5,
+                          child: ListTile(
+                            tileColor: primaryDark,
+                            leading: Icon(
+                              Icons.logout,
                               color: Colors.white,
-                              fontSize: 18,
+                              size: 20.0,
+                            ),
+                            title: Text(
+                              'Sign out',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ),

@@ -46,17 +46,25 @@ class AppRoutes {
         builder: (context) => BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
             if (state is AutoLoginState) {
+              print("auto loging");
               return SplashScreen(title: 'Authenticating');
             } else if (state is AutoLoginSuccessState) {
               isAuthenticated = true;
-              print("Login success state with user ${state.user}");
-              int check = settings.arguments as int;
+              // print("Login success state with user ${state.user}");
+              print("auto login success");
               return MainScreen(
-                checkValue: check,
+                checkValue: 1,
               );
             } else if (state is AutoLoginFailedState) {
+              print("auto login failed");
               isAuthenticated = false;
               return Login();
+            } else if (state is LoginSuccessState) {
+              print("login success");
+              isAuthenticated = false;
+              return MainScreen(
+                checkValue: 1,
+              );
             }
             return Login();
           },
@@ -167,6 +175,7 @@ class AppRoutes {
       int id = settings.arguments as int;
       return MaterialPageRoute(builder: (context) => AllOrderDetailsScreen(id));
     }
+    print("unknown route");
     return MaterialPageRoute(builder: (context) => Login());
   }
 }
