@@ -13,7 +13,6 @@ class InvoSearchClient extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-
         ),
         elevation: 0,
         color: Theme.of(context).accentColor,
@@ -48,13 +47,12 @@ class InvoSearchClient extends StatelessWidget {
                   //           fontWeight:FontWeight.bold
                   //             )),
                   // ),
+                  SearchBar(),
                 ],
               ),
-              Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: SearchBar(),
-                  )),
+
+              // padding: const EdgeInsets.all(8.0),
+
               ClientListTitle(),
               ClientsDisplay(),
             ],

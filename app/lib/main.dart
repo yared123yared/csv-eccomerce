@@ -177,7 +177,7 @@ class App extends StatelessWidget {
               orderRepository: this.orderRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
-          BlocProvider<CategoriesBloc>(
+          BlocProvider<CategoriesBloc>( 
             create: (_) =>
                 CategoriesBloc(categoryRepository: this.categoryRepository)
                   ..add(FetchCategories()),
