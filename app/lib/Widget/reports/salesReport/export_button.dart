@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -192,6 +194,7 @@ class _ExportButtonState extends State<ExportButton> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: loading
@@ -210,7 +213,7 @@ class _ExportButtonState extends State<ExportButton> {
               ),
               onPressed: downloadFile,
               child: Text(
-                "Export",
+                cubit.tExport(),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

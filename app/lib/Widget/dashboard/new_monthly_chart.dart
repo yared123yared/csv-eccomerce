@@ -1,4 +1,5 @@
 import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/dashboard/daliy_chart_model.dart';
 import 'package:app/models/dashboard/monthly_chart_model.dart';
 import 'package:flutter/material.dart';
@@ -42,13 +43,14 @@ class _NewMonthlyChartState extends State<NewMonthlyChart> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return BlocBuilder<MonthlyChartBloc, MonthlyChartState>(
       builder: (context, state) {
         if (state is MonthlyChartInitial) {
           //print("Monthly Data MonthlyChartInitial");
           return Center(child: CircularProgressIndicator());
         } else if (state is MonthlyChartLogingState) {
-            //print("Monthly Data MonthlyChartLogingState");
+          //print("Monthly Data MonthlyChartLogingState");
           return Center(child: CircularProgressIndicator());
         } else if (state is MonthlyChartSuccessState) {
           // print("Monthly Data MonthlyChartSuccessState");
@@ -59,7 +61,7 @@ class _NewMonthlyChartState extends State<NewMonthlyChart> {
               tooltipBehavior: _tooltipBehavior,
               series: <SplineSeries>[
                 SplineSeries<MonthlyChartModel, String>(
-                  name: "Mobrgly Debt Collection",
+                  name: cubit.tMonthlyDebtCollection(),
                   dataSource: state.monthlyChart,
                   xValueMapper: (MonthlyChartModel sales, _) => sales.months,
                   yValueMapper: (MonthlyChartModel sales, _) =>

@@ -1,4 +1,5 @@
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +26,7 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       width: MediaQuery.of(context).size.width * 44,
       height: 300,
@@ -47,24 +49,24 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     buildrowData(
-                      text: 'ORDER NUMVER',
+                      text: cubit.tORDERNUMBER(),
                       dateApi: "${state.recentOrder[index].orderNumber}",
                     ),
                     buildrowData(
-                      text: 'CLIENT',
+                      text: cubit.tCLIENT(),
                       dateApi:
                           "${state.recentOrder[index].client!.firstName} ${state.recentOrder[index].client!.lastName}",
                     ),
                     buildrowData(
-                      text: 'DATE',
+                      text: cubit.tDATE(),
                       dateApi: "${state.recentOrder[index].createdAt}",
                     ),
                     buildrowData(
-                      text: 'TOTAL',
+                      text: cubit.tTOTAL(),
                       dateApi: "${state.recentOrder[index].total}",
                     ),
                     buildrowData(
-                      text: 'DEBT',
+                      text: cubit.tDEBT(),
                       dateApi: "${state.recentOrder[index].amountRemaining}",
                     ),
                   ],
@@ -79,8 +81,8 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
             );
           } else if (state is SearchRecentOrderLoadingState) {
             return Center(child: CircularProgressIndicator());
-          }else if ( state is SearchRecentOrderSuccessState){
-             return ListView.separated(
+          } else if (state is SearchRecentOrderSuccessState) {
+            return ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Column(
@@ -88,25 +90,26 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     buildrowData(
-                      text: 'ORDER NUMVER',
+                      text: cubit.tORDERNUMBER(),
                       dateApi: "${state.searchRecentOrder[index].orderNumber}",
                     ),
                     buildrowData(
-                      text: 'CLIENT',
+                      text: cubit.tCLIENT(),
                       dateApi:
                           "${state.searchRecentOrder[index].client!.firstName} ${state.searchRecentOrder[index].client!.lastName}",
                     ),
                     buildrowData(
-                      text: 'DATE',
+                      text: cubit.tDATE(),
                       dateApi: "${state.searchRecentOrder[index].createdAt}",
                     ),
                     buildrowData(
-                      text: 'TOTAL',
+                      text: cubit.tTOTAL(),
                       dateApi: "${state.searchRecentOrder[index].total}",
                     ),
                     buildrowData(
-                      text: 'DEBT',
-                      dateApi: "${state.searchRecentOrder[index].amountRemaining}",
+                      text: cubit.tDEBT(),
+                      dateApi:
+                          "${state.searchRecentOrder[index].amountRemaining}",
                     ),
                   ],
                 );
@@ -118,8 +121,7 @@ class _InfoTotalContainerState extends State<InfoTotalContainer> {
               },
               itemCount: state.searchRecentOrder.length,
             );
-          }
-           else if (state is RecentOrderErrorState) {
+          } else if (state is RecentOrderErrorState) {
             return ErrorWidget(state.error.toString());
           }
           return Container();

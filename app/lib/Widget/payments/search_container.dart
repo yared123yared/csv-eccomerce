@@ -1,4 +1,5 @@
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,7 @@ class _SearchPaymentScreenState extends State<SearchPaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         Container(
@@ -28,7 +30,7 @@ class _SearchPaymentScreenState extends State<SearchPaymentScreen> {
                   .add(SearchBankslipEvent(value));
             },
             decoration: InputDecoration(
-              hintText: 'Search by Amount',
+              hintText: cubit.tSearchbyAmount(),
               border: InputBorder.none,
               suffixIcon: IconButton(
                 onPressed: () {

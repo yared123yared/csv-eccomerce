@@ -21,6 +21,7 @@ import 'package:app/screens/dashBorad_screen.dart';
 import 'package:app/screens/invoice-client-search-screen.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
+import 'package:app/screens/orders_screen/allorder_details_screen.dart';
 import 'package:app/screens/orders_screen/ordersb_byDebt_screen.dart';
 import 'package:app/screens/payments/payments_screen.dart';
 import 'package:app/screens/reports_screens/collection_report.dart';
@@ -170,6 +171,9 @@ class AppRoutes {
       );
     } else if (settings.name == InvoiceClientSearch.routeName) {
       return MaterialPageRoute(builder: (context) => InvoiceClientSearch());
+    } else if (settings.name == AllOrderDetailsScreen.routeName) {
+      int id = settings.arguments as int;
+      return MaterialPageRoute(builder: (context) => AllOrderDetailsScreen(id));
     }
     print("unknown route");
     return MaterialPageRoute(builder: (context) => Login());

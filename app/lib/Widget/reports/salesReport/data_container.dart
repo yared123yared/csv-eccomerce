@@ -1,4 +1,5 @@
 import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/repoets_model/sales_report_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,27 +92,28 @@ class _DataContainerState extends State<DataContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         BlocBuilder<SalesReportBloc, SalesReportState>(
           builder: (context, state) {
             if (state is SalesReportSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()}  ${total} ${cubit.tentries()} ",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is SearchSalesReportSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()}  ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is FromToSalesReportSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()}  ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
@@ -162,24 +164,24 @@ class _DataContainerState extends State<DataContainer> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           buildrowData(
-                            text: 'ORDER',
+                            text: cubit.tORDER(),
                             dateApi: "${state.salesReport[index].orderNumber}",
                           ),
                           buildrowData(
-                            text: 'CLIENT NAME',
+                            text: cubit.tCLIENTNAME(),
                             dateApi:
                                 "${state.salesReport[index].client!.firstName} ${state.salesReport[index].client!.lastName}",
                           ),
                           buildrowData(
-                            text: 'TOTAL',
+                            text: cubit.tTOTAL(),
                             dateApi: "${state.salesReport[index].total}",
                           ),
                           buildrowData(
-                            text: 'PAID',
+                            text: cubit.tPAID(),
                             dateApi: "${state.salesReport[index].amountPaid}",
                           ),
                           buildrowData(
-                            text: 'DEBT',
+                            text: cubit.tDATE(),
                             dateApi:
                                 "${state.salesReport[index].amountRemaining}",
                           ),
@@ -218,26 +220,26 @@ class _DataContainerState extends State<DataContainer> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           buildrowData(
-                            text: 'ORDER',
+                            text: cubit.tORDER(),
                             dateApi:
                                 "${state.searchSalesReport[index].orderNumber}",
                           ),
                           buildrowData(
-                            text: 'CLIENT NAME',
+                            text: cubit.tCLIENTNAME(),
                             dateApi:
                                 "${state.searchSalesReport[index].client!.firstName} ${state.searchSalesReport[index].client!.lastName}",
                           ),
                           buildrowData(
-                            text: 'TOTAL',
+                            text: cubit.tTOTAL(),
                             dateApi: "${state.searchSalesReport[index].total}",
                           ),
                           buildrowData(
-                            text: 'PAID',
+                            text: cubit.tPAID(),
                             dateApi:
                                 "${state.searchSalesReport[index].amountPaid}",
                           ),
                           buildrowData(
-                            text: 'DEBT',
+                            text: cubit.tDATE(),
                             dateApi:
                                 "${state.searchSalesReport[index].amountRemaining}",
                           ),
@@ -276,26 +278,26 @@ class _DataContainerState extends State<DataContainer> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           buildrowData(
-                            text: 'ORDER',
+                            text: cubit.tORDER(),
                             dateApi:
                                 "${state.fromToSalesReport[index].orderNumber}",
                           ),
                           buildrowData(
-                            text: 'CLIENT NAME',
+                            text: cubit.tCLIENTNAME(),
                             dateApi:
                                 "${state.fromToSalesReport[index].client!.firstName} ${state.fromToSalesReport[index].client!.lastName}",
                           ),
                           buildrowData(
-                            text: 'TOTAL',
+                            text: cubit.tTOTAL(),
                             dateApi: "${state.fromToSalesReport[index].total}",
                           ),
                           buildrowData(
-                            text: 'PAID',
+                            text: cubit.tPAID(),
                             dateApi:
                                 "${state.fromToSalesReport[index].amountPaid}",
                           ),
                           buildrowData(
-                            text: 'DEBT',
+                            text: cubit.tDATE(),
                             dateApi:
                                 "${state.fromToSalesReport[index].amountRemaining}",
                           ),

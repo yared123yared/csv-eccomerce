@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:app/Blocs/Payments/bloc/bankslip_bloc.dart';
 import 'package:app/Blocs/Payments/patments_state.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/payment/payment_container_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -94,20 +95,21 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         BlocBuilder<BankslipBloc, BankslipState>(
           builder: (context, state) {
             if (state is BankslipSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()}  ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is SearchBankslipSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} to ${cubit.tTo()} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
@@ -157,19 +159,19 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
-                                text: 'DATE',
+                                text: cubit.tDATE(),
                                 dateApi: "${state.bankslip[index].date}"),
                             buildrowData(
-                                text: 'AMOUNT',
+                                text: cubit.tAMOUNT(),
                                 dateApi: "${state.bankslip[index].amount}"),
                             builDowanloadImage(
+                              slip: cubit.tSLIP(),
                               onpress: () {
-                              
                                 saveImage(
                                     "https://csv.jithvar.com/storage/${state.bankslip[index].photo!.filePath}");
 
                                 Fluttertoast.showToast(
-                                    msg: "Successful Download",
+                                    msg: cubit.tSuccessfulDownload(),
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.CENTER,
                                     timeInSecForIosWeb: 1,
@@ -179,7 +181,7 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                               },
                             ),
                             buildrowData(
-                              text: 'STATUS',
+                              text: cubit.tSTATUS(),
                               dateApi: "${state.bankslip[index].status}",
                             ),
                             Row(
@@ -194,7 +196,7 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                                     width: 150,
                                     color: Colors.white,
                                     child: Text(
-                                      'DENY REASON',
+                                      cubit.tDENYREASON(),
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
@@ -272,21 +274,22 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
-                                text: 'DATE',
+                                text: cubit.tDATE(),
                                 dateApi: "${state.searchBankslip[index].date}"),
                             buildrowData(
-                                text: 'AMOUNT',
+                                text: cubit.tAMOUNT(),
                                 dateApi:
                                     "${state.searchBankslip[index].amount}"),
                             BlocBuilder<PaymentsCubit, PaymentsState>(
                               builder: (context, state) {
                                 final cubits = PaymentsCubit.get(context);
                                 return builDowanloadImage(
+                                  slip: cubit.tSLIP(),
                                   onpress: () {
                                     cubits.saveImage(index: index);
                                     if (cubits.isImageLoding = true) {
                                       Fluttertoast.showToast(
-                                          msg: "Successful Download",
+                                          msg: cubit.tSuccessfulDownload(),
                                           toastLength: Toast.LENGTH_SHORT,
                                           gravity: ToastGravity.CENTER,
                                           timeInSecForIosWeb: 1,
@@ -299,7 +302,7 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                               },
                             ),
                             buildrowData(
-                              text: 'STATUS',
+                              text: cubit.tSTATUS(),
                               dateApi: "${state.searchBankslip[index].status}",
                             ),
                             Row(
@@ -314,7 +317,7 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
                                     width: 150,
                                     color: Colors.white,
                                     child: Text(
-                                      'DENY REASON',
+                                      cubit.tDENYREASON(),
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
@@ -416,7 +419,9 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
         ],
       );
 
-  Widget builDowanloadImage({required Function onpress}) => Row(
+  Widget builDowanloadImage(
+          {required Function onpress, required String slip}) =>
+      Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -427,7 +432,7 @@ class _DataPaymentsContainerState extends State<DataPaymentsContainer> {
               width: 150,
               color: Colors.white,
               child: Text(
-                "SLIP",
+                slip,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

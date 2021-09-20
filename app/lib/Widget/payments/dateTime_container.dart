@@ -1,5 +1,6 @@
 import 'package:app/Blocs/Payments/patments_state.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +10,7 @@ class DateContainer extends StatelessWidget {
     return BlocBuilder<PaymentsCubit, PaymentsState>(
       builder: (context, state) {
         final cubit = PaymentsCubit.get(context);
+        final cubits = BlocProvider.of<LanguageCubit>(context);
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),

@@ -3,11 +3,14 @@ import 'package:app/Widget/dashboard/from_to_dashboard.dart';
 import 'package:app/Widget/dashboard/new_daily_chart.dart';
 
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DailyDebt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         Container(
@@ -25,7 +28,7 @@ class DailyDebt extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Daily Debt Collection",
+                cubit.tDailyDebtCollection(),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -68,7 +71,7 @@ class DailyDebt extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "Total Collection",
+                    cubit.tTotalCollection(),
                     style: TextStyle(fontSize: 8),
                   ),
                 ],

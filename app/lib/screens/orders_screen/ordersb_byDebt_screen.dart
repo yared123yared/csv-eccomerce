@@ -2,6 +2,7 @@ import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Widget/Orders/orderbyDebt/data_container.dart';
 import 'package:app/Widget/Orders/orderbyDebt/search_container.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/OrdersDrawer/orderbyDebt_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +41,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -56,14 +58,14 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
             ),
           ),
         ),
-        title: const Text(
-          "Orders By Debt",
+        title: Text(
+          cubit.tOrdersByDebt(),
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       drawer: AppDrawer(
-        onPressed: (){},
+        onPressed: () {},
       ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
@@ -80,14 +82,14 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
             builder: (context, state) {
               if (state is OrderbydebtSuccessState) {
                 return Text(
-                  "Showing 1 to 5 of ${state.orderbydept.length} entries",
+                  "${cubit.tshowing()} 1 ${cubit.tTo()} 5 ${cubit.tOf()} ${state.orderbydept.length} ${cubit.tentries()}",
                   style: TextStyle(
                     color: Colors.black45,
                   ),
                 );
               } else if (state is SearchOrderByDebtSccessState) {
                 return Text(
-                  "Showing 1 to 5 of ${state.searchOrderByDebt.length} entries",
+                  "${cubit.tshowing()} 1 ${cubit.tTo()} 5 ${cubit.tOf()} ${state.searchOrderByDebt.length} ${cubit.tentries()}",
                   style: TextStyle(
                     color: Colors.black45,
                   ),
@@ -137,7 +139,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            buildText(text: "DEBT"),
+                            buildText(text: cubit.tDEBT()),
                             buildText(text: "\$ ${state.debtTotalInt.sum}")
                           ],
                         ),
@@ -158,7 +160,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            buildText(text: "DEBT"),
+                            buildText(text: cubit.tDEBT()),
                             buildText(
                                 text: "\$ ${state.searchdebtTotalInt.sum}")
                           ],
@@ -179,7 +181,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            buildText(text: "DEBT"),
+                            buildText(text: cubit.tDEBT()),
                             buildText(text: "\$ 00.00")
                           ],
                         ),

@@ -1,18 +1,19 @@
-import 'dart:convert';
-
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
 import 'package:app/Widget/Orders/allOrders/search_container.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/screens/cart_screens/update_order_screen.dart';
+import 'package:app/screens/orders_screen/allorder_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+// ignore: must_be_immutable
 class DataContainerAllOrders extends StatefulWidget {
   @override
   _DataContainerAllOrdersState createState() => _DataContainerAllOrdersState();
@@ -95,6 +96,7 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
     // print(addClientBloc);
     // print(bloc);
     // print("------");
+    final cubit = BlocProvider.of<LanguageCubit>(context);
 
     return Column(
       children: [
@@ -109,21 +111,21 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
           builder: (context, state) {
             if (state is AllOrdersSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is SearchDataSccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             }
             return Text(
-              "Showing 1 to 5 of 5 entries",
+              "${cubit.tshowing()} 1 ${cubit.tTo()} 5 ${cubit.tOf()} 5 ${cubit.tentries()}",
               style: TextStyle(
                 color: Colors.black45,
               ),
@@ -155,170 +157,185 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                   itemScrollController: itemScrollController,
                   itemPositionsListener: itemPositionsListener,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 20),
-                      child: Container(
-                        width: 400,
-                        height: 230,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            buildrowData(
-                                text: 'DATE',
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AllOrderDetailsScreen.routeName,
+                          arguments: state.allorderdata[index].id,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 20),
+                        child: Container(
+                          width: 400,
+                          height: 230,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              buildrowData(
+                                  text: cubit.tDATE(),
+                                  dateApi:
+                                      "${state.allorderdata[index].createdAt}"),
+                              buildrowData(
+                                text: cubit.tORDER(),
                                 dateApi:
-                                    "${state.allorderdata[index].createdAt}"),
-                            buildrowData(
-                              text: 'ORDER',
-                              dateApi:
-                                  "${state.allorderdata[index].orderNumber}",
-                            ),
-                            buildrowData(
-                                text: 'CLIENT ',
-                                dateApi:
-                                    "${state.allorderdata[index].client!.firstName} ${state.allorderdata[index].client!.lastName}"),
-                            buildrowData(
-                                text: 'TOTAL',
-                                dateApi: "${state.allorderdata[index].total}"),
-                            buildrowData(
-                              text: 'PAID AMOUNT',
-                              dateApi:
-                                  "${state.allorderdata[index].amountPaid}",
-                            ),
-                            buildrowData(
-                              text: 'DEBT',
-                              dateApi:
-                                  "${state.allorderdata[index].amountRemaining}",
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Color(0xff48c2d5),
-                                    foregroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.print,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PdafScreen(state
-                                                        .allorderdata[index]
-                                                        .id)));
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    foregroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        print(
-                                            "orders data:${state.allorderdata[index].id}");
-                                        // AddClientBloc addCBloc =
-                                        //     BlocProvider.of<AddClientBloc>(
-                                        //         context);
-                                        // OrdersBloc oBloc =
-                                        //     BlocProvider.of<OrdersBloc>(
-                                        //         context);
-                                        // AllorderrBloc bloc =
-                                        //     BlocProvider.of<AllorderrBloc>(
-                                        //         context);
-                                        if (state.allorderdata[index].client !=
-                                            null) {
-                                          print(
-                                              "--------invoked data--container ---120");
-                                          // print(jsonEncode(state
-                                          //     .allorderdata[index].client!));
-                                          addClientBloc.add(ClientDisplayEvent(
-                                              client: state.allorderdata[index]
-                                                  .client!));
-                                          print("111");
-                                          ordersBloc.add(ClientAddEvent(
-                                              client: state.allorderdata[index]
-                                                  .client!));
-                                          print("222");
-
-                                          ordersBloc.add(AddPaymentWhenEvent(
-                                              when: 'later'));
-
-                                          print("333");
-
-                                          ordersBloc.add(
-                                            SetRequestEvent(
-                                              request: Request(
-                                                id: state
-                                                    .allorderdata[index].id,
-                                                amountPaid: double.parse(state
-                                                        .allorderdata[index]
-                                                        .amountPaid)
-                                                    .round(),
-                                                //double.parse(state.allorderdata[index].amountRemaining).round()
-                                                amountRemaining: double.parse(
-                                                        state
-                                                            .allorderdata[index]
-                                                            .amountRemaining)
-                                                    .toInt(),
-                                                transactionId: "4545",
-                                                paymentWhen: 'later',
-                                                paymentMethod: "wallet",
-                                                typeOfWallet: "smilepay",
-                                                cart: [],
-                                                cartItem: [],
-                                                clientId: state
-                                                    .allorderdata[index]
-                                                    .clientId,
-                                                addressId: state
-                                                    .allorderdata[index]
-                                                    .client
-                                                    ?.orders?[0]
-                                                    .addressId,
-                                                total: 0,
-                                              ),
-                                            ),
-                                          );
-                                          print("444");
-
-                                          ordersBloc.add(
-                                            FetchOrderToBeUpdated(
-                                              id: state.allorderdata[index].id
-                                                  .toString(),
-                                            ),
-                                          );
-                                          print("555");
-
-                                          Navigator.pushNamed(
-                                            context,
-                                            UpdateOrder.routeName,
-                                            arguments:
-                                                state.allorderdata[index],
-                                          );
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ],
+                                    "${state.allorderdata[index].orderNumber}",
                               ),
-                            ),
-                          ],
+                              buildrowData(
+                                  text: cubit.tCLIENT(),
+                                  dateApi:
+                                      "${state.allorderdata[index].client!.firstName} ${state.allorderdata[index].client!.lastName}"),
+                              buildrowData(
+                                  text: cubit.tTOTAL(),
+                                  dateApi:
+                                      "${state.allorderdata[index].total}"),
+                              buildrowData(
+                                text: cubit.tPAIDAMOUNT(),
+                                dateApi:
+                                    "${state.allorderdata[index].amountPaid}",
+                              ),
+                              buildrowData(
+                                text: cubit.tDEBT(),
+                                dateApi:
+                                    "${state.allorderdata[index].amountRemaining}",
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Color(0xff48c2d5),
+                                      foregroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.print,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PdafScreen(state
+                                                          .allorderdata[index]
+                                                          .id)));
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      foregroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          print(
+                                              "orders data:${state.allorderdata[index].id}");
+                                          // AddClientBloc addCBloc =
+                                          //     BlocProvider.of<AddClientBloc>(
+                                          //         context);
+                                          // OrdersBloc oBloc =
+                                          //     BlocProvider.of<OrdersBloc>(
+                                          //         context);
+                                          // AllorderrBloc bloc =
+                                          //     BlocProvider.of<AllorderrBloc>(
+                                          //         context);
+                                          if (state
+                                                  .allorderdata[index].client !=
+                                              null) {
+                                            print(
+                                                "--------invoked data--container ---120");
+                                            // print(jsonEncode(state
+                                            //     .allorderdata[index].client!));
+                                            addClientBloc.add(
+                                                ClientDisplayEvent(
+                                                    client: state
+                                                        .allorderdata[index]
+                                                        .client!));
+                                            print("111");
+                                            ordersBloc.add(ClientAddEvent(
+                                                client: state
+                                                    .allorderdata[index]
+                                                    .client!));
+                                            print("222");
+
+                                            ordersBloc.add(AddPaymentWhenEvent(
+                                                when: 'later'));
+
+                                            print("333");
+
+                                            ordersBloc.add(
+                                              SetRequestEvent(
+                                                request: Request(
+                                                  id: state
+                                                      .allorderdata[index].id,
+                                                  amountPaid: double.parse(state
+                                                          .allorderdata[index]
+                                                          .amountPaid)
+                                                      .round(),
+                                                  //double.parse(state.allorderdata[index].amountRemaining).round()
+                                                  amountRemaining: double.parse(
+                                                          state
+                                                              .allorderdata[
+                                                                  index]
+                                                              .amountRemaining)
+                                                      .toInt(),
+                                                  transactionId: "4545",
+                                                  paymentWhen: 'later',
+                                                  paymentMethod: "wallet",
+                                                  typeOfWallet: "smilepay",
+                                                  cart: [],
+                                                  cartItem: [],
+                                                  clientId: state
+                                                      .allorderdata[index]
+                                                      .clientId,
+                                                  addressId: state
+                                                      .allorderdata[index]
+                                                      .client
+                                                      ?.orders?[0]
+                                                      .addressId,
+                                                  total: 0,
+                                                ),
+                                              ),
+                                            );
+                                            print("444");
+
+                                            ordersBloc.add(
+                                              FetchOrderToBeUpdated(
+                                                id: state.allorderdata[index].id
+                                                    .toString(),
+                                              ),
+                                            );
+                                            print("555");
+
+                                            Navigator.pushNamed(
+                                              context,
+                                              UpdateOrder.routeName,
+                                              arguments:
+                                                  state.allorderdata[index],
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -341,89 +358,98 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                   itemScrollController: itemScrollController,
                   itemPositionsListener: itemPositionsListener,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 20),
-                      child: Container(
-                        width: 400,
-                        height: 230,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            buildrowData(
-                                text: 'DATE',
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AllOrderDetailsScreen.routeName,
+                          arguments: state.searchallorderdata[index].id,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 20),
+                        child: Container(
+                          width: 400,
+                          height: 230,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              buildrowData(
+                                  text: cubit.tDATE(),
+                                  dateApi:
+                                      "${state.searchallorderdata[index].createdAt}"),
+                              buildrowData(
+                                  text: cubit.tORDER(),
+                                  dateApi:
+                                      "${state.searchallorderdata[index].orderNumber}"),
+                              buildrowData(
+                                  text: cubit.tCLIENT(),
+                                  dateApi:
+                                      "${state.searchallorderdata[index].client!.firstName} ${state.searchallorderdata[index].client!.lastName}"),
+                              buildrowData(
+                                  text: cubit.tTOTAL(),
+                                  dateApi:
+                                      "${state.searchallorderdata[index].total}"),
+                              buildrowData(
+                                text: cubit.tPAIDAMOUNT(),
                                 dateApi:
-                                    "${state.searchallorderdata[index].createdAt}"),
-                            buildrowData(
-                                text: 'ORDER',
-                                dateApi:
-                                    "${state.searchallorderdata[index].orderNumber}"),
-                            buildrowData(
-                                text: 'CLIENT ',
-                                dateApi:
-                                    "${state.searchallorderdata[index].client!.firstName} ${state.searchallorderdata[index].client!.lastName}"),
-                            buildrowData(
-                                text: 'TOTAL',
-                                dateApi:
-                                    "${state.searchallorderdata[index].total}"),
-                            buildrowData(
-                              text: 'PAID AMOUNT',
-                              dateApi:
-                                  "${state.searchallorderdata[index].amountPaid}",
-                            ),
-                            buildrowData(
-                              text: 'DEBT',
-                              dateApi:
-                                  "${state.searchallorderdata[index].amountRemaining}",
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Color(0xff48c2d5),
-                                    foregroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.print,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PdafScreen(state
-                                                        .searchallorderdata[
-                                                            index]
-                                                        .id)));
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    foregroundColor: Colors.white,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
+                                    "${state.searchallorderdata[index].amountPaid}",
                               ),
-                            ),
-                          ],
+                              buildrowData(
+                                text: cubit.tDEBT(),
+                                dateApi:
+                                    "${state.searchallorderdata[index].amountRemaining}",
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Color(0xff48c2d5),
+                                      foregroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.print,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PdafScreen(state
+                                                          .searchallorderdata[
+                                                              index]
+                                                          .id)));
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      foregroundColor: Colors.white,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -478,4 +504,9 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
           ),
         ],
       );
+}
+
+class OrderDetailsId {
+  int id;
+  OrderDetailsId({required this.id});
 }

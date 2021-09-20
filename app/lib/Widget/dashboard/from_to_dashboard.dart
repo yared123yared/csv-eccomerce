@@ -1,5 +1,6 @@
 import 'package:app/Blocs/dashBoard/dailyChart/bloc/daily_chart_bloc.dart';
 import 'package:app/Blocs/dashBoard/monthlyChart/bloc/monthly_chart_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,7 +10,6 @@ class FromToDashBoard extends StatefulWidget {
 }
 
 class _FromToDashBoardState extends State<FromToDashBoard> {
- 
   bool isFormDate = false;
   bool isToDate = false;
   DateTime dateForm = DateTime.now();
@@ -64,6 +64,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
       child: Row(
@@ -93,7 +94,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                               fontWeight: FontWeight.bold),
                         )
                       : Text(
-                          "From",
+                          cubit.tFrom(),
                           style: TextStyle(
                               fontSize: 14,
                               color: Color(0xff414e79),
@@ -146,7 +147,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                               fontWeight: FontWeight.bold),
                         )
                       : Text(
-                          "To",
+                          cubit.tTo(),
                           style: TextStyle(
                               fontSize: 14,
                               color: Color(0xff414e79),

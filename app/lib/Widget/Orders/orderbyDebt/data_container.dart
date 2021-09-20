@@ -1,5 +1,6 @@
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Widget/Orders/allOrders/Pdf/pdf_screen.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,6 +28,7 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return BlocBuilder<OrderbydebtBloc, OrderbydebtState>(
       builder: (context, state) {
         if (state is OrderbydebtInitial) {
@@ -51,21 +53,21 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       buildrowData(
-                          text: 'DATE',
+                          text: cubit.tDATE(),
                           dateApi: "${state.orderbydept[index].createdAt}"),
                       buildrowData(
-                        text: 'ORDER',
+                        text: cubit.tORDER(),
                         dateApi: "${state.orderbydept[index].orderNumber}",
                       ),
                       buildrowData(
-                          text: 'CLIENT ',
+                          text: cubit.tCLIENT(),
                           dateApi:
                               "${state.orderbydept[index].client!.firstName} ${state.orderbydept[index].client!.lastName}"),
                       buildrowData(
-                          text: 'TOTAL',
+                          text: cubit.tTOTAL(),
                           dateApi: '${state.orderbydept[index].total}'),
                       buildrowData(
-                          text: 'DEBT',
+                          text: cubit.tDEBT(),
                           dateApi:
                               '${state.orderbydept[index].amountRemaining}'),
                       Padding(
@@ -151,23 +153,23 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       buildrowData(
-                          text: 'DATE',
+                          text: cubit.tDATE(),
                           dateApi:
                               "${state.searchOrderByDebt[index].createdAt}"),
                       buildrowData(
-                        text: 'ORDER',
+                        text: cubit.tORDER(),
                         dateApi:
                             "${state.searchOrderByDebt[index].orderNumber}",
                       ),
                       buildrowData(
-                          text: 'CLIENT ',
+                          text: cubit.tCLIENT(),
                           dateApi:
                               "${state.searchOrderByDebt[index].client!.firstName} ${state.searchOrderByDebt[index].client!.lastName}"),
                       buildrowData(
-                          text: 'TOTAL',
+                          text: cubit.tTOTAL(),
                           dateApi: '${state.searchOrderByDebt[index].total}'),
                       buildrowData(
-                          text: 'DEBT',
+                          text: cubit.tDEBT(),
                           dateApi:
                               '${state.searchOrderByDebt[index].amountRemaining}'),
                       Padding(
@@ -230,7 +232,6 @@ class _DataContainerOrderByDebtState extends State<DataContainerOrderByDebt> {
             itemCount: state.searchOrderByDebt.length,
           );
         } else if (state is OrderbydebtErrorState) {
-        
           return ErrorWidget(state.message.toString());
         }
         return Container();

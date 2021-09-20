@@ -3,8 +3,10 @@ import 'package:app/Widget/reports/salesReport/export_button.dart';
 import 'package:app/Widget/reports/salesReport/from_to_container.dart';
 import 'package:app/Widget/reports/salesReport/search_container.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../drawer.dart';
@@ -26,6 +28,7 @@ class _SalesReportScreensState extends State<SalesReportScreens> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -40,16 +43,16 @@ class _SalesReportScreensState extends State<SalesReportScreens> {
             child: ImageIcon(
               AssetImage('assets/images/left-align.png'),
             ),
-          ), 
+          ),
         ),
-        title: const Text(
-          "Sales Report",
+        title: Text(
+          cubit.tSalesReport(),
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       drawer: AppDrawer(
-        onPressed: (){},
+        onPressed: () {},
       ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,
