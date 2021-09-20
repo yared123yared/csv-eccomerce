@@ -3,6 +3,7 @@ import 'package:app/Widget/Home/cart/image.dart';
 import 'package:app/Widget/Home/cart/price.dart';
 import 'package:app/Widget/Home/cart/title.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,12 +29,13 @@ class _AllOrderDetailsScreenState extends State<AllOrderDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: const Text(
-          "Orders Details",
+        title: Text(
+          cubit.tOrderDetails(),
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

@@ -13,6 +13,7 @@ import 'package:app/Widget/Home/update_order/update-product-price-info.dart';
 import 'package:app/Widget/Home/update_order/update-single-cart-item.dart';
 import 'package:app/Widget/clients/client_profile/address_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 // import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/product/data.dart';
@@ -103,10 +104,11 @@ class _UpdateOrderState extends State<UpdateOrder> {
         // Navigator.popAndPushNamed(context, AddClient.routeName);
       },
     );
+    final cubit = BlocProvider.of<LanguageCubit>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Update Order"),
+        title: Text(cubit.tUpdateOrder()),
         leading: IconButton(
           onPressed: () {
             Navigator.popAndPushNamed(context, AllOrdersScreen.routeName);
@@ -294,7 +296,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "CART",
+                            cubit.tCART(),
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -316,7 +318,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                   borderRadius: BorderRadius.circular(15)),
                               child: Center(
                                 child: Text(
-                                  "Add",
+                                  cubit.tAdd(),
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -395,7 +397,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                             child: Row(
                               children: [
                                 Text(
-                                  "    Remaining Amount:",
+                                  cubit.tRemainingAmount(),
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
@@ -409,7 +411,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       ),
                     ),
                     ConditionalButton(
-                      name: "UPDATE ORDER",
+                      name: cubit.tUPDATEORDER(),
                       onPressed: () {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState != null) {

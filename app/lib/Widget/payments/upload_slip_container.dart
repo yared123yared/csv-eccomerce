@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:app/Blocs/Payments/patments_state.dart';
 import 'package:app/Blocs/Payments/payments_cubit.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/constants/constants.dart';
@@ -14,13 +15,12 @@ class UploadSlipContainer extends StatefulWidget {
 }
 
 class _UploadSlipContainerState extends State<UploadSlipContainer> {
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentsCubit, PaymentsState>(
       builder: (context, state) {
         final cubit = PaymentsCubit.get(context);
+        final cubits = BlocProvider.of<LanguageCubit>(context);
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
@@ -49,7 +49,7 @@ class _UploadSlipContainerState extends State<UploadSlipContainer> {
                         : Row(
                             children: [
                               Text(
-                                "Upload Slip",
+                                cubits.tUploadSlip(),
                                 style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -74,8 +74,8 @@ class _UploadSlipContainerState extends State<UploadSlipContainer> {
                       onPressed: () {
                         cubit.pickerCamera();
                       },
-                      child: const Text(
-                        "Browse",
+                      child: Text(
+                        cubits.tBrowse(),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

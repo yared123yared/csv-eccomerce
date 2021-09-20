@@ -259,9 +259,9 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tCLIENT() {
     if (getLanguage() == "🇬🇧") {
-      return "Clients";
+      return "CLIENT";
     } else {
-      return "Clients";
+      return "CLIENTS";
     }
   }
 
@@ -350,25 +350,49 @@ class LanguageCubit extends Cubit<LanguageState> {
     }
   }
 
-  String tEnterEmail() {
+  String tEnter() {
     if (getLanguage() == "🇬🇧") {
-      return "Enter Email";
+      return "Enter";
     } else {
-      return "Entrez l'e-mail";
+      return "Entrez";
     }
   }
 
-  String tEnterPassword() {
+  String tEmail() {
     if (getLanguage() == "🇬🇧") {
-      return "Enter Password";
+      return "Email";
     } else {
-      return "Entrer le mot de passe";
+      return "l'e-mail";
+    }
+  }
+
+  String tPassword() {
+    if (getLanguage() == "🇬🇧") {
+      return "Password";
+    } else {
+      return "le mot de passe";
+    }
+  }
+
+  String tEnterCorrectEmail() {
+    if (getLanguage() == "🇬🇧") {
+      return "Enter Correct Email Address";
+    } else {
+      return "Entrez l'adresse e-mail correcte";
+    }
+  }
+
+  String tPasswordTooShort() {
+    if (getLanguage() == "🇬🇧") {
+      return "Password Too Short";
+    } else {
+      return "Mot de passe trop court";
     }
   }
 
   String tForgotPassword() {
     if (getLanguage() == "🇬🇧") {
-      return "Forgot Password";
+      return "Forgot Password?";
     } else {
       return "Mot de passe oublié";
     }
@@ -382,21 +406,53 @@ class LanguageCubit extends Cubit<LanguageState> {
     }
   }
 
-  String tProvideYourAccount() {
+  String tProvideYourAccount1() {
     if (getLanguage() == "🇬🇧") {
-      return "Provide your account email for which you want to reset your password";
+      return "Provide your account email for which";
     } else {
-      return "Indiquez l'e-mail de votre compte pour lequel vous souhaitez réinitialiser votre mot de passe";
+      return "Indiquez l'e-mail de votre compte pour lequel";
+    }
+  }
+
+  String tProvideYourAccount2() {
+    if (getLanguage() == "🇬🇧") {
+      return "you want to reset your password";
+    } else {
+      return "vous souhaitez réinitialiser votre mot de passe";
     }
   }
 
   //Payment Screen Bank Slip
+
+  String tDate() {
+    if (getLanguage() == "🇬🇧") {
+      return "Amount";
+    } else {
+      return "Montant";
+    }
+  }
 
   String tAmount() {
     if (getLanguage() == "🇬🇧") {
       return "Amount";
     } else {
       return "Montant";
+    }
+  }
+
+  String tAMOUNT() {
+    if (getLanguage() == "🇬🇧") {
+      return "AMOUNT";
+    } else {
+      return "MONTANT";
+    }
+  }
+
+  String tSuccessfulDownload() {
+    if (getLanguage() == "🇬🇧") {
+      return "Successful Download";
+    } else {
+      return "Téléchargement réussi";
     }
   }
 
@@ -421,6 +477,22 @@ class LanguageCubit extends Cubit<LanguageState> {
       return "Submit";
     } else {
       return "Soumettre";
+    }
+  }
+
+  String tPleaseUploadInfo() {
+    if (getLanguage() == "🇬🇧") {
+      return "Please Upload info";
+    } else {
+      return "Veuillez télécharger des informations";
+    }
+  }
+
+  String tSuccessfulUploaded() {
+    if (getLanguage() == "🇬🇧") {
+      return "Successful Uploaded";
+    } else {
+      return "Téléchargé avec succès";
     }
   }
 
@@ -647,6 +719,64 @@ class LanguageCubit extends Cubit<LanguageState> {
       return "Next";
     } else {
       return "Prochain";
+    }
+  }
+
+  //Orders Details
+  String tOrderDetails() {
+    if (getLanguage() == "🇬🇧") {
+      return "Orders Details";
+    } else {
+      return "Détails des commandes";
+    }
+  }
+
+  //Update Order
+  String tUpdateOrder() {
+    if (getLanguage() == "🇬🇧") {
+      return "Update Order";
+    } else {
+      return "Mise à jour de la commande";
+    }
+  }
+
+  String tUPDATEORDER() {
+    if (getLanguage() == "🇬🇧") {
+      return "UPDATE ORDER";
+    } else {
+      return "MISE À JOUR DE LA COMMANDE";
+    }
+  }
+
+  String tRemainingAmount() {
+    if (getLanguage() == "🇬🇧") {
+      return "   Remaining Amount:";
+    } else {
+      return "   Montant restant:";
+    }
+  }
+
+  String tPayment() {
+    if (getLanguage() == "🇬🇧") {
+      return "Payment";
+    } else {
+      return "Paiement";
+    }
+  }
+
+  String tCART() {
+    if (getLanguage() == "🇬🇧") {
+      return "CART";
+    } else {
+      return "CHARIOT";
+    }
+  }
+
+  String tAdd() {
+    if (getLanguage() == "🇬🇧") {
+      return "Add";
+    } else {
+      return "Ajouter";
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:app/constants/login/size.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginButton extends StatelessWidget {
   late final Function onPressed;
@@ -7,6 +9,7 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
     return SizedBox(
@@ -14,7 +17,7 @@ class LoginButton extends StatelessWidget {
         height: loginSize.getLoginButtonHeight,
         child: InkWell(
           splashColor: Colors.white,
-          onTap:this.onPressed(),
+          onTap: this.onPressed(),
 
           // onTap: () => _pushPage(context, Register()),
           child: Material(
@@ -29,7 +32,7 @@ class LoginButton extends StatelessWidget {
 
               child: Center(
                   child: Text(
-                'Login',
+                cubit.tLogin(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

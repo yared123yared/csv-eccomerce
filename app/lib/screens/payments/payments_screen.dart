@@ -6,6 +6,7 @@ import 'package:app/Widget/payments/dateTime_container.dart';
 import 'package:app/Widget/payments/search_container.dart';
 import 'package:app/Widget/payments/upload_slip_container.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,6 +18,7 @@ class PaymentsScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    final cubits = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -33,8 +35,8 @@ class PaymentsScreen extends StatelessWidget {
             ),
           ),
         ),
-        title: const Text(
-          "Upload Bank Slip",
+        title: Text(
+          cubits.tUploadBankSlip(),
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -81,7 +83,7 @@ class PaymentsScreen extends StatelessWidget {
                     );
                     if (cubit.dateFromText.isEmpty) {
                       Fluttertoast.showToast(
-                          msg: "Please Upload info",
+                          msg: cubits.tPleaseUploadInfo(),
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,
@@ -90,7 +92,7 @@ class PaymentsScreen extends StatelessWidget {
                           fontSize: 16.0);
                     } else {
                       Fluttertoast.showToast(
-                          msg: "Successful Uploaded",
+                          msg: cubits.tSuccessfulUploaded(),
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,
@@ -101,8 +103,8 @@ class PaymentsScreen extends StatelessWidget {
 
                     cubit.clealuploade();
                   },
-                  child: const Text(
-                    "Submit",
+                  child: Text(
+                    cubits.tSubmit(),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

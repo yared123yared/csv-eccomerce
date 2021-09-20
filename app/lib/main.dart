@@ -58,13 +58,13 @@ import 'package:app/repository/clients_repository.dart';
 import 'package:app/repository/product_repository.dart';
 
 String language = "🇬🇧";
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   http.Client httpClient = http.Client();
 
   final UserPreferences userPreferences = UserPreferences();
 
-  userPreferences.getLanguagePref("language");
+  await userPreferences.getLanguagePref("language");
 
   final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(

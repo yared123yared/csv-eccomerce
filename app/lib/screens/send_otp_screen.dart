@@ -1,5 +1,6 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Widget/Auth/auth-export.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/screens/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +43,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
     double height = screenSize.height;
     double width = screenSize.width;
     double fontSize1 = height * 0.04;
+    final cubit = BlocProvider.of<LanguageCubit>(context);
 
     return Material(
       child: Container(
@@ -102,7 +104,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                           horizontal: 20,
                         ),
                         child: DescriptionText(
-                          text: 'Provide your account email for which',
+                          text: cubit.tProvideYourAccount1(),
                         ),
                       ),
                       Container(
@@ -110,7 +112,7 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                           horizontal: 20,
                         ),
                         child: DescriptionText(
-                          text: 'you want to reset your password',
+                          text: cubit.tProvideYourAccount2(),
                         ),
                       ),
                       //
@@ -118,14 +120,14 @@ class _SendOtpScreenState extends State<SendOtpScreen> {
                         height: height * 0.06,
                       ),
                       CustomTextField(
-                        textFieldName: 'Email Address',
+                        textFieldName: cubit.tEmailAddress(),
                         controller: emailController,
                         icon: Icons.person,
                         validator: (value) {
                           if (value.isEmpty ||
                               !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
-                            return "Enter Correct Email Address";
+                            return cubit.tEnterCorrectEmail();
                           } else {
                             return null;
                           }

@@ -4,6 +4,7 @@ import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.da
 import 'package:app/Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
 import 'package:app/Blocs/reports/SalesRepor_cubit/bloc/sales_report_bloc.dart';
 import 'package:app/Widget/Auth/Common/welcome.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 
 import 'package:app/models/login_info.dart';
 import 'package:app/screens/main_screen.dart';
@@ -85,7 +86,7 @@ class _LoginState extends State<Login> {
     double height = screenSize.height;
     double width = screenSize.width;
     double fontSize1 = height * 0.04;
-
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Material(
       child: Container(
         color: Theme.of(context).accentColor,
@@ -93,7 +94,8 @@ class _LoginState extends State<Login> {
           listener: (context, state) {
             if (state is LoginSuccessState) {
               callFetchEvents();
-              Navigator.of(context).pushReplacementNamed(MainScreen.routeName, arguments: 1);
+              Navigator.of(context)
+                  .pushReplacementNamed(MainScreen.routeName, arguments: 1);
             }
           },
           builder: (context, state) {
@@ -142,14 +144,14 @@ class _LoginState extends State<Login> {
                         height: height * 0.06,
                       ),
                       CustomTextField(
-                        textFieldName: 'Email',
+                        textFieldName: cubit.tEmail(),
                         controller: emailController,
                         icon: Icons.email,
                         validator: (value) {
                           if (value.isEmpty ||
                               !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                   .hasMatch(value)) {
-                            return "Enter Correct Email Address";
+                            return cubit.tEnterCorrectEmail();
                           } else {
                             return null;
                           }
@@ -158,12 +160,12 @@ class _LoginState extends State<Login> {
                       ),
                       SizedBox(height: height * 0.01),
                       CustomTextField(
-                        textFieldName: 'Password',
+                        textFieldName: cubit.tPassword(),
                         controller: passwordController,
                         icon: Icons.lock,
                         validator: (value) {
                           if (value.isEmpty || value.toString().length < 5) {
-                            return "Password Too Short";
+                            return cubit.tPasswordTooShort();
                           } else {
                             return null;
                           }

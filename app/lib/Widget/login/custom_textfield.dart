@@ -1,5 +1,7 @@
 import 'package:app/constants/login/size.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextField extends StatelessWidget {
   final String textFieldName;
@@ -20,6 +22,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginSize loginSize = new LoginSize();
     loginSize.build(context);
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Material(
       color: Colors.white,
       elevation: 1.0,
@@ -37,15 +40,13 @@ class CustomTextField extends StatelessWidget {
             contentPadding: EdgeInsets.only(top: 14),
             prefixIcon: Icon(this.icon),
             border: InputBorder.none,
-            hintText: 'Enter ${this.textFieldName}',
+            hintText: '${cubit.tEnter()} ${this.textFieldName}',
             errorStyle: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.bold,
               textBaseline: TextBaseline.alphabetic,
-               
             ),
             errorMaxLines: 1,
-
           ),
           validator: (value) => validator(value),
         ),
