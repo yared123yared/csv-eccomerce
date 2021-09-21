@@ -281,6 +281,22 @@ class LanguageCubit extends Cubit<LanguageState> {
     }
   }
 
+  String tTotaL() {
+    if (getLanguage() == "🇬🇧") {
+      return "Total";
+    } else {
+      return "Le Total";
+    }
+  }
+
+  String tCheckout() {
+    if (getLanguage() == "🇬🇧") {
+      return "Checkout";
+    } else {
+      return "Vérifier";
+    }
+  }
+
   String tDEBT() {
     if (getLanguage() == "🇬🇧") {
       return "DEBT";
@@ -604,6 +620,38 @@ class LanguageCubit extends Cubit<LanguageState> {
     }
   }
 
+  String tOrder() {
+    if (getLanguage() == "🇬🇧") {
+      return "Order";
+    } else {
+      return "Ordre";
+    }
+  }
+
+  String tName() {
+    if (getLanguage() == "🇬🇧") {
+      return "Name";
+    } else {
+      return "Nom";
+    }
+  }
+
+  String tShippingAddresses() {
+    if (getLanguage() == "🇬🇧") {
+      return "Shipping Addresses";
+    } else {
+      return "Adresses de livraison";
+    }
+  }
+
+  String tBillingAddresses() {
+    if (getLanguage() == "🇬🇧") {
+      return "Billing Addresses";
+    } else {
+      return "Adresses de facturation";
+    }
+  }
+
   String tCREDIT() {
     if (getLanguage() == "🇬🇧") {
       return "CREDIT";
@@ -777,6 +825,138 @@ class LanguageCubit extends Cubit<LanguageState> {
       return "Add";
     } else {
       return "Ajouter";
+    }
+  }
+
+  //Cart Screens
+
+  String tNoItemIntheCart() {
+    if (getLanguage() == "🇬🇧") {
+      return "No Item In the Cart";
+    } else {
+      return "Aucun article dans le panier";
+    }
+  }
+
+  String tPleaseaddsomeproductstothecart() {
+    if (getLanguage() == "🇬🇧") {
+      return "Please add some products to the cart!";
+    } else {
+      return "Veuillez ajouter des produits au panier!";
+    }
+  }
+
+  //Add Client
+
+  String tAddClient() {
+    if (getLanguage() == "🇬🇧") {
+      return "Add Client";
+    } else {
+      return "Ajouter un client";
+    }
+  }
+
+  String tOrderCreatingfailed() {
+    if (getLanguage() == "🇬🇧") {
+      return "Order Creating failed";
+    } else {
+      return "Échec de la création de la commande";
+    }
+  }
+
+  String tRemainingamountgreaterthanyourcreditlimit() {
+    if (getLanguage() == "🇬🇧") {
+      return "Remaining amount greater than your credit limit!";
+    } else {
+      return "Montant restant supérieur à votre limite de crédit!";
+    }
+  }
+
+  String tRequired() {
+    if (getLanguage() == "🇬🇧") {
+      return "Required";
+    } else {
+      return "Obligatoire";
+    }
+  }
+
+  String tAddNewClient() {
+    if (getLanguage() == "🇬🇧") {
+      return "Add New Client";
+    } else {
+      return "Ajouter un nouveau client";
+    }
+  }
+
+  String tPayLater() {
+    if (getLanguage() == "🇬🇧") {
+      return "Pay Later";
+    } else {
+      return "Payer plus tard";
+    }
+  }
+
+  String tPayNow() {
+    if (getLanguage() == "🇬🇧") {
+      return "Pay Now";
+    } else {
+      return "Payez maintenant";
+    }
+  }
+
+  String tProduct() {
+    if (getLanguage() == "🇬🇧") {
+      return "Product";
+    } else {
+      return "Produit";
+    }
+  }
+
+  String tCOLOR() {
+    if (getLanguage() == "🇬🇧") {
+      return "COLOR";
+    } else {
+      return "COULEUR";
+    }
+  }
+
+  String tAddtoCart() {
+    if (getLanguage() == "🇬🇧") {
+      return "Add to Cart";
+    } else {
+      return "Ajouter au chariot";
+    }
+  }
+
+  String tUpdateCart() {
+    if (getLanguage() == "🇬🇧") {
+      return "Update Cart";
+    } else {
+      return "Mise à jour panier";
+    }
+  }
+
+  String tDescriptioncomeshere() {
+    if (getLanguage() == "🇬🇧") {
+      return "Description comes here";
+    } else {
+      return "La description vient ici";
+    }
+  }
+
+  String tPRICE() {
+    if (getLanguage() == "🇬🇧") {
+      return "PRICE";
+    } else {
+      return "LE PRIX";
+    }
+  }
+
+  String tModel() {
+    if (getLanguage() == "🇬🇧") {
+      return "Model";
+    } else {
+      return "Modèle";
     }
   }
 }

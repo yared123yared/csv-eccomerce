@@ -3,12 +3,14 @@ import 'package:app/Widget/Home/product-detail/color-container.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
 import 'package:app/Widget/Home/product-detail/detail-container.dart';
 import 'package:app/Widget/Home/product-detail/product-info.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/product/attributes.dart';
 
 import 'package:app/models/product/data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -105,9 +107,10 @@ class _ProductDetailState extends State<ProductDetail> {
     // ignore: unnecessary_null_comparison
 
     print("Build is sucessfully finished");
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Products", style: TextStyle()),
+          title: Text(cubit.tProduct(), style: TextStyle()),
         ),
         backgroundColor: Theme.of(context).accentColor,
         body: Container(
@@ -217,7 +220,7 @@ class _ProductDetailState extends State<ProductDetail> {
 
                       Row(
                         children: [
-                          Text("COLOR"),
+                          Text(cubit.tCOLOR()),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.03,
                           ),

@@ -1,4 +1,5 @@
 import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +13,7 @@ class _SearchContainerCollState extends State<SearchContainerColl> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         Padding(
@@ -30,7 +32,7 @@ class _SearchContainerCollState extends State<SearchContainerColl> {
                     .add(SearchCollectionEvent(value));
               },
               decoration: InputDecoration(
-                hintText: 'Search by Name',
+                hintText: cubit.tSearchbyName(),
                 border: InputBorder.none,
                 suffixIcon: IconButton(
                   onPressed: () {

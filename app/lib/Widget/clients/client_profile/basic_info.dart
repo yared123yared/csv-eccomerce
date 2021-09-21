@@ -1,6 +1,8 @@
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Common/client_data_row.dart';
 
@@ -11,10 +13,10 @@ class ClientBasicProfile extends StatelessWidget {
   ClientBasicProfile({required this.client});
 
   final String baseUrl = 'http://csv.jithvar.com/storage';
-  
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     Widget photo;
     if (client.photoPath == null) {
       photo = CircleAvatar(
@@ -107,15 +109,20 @@ class ClientBasicProfile extends StatelessWidget {
                     SizedBox(
                       height: 10.0,
                     ),
-                    ClientDataRow(property: 'NAME', value: this.client.name),
                     ClientDataRow(
-                        property: 'CREDIT', value: '${this.client.credit}'),
+                        property: cubit.tNAME(), value: this.client.name),
                     ClientDataRow(
-                        property: 'LEVEL', value: '${this.client.level}'),
+                        property: cubit.tCREDIT(),
+                        value: '${this.client.credit}'),
                     ClientDataRow(
-                        property: 'EMAIL', value: '${this.client.email}'),
+                        property: cubit.tLEVEL(),
+                        value: '${this.client.level}'),
                     ClientDataRow(
-                        property: 'PHONE', value: '${this.client.phone}'),
+                        property: cubit.tEMAIL(),
+                        value: '${this.client.email}'),
+                    ClientDataRow(
+                        property: cubit.tPHONE(),
+                        value: '${this.client.phone}'),
                     //     ClientDataRow(
                     //     property: 'CREDIT LIMIT START DATE', value: '${this.client.creditLimitStartDate}'),
                     // ClientDataRow(

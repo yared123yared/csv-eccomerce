@@ -1,6 +1,7 @@
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/client_edit_screen.dart';
@@ -63,6 +64,7 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
   void editClient() {}
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       color: Color(0xFFf2f6f9),
       child: BlocConsumer<ClientsBloc, ClientsState>(
@@ -99,7 +101,7 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
                         borderRadius: BorderRadius.circular(15)),
                     child: Center(
                       child: Text(
-                        "Add New Client",
+                        cubit.tAddNewClient(),
                         style: TextStyle(color: Colors.white),
                       ),
                     )),

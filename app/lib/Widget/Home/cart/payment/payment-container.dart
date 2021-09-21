@@ -1,4 +1,5 @@
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
@@ -22,7 +23,7 @@ class PaymentContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
-
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -56,7 +57,7 @@ class PaymentContainer extends StatelessWidget {
                         top: MediaQuery.of(context).size.height * 0.02,
                         left: MediaQuery.of(context).size.width * 0.05),
                     child: Text(
-                      "Payment",
+                      cubit.tPayment(),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -117,7 +118,7 @@ class PaymentContainer extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                "Remaining Amount:",
+                                cubit.tRemainingAmount(),
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               SizedBox(

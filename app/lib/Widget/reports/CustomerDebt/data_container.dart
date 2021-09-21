@@ -1,4 +1,5 @@
 import 'package:app/Blocs/reports/CustomerDebt/bloc/custom_debt_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/repoets_model/custom_report_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,13 +55,14 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         BlocBuilder<CustomDebtBloc, CustomDebtState>(
           builder: (context, state) {
             if (state is CustomDebtSuccessState) {
               return Text(
-                "showing ${start} to ${end} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
@@ -97,7 +99,7 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "CLIENT",
+                      cubit.tCLIENT(),
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -105,7 +107,7 @@ class _DataContainerCustomDebtState extends State<DataContainerCustomDebt> {
                       ),
                     ),
                     Text(
-                      "TOTAL",
+                      cubit.tTOTAL(),
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

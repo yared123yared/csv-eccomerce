@@ -688,6 +688,8 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
     );
   }
 
+  
+
   List<Step> getSteps() {
     return [
       getClientAddStep(
@@ -867,13 +869,13 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-     UserPreferences userPreference = new UserPreferences();
-      LoggedUserInfo loggedUserInfo =
-          await userPreference.getUserInformation() as LoggedUserInfo;
-      User user = loggedUserInfo.user as User;
-      
+    UserPreferences userPreference = new UserPreferences();
+    LoggedUserInfo loggedUserInfo =
+        await userPreference.getUserInformation() as LoggedUserInfo;
+    User user = loggedUserInfo.user as User;
+
     SmsSender sender = SmsSender();
-    String address =user.company!.mobile as String;
+    String address = user.company!.mobile as String;
     // SmsSender sender = SmsSender();
     // String address = "0916897173";
 

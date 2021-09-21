@@ -1,10 +1,7 @@
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
-import 'package:app/models/product/data.dart';
-import 'package:app/models/request/request.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
-import 'package:app/screens/cart_screens/cart_screen.dart';
-import 'package:app/screens/category_screen.dart';
 import 'package:app/screens/main_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +14,7 @@ class Checkout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<CartBloc, CartState>(
@@ -29,7 +27,7 @@ class Checkout extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Center(
-                    child: Text("Checkout",
+                    child: Text(cubit.tCheckout(),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -42,8 +40,8 @@ class Checkout extends StatelessWidget {
                       context: context,
                       dialogType: DialogType.ERROR,
                       animType: AnimType.BOTTOMSLIDE,
-                      title: 'No Item In the Cart',
-                      desc: 'Please add some products to the cart!',
+                      title: cubit.tNoItemIntheCart(),
+                      desc: cubit.tPleaseaddsomeproductstothecart(),
                       btnCancelOnPress: () {
                         Navigator.popAndPushNamed(
                             context, MainScreen.routeName);

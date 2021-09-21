@@ -1,4 +1,5 @@
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ class AddToCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return GestureDetector(
         child: Container(
           padding: EdgeInsets.all(10),
@@ -20,12 +22,12 @@ class AddToCart extends StatelessWidget {
           ),
           child: Center(
             child: this.product.order == 0
-                ? Text("Add to Cart",
+                ? Text(cubit.tAddtoCart(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ))
-                : Text("Update Cart",
+                : Text(cubit.tUpdateCart(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
