@@ -82,6 +82,6 @@ class UserPreferences {
 
   Future<String?> getLanguagePref(String value) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    return language = pref.getString(value)!;
+    return language = pref.getString(value) as String;
   }
 }

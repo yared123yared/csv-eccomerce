@@ -85,7 +85,10 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  List<String> flagsChange = ["🇬🇧", "🇫🇷"];
+  List<String> flagsChange = [
+    "🇬🇧",
+    "🇫🇷",
+  ];
   String selectedLang = "🇬🇧";
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
