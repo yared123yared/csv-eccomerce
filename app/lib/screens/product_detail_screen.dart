@@ -24,25 +24,29 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   Attributes? selectedColor = null;
+  // Data product = convert() as Data;
+  // Future<Data> convert() async {
+  //   return await Data.copyWith(product);
+  // }
 
-  void changeSelectedColor(Attributes color) {
+  void changeSelectedColor(Attributes color, Data product) {
     setState(() {
       selectedColor = color;
     });
     int counter = 0;
-    for (int i = 0; i < widget.products.selectedAttributes!.length; i++) {
-      if (widget.products.selectedAttributes![i].name!.contains("Color")) {
+    for (int i = 0; i < product.selectedAttributes!.length; i++) {
+      if (product.selectedAttributes![i].name!.contains("Color")) {
         print("Size attribute already selected.");
 
         // products.selectedAttributes!
         //     .remove(products.selectedAttributes![i]);
-        widget.products.selectedAttributes![i] = selectedColor!;
+        product.selectedAttributes![i] = selectedColor!;
         counter += 1;
       }
     }
     if (counter == 0) {
-      print("First selection of the attribute");
-      widget.products.selectedAttributes!.add(selectedColor!);
+      print("First selection of the color attribute");
+      product.selectedAttributes!.add(selectedColor!);
     } else {
       print("Updating the attribute");
     }
@@ -50,39 +54,44 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print("Arrived at the product detail page detail.");
+    Data product = new Data();
+    // product.id = widget.products.id;
+    product.copyWith(widget.products);
+    print("Detail data: ${widget.products.toJson()}");
+    print("Converted data: ${product.toJson()}");
+//  Data  product = Data.copyWith(product);
     // Data? products = ModalRoute.of(context)!.settings.arguments as Data;
     String image =
-        'https://csv.jithvar.com/storage/${widget.products.photos![0].filePath.toString()}';
+        'https://csv.jithvar.com/storage/${product.photos![0].filePath.toString()}';
     List<String> photos = [];
-    if (this.widget.products.photos != []) {
-      for (int i = 0; i < this.widget.products.photos!.length; i++) {
+    if (product.photos != []) {
+      for (int i = 0; i < product.photos!.length; i++) {
         photos.add(
-            'https://csv.jithvar.com/storage/${widget.products.photos![i].filePath.toString()}');
+            'https://csv.jithvar.com/storage/${product.photos![i].filePath.toString()}');
       }
     }
 
     // check the size here.
     List<String?> size = [];
     List<Attributes> color = [];
-    print("Detail data: ${widget.products.toJson()}");
-    if (widget.products.attributes != null) {
-      List<Attributes> attributes =
-          widget.products.attributes as List<Attributes>;
 
-      print("Attributes Size: ${widget.products.attributes![0].name}");
-      for (int i = 0; i < widget.products.attributes!.length; i++) {
-        print("Attributes: ${widget.products.attributes}");
-        print("products.attributes: ${widget.products.attributes![i].name}");
-        if (widget.products.attributes![i].name!.contains('Size')) {
-          print("Size:  ${widget.products.attributes![i].pivot!.value}");
-          size.add(widget.products.attributes![i].pivot!.value);
+    if (product.attributes != null) {
+      List<Attributes> attributes = product.attributes as List<Attributes>;
+
+      print("Attributes Size: ${product.attributes![0].name}");
+      for (int i = 0; i < product.attributes!.length; i++) {
+        print("Attributes: ${product.attributes}");
+        print("products.attributes: ${product.attributes![i].name}");
+        if (product.attributes![i].name!.contains('Size')) {
+          print("Size:  ${product.attributes![i].pivot!.value}");
+          size.add(product.attributes![i].pivot!.value);
         }
       }
       // check color
 
-      for (int i = 0; i < widget.products.attributes!.length; i++) {
-        List<Attributes> attributes =
-            widget.products.attributes as List<Attributes>;
+      for (int i = 0; i < product.attributes!.length; i++) {
+        List<Attributes> attributes = product.attributes as List<Attributes>;
         if (attributes[i].name!.contains('Color')) {
           // print("Color:  ${attributes[i].pivot!.value}");
           color.add(attributes[i]);
@@ -91,13 +100,35 @@ class _ProductDetailState extends State<ProductDetail> {
     }
     if (selectedColor == null) {
       selectedColor = color[0];
+      //product.selectedAttributes![i] = selectedColor!;
+
     }
+    // Check if the color seelction ahve null value or not.
+    int counter = 0;
+    for (int i = 0; i < product.selectedAttributes!.length; i++) {
+      if (product.selectedAttributes![i].name!.contains("Color")) {
+        print("Size attribute already selected.");
+
+        // products.selectedAttributes!
+        //     .remove(products.selectedAttributes![i]);
+        product.selectedAttributes![i] = selectedColor!;
+        counter += 1;
+      }
+    }
+    if (counter == 0) {
+      print("First selection of the color attribute");
+      product.selectedAttributes!.add(selectedColor!);
+    } else {
+      print("Updating the attribute");
+    }
+
     print("Adding to the color container");
     List<Widget> colorContainer = [];
     for (int i = 0; i < color.length; i++) {
       print("Color for the widget: ${color}");
       colorContainer.add(ColorContainer(
         color: color[i],
+        
         selectedColor: this.selectedColor as Attributes,
         onPressed: this.changeSelectedColor,
       ));
@@ -165,7 +196,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     Container(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: AutoSizeText(
-                        "${this.widget.products.name}",
+                        "${product.name}",
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -174,7 +205,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                     ),
                     Text(
-                      "\$${this.widget.products.price}",
+                      "\$${product.price}",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -186,8 +217,8 @@ class _ProductDetailState extends State<ProductDetail> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: AutoSizeText(
-                    this.widget.products.categories!.length != 0
-                        ? "${widget.products.categories![0].fullName}"
+                    product.categories!.length != 0
+                        ? "${product.categories![0].fullName}"
                         : "",
                     style: TextStyle(
                       fontWeight: FontWeight.w300,
@@ -210,7 +241,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                         0.09,
                                   ),
                                   CustomeDropDown(
-                                    product: widget.products,
+                                    product: product,
                                   ),
                                 ])),
                       // CustomeDropDown(product: products,),
@@ -231,14 +262,14 @@ class _ProductDetailState extends State<ProductDetail> {
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 ProductInfo(
-                  product: this.widget.products,
+                  product: product,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 AddToCart(
                   onTapped: this.widget.onClicked,
-                  product: this.widget.products,
+                  product: product,
                 )
               ],
             ),

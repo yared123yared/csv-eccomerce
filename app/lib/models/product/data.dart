@@ -57,21 +57,21 @@ class Data {
   List<Attributes>? selectedAttributes = [];
   //
 
-  Data({
-    this.id,
-    this.name,
-    this.model,
-    this.price,
-    this.quantity,
-    this.manufacturerId,
-    this.status,
-    this.currencyId,
-    // this.brand,
-    this.photos,
-    // this.currency,
-    this.categories,
-    this.attributes,
-  });
+  Data(
+      {this.id,
+      this.name,
+      this.model,
+      this.price,
+      this.quantity,
+      this.manufacturerId,
+      this.status,
+      this.currencyId,
+      // this.brand,
+      this.photos,
+      // this.currency,
+      this.categories,
+      this.attributes,
+      this.selectedAttributes});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -149,5 +149,23 @@ class Data {
     data['currency_id'] = this.currencyId;
     data['orders'] = this.order;
     return data;
+  }
+
+  void copyWith(Data data) {
+    this.attributes = data.attributes;
+    this.categories = data.categories;
+    this.currencyId = data.currencyId;
+    this.id = data.id;
+    this.manufacturerId = data.manufacturerId;
+    this.model = data.model;
+    this.name = data.name;
+    this.photos = data.photos;
+    this.price = data.price;
+    this.quantity = data.quantity;
+    this.status = data.status;
+    // photos:
+    // data.photos,
+    this.selectedAttributes=
+    data.selectedAttributes;
   }
 }

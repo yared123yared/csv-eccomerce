@@ -81,4 +81,6 @@ class Products {
     data['total'] = this.total;
     return data;
   }
+
+  
 }

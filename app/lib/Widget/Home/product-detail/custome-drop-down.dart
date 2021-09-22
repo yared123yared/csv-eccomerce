@@ -16,6 +16,7 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
   @override
   Widget build(BuildContext context) {
     Data product = widget.product;
+
     List<Attributes?> size = [];
 
     for (int i = 0; i < product.attributes!.length; i++) {
