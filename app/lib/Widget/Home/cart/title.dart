@@ -6,6 +6,7 @@ class ProductTitle extends StatelessWidget {
   ProductTitle({required this.name});
   @override
   Widget build(BuildContext context) {
+    print("+++++++++Arrived at the product name ");
     return Container(
       width: MediaQuery.of(context).size.width * 0.5,
       height: MediaQuery.of(context).size.height * 0.03,
@@ -13,7 +14,7 @@ class ProductTitle extends StatelessWidget {
         "${name}",
         style: TextStyle(
             fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
-        maxLines: 2,
+        maxLines: 3,
       ),
     );
   }
