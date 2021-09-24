@@ -1,6 +1,8 @@
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomeDropDown extends StatefulWidget {
   final Data product;
@@ -11,10 +13,12 @@ class CustomeDropDown extends StatefulWidget {
 
 class _CustomeDropDownState extends State<CustomeDropDown> {
   Attributes? dropdownValue = null;
+  late CartBloc cartbloc;
   // List<Attributes> selectedAttributesObject = [];
 
   @override
   Widget build(BuildContext context) {
+    cartbloc = BlocProvider.of<CartBloc>(context);
     Data product = widget.product;
 
     List<Attributes?> size = [];
@@ -42,6 +46,7 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
           counter += 1;
         }
       }
+
       if (counter == 0) {
         print("First selection of the attribute");
         product.selectedAttributes!.add(dropdownValue!);
@@ -62,6 +67,7 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
           color: Colors.deepPurpleAccent,
         ),
         onChanged: (Attributes? newValue) {
+          cartbloc.add(logEvent());
           print("Newly selected attributes: ${newValue!.pivot!.id}");
           setState(() {
             dropdownValue = newValue;
@@ -69,6 +75,7 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
           });
           int counter = 0;
           // product.selectedAttributes!=[];
+
           for (int i = 0; i < product.selectedAttributes!.length; i++) {
             if (product.selectedAttributes![i].name!.contains("Size")) {
               print("Size attribute already selected.");
@@ -79,6 +86,7 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
               counter += 1;
             }
           }
+
           if (counter == 0) {
             print("First selection of the attribute");
             product.selectedAttributes!.add(dropdownValue!);
@@ -86,8 +94,8 @@ class _CustomeDropDownState extends State<CustomeDropDown> {
             print("Updating the attribute");
           }
 
-          // product.selectedAttributes!.add(newValue.pivot!.id as int);
-          print("Attributes: ${product.selectedAttributes}");
+          // product.selectedAttributes!.add(newValue.pivot!.
+          // cartbloc.add(logEvent());
         },
         // ignore: unnecessary_null_comparison
         items: size == null

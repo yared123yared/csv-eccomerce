@@ -119,17 +119,17 @@ class _SingleCartItemState extends State<SingleCartItem> {
 
 
   void increment() {
-    // setState(() {
-    //   widget.product.order++;
-    // });
+    setState(() {
+      widget.product.order++;
+    });
 productBloc.add(SingleProductUpdate(singleProduct: widget.product));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: true));
   }
 
   void decrement() {
-    // setState(() {
-    //   widget.product.order--;
-    // });
+    setState(() {
+      widget.product.order--;
+    });
 productBloc.add(SingleProductUpdate(singleProduct: widget.product));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: false));
   }

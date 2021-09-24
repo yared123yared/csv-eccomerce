@@ -10,6 +10,8 @@ abstract class CartEvent {
 
 class InitializeCart extends CartEvent {}
 
+class logEvent extends CartEvent {}
+
 class AddProduct extends CartEvent {
   final Data singleProduct;
   final increment;
