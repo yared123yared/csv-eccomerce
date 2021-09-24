@@ -1,13 +1,16 @@
 import 'package:app/Widget/Home/cart/add-client/search-bar.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'client-display.dart';
 import 'client-title.dart';
 
 class InvoSearchClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
       child: Card(
@@ -32,7 +35,7 @@ class InvoSearchClient extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Search Client",
+                      cubit.tSearchClient(),
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,

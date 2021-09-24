@@ -1,5 +1,6 @@
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/add-client/search-bar.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'client-title.dart';
 class SearchClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return BlocBuilder<OrdersBloc, OrdersState>(builder: (context, state) {
       return Padding(
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
@@ -37,7 +39,7 @@ class SearchClient extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Search Client",
+                            cubit.tSearchClient(),
                             style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
@@ -45,12 +47,12 @@ class SearchClient extends StatelessWidget {
                           ),
                         ),
                         Visibility(
-                          visible: state.request.clientId == null?true:false,
-                          child: BlinkText("*Required",
+                          visible:
+                              state.request.clientId == null ? true : false,
+                          child: BlinkText("*${cubit.tRequired()}",
                               style: TextStyle(
-                                  color:Colors.red,
-                                  fontWeight:FontWeight.bold
-                                    )),
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -62,7 +64,7 @@ class SearchClient extends StatelessWidget {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.5,
                               child: AutoSizeText(
-                                  'Showing 1 to 5 entries of 5 entries',
+                                  '${cubit.tshowing()} 1 ${cubit.tTo()}  5 ${cubit.tentries()}  ${cubit.tOf()}  5 ${cubit.tentries()}',
                                   maxLines: 1,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w300,

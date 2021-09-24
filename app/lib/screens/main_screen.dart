@@ -85,7 +85,10 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  List<String> flagsChange = ["🇬🇧", "🇫🇷"];
+  List<String> flagsChange = [
+    "🇬🇧",
+    "🇫🇷",
+  ];
   String selectedLang = "🇬🇧";
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,7 +108,7 @@ class _MainScreenState extends State<MainScreen> {
                 ? Text('CSV')
                 : this.check == 2
                     ? Text('CSV')
-                    : Text('Client Profile'),
+                    : Text(cubit.tClientProfile()),
         // title: Text(
         //   "CSV",
         //   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

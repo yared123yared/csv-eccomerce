@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
@@ -132,15 +133,16 @@ class _ClientsScreenState extends State<ClientsScreen> {
   void editClient() {}
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       drawer: AppDrawer(
-      onPressed: (){},
+        onPressed: () {},
       ),
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Clients',
+          cubit.tClients(),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
@@ -230,7 +232,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                   child: Column(
                     children: [
                       Text(
-                        'showing ${start} to ${end} of ${total} entries',
+                        '${cubit.tshowing()}  ${start} ${cubit.tTo()} ${end} ${cubit.tOf()} ${total} ${cubit.tentries()}',
                         style: TextStyle(
                           color: Colors.black54,
                         ),

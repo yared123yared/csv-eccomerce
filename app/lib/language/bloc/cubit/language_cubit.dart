@@ -22,251 +22,251 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   //Drawer
   String tDashBoard() {
-    if (getLanguage() == "🇬🇧") {
-      return "Dashboard";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Tableau de bord";
+    } else {
+      return "Dashboard";
     }
   }
 
   String tShop() {
-    if (getLanguage() == "🇬🇧") {
-      return "Shops";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Boutique";
+    } else {
+      return "Shops";
     }
   }
 
   String tOrders() {
-    if (getLanguage() == "🇬🇧") {
-      return "Orders";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Ordres";
+    } else {
+      return "Orders";
     }
   }
 
   String tPayments() {
-    if (getLanguage() == "🇬🇧") {
-      return "Payments";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Paiements";
+    } else {
+      return "Payments";
     }
   }
 
   String tReports() {
-    if (getLanguage() == "🇬🇧") {
-      return "Reports";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Rapports";
+    } else {
+      return "Reports";
     }
   }
 
   String tClientManagement() {
-    if (getLanguage() == "🇬🇧") {
-      return "Client Management";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "La gestion des clients";
+    } else {
+      return "Client Management";
     }
   }
 
   String tSignout() {
-    if (getLanguage() == "🇬🇧") {
-      return "Sign out";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Déconnexion";
+    } else {
+      return "Sign out";
     }
   }
 
   //Orders
 
   String tAllOrders() {
-    if (getLanguage() == "🇬🇧") {
-      return "All Orders";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Tous les ordres";
+    } else {
+      return "All Orders";
     }
   }
 
   String tOrdersByDebt() {
-    if (getLanguage() == "🇬🇧") {
-      return "Orders By Debt";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Commandes par dette";
+    } else {
+      return "Orders By Debt";
     }
   }
 
 // Reposrts
 
   String tSalesReport() {
-    if (getLanguage() == "🇬🇧") {
-      return "Sales Report";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Rapport des ventes";
+    } else {
+      return "Sales Report";
     }
   }
 
   String tCollectionReport() {
-    if (getLanguage() == "🇬🇧") {
-      return "Collection Report";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Rapport de collecte";
+    } else {
+      return "Collection Report";
     }
   }
 
   String tCustomerByDebt() {
-    if (getLanguage() == "🇬🇧") {
-      return "Customer By Debt";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Client par dette";
+    } else {
+      return "Customer By Debt";
     }
   }
 
   //Payments
 
   String tBankDeposit() {
-    if (getLanguage() == "🇬🇧") {
-      return "Bank Deposit";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Dépôt bancaire";
+    } else {
+      return "Bank Deposit";
     }
   }
 
   //Client Management
 
   String tClients() {
-    if (getLanguage() == "🇬🇧") {
-      return "Clients";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "clientes";
+    } else {
+      return "Clients";
     }
   }
 
   String tInvoices() {
-    if (getLanguage() == "🇬🇧") {
-      return "Invoices";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Factures";
+    } else {
+      return "Invoices";
     }
   }
   ///////////////////////////////
   /// DashBoard Screen
 
   String tCreditLimit() {
-    if (getLanguage() == "🇬🇧") {
-      return "Credit Limit";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Limite de crédit";
+    } else {
+      return "Credit Limit";
     }
   }
 
   String tActivityPeriod() {
-    if (getLanguage() == "🇬🇧") {
-      return "Activity Period:";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Période d'activité :";
+    } else {
+      return "Activity Period:";
     }
   }
 
   String tTotalDebts() {
-    if (getLanguage() == "🇬🇧") {
-      return "Total Debts";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Dettes totales";
+    } else {
+      return "Total Debts";
     }
   }
 
   String tTotalPayments() {
-    if (getLanguage() == "🇬🇧") {
-      return "Total Payments";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Paiements totaux";
+    } else {
+      return "Total Payments";
     }
   }
 
   String tRecentOrders() {
-    if (getLanguage() == "🇬🇧") {
-      return "Recent Orders";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Dernières commandes";
+    } else {
+      return "Recent Orders";
     }
   }
 
   String tSearchbyName() {
-    if (getLanguage() == "🇬🇧") {
-      return "Search by Name";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Recherche par nom";
+    } else {
+      return "Search by Name";
     }
   }
 
   String tDailyDebtCollection() {
-    if (getLanguage() == "🇬🇧") {
-      return "Daily Debt Collection";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Recouvrement quotidien de créances";
+    } else {
+      return "Daily Debt Collection";
     }
   }
 
   String tMonthlyDebtCollection() {
     if (getLanguage() == "🇬🇧") {
-      return "Monthly Debt Collection";
-    } else {
       return "Recouvrement mensuel de créances";
+    } else {
+      return "Monthly Debt Collection";
     }
   }
 
   String tTotalCollection() {
-    if (getLanguage() == "🇬🇧") {
-      return "Total Collection";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Collecte totale";
+    } else {
+      return "Total Collection";
     }
   }
 
   String tMonthlyCollection() {
-    if (getLanguage() == "🇬🇧") {
-      return "Monthly Collection";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Collecte mensuelle";
+    } else {
+      return "Monthly Collection";
     }
   }
 
   String tFrom() {
-    if (getLanguage() == "🇬🇧") {
-      return "From";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "De";
+    } else {
+      return "From";
     }
   }
 
   String tTo() {
-    if (getLanguage() == "🇬🇧") {
-      return "To";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "À";
+    } else {
+      return "To";
     }
   }
 
   //Containersss
 
   String tORDERNUMBER() {
-    if (getLanguage() == "🇬🇧") {
-      return "ORDER NUMBER";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "NUMÉRO DE COMMANDE";
+    } else {
+      return "ORDER NUMBER";
     }
   }
 
   String tCLIENT() {
-    if (getLanguage() == "🇬🇧") {
-      return "CLIENT";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "CLIENTS";
+    } else {
+      return "CLIENT";
     }
   }
 
   String tDATE() {
-    if (getLanguage() == "🇬🇧") {
+    if (getLanguage() == "🇫🇷") {
       return "DATE";
     } else {
       return "DATE";
@@ -274,18 +274,34 @@ class LanguageCubit extends Cubit<LanguageState> {
   }
 
   String tTOTAL() {
-    if (getLanguage() == "🇬🇧") {
-      return "TOTAL";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "LE TOTAL";
+    } else {
+      return "TOTAL";
+    }
+  }
+
+  String tTotaL() {
+    if (getLanguage() == "🇫🇷") {
+      return "Le Total";
+    } else {
+      return "Total";
+    }
+  }
+
+  String tCheckout() {
+    if (getLanguage() == "🇫🇷") {
+      return "Vérifier";
+    } else {
+      return "Checkout";
     }
   }
 
   String tDEBT() {
-    if (getLanguage() == "🇬🇧") {
-      return "DEBT";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "DETTE";
+    } else {
+      return "DEBT";
     }
   }
 
@@ -293,490 +309,654 @@ class LanguageCubit extends Cubit<LanguageState> {
   ///All Orders Screen
 
   String tORDER() {
-    if (getLanguage() == "🇬🇧") {
-      return "ORDER";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "ORDRE";
+    } else {
+      return "ORDER";
     }
   }
 
   String tPAIDAMOUNT() {
-    if (getLanguage() == "🇬🇧") {
-      return "PAID AMOUNT";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "MONTANT PAYÉ";
+    } else {
+      return "PAID AMOUNT";
     }
   }
 
 // incres number pages
   String tshowing() {
-    if (getLanguage() == "🇬🇧") {
-      return "showing";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "montrant";
+    } else {
+      return "showing";
     }
   }
 
   String tOf() {
-    if (getLanguage() == "🇬🇧") {
-      return "of";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "de";
+    } else {
+      return "of";
     }
   }
 
   String tentries() {
-    if (getLanguage() == "🇬🇧") {
-      return "entries";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "entrées";
+    } else {
+      return "entries";
     }
   }
 
 //Login Scree
   String tLogin() {
-    if (getLanguage() == "🇬🇧") {
-      return "Login";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Connexion";
+    } else {
+      return "Login";
     }
   }
 
   String tWelcomeToCSV() {
-    if (getLanguage() == "🇬🇧") {
-      return "Welcome to Csv";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Bienvenue sur Csv";
+    } else {
+      return "Welcome to Csv";
     }
   }
 
   String tEnter() {
-    if (getLanguage() == "🇬🇧") {
-      return "Enter";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Entrez";
+    } else {
+      return "Enter";
     }
   }
 
   String tEmail() {
-    if (getLanguage() == "🇬🇧") {
-      return "Email";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "l'e-mail";
+    } else {
+      return "Email";
     }
   }
 
   String tPassword() {
-    if (getLanguage() == "🇬🇧") {
-      return "Password";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "le mot de passe";
+    } else {
+      return "Password";
     }
   }
 
   String tEnterCorrectEmail() {
-    if (getLanguage() == "🇬🇧") {
-      return "Enter Correct Email Address";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Entrez l'adresse e-mail correcte";
+    } else {
+      return "Enter Correct Email Address";
     }
   }
 
   String tPasswordTooShort() {
-    if (getLanguage() == "🇬🇧") {
-      return "Password Too Short";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Mot de passe trop court";
+    } else {
+      return "Password Too Short";
     }
   }
 
   String tForgotPassword() {
-    if (getLanguage() == "🇬🇧") {
-      return "Forgot Password?";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Mot de passe oublié";
+    } else {
+      return "Forgot Password?";
     }
   }
 
   String tEmailAddress() {
-    if (getLanguage() == "🇬🇧") {
-      return "Email Address";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Adresse e-mail";
+    } else {
+      return "Email Address";
     }
   }
 
   String tProvideYourAccount1() {
-    if (getLanguage() == "🇬🇧") {
-      return "Provide your account email for which";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Indiquez l'e-mail de votre compte pour lequel";
+    } else {
+      return "Provide your account email for which";
     }
   }
 
   String tProvideYourAccount2() {
-    if (getLanguage() == "🇬🇧") {
-      return "you want to reset your password";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "vous souhaitez réinitialiser votre mot de passe";
+    } else {
+      return "you want to reset your password";
     }
   }
 
   //Payment Screen Bank Slip
 
   String tDate() {
-    if (getLanguage() == "🇬🇧") {
-      return "Amount";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Montant";
+    } else {
+      return "Amount";
     }
   }
 
   String tAmount() {
-    if (getLanguage() == "🇬🇧") {
-      return "Amount";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Montant";
+    } else {
+      return "Amount";
     }
   }
 
   String tAMOUNT() {
-    if (getLanguage() == "🇬🇧") {
-      return "AMOUNT";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "MONTANT";
+    } else {
+      return "AMOUNT";
     }
   }
 
   String tSuccessfulDownload() {
-    if (getLanguage() == "🇬🇧") {
-      return "Successful Download";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Téléchargement réussi";
+    } else {
+      return "Successful Download";
     }
   }
 
   String tUploadSlip() {
-    if (getLanguage() == "🇬🇧") {
-      return "Upload Slip";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Télécharger le bordereau";
+    } else {
+      return "Upload Slip";
     }
   }
 
   String tBrowse() {
-    if (getLanguage() == "🇬🇧") {
-      return "Browse";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Parcourir";
+    } else {
+      return "Browse";
     }
   }
 
   String tSubmit() {
-    if (getLanguage() == "🇬🇧") {
-      return "Submit";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Soumettre";
+    } else {
+      return "Submit";
     }
   }
 
   String tPleaseUploadInfo() {
-    if (getLanguage() == "🇬🇧") {
-      return "Please Upload info";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Veuillez télécharger des informations";
+    } else {
+      return "Please Upload info";
     }
   }
 
   String tSuccessfulUploaded() {
-    if (getLanguage() == "🇬🇧") {
-      return "Successful Uploaded";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Téléchargé avec succès";
+    } else {
+      return "Successful Uploaded";
     }
   }
 
   String tSearchbyAmount() {
-    if (getLanguage() == "🇬🇧") {
-      return "Search by Amount";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Recherche par montant";
+    } else {
+      return "Search by Amount";
     }
   }
 
   String tSLIP() {
-    if (getLanguage() == "🇬🇧") {
-      return "SLIP";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "GLISSER";
+    } else {
+      return "SLIP";
     }
   }
 
   String tSTATUS() {
-    if (getLanguage() == "🇬🇧") {
-      return "STATUS";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "STATUT";
+    } else {
+      return "STATUS";
     }
   }
 
   String tDENYREASON() {
     if (getLanguage() == "🇬🇧") {
-      return "DENY REASON";
-    } else {
       return "RAISON DE REFUS";
+    } else {
+      return "DENY REASON";
     }
   }
 
   String tUploadBankSlip() {
-    if (getLanguage() == "🇬🇧") {
-      return "Upload Bank Slip";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Télécharger le bordereau";
+    } else {
+      return "Upload Bank Slip";
     }
   }
   // Sales Report
 
   String tCLIENTNAME() {
-    if (getLanguage() == "🇬🇧") {
-      return "CLIENT NAME";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "NOM DU CLIENT";
+    } else {
+      return "CLIENT NAME";
     }
   }
 
   String tPAID() {
-    if (getLanguage() == "🇬🇧") {
-      return "PAID";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "PAYÉ";
+    } else {
+      return "PAID";
     }
   }
 
   String tClear() {
-    if (getLanguage() == "🇬🇧") {
-      return "Clear";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Dégager";
+    } else {
+      return "Clear";
     }
   }
 
   String tExport() {
-    if (getLanguage() == "🇬🇧") {
-      return "Export";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Exportation";
+    } else {
+      return "Export";
     }
   }
 
   //Collection Report
   String tPAYMENTDATE() {
-    if (getLanguage() == "🇬🇧") {
-      return "PAYMENT DATE";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "DATE DE PAIEMENT";
+    } else {
+      return "PAYMENT DATE";
     }
   }
 
   String tPAYMENTMETHOD() {
-    if (getLanguage() == "🇬🇧") {
-      return "PAYMENT METHOD";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "MODE DE PAIEMENT";
+    } else {
+      return "PAYMENT METHOD";
     }
   }
 
   //Client Profile dropbutton
 
   String tClientProfile() {
-    if (getLanguage() == "🇬🇧") {
-      return "Client Profile";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Profil client";
+    } else {
+      return "Client Profile";
     }
   }
 
   String tNAME() {
-    if (getLanguage() == "🇬🇧") {
-      return "NAME";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "NOM";
+    } else {
+      return "NAME";
+    }
+  }
+
+  String tOrder() {
+    if (getLanguage() == "🇫🇷") {
+      return "Ordre";
+    } else {
+      return "Order";
+    }
+  }
+
+  String tName() {
+    if (getLanguage() == "🇫🇷") {
+      return "Nom";
+    } else {
+      return "Name";
+    }
+  }
+
+  String tShippingAddresses() {
+    if (getLanguage() == "🇫🇷") {
+      return "Adresses de livraison";
+    } else {
+      return "Shipping Addresses";
+    }
+  }
+
+  String tBillingAddresses() {
+    if (getLanguage() == "🇫🇷") {
+      return "Adresses de facturation";
+    } else {
+      return "Billing Addresses";
     }
   }
 
   String tCREDIT() {
-    if (getLanguage() == "🇬🇧") {
-      return "CREDIT";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "CRÉDIT";
+    } else {
+      return "CREDIT";
     }
   }
 
   String tLEVEL() {
-    if (getLanguage() == "🇬🇧") {
-      return "LEVEL";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "NIVEAU";
+    } else {
+      return "LEVEL";
     }
   }
 
   String tEMAIL() {
-    if (getLanguage() == "🇬🇧") {
-      return "EMAIL";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "E-MAIL";
+    } else {
+      return "EMAIL";
     }
   }
 
   String tPHONE() {
-    if (getLanguage() == "🇬🇧") {
-      return "PHONE";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "TÉLÉPHONE";
+    } else {
+      return "PHONE";
     }
   }
 
   // invoices screen
 
   String tSearchClient() {
-    if (getLanguage() == "🇬🇧") {
-      return "Search Client";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Rechercher un client";
+    } else {
+      return "Search Client";
     }
   }
 
   String tSearch() {
-    if (getLanguage() == "🇬🇧") {
-      return "Search";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Chercher";
+    } else {
+      return "Search";
     }
   }
 
   String tInvoName() {
-    if (getLanguage() == "🇬🇧") {
-      return "Name";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Nom";
+    } else {
+      return "Name";
     }
   }
 
   // Clients drawer screen
 
   String tSearchByNameMobileEmail() {
-    if (getLanguage() == "🇬🇧") {
-      return "Search By Name Mobile, Email";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Recherche par nom Mobile, E-mail";
+    } else {
+      return "Search By Name Mobile, Email";
     }
   }
 
   String tQUANTITY() {
-    if (getLanguage() == "🇬🇧") {
-      return "QUANTITY";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "QUANTITÉ";
+    } else {
+      return "QUANTITY";
     }
   }
 
   //Create Client Screen
 
   String tGeneralInformation() {
-    if (getLanguage() == "🇬🇧") {
-      return "General Information";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Informations générales";
+    } else {
+      return "General Information";
     }
   }
 
   String tFirstName() {
-    if (getLanguage() == "🇬🇧") {
-      return "First Name";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Prénom";
+    } else {
+      return "First Name";
     }
   }
 
   String tLastName() {
-    if (getLanguage() == "🇬🇧") {
-      return "Last Name";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Nom de famille";
+    } else {
+      return "Last Name";
     }
   }
 
   String tPhoto() {
-    if (getLanguage() == "🇬🇧") {
+    if (getLanguage() == "🇫🇷") {
       return "Photo";
     } else {
-      return "photo";
+      return "Photo";
     }
   }
 
   String tNext() {
-    if (getLanguage() == "🇬🇧") {
-      return "Next";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Prochain";
+    } else {
+      return "Next";
     }
   }
 
   //Orders Details
   String tOrderDetails() {
-    if (getLanguage() == "🇬🇧") {
-      return "Orders Details";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Détails des commandes";
+    } else {
+      return "Orders Details";
     }
   }
 
   //Update Order
   String tUpdateOrder() {
-    if (getLanguage() == "🇬🇧") {
-      return "Update Order";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Mise à jour de la commande";
+    } else {
+      return "Update Order";
     }
   }
 
   String tUPDATEORDER() {
-    if (getLanguage() == "🇬🇧") {
-      return "UPDATE ORDER";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "MISE À JOUR DE LA COMMANDE";
+    } else {
+      return "UPDATE ORDER";
     }
   }
 
   String tRemainingAmount() {
-    if (getLanguage() == "🇬🇧") {
-      return "   Remaining Amount:";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "   Montant restant:";
+    } else {
+      return "   Remaining Amount:";
     }
   }
 
   String tPayment() {
-    if (getLanguage() == "🇬🇧") {
-      return "Payment";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Paiement";
+    } else {
+      return "Payment";
     }
   }
 
   String tCART() {
-    if (getLanguage() == "🇬🇧") {
-      return "CART";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "CHARIOT";
+    } else {
+      return "CART";
     }
   }
 
   String tAdd() {
-    if (getLanguage() == "🇬🇧") {
-      return "Add";
-    } else {
+    if (getLanguage() == "🇫🇷") {
       return "Ajouter";
+    } else {
+      return "Add";
+    }
+  }
+
+  //Cart Screens
+
+  String tNoItemIntheCart() {
+    if (getLanguage() == "🇫🇷") {
+      return "Aucun article dans le panier";
+    } else {
+      return "No Item In the Cart";
+    }
+  }
+
+  String tPleaseaddsomeproductstothecart() {
+    if (getLanguage() == "🇫🇷") {
+      return "Veuillez ajouter des produits au panier!";
+    } else {
+      return "Please add some products to the cart!";
+    }
+  }
+
+  //Add Client
+
+  String tAddClient() {
+    if (getLanguage() == "🇫🇷") {
+      return "Ajouter un client";
+    } else {
+      return "Add Client";
+    }
+  }
+
+  String tOrderCreatingfailed() {
+    if (getLanguage() == "🇫🇷") {
+      return "Échec de la création de la commande";
+    } else {
+      return "Order Creating failed";
+    }
+  }
+
+  String tRemainingamountgreaterthanyourcreditlimit() {
+    if (getLanguage() == "🇫🇷") {
+      return "Montant restant supérieur à votre limite de crédit!";
+    } else {
+      return "Remaining amount greater than your credit limit!";
+    }
+  }
+
+  String tRequired() {
+    if (getLanguage() == "🇫🇷") {
+      return "Obligatoire";
+    } else {
+      return "Required";
+    }
+  }
+
+  String tAddNewClient() {
+    if (getLanguage() == "🇫🇷") {
+      return "Ajouter un nouveau client";
+    } else {
+      return "Add New Client";
+    }
+  }
+
+  String tPayLater() {
+    if (getLanguage() == "🇫🇷") {
+      return "Payer plus tard";
+    } else {
+      return "Pay Later";
+    }
+  }
+
+  String tPayNow() {
+    if (getLanguage() == "🇫🇷") {
+      return "Payez maintenant";
+    } else {
+      return "Pay Now";
+    }
+  }
+
+  String tProduct() {
+    if (getLanguage() == "🇫🇷") {
+      return "Produit";
+    } else {
+      return "Product";
+    }
+  }
+
+  String tCOLOR() {
+    if (getLanguage() == "🇫🇷") {
+      return "COULEUR";
+    } else {
+      return "COLOR";
+    }
+  }
+
+  String tAddtoCart() {
+    if (getLanguage() == "🇬🇧") {
+      return "Ajouter au chariot";
+    } else {
+      return "Add to Cart";
+    }
+  }
+
+  String tUpdateCart() {
+    if (getLanguage() == "🇫🇷") {
+      return "Mise à jour panier";
+    } else {
+      return "Update Cart";
+    }
+  }
+
+  String tDescriptioncomeshere() {
+    if (getLanguage() == "🇫🇷") {
+      return "La description vient ici";
+    } else {
+      return "Description comes here";
+    }
+  }
+
+  String tPRICE() {
+    if (getLanguage() == "🇫🇷") {
+      return "LE PRIX";
+    } else {
+      return "PRICE";
+    }
+  }
+
+  String tModel() {
+    if (getLanguage() == "🇫🇷") {
+      return "Modèle";
+    } else {
+      return "Model";
     }
   }
 }

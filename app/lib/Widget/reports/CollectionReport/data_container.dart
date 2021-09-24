@@ -1,4 +1,5 @@
 import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/repoets_model/collection_report_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,27 +90,28 @@ class _DataContainerCollState extends State<DataContainerColl> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Column(
       children: [
         BlocBuilder<CollectionBloc, CollectionState>(
           builder: (context, state) {
             if (state is CollectionSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is SearchCollectionSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
               );
             } else if (state is FromToCollectionSuccessState) {
               return Text(
-                "showing ${start} to ${total} of ${total} entries",
+                "${cubit.tshowing()} ${start} ${cubit.tTo()} ${total} ${cubit.tOf()} ${total} ${cubit.tentries()}",
                 style: TextStyle(
                   color: Colors.black45,
                 ),
@@ -159,30 +161,30 @@ class _DataContainerCollState extends State<DataContainerColl> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
-                              text: 'PAYMENT DATE',
+                              text: cubit.tPAYMENTDATE(),
                               dateApi: "${state.collextions[index].createdAt}",
                             ),
                             buildrowData(
-                              text: 'PAYMENT METHOD',
+                              text: cubit.tPAYMENTMETHOD(),
                               dateApi:
                                   "${state.collextions[index].paymentMethod}",
                             ),
                             buildrowData(
-                              text: 'ORDER',
+                              text: cubit.tORDER(),
                               dateApi:
                                   "${state.collextions[index].order!.orderNumber}",
                             ),
                             buildrowData(
-                              text: 'CLIENT NAME',
+                              text: cubit.tCLIENTNAME(),
                               dateApi:
                                   "${state.collextions[index].order!.client!.firstName} ${state.collextions[index].order!.client!.lastName}",
                             ),
                             buildrowData(
-                              text: 'PAID AMOUNT',
+                              text: cubit.tPAIDAMOUNT(),
                               dateApi: "${state.collextions[index].amountPaid}",
                             ),
                             buildrowData(
-                              text: 'STATUS',
+                              text: cubit.tSTATUS(),
                               dateApi: "${state.collextions[index].status}",
                             ),
                           ],
@@ -220,32 +222,32 @@ class _DataContainerCollState extends State<DataContainerColl> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
-                              text: 'PAYMENT DATE',
+                              text: cubit.tPAYMENTDATE(),
                               dateApi:
                                   "${state.searchCollextions[index].createdAt}",
                             ),
                             buildrowData(
-                              text: 'PAYMENT METHOD',
+                              text: cubit.tPAYMENTMETHOD(),
                               dateApi:
                                   "${state.searchCollextions[index].paymentMethod}",
                             ),
                             buildrowData(
-                              text: 'ORDER',
+                              text: cubit.tORDER(),
                               dateApi:
                                   "${state.searchCollextions[index].order!.orderNumber}",
                             ),
                             buildrowData(
-                              text: 'CLIENT NAME',
+                              text: cubit.tCLIENTNAME(),
                               dateApi:
                                   "${state.searchCollextions[index].order!.client!.firstName} ${state.searchCollextions[index].order!.client!.lastName}",
                             ),
                             buildrowData(
-                              text: 'PAID AMOUNT',
+                              text: cubit.tPAIDAMOUNT(),
                               dateApi:
                                   "${state.searchCollextions[index].amountPaid}",
                             ),
                             buildrowData(
-                              text: 'STATUS',
+                              text: cubit.tSTATUS(),
                               dateApi:
                                   "${state.searchCollextions[index].status}",
                             ),
@@ -284,32 +286,32 @@ class _DataContainerCollState extends State<DataContainerColl> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             buildrowData(
-                              text: 'PAYMENT DATE',
+                              text: cubit.tPAYMENTDATE(),
                               dateApi:
                                   "${state.fromTlCollextions[index].createdAt}",
                             ),
                             buildrowData(
-                              text: 'PAYMENT METHOD',
+                              text: cubit.tPAYMENTMETHOD(),
                               dateApi:
                                   "${state.fromTlCollextions[index].paymentMethod}",
                             ),
                             buildrowData(
-                              text: 'ORDER',
+                              text: cubit.tORDER(),
                               dateApi:
                                   "${state.fromTlCollextions[index].order!.orderNumber}",
                             ),
                             buildrowData(
-                              text: 'CLIENT NAME',
+                              text: cubit.tCLIENTNAME(),
                               dateApi:
                                   "${state.fromTlCollextions[index].order!.client!.firstName} ${state.fromTlCollextions[index].order!.client!.lastName}",
                             ),
                             buildrowData(
-                              text: 'PAID AMOUNT',
+                              text: cubit.tPAIDAMOUNT(),
                               dateApi:
                                   "${state.fromTlCollextions[index].amountPaid}",
                             ),
                             buildrowData(
-                              text: 'STATUS',
+                              text: cubit.tSTATUS(),
                               dateApi:
                                   "${state.fromTlCollextions[index].status}",
                             ),

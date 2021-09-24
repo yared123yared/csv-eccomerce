@@ -1,6 +1,7 @@
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/payment/payment-custome-dropdown.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +14,11 @@ class PaymentTimeDropDown extends StatefulWidget {
 }
 
 class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
-   String value = 'later';
+  String value = 'later';
   late OrdersBloc ordersBloc;
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     ordersBloc = BlocProvider.of<OrdersBloc>(context);
     return BlocBuilder<OrdersBloc, OrdersState>(
       builder: (context, state) {
@@ -28,7 +30,7 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 11.0),
                   child: Text(
-                    "Pay Later",
+                    cubit.tPayLater(),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -41,7 +43,7 @@ class _PaymentTimeDropDownState extends State<PaymentTimeDropDown> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 11.0),
                   child: Text(
-                    "Pay Now",
+                    cubit.tPayNow(),
                     textAlign: TextAlign.start,
                   ),
                 ),

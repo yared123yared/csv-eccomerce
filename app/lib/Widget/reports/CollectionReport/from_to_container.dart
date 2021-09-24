@@ -2,6 +2,7 @@ import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.da
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_cubit.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/collectionreport_state.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,6 +66,7 @@ class _FromToContainerColleState extends State<FromToContainerColle> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Padding(
       padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
       child: Column(
@@ -96,7 +98,7 @@ class _FromToContainerColleState extends State<FromToContainerColle> {
                               ),
                             )
                           : Text(
-                              "From",
+                              cubit.tFrom(),
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.black45,
@@ -151,7 +153,7 @@ class _FromToContainerColleState extends State<FromToContainerColle> {
                               ),
                             )
                           : Text(
-                              "To",
+                              cubit.tTo(),
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.black45,
@@ -200,8 +202,8 @@ class _FromToContainerColleState extends State<FromToContainerColle> {
               BlocProvider.of<CollectionBloc>(context)
                   .add(FeatchCollectionEvent());
             },
-            child: const Text(
-              "Clear",
+            child: Text(
+              cubit.tClear(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,

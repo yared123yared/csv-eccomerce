@@ -2,8 +2,10 @@ import 'package:app/Widget/reports/CustomerDebt/data_container.dart';
 import 'package:app/Widget/reports/CustomerDebt/search_container.dart';
 
 import 'package:app/constants/constants.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomerByDebtScreen extends StatefulWidget {
   static const routeName = '/customerByDebt';
@@ -17,6 +19,7 @@ class _CustomerByDebtScreenState extends State<CustomerByDebtScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -33,14 +36,14 @@ class _CustomerByDebtScreenState extends State<CustomerByDebtScreen> {
             ),
           ),
         ),
-        title: const Text(
-          "Customer By Debt",
+        title: Text(
+          cubit.tCustomerByDebt(),
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       drawer: AppDrawer(
-        onPressed: (){},
+        onPressed: () {},
       ),
       drawerEnableOpenDragGesture: true,
       backgroundColor: lightColor,

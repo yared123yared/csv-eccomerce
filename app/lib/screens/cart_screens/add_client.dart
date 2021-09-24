@@ -2,6 +2,7 @@ import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
+import 'package:app/Blocs/location/bloc/location_bloc.dart';
 
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 
@@ -10,6 +11,7 @@ import 'package:app/Widget/Home/cart/add-client/next-button.dart';
 import 'package:app/Widget/Home/cart/add-client/upper-container.dart';
 
 import 'package:app/Widget/Home/cart/payment/payment-container.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 
 import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/login_info.dart';
@@ -55,8 +57,9 @@ class _AddClientState extends State<AddClient> {
     TextEditingController payingTimeController = new TextEditingController();
     ordersbloc.add(PaymentInitialization());
     final _formKey = GlobalKey<FormState>();
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
-        appBar: AppBar(title: Text("Add Client")),
+        appBar: AppBar(title: Text(cubit.tAddClient())),
         // bottomNavigationBar: ,
         backgroundColor: Theme.of(context).accentColor,
         body: ProgressHUD(
@@ -98,8 +101,8 @@ class _AddClientState extends State<AddClient> {
                   context: context,
                   dialogType: DialogType.ERROR,
                   animType: AnimType.BOTTOMSLIDE,
-                  title: 'Order Creating failed',
-                  desc: 'Remaining amount greater than your credit limit!',
+                  title: cubit.tOrderCreatingfailed(),
+                  desc: cubit.tRemainingamountgreaterthanyourcreditlimit(),
                   // btnCancelOnPress: () {
                   //   Navigator.popAndPushNamed(context, AddClient.routeName);
                   //   //      setState(() {
@@ -158,7 +161,7 @@ class _AddClientState extends State<AddClient> {
                         ),
                       ),
                       ConditionalButton(
-                        name: "Order",
+                        name: cubit.tOrder(),
                         onPressed: () {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {

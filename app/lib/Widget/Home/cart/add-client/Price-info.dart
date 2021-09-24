@@ -1,4 +1,5 @@
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/product/data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -12,6 +13,7 @@ class ClientInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartLogic cartLogic = new CartLogic(products: this.products);
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.42,
       child: Column(
@@ -26,7 +28,7 @@ class ClientInfo extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total",
+                      Text(cubit.tTotaL(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text(

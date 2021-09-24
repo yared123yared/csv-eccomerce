@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/deleteButton.dart';
 import 'package:app/Widget/clients/clients_list/edit_button.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class ClientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Material(
@@ -37,7 +39,7 @@ class ClientCard extends StatelessWidget {
           child: Column(
             children: [
               ClientDataRow(
-                  property: 'NAME',
+                  property: cubit.tNAME(),
                   value: this.client.firstName == null
                       ? ""
                       : this.client.firstName!),
@@ -45,12 +47,12 @@ class ClientCard extends StatelessWidget {
                   property: 'Mobile',
                   value: this.client.mobile == null ? "" : this.client.mobile!),
               ClientDataRow(
-                  property: 'QUANTITY',
+                  property: cubit.tQUANTITY(),
                   value: this.client.orders == null
                       ? "0"
                       : this.client.orders!.length.toString()),
               ClientDataRow(
-                  property: 'STATUS',
+                  property: cubit.tSTATUS(),
                   value: this.client.status == null
                       ? "INACTIVE"
                       : this.client.status == 1
@@ -61,11 +63,14 @@ class ClientCard extends StatelessWidget {
                 children: [
                   EditButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
+                      Navigator.of(context)
+                          .pushNamed(
                         ClientEditScreen.routeName,
                         arguments: this.client,
-                      ).then((value){
-                           SyncDataToServerEvent syncClientEvent = SyncDataToServerEvent();
+                      )
+                          .then((value) {
+                        SyncDataToServerEvent syncClientEvent =
+                            SyncDataToServerEvent();
                         BlocProvider.of<ClientsBloc>(context)
                             .add(syncClientEvent);
                       });

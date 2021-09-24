@@ -3,9 +3,11 @@ import 'package:app/Widget/clients/client_profile/basic_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
 import 'package:app/Widget/clients/client_profile/orders_table.dart';
 import 'package:app/Widget/clients/client_profile/table_header.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ClientDetailScreen extends StatefulWidget {
   final Client client;
@@ -41,11 +43,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         }
       });
     }
+
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       appBar: AppBar(
         title: Text(
-          'Clients Profile',
+          cubit.tClientProfile(),
         ),
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
@@ -66,11 +70,11 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 phone: '${widget.client.mobile}',
                 creditLimitEndDate: "",
                 creditLimitStartDate: "",
-                photoPath: "${widget.client.photo?.filePath??""}",
+                photoPath: "${widget.client.photo?.filePath ?? ""}",
               ),
             ),
             MenuItem(
-              title: 'Order',
+              title: cubit.tOrder(),
               childrens: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -101,21 +105,15 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
               height: 10.0,
             ),
             MenuItem(
-              title: 'Shipping Addresses',
-              childrens:[
-                ...shippingAddresses
-              ]
-              ,
+              title: cubit.tShippingAddresses(),
+              childrens: [...shippingAddresses],
             ),
             SizedBox(
               height: 10.0,
             ),
             MenuItem(
-              title: 'Billing Addresses',
-              childrens: [
-                ...billingAddresses
-              ]
-              ,
+              title: cubit.tBillingAddresses(),
+              childrens: [...billingAddresses],
             ),
             SizedBox(
               height: 30.0,
