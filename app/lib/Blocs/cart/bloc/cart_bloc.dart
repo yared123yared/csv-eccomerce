@@ -26,7 +26,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     // print("Entered to the cart bloc emthod");
     // TODO: implement mapEventToState
     if (event is AddProduct) {
-      print("______START______State of the Attributes: ${attribtues.map((e) => e.attributes)}");
+      print(
+          "______START______State of the Attributes: ${attribtues.map((e) => e.attributes)}");
       print(
           "____START______New Comming Attributes: ${event.singleProduct.selectedAttributes!.map((e) => e.pivot!.id)}");
       // List<Data> cart_product = state.cartProducts;
@@ -50,41 +51,32 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         print(
             "______UPDATE 2______State of the Attributes: ${state.cartProducts.map((e) => e.selectedAttributes!.map((e) => e.pivot!.id))}");
       } else {
-
-
-      
-
-     
-            // assume that the attributes also have value inside. 
-             List<int> attributes_value = [];
+        // assume that the attributes also have value inside.
+        List<int> attributes_value = [];
         attributes_value.addAll(event.singleProduct.selectedAttributes!
             .map((e) => e.pivot!.id as int));
-            // 
-            for(int i=0;i<attribtues.length;i++){
-                if(event.singleProduct.id!.compareTo(attribtues[i].productId)==0){
-                  if(eq(attributes_value,attribtues[i].attributes)){
-print("++++++++______Matched_____+++");
+        //
+        for (int i = 0; i < attribtues.length; i++) {
+          if (event.singleProduct.id!.compareTo(attribtues[i].productId) == 0) {
+            if (eq(attributes_value, attribtues[i].attributes)) {
+              print("++++++++______Matched_____+++");
               if (event.increment == true) {
                 cart_product[i].order += 1;
-              } else {
-                cart_product[i].order -= 1;
-              }
+              } 
 
               yield CartState(
                   counter: state.counter, cartProducts: cart_product);
               return;
-                  }
-                }
             }
+          }
+        }
 
-
-     
         print("Cart Product Length: ${cart_product.length}");
 
         attribtues.add(CartAttribute(
             attributes: attributes_value,
             productId: event.singleProduct.id as int));
-            
+
         cart_product.map((e) => print("Cart Product ${e.id}"));
         // deep copy of an object
         // Map clonedObject = JSON.decode(JSON.encode(object));
@@ -107,6 +99,8 @@ print("++++++++______Matched_____+++");
       yield CartState(
           counter: state.counter - 1, cartProducts: state.cartProducts);
     } else if (event is InitializeCart) {
+      attribtues = [];
+      cart_product = [];
       yield CartState(counter: 0, cartProducts: []);
     }
   }

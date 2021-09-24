@@ -19,8 +19,9 @@ class SelectEvent extends ProductEvent {
 }
 
 class SingleProductUpdate extends ProductEvent {
+  final bool? increment;
   final Data singleProduct;
-  SingleProductUpdate({required this.singleProduct});
+  SingleProductUpdate({required this.singleProduct, required this.increment});
 }
 
 class SearchEvent extends ProductEvent {
@@ -28,6 +29,5 @@ class SearchEvent extends ProductEvent {
   final String productName;
   SearchEvent({required this.productName});
 }
-class AllCategories extends ProductEvent{
-  
-}
+
+class AllCategories extends ProductEvent {}

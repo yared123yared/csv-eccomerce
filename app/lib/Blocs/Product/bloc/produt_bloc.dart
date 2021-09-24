@@ -197,7 +197,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         print("Incomming Product Id: ${product.id}");
         if (product.id!.compareTo(cart_product[i].id as int) == 0) {
           print("+++++++++++Product existed in the cart list");
-          cart_product[i].order+=1;
+          if (event.increment == true) {
+            cart_product[i].order += 1;
+          } else if(event.increment==false){
+            cart_product[i].order -= 1;
+          }else{
+            int order=event.singleProduct.order;
+              cart_product[i].order -= order;
+            }
         }
       }
       yield ProductLoadSuccess(

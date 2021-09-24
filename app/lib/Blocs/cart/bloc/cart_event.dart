@@ -14,7 +14,7 @@ class logEvent extends CartEvent {}
 
 class AddProduct extends CartEvent {
   final Data singleProduct;
-  final increment;
+  final bool? increment;
   AddProduct({required this.singleProduct, required this.increment});
 }
 

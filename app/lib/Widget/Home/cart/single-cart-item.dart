@@ -124,22 +124,22 @@ class _SingleCartItemState extends State<SingleCartItem> {
     setState(() {
       widget.product.order++;
     });
-    productBloc.add(SingleProductUpdate(singleProduct: widget.product));
-    cartBloc.add(AddProduct(singleProduct: widget.product, increment: true));
+    productBloc.add(SingleProductUpdate(singleProduct: widget.product, increment:true));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: null));
   }
 
   void decrement() {
     setState(() {
       widget.product.order--;
     });
-    productBloc.add(SingleProductUpdate(singleProduct: widget.product));
-    cartBloc.add(AddProduct(singleProduct: widget.product, increment: false));
+    productBloc.add(SingleProductUpdate(singleProduct: widget.product, increment: false));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: null));
   }
 
   void removeItem() {
     Data product = widget.product;
-    product.order = 0;
-    productBloc.add(SingleProductUpdate(singleProduct: product));
+    // product.order = 0;
+    productBloc.add(SingleProductUpdate(singleProduct: product, increment:null));
     cartBloc.add(RemoveProduct(singleProduct: widget.product));
     // setState(() {
     //   widget.product.order = 0;
