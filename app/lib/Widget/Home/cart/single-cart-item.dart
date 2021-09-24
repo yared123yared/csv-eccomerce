@@ -1,4 +1,5 @@
 // import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Widget/Home/cart/image.dart';
 import 'package:app/Widget/Home/cart/minimize-button.dart';
@@ -24,9 +25,11 @@ class SingleCartItem extends StatefulWidget {
 
 class _SingleCartItemState extends State<SingleCartItem> {
   late CartBloc cartBloc;
+  late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
+    productBloc=BlocProvider.of<ProductBloc>(context);
     String image = "";
     if (widget.product.photos != null) {
       image =
@@ -112,25 +115,32 @@ class _SingleCartItemState extends State<SingleCartItem> {
     );
   }
 
+
+
+
   void increment() {
-    setState(() {
-      widget.product.order++;
-    });
-    cartBloc.add(AddProduct(singleProduct: widget.product));
+    // setState(() {
+    //   widget.product.order++;
+    // });
+productBloc.add(SingleProductUpdate(singleProduct: widget.product));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: true));
   }
 
   void decrement() {
-    setState(() {
-      widget.product.order--;
-    });
-
-    cartBloc.add(AddProduct(singleProduct: widget.product));
+    // setState(() {
+    //   widget.product.order--;
+    // });
+productBloc.add(SingleProductUpdate(singleProduct: widget.product));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: false));
   }
 
   void removeItem() {
+    Data product=widget.product;
+    product.order=0;
+    productBloc.add(SingleProductUpdate(singleProduct:product));
     cartBloc.add(RemoveProduct(singleProduct: widget.product));
-    setState(() {
-      widget.product.order = 0;
-    });
+    // setState(() {
+    //   widget.product.order = 0;
+    // });
   }
 }

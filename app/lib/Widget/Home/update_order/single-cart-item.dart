@@ -116,7 +116,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
     setState(() {
       widget.product.order++;
     });
-    cartBloc.add(AddProduct(singleProduct: widget.product));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: true));
   }
 
   void decrement() {
@@ -124,7 +124,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
       widget.product.order--;
     });
 
-    cartBloc.add(AddProduct(singleProduct: widget.product));
+    cartBloc.add(AddProduct(singleProduct: widget.product, increment: false));
   }
 
   void removeItem() {

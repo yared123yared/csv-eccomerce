@@ -19,7 +19,7 @@ class _ColorContainerState extends State<ColorContainer> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    print("Color option selected: ${widget.color}");
+    print("Color option selected: ${widget.color.pivot!.value}");
     // final isSelected = false;
     return InkWell(
         onTap: () {
@@ -33,12 +33,13 @@ class _ColorContainerState extends State<ColorContainer> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                      color: Color(int.parse(widget.color.pivot!.value!)),
+                      color:
+                          Color(int.parse("0xFF${widget.color.pivot!.value!}")),
                       shape: BoxShape.circle),
                   child: Text(
                     '',
                     style: TextStyle(
-                      color:  Colors.grey[600]!,
+                      color: Colors.grey[600]!,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
@@ -52,7 +53,8 @@ class _ColorContainerState extends State<ColorContainer> {
                   decoration: BoxDecoration(
                       color: Colors.white, shape: BoxShape.circle),
                   child: Icon(Icons.done,
-                      color: Color(int.parse(widget.color.pivot!.value!)),
+                      color:
+                          Color(int.parse("0xFF${widget.color.pivot!.value!}")),
                       size: 20),
                 )));
   }

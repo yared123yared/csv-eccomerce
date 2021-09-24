@@ -34,7 +34,11 @@ class AddToCart extends StatelessWidget {
         ),
         onTap: () {
           this.onTapped();
-          cartBloc.add(AddProduct(singleProduct: this.product));
+          Data product = this.product;
+          if (product.order == 0) {
+            product.order++;
+          }
+          cartBloc.add(AddProduct(singleProduct: product, increment: true));
           Navigator.pop(context);
         });
   }

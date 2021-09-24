@@ -64,15 +64,16 @@ void main() async {
 
   final UserPreferences userPreferences = UserPreferences();
 
-  // await userPreferences.getLanguagePref("language");
+  await userPreferences.getLanguagePref("language");
 
  
-  final UserRepository userRepository = UserRepository(
+final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
       userPreferences: userPreferences,
     ),
   );
+
   final ClientsRepository clientRepository = ClientsRepository(
     clientsDataProvider: ClientsDataProvider(
       httpClient: httpClient,

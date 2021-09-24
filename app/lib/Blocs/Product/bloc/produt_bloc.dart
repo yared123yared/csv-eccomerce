@@ -82,7 +82,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             print("bloc--fetch--product--5");
 
             yield ProductOperationFailure(
-              message: "Failed to fetch products", 
+              message: "Failed to fetch products",
               page: page,
               products: state.products,
               selectedCategoryId: state.selectedCategoryId,
@@ -181,7 +181,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedCategoryId: this.categoryId,
         searchProductName: this.searchProductName,
       ));
-    } else if (event is AddProduct) {
+    } else if (event is SingleProductUpdate) {
+      print(
+          "_______________++++++++++++++++++++++++Sigle Prodcut update method invocked");
       List<Data> cart_product = state.products;
 
       // for (int i = 0; i < cart_product.length; i++) {
@@ -189,6 +191,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       //     cart_product[i] = cart_product[i];
       //   }
       // }
+      Data product = event.singleProduct;
+      for (int i = 0; i < cart_product.length; i++) {
+        print("State Id: ${cart_product[i].id}");
+        print("Incomming Product Id: ${product.id}");
+        if (product.id!.compareTo(cart_product[i].id as int) == 0) {
+          print("+++++++++++Product existed in the cart list");
+          cart_product[i].order = product.order;
+        }
+      }
       yield ProductLoadSuccess(
         products: cart_product,
         selectedCategoryId: state.selectedCategoryId,

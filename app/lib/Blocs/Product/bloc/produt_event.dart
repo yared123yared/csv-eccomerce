@@ -18,9 +18,9 @@ class SelectEvent extends ProductEvent {
   SelectEvent({required this.categories});
 }
 
-class AddProduct extends ProductEvent {
+class SingleProductUpdate extends ProductEvent {
   final Data singleProduct;
-  AddProduct({required this.singleProduct});
+  SingleProductUpdate({required this.singleProduct});
 }
 
 class SearchEvent extends ProductEvent {

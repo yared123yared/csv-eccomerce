@@ -7,12 +7,13 @@ abstract class CartEvent {
   @override
   List<Object> get props => [];
 }
-class InitializeCart extends CartEvent{
-  
-}
+
+class InitializeCart extends CartEvent {}
+
 class AddProduct extends CartEvent {
   final Data singleProduct;
-  AddProduct({required this.singleProduct});
+  final increment;
+  AddProduct({required this.singleProduct, required this.increment});
 }
 
 class RemoveProduct extends CartEvent {

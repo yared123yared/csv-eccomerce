@@ -71,15 +71,16 @@ class _ProductDetailState extends State<ProductDetail> {
             'https://csv.jithvar.com/storage/${product.photos![i].filePath.toString()}');
       }
     }
-
+    print("photos parsed well");
     // check the size here.
     List<String?> size = [];
     List<Attributes> color = [];
 
-    if (product.attributes != null) {
+    if (product.attributes!.length != 0) {
+      print("++++++++entered to the attribute selection loop");
       List<Attributes> attributes = product.attributes as List<Attributes>;
 
-      print("Attributes Size: ${product.attributes![0].name}");
+      // print("Attributes Size: ${product.attributes![0].name}");
       for (int i = 0; i < product.attributes!.length; i++) {
         print("Attributes: ${product.attributes}");
         print("products.attributes: ${product.attributes![i].name}");
@@ -98,11 +99,16 @@ class _ProductDetailState extends State<ProductDetail> {
         }
       }
     }
+    print("+++++++++++++++____Arrived here");
     if (selectedColor == null) {
-      selectedColor = color[0];
+      if (color.length != 0) {
+        selectedColor = color[0];
+      }
+
       //product.selectedAttributes![i] = selectedColor!;
 
     }
+    print("parsing color");
     // Check if the color seelction ahve null value or not.
     int counter = 0;
     for (int i = 0; i < product.selectedAttributes!.length; i++) {
@@ -116,8 +122,10 @@ class _ProductDetailState extends State<ProductDetail> {
       }
     }
     if (counter == 0) {
-      print("First selection of the color attribute");
-      product.selectedAttributes!.add(selectedColor!);
+      if (color.length != 0) {
+        print("First selection of the color attribute");
+        product.selectedAttributes!.add(selectedColor!);
+      }
     } else {
       print("Updating the attribute");
     }
@@ -128,7 +136,6 @@ class _ProductDetailState extends State<ProductDetail> {
       print("Color for the widget: ${color}");
       colorContainer.add(ColorContainer(
         color: color[i],
-        
         selectedColor: this.selectedColor as Attributes,
         onPressed: this.changeSelectedColor,
       ));
