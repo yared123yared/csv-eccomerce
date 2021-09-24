@@ -28,13 +28,15 @@ class _SingleCartItemState extends State<SingleCartItem> {
   late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
+    print("Single cart product have been called");
     cartBloc = BlocProvider.of<CartBloc>(context);
-    productBloc=BlocProvider.of<ProductBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
     String image = "";
     if (widget.product.photos != null) {
       image =
           'https://csv.jithvar.com/storage/${widget.product.photos![0].filePath.toString()}';
     }
+    print("________Arrived on the padding");
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 10),
       child: Card(
@@ -67,7 +69,10 @@ class _SingleCartItemState extends State<SingleCartItem> {
                             height: MediaQuery.of(context).size.height * 0.01),
                         // Text("${product.name}"),
                         ProductCategory(
-                          productCategory: widget.product.categories![0].name,
+                          productCategory:
+                              widget.product.categories!.length != 0
+                                  ? widget.product.categories![0].name
+                                  : "",
                         ),
 
                         SizedBox(
@@ -115,14 +120,11 @@ class _SingleCartItemState extends State<SingleCartItem> {
     );
   }
 
-
-
-
   void increment() {
     setState(() {
       widget.product.order++;
     });
-productBloc.add(SingleProductUpdate(singleProduct: widget.product));
+    productBloc.add(SingleProductUpdate(singleProduct: widget.product));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: true));
   }
 
@@ -130,14 +132,14 @@ productBloc.add(SingleProductUpdate(singleProduct: widget.product));
     setState(() {
       widget.product.order--;
     });
-productBloc.add(SingleProductUpdate(singleProduct: widget.product));
+    productBloc.add(SingleProductUpdate(singleProduct: widget.product));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: false));
   }
 
   void removeItem() {
-    Data product=widget.product;
-    product.order=0;
-    productBloc.add(SingleProductUpdate(singleProduct:product));
+    Data product = widget.product;
+    product.order = 0;
+    productBloc.add(SingleProductUpdate(singleProduct: product));
     cartBloc.add(RemoveProduct(singleProduct: widget.product));
     // setState(() {
     //   widget.product.order = 0;

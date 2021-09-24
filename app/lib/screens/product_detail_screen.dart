@@ -24,12 +24,14 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   Attributes? selectedColor = null;
+
   // Data product = convert() as Data;
   // Future<Data> convert() async {
   //   return await Data.copyWith(product);
   // }
 
   void changeSelectedColor(Attributes color, Data product) {
+    print("++++++++++++++++__________Selcted Color: ${color.pivot!.id}");
     setState(() {
       selectedColor = color;
     });
@@ -44,11 +46,14 @@ class _ProductDetailState extends State<ProductDetail> {
         counter += 1;
       }
     }
+    
     if (counter == 0) {
       print("First selection of the color attribute");
       product.selectedAttributes!.add(selectedColor!);
     } else {
       print("Updating the attribute");
+
+      
     }
   }
 
@@ -121,6 +126,7 @@ class _ProductDetailState extends State<ProductDetail> {
         counter += 1;
       }
     }
+
     if (counter == 0) {
       if (color.length != 0) {
         print("First selection of the color attribute");
@@ -182,20 +188,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         scrollDirection: Axis.horizontal,
                         enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       ),
-                    )
-
-                    // child: Swiper(
-                    // itemBuilder: (BuildContext context, int index) {
-                    //   return new Image.network(
-                    //     photos[index],
-                    //     fit: BoxFit.fill,
-                    //   );
-                    //   },
-                    //   itemCount: photos.length,
-                    //   pagination: new SwiperPagination(),
-                    //   control: new SwiperControl(),
-                    // ),
-                    ),
+                    )),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

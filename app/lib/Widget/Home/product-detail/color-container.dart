@@ -24,7 +24,7 @@ class _ColorContainerState extends State<ColorContainer> {
     return InkWell(
         onTap: () {
           print("tapped this color ${widget.color.toString()}");
-          widget.onPressed(widget.color);
+          widget.onPressed(widget.color, null);
         },
         child: widget.selectedColor.pivot!.id != widget.color.pivot!.id
             ? Container(
