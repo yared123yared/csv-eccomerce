@@ -33,7 +33,8 @@ class OrderDataProvider {
     print(
         "+++++++++______++++++Data Entered  To Order Data Provider_________+++++++");
     print("Data: ${request!.toJson()}");
-    print("Cart: ${request.cart!.length}");
+    print(
+        "________++++++++_______:::::Cart: ${request.cart!.toList().map((e) => e.toJson())}");
     try {
       final url = Uri.parse('http://csv.jithvar.com/api/v1/orders');
 

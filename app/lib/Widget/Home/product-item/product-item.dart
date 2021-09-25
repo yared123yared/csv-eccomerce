@@ -29,12 +29,16 @@ class _ProductItemState extends State<ProductItem> {
     // print(image);
     return InkWell(
       onTap: () {
-        setState(() {
-          Navigator.pushNamed(context, ProductDetail.routeName, arguments: [
-            this.widget.product,
+       
+            Navigator.pushNamed(context, ProductDetail.routeName, arguments: [
+            widget.product,
             this.onClicked,
           ]);
-        });
+        // setState(() {
+        //   // product.id = widget.products.id;
+        //   // product.copyWith(widget.product);
+          
+        // });
         // cartBloc.add(AddProduct(singleProduct: widget.product));
       },
       child: SizedBox(

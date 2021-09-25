@@ -82,6 +82,8 @@ class AppRoutes {
     } else if (settings.name == ProductDetail.routeName) {
       List data = settings.arguments as List<Object>;
       Data product = data[0] as Data;
+      print(
+          "++++___Attribute on the route::::${product.selectedAttributes!.map((e) => e.pivot!.id)}");
       VoidCallback onClicked = data[1] as VoidCallback;
 
       return MaterialPageRoute(

@@ -48,23 +48,48 @@ class _ProductDetailState extends State<ProductDetail> {
         counter += 1;
       }
     }
-    
+
     if (counter == 0) {
       print("First selection of the color attribute");
       product.selectedAttributes!.add(selectedColor!);
     } else {
       print("Updating the attribute");
-
-      
     }
   }
 
   @override
   Widget build(BuildContext context) {
     print("Arrived at the product detail page detail.");
-    Data product = new Data();
+    print(
+        "*******+++++++++_____++Selcted attributes that comes form the prodcut category: ${widget.products.selectedAttributes!.map((e) => e.pivot!.id)}");
+    // Data product = widget.products;
+    Data product = new Data(
+        attributes: widget.products.attributes,
+        categories: widget.products.categories,
+        currencyId: widget.products.currencyId,
+        id: widget.products.id,
+        manufacturerId: widget.products.manufacturerId,
+        model: widget.products.model,
+        name: widget.products.name,
+        photos: widget.products.photos,
+        price: widget.products.price,
+        quantity: widget.products.quantity,
+        status: widget.products.status,
+        // photos:
+        // data.photos,
+        selectedAttributes: widget.products.selectedAttributes!
+            .map((e) => new Attributes(
+                  companyId: e.companyId,
+                  createdAt: e.createdAt,
+                  id: e.id,
+                  name: e.name,
+                  pivot: e.pivot,
+                  updatedAt: e.updatedAt,
+                ))
+            .toList());
     // product.id = widget.products.id;
-    product.copyWith(widget.products);
+    // product.copyWith(widget.products);
+    // product.selectedAttributes = [];
     print("Detail data: ${widget.products.toJson()}");
     print("Converted data: ${product.toJson()}");
 //  Data  product = Data.copyWith(product);

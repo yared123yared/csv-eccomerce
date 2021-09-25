@@ -62,7 +62,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
               print("++++++++______Matched_____+++");
               if (event.increment == true) {
                 cart_product[i].order += 1;
-              } 
+              }
 
               yield CartState(
                   counter: state.counter, cartProducts: cart_product);
@@ -80,8 +80,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         cart_product.map((e) => print("Cart Product ${e.id}"));
         // deep copy of an object
         // Map clonedObject = JSON.decode(JSON.encode(object));
-        Data product = event.singleProduct;
-        cart_product.add(product);
+        // Data product = event.singleProduct;
+        // product.selectedAttributes = attributes_value;
+        print(
+            "***********************Newly slected attributes: ${event.singleProduct.selectedAttributes!.map((e) => e.pivot!.id)}");
+        
+        cart_product.add(  new Data(
+            attributes: event.singleProduct.attributes,
+            categories: event.singleProduct.categories,
+            currencyId: event.singleProduct.currencyId,
+            id: event.singleProduct.id,
+            manufacturerId: event.singleProduct.manufacturerId,
+            model: event.singleProduct.model,
+            name: event.singleProduct.name,
+            photos: event.singleProduct.photos,
+            price: event.singleProduct.price,
+            quantity: event.singleProduct.quantity,
+            status: event.singleProduct.status,
+            // photos:
+            // data.photos,
+            selectedAttributes: event.singleProduct.selectedAttributes));
+        print(
+            ">>>>>>>><<<<<<<<:::::Cart value on the cart bloc: ${cart_product.map((e) => e.selectedAttributes!.map((e) => e.pivot!.id))}");
         print("adding new product to cart");
         yield CartState(counter: state.counter + 1, cartProducts: cart_product);
 
@@ -93,7 +113,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
     } else if (event is logEvent) {
       print(
-          "STATE VALUE IS THE FOLLOWING. ++++++ ${cart_product.map((e) => e.attributes!.map((e) => e.pivot!.id))}");
+          "STATE VALUE IS THE FOLLOWING. ++++++ ${cart_product.map((e) => e.selectedAttributes!.map((e) => e.pivot!.id))}");
     } else if (event is RemoveProduct) {
       state.cartProducts.remove(event.singleProduct);
       yield CartState(

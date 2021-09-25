@@ -5,7 +5,7 @@ class ProductPrice extends StatelessWidget {
   ProductPrice({required this.productPrice});
   @override
   Widget build(BuildContext context) {
-    print("+++++arrived at e")
+    print("+++++arrived at price widget");
     return Text(
       "\$${productPrice}",
       style: TextStyle(fontWeight: FontWeight.w600),
