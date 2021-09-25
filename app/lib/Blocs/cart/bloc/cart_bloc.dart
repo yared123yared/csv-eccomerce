@@ -38,6 +38,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         cart_product.add(product);
         // assume that the attributes is also 0;
         List<int> attributes_value = [];
+        
         attributes_value.addAll(event.singleProduct.selectedAttributes!
             .map((e) => e.pivot!.id as int));
         attribtues.add(CartAttribute(

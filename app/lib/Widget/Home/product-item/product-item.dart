@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/screens/product_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,15 +30,38 @@ class _ProductItemState extends State<ProductItem> {
     // print(image);
     return InkWell(
       onTap: () {
-       
-            Navigator.pushNamed(context, ProductDetail.routeName, arguments: [
-            widget.product,
-            this.onClicked,
-          ]);
+        Data product = new Data(
+            attributes: widget.product.attributes,
+            categories: widget.product.categories,
+            currencyId: widget.product.currencyId,
+            id: widget.product.id,
+            manufacturerId: widget.product.manufacturerId,
+            model: widget.product.model,
+            name: widget.product.name,
+            photos: widget.product.photos,
+            price: widget.product.price,
+            quantity: widget.product.quantity,
+            status: widget.product.status,
+            // photos:
+            // data.photos,
+            selectedAttributes: widget.product.selectedAttributes!
+                .map((e) => new Attributes(
+                      companyId: e.companyId,
+                      createdAt: e.createdAt,
+                      id: e.id,
+                      name: e.name,
+                      pivot: e.pivot,
+                      updatedAt: e.updatedAt,
+                    ))
+                .toList());
+        Navigator.pushNamed(context, ProductDetail.routeName, arguments: [
+          product,
+          this.onClicked,
+        ]);
         // setState(() {
         //   // product.id = widget.products.id;
         //   // product.copyWith(widget.product);
-          
+
         // });
         // cartBloc.add(AddProduct(singleProduct: widget.product));
       },

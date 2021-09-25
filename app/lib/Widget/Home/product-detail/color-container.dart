@@ -1,14 +1,17 @@
 import 'package:app/models/product/attributes.dart';
+import 'package:app/models/product/data.dart';
 import 'package:flutter/material.dart';
 
 class ColorContainer extends StatefulWidget {
   final Attributes color;
   final Attributes selectedColor;
   final Function onPressed;
+  final Data product;
 
   // final bool selected;
   ColorContainer(
       {required this.color,
+      required this.product,
       required this.selectedColor,
       required this.onPressed});
   @override
@@ -23,8 +26,10 @@ class _ColorContainerState extends State<ColorContainer> {
     // final isSelected = false;
     return InkWell(
         onTap: () {
+          print(
+              "******###+++++++ product previos attributes. ${widget.product.selectedAttributes!.map((e) => e.pivot!.id)}");
           print("tapped this color ${widget.color.toString()}");
-          widget.onPressed(widget.color, null);
+          widget.onPressed(widget.color, widget.product);
         },
         child: widget.selectedColor.pivot!.id != widget.color.pivot!.id
             ? Container(
@@ -56,8 +61,6 @@ class _ColorContainerState extends State<ColorContainer> {
                       color:
                           Color(int.parse("0xFF${widget.color.pivot!.value!}")),
                       size: 20),
-                ))
-                
-                );
+                )));
   }
 }

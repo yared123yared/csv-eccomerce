@@ -35,12 +35,18 @@ class AddToCart extends StatelessWidget {
           ),
         ),
         onTap: () {
+          print(
+              "SELECTED ATTRIBUTE ARRIVED AT THE CART ARE THE FOLLOWING: ${this.product.selectedAttributes!.map((e) => e.pivot!.value)}");
+          print(
+              "SELECTED ATTRIBUTE ARRIVED AT THE CART ARE THE FOLLOWING: ${this.product.selectedAttributes!.map((e) => e.pivot!.id)}");
+
           this.onTapped();
-          Data product = this.product;
-          if (product.order == 0) {
-            product.order++;
+          // Data product = this.product;
+          if (this.product.order == 0) {
+            this.product.order++;
           }
-          cartBloc.add(AddProduct(singleProduct: product, increment: true));
+          cartBloc
+              .add(AddProduct(singleProduct: this.product, increment: true));
           Navigator.pop(context);
         });
   }
