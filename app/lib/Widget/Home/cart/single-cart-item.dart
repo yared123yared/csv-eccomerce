@@ -7,6 +7,7 @@ import 'package:app/Widget/Home/cart/price.dart';
 import 'package:app/Widget/Home/cart/remove-cart.dart';
 import 'package:app/Widget/Home/cart/sub-title.dart';
 import 'package:app/Widget/Home/cart/title.dart';
+import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
 // import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,36 @@ class _SingleCartItemState extends State<SingleCartItem> {
   late ProductBloc productBloc;
   @override
   Widget build(BuildContext context) {
+    String selectedColor = '';
+    String size = '';
+    // filter if there is Color here.
+    print(
+        "++++++____-----++Single product have been called,with attribtue length of  ${widget.product.selectedAttributes!.length}");
+    for (int i = 0; i < widget.product.selectedAttributes!.length; i++) {
+      List<Attributes> attributes =
+          widget.product.selectedAttributes as List<Attributes>;
+      print(
+          "Entered to the attribute selection with name: ${attributes[i].name}");
+      if (attributes[i].name == "Color") {
+        print(
+            "-----------------------++++Color selcted: ${attributes[i].pivot!.value}");
+        selectedColor = attributes[i].pivot!.value as String;
+      }
+    }
+
+    // filter if there is Size here
+    for (int i = 0; i < widget.product.selectedAttributes!.length; i++) {
+      List<Attributes> attributes =
+          widget.product.selectedAttributes as List<Attributes>;
+      print(
+          "Entered to the attribute selection with name: ${attributes[i].name}");
+      if (attributes[i].name == "Size") {
+        print(
+            "-----------------------++++Color selcted: ${attributes[i].pivot!.value}");
+        size = attributes[i].pivot!.value as String;
+      }
+    }
+
     print("Single cart product have been called");
     cartBloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
@@ -48,7 +79,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
           child: Container(
             // margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
             // width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.17,
+            height: MediaQuery.of(context).size.height * 0.2,
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
             child: Row(
               children: [
@@ -78,10 +109,46 @@ class _SingleCartItemState extends State<SingleCartItem> {
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
                         ProductPrice(productPrice: widget.product.price),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01),
+                        Row(
+                          children: [
+                            Text("Color:"),
+                            Container(
+                                height: 25,
+                                padding: EdgeInsets.symmetric(horizontal: 2),
+                                child: selectedColor != ''
+                                    ? Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 8),
+                                        decoration: BoxDecoration(
+                                            color: Color(int.parse(
+                                                "0xFF${selectedColor}")),
+                                            shape: BoxShape.circle),
+                                        child: Text(
+                                          '',
+                                          style: TextStyle(
+                                            color: Colors.grey[600]!,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      )
+                                    : Text(''))
+                          ],
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01),
+                        Row(
+                          children: [
+                            Text("Size: "),
+                            size != '' ? Text("$size") : Text("")
+                          ],
+                        ),
                       ],
                     ),
                     SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.0001),
+                        height: MediaQuery.of(context).size.height * 0.0005),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.55,
                       child: Row(
@@ -124,7 +191,8 @@ class _SingleCartItemState extends State<SingleCartItem> {
     setState(() {
       widget.product.order++;
     });
-    productBloc.add(SingleProductUpdate(singleProduct: widget.product, increment:true));
+    productBloc.add(
+        SingleProductUpdate(singleProduct: widget.product, increment: true));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: null));
   }
 
@@ -132,14 +200,16 @@ class _SingleCartItemState extends State<SingleCartItem> {
     setState(() {
       widget.product.order--;
     });
-    productBloc.add(SingleProductUpdate(singleProduct: widget.product, increment: false));
+    productBloc.add(
+        SingleProductUpdate(singleProduct: widget.product, increment: false));
     cartBloc.add(AddProduct(singleProduct: widget.product, increment: null));
   }
 
   void removeItem() {
     Data product = widget.product;
     // product.order = 0;
-    productBloc.add(SingleProductUpdate(singleProduct: product, increment:null));
+    productBloc
+        .add(SingleProductUpdate(singleProduct: product, increment: null));
     cartBloc.add(RemoveProduct(singleProduct: widget.product));
     // setState(() {
     //   widget.product.order = 0;

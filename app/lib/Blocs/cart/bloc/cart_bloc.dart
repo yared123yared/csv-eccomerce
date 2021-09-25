@@ -84,8 +84,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         // product.selectedAttributes = attributes_value;
         print(
             "***********************Newly slected attributes: ${event.singleProduct.selectedAttributes!.map((e) => e.pivot!.id)}");
-        
-        cart_product.add(  new Data(
+        Data data = new Data(
             attributes: event.singleProduct.attributes,
             categories: event.singleProduct.categories,
             currencyId: event.singleProduct.currencyId,
@@ -97,9 +96,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             price: event.singleProduct.price,
             quantity: event.singleProduct.quantity,
             status: event.singleProduct.status,
+
             // photos:
             // data.photos,
-            selectedAttributes: event.singleProduct.selectedAttributes));
+            selectedAttributes: event.singleProduct.selectedAttributes);
+        data.order = event.singleProduct.order;
+        cart_product.add(data);
+        // data.order = event.singleProduct.order;
         print(
             ">>>>>>>><<<<<<<<:::::Cart value on the cart bloc: ${cart_product.map((e) => e.selectedAttributes!.map((e) => e.pivot!.id))}");
         print("adding new product to cart");

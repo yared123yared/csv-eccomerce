@@ -43,8 +43,10 @@ import 'data_provider/reports/collection_data_provider.dart';
 import 'data_provider/reports/salesReport_data_provider.dart';
 import 'language/bloc/cubit/language_cubit.dart';
 import 'route/route.dart';
+
 import 'screens/login.dart';
 import 'data_provider/user_data_provider.dart';
+
 import 'repository/user_repository.dart';
 import 'preferences/user_preference_data.dart';
 

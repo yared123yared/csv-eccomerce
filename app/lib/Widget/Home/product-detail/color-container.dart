@@ -56,6 +56,8 @@ class _ColorContainerState extends State<ColorContainer> {
                       color:
                           Color(int.parse("0xFF${widget.color.pivot!.value!}")),
                       size: 20),
-                )));
+                ))
+                
+                );
   }
 }
