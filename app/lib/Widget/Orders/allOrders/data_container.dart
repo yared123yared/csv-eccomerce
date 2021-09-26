@@ -159,10 +159,16 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          AllOrderDetailsScreen.routeName,
-                          arguments: state.allorderdata[index].id,
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   AllOrderDetailsScreen.routeName,
+                        //   arguments: state.allorderdata[index].id,
+                        // );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PdafScreen(state.allorderdata[index].id),
+                          ),
                         );
                       },
                       child: Padding(
@@ -221,11 +227,11 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                         ),
                                         onPressed: () {
                                           Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PdafScreen(state
-                                                          .allorderdata[index]
-                                                          .id)));
+                                            MaterialPageRoute(
+                                              builder: (context) => PdafScreen(
+                                                  state.allorderdata[index].id),
+                                            ),
+                                          );
                                         },
                                       ),
                                     ),
