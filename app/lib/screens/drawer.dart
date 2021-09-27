@@ -1,4 +1,5 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
+import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/login_info.dart';
@@ -38,6 +39,7 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  late CartBloc cartBloc;
   @override
   void initState() {
     super.initState();
@@ -67,6 +69,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    cartBloc = BlocProvider.of<CartBloc>(context);
     Widget photo;
     final cubit = BlocProvider.of<LanguageCubit>(context);
 
@@ -689,6 +692,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          
                           Navigator.pushNamed(context, Login.routeName);
                         },
                         child: Container(

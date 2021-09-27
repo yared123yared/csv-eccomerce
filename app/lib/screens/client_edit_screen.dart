@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:app/Blocs/location/bloc/location_bloc.dart';
+import 'package:app/Widget/Home/cart/checkout-button.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -23,6 +25,7 @@ import 'package:app/models/client.dart';
 import 'package:app/validation/validator.dart';
 import 'package:sms/sms.dart';
 
+import 'cart_screens/add_client.dart';
 import 'clients_screen.dart';
 
 class ClientEditScreen extends StatefulWidget {
@@ -32,8 +35,10 @@ class ClientEditScreen extends StatefulWidget {
   //   required this.user,
   // });
   final Client? client;
+  // int? value;
   ClientEditScreen({
     this.client,
+    // this.value,
   });
 
   @override
@@ -582,7 +587,13 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
               List<String> recipents = ["916897173", "0939546094"];
 
               _sendSMS("message", recipents);
-              navigateToClientScreen(widgetContext);
+              // if (widget.value == 0) {
+              //   Navigator.popAndPushNamed(context, AddClient.routeName);
+              // } else {
+
+              // }
+              //  navigateToClientScreen(widgetContext);
+              Navigator.pop(context);
 
               // Navigator.of(context).pop();
             } else if (state is ClientCreateFailedState) {
@@ -687,8 +698,6 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
       state: state,
     );
   }
-
-  
 
   List<Step> getSteps() {
     return [
@@ -869,24 +878,27 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    UserPreferences userPreference = new UserPreferences();
-    LoggedUserInfo loggedUserInfo =
-        await userPreference.getUserInformation() as LoggedUserInfo;
-    User user = loggedUserInfo.user as User;
+    bool connected = await ConnectionChecker.CheckInternetConnection();
+    if (!connected) {
+      UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
 
-    SmsSender sender = SmsSender();
-    String address = user.company!.mobile as String;
-    // SmsSender sender = SmsSender();
-    // String address = "0916897173";
+      SmsSender sender = SmsSender();
+      String address = user.company!.mobile as String;
+      // SmsSender sender = SmsSender();
+      // String address = "0916897173";
 
-    SmsMessage message = SmsMessage(address, 'New Client Created!');
-    message.onStateChanged.listen((state) {
-      if (state == SmsMessageState.Sent) {
-        print("SMS is sent!");
-      } else if (state == SmsMessageState.Delivered) {
-        print("SMS is delivered!");
-      }
-    });
-    sender.sendSms(message);
+      SmsMessage message = SmsMessage(address, 'New Client Created!');
+      message.onStateChanged.listen((state) {
+        if (state == SmsMessageState.Sent) {
+          print("SMS is sent!");
+        } else if (state == SmsMessageState.Delivered) {
+          print("SMS is delivered!");
+        }
+      });
+      sender.sendSms(message);
+    }
   }
 }

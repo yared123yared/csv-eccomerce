@@ -88,10 +88,9 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
           } else if (state is ClientFetchingFailedState) {
             return Center(
               child: GestureDetector(
-                onTap: () {
+                onTap: () { 
                   print("Add new client button have been cliecked");
-                  Navigator.popAndPushNamed(
-                      context, ClientEditScreen.routeName);
+                  Navigator.pushNamed(context, ClientEditScreen.routeName);
                 },
                 child: Container(
                     width: MediaQuery.of(context).size.width * 0.3,

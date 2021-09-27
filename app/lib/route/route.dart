@@ -112,10 +112,13 @@ class AppRoutes {
     } else if (settings.name == ClientEditScreen.routeName) {
       if (settings.arguments != null) {
         // print("--route ----${settings.arguments}");
+        // int value = settings.arguments as int;
         return MaterialPageRoute(
             builder: (context) => ClientEditScreen(
                   client: settings.arguments as Client.Client,
+                  // value: value,
                 ));
+
       }
       return MaterialPageRoute(builder: (context) => ClientEditScreen());
     } else if (settings.name == ResetPasswordScreen.routeName) {

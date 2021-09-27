@@ -20,6 +20,7 @@ import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/orders_screen/all_orders_screen.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -212,22 +213,25 @@ class _AddClientState extends State<AddClient> {
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    UserPreferences userPreference = new UserPreferences();
-    LoggedUserInfo loggedUserInfo =
-        await userPreference.getUserInformation() as LoggedUserInfo;
-    User user = loggedUserInfo.user as User;
+    bool connected = await ConnectionChecker.CheckInternetConnection();
+    if (!connected) {
+      UserPreferences userPreference = new UserPreferences();
+      LoggedUserInfo loggedUserInfo =
+          await userPreference.getUserInformation() as LoggedUserInfo;
+      User user = loggedUserInfo.user as User;
 
-    SmsSender sender = SmsSender();
-    String address = user.company!.mobile as String;
+      SmsSender sender = SmsSender();
+      String address = user.company!.mobile as String;
 
-    SmsMessage message = SmsMessage(address, 'New Order Created!');
-    message.onStateChanged.listen((state) {
-      if (state == SmsMessageState.Sent) {
-        print("SMS is sent!");
-      } else if (state == SmsMessageState.Delivered) {
-        print("SMS is delivered!");
-      }
-    });
-    sender.sendSms(message);
+      SmsMessage message = SmsMessage(address, 'New Order Created!');
+      message.onStateChanged.listen((state) {
+        if (state == SmsMessageState.Sent) {
+          print("SMS is sent!");
+        } else if (state == SmsMessageState.Delivered) {
+          print("SMS is delivered!");
+        }
+      });
+      sender.sendSms(message);
+    }
   }
 }
