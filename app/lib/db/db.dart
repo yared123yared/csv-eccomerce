@@ -62,6 +62,7 @@ class CsvDatabse {
   final textTypeNullable = 'TEXT';
   final boolTypeNullable = 'BOOLEAN';
   final integerTypeNullable = 'INTEGER';
+  final doubleTypeNullable = 'REAL';
   final idTypeNullable = 'INTEGER PRIMARY KEY';
 
   Future _createDB(Database db, int version) async {
@@ -134,6 +135,7 @@ CREATE TABLE $tablePivot (
   ${PivotFields.value} $textTypeNullable,
   ${PivotFields.unitId} $integerTypeNullable,
   ${PivotFields.unitName} $textTypeNullable,
+  ${PivotFields.id} $integerTypeNullable,
   ${PivotFields.createdAt} $textTypeNullable,
   ${PivotFields.updatedAt} $textTypeNullable
   )
@@ -148,7 +150,8 @@ CREATE TABLE $tableClients (
   ${ClientFields.mobile} $textType,
   ${ClientFields.email} $textType,
   ${ClientFields.uploadedPhoto} $textTypeNullable,
-  type $textType
+  type $textType,
+  ${ClientFields.debt} $integerTypeNullable
   )
 ''');
       print("table create--8");

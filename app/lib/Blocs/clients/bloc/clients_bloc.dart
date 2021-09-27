@@ -64,6 +64,37 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     bool loadMore,
   ) async* {
     yield ClientFetchingState();
+    bool connected = await ConnectionChecker.CheckInternetConnection();
+    print("-s--connected--${connected}");
+    if (!connected) {
+      List<CreateEditData>? clts = await CsvDatabse.instance.readClients();
+      if (clts == null) {
+        yield ClientFetchingSuccessState(
+          clients: this.clients,
+        );
+      } else {
+        List<Client> cl2 = [];
+        for (var c in clts) {
+          cl2.add(
+            Client(
+              id: c.id == null ? int.parse(c.id as String) : 0,
+              addresses: c.addresses,
+              firstName: c.firstName,
+              email: c.email,
+              lastName: c.lastName,
+              mobile: c.mobile,
+              photo: Photo(id: 0, filePath: c.uploadedPhoto),
+              debts: c.debt,
+              documents: c.documents,
+            ),
+          );
+        }
+        yield ClientFetchingSuccessState(
+          clients: cl2,
+        );
+        return;
+      }
+    }
     if (isFirstFetch) {
       if (!syncing) {
         await syncLocalDataToServer();
@@ -91,7 +122,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
               CreateEditData(
                 id: reqData.clients.client![i].id.toString(),
                 type: '',
-                uploadedPhoto: reqData.clients.client![i].photo?.filePath??"",
+                uploadedPhoto: reqData.clients.client![i].photo?.filePath ?? "",
                 documents: reqData.clients.client![i].documents,
                 firstName: reqData.clients.client![i].firstName.toString(),
                 lastName: reqData.clients.client![i].lastName.toString(),
@@ -144,7 +175,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         return;
       }
       List<Client>? cl = [];
-       cl = await clientsRepository.searchClients(key);
+      cl = await clientsRepository.searchClients(key);
       // if (reqData != null) {
       //   if (reqData.client != null) {
       //     cl.add(reqData.client as Client);
