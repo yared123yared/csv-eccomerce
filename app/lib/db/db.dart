@@ -31,9 +31,8 @@ final String tablePivot = 'table_pivot';
 final String tableRequest = 'request';
 final String tableCart = 'cart';
 final String tableCartAttributes = 'cart_attributes';
-final String tableUpdateOrderTable= 'orders_updated';
+final String tableUpdateOrderTable = 'orders_updated';
 final String tableCartItem = 'cart_item';
-
 
 class CsvDatabse {
   static final CsvDatabse instance = CsvDatabse._init();
@@ -53,6 +52,12 @@ class CsvDatabse {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filepath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
+  }
+
+  Future<void> DeleteDatabase() async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, "'csv.db'");
+    return deleteDatabase(path);
   }
 
   final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
@@ -220,8 +225,7 @@ CREATE TABLE $tableDeletedClientID (
 ''');
       print("table create--12");
 
-
-    await db.execute('''
+      await db.execute('''
 CREATE TABLE $tableRequest (
   ${RequestFields.id} $idType,
   ${RequestFields.total} $integerTypeNullable,
@@ -236,7 +240,7 @@ CREATE TABLE $tableRequest (
   )
 ''');
       print("table create--14");
-await db.execute('''
+      await db.execute('''
 CREATE TABLE $tableCart (
   ${CartFields.id} $idType,
   ${CartFields.amountInCart} $integerTypeNullable,
@@ -245,8 +249,8 @@ CREATE TABLE $tableCart (
        REFERENCES $tableRequest (${RequestFields.id}) ON DELETE CASCADE
   )
 ''');
- print("table create--15");
- await db.execute('''
+      print("table create--15");
+      await db.execute('''
 CREATE TABLE $tableCartAttributes (
   cart_id $integerTypeNullable,
   id $integerTypeNullable,
@@ -255,7 +259,7 @@ CREATE TABLE $tableCartAttributes (
   )
 ''');
       print("table create--16");
-          await db.execute('''
+      await db.execute('''
 CREATE TABLE $tableUpdateOrderTable (
   ${RequestFields.idX} $idType,
   ${RequestFields.total} $integerTypeNullable,
@@ -281,7 +285,6 @@ CREATE TABLE $tableCartItem (
   )
 ''');
       print("table create--18");
-
     } catch (e) {
       print("db--table--create--failed");
       print(e);

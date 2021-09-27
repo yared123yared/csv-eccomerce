@@ -234,6 +234,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           page++;
         }
       }
+      syncLocalDataToServer();
       yield ClientCreateSuccesstate();
       return;
     } catch (e) {
@@ -279,6 +280,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           this.clients.add(clientX);
           print("bloc--updated---on--db--3");
         }
+        syncLocalDataToServer();
         yield ClientUpdateSuccesstate();
         return;
       }
