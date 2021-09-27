@@ -5,6 +5,7 @@ import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
@@ -162,7 +163,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed(
               ClientEditScreen.routeName,
-              // arguments: state.user,
+              arguments: ClientEditArgs(from: "clients"),
             ),
             icon: Icon(
               Icons.add_outlined,
@@ -258,7 +259,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     ClientDetailScreen.routeName,
-                                    arguments: clients![index],
                                   );
                                 },
                                 child: ClientCard(

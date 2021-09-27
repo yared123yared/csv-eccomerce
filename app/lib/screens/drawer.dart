@@ -1,5 +1,6 @@
 import 'package:app/Blocs/auth/bloc/auth_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
+import 'package:app/db/db.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/login_info.dart';
 import 'package:app/preferences/user_preference_data.dart';
@@ -688,7 +689,8 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: ()async {
+                          await CsvDatabse.instance.DeleteDatabase();
                           Navigator.pushNamed(context, Login.routeName);
                         },
                         child: Container(

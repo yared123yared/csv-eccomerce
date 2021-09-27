@@ -53,6 +53,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       try {
         if (!connected) {
           List<Data>? products = await CsvDatabse.instance.readProducts(null);
+          print("products offline length ${products?.length}");
           if (products == null || products == []) {
             print("bloc--fetch--product--2");
             yield ProductOperationFailure(
@@ -236,7 +237,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           } else {
             print("bloc--fetch--lazy--3");
 
-            productList = products;
+            // productList = products;
+            for (var item in products) {
+              bool isFound = false;
+              for (var p in productList) {
+                if (item.id == p.id) {
+                  isFound = true;
+                  break;
+                }
+              }
+              if (!isFound) {
+                productList.add(item);
+              }
+            }
             yield ProductLoadSuccess(
               products: productList,
               selectedCategoryId: state.selectedCategoryId,

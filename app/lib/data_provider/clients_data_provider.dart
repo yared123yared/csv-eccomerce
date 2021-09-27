@@ -168,6 +168,8 @@ class ClientsDataProvider {
 
       http.Response res = await http.Response.fromStream(await request.send());
       print("dp--create 1");
+      print(res.statusCode);
+      print(jsonDecode(res.body));
       if (res.statusCode != 201) {
         throw HttpException('Error Occured While Creating User');
       } else {
@@ -177,6 +179,7 @@ class ClientsDataProvider {
     } catch (e) {
       print("dp--create failed");
       print(e);
+      print("dp--create failed");
       throw e;
     }
     return clientX;

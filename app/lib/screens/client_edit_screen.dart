@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:app/Blocs/location/bloc/location_bloc.dart';
 import 'package:app/models/login_info.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/models/users.dart';
 import 'package:app/preferences/user_preference_data.dart';
+import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
@@ -31,9 +33,13 @@ class ClientEditScreen extends StatefulWidget {
   // const NewClientScreen({
   //   required this.user,
   // });
-  final Client? client;
+  // final Client? client;
+  // final String from;
+  late ClientEditArgs args;
   ClientEditScreen({
-    this.client,
+    // this.client,
+    // required this.from,
+    required this.args,
   });
 
   @override
@@ -82,40 +88,40 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   bool isFetchingAddress = false;
   Placemark? currentPlace;
   void initialize() {
-    print("initial state ---${this.widget.client == null}");
+    print("initial state ---${this.widget.args.client == null}");
 
     List<Map<String, dynamic>> initAdresses = [];
-    if (widget.client != null) {
+    if (widget.args.client != null) {
       print("79");
       setState(() {
-        values['first_name'] = this.widget.client!.firstName == null
+        values['first_name'] = this.widget.args.client!.firstName == null
             ? ''
-            : this.widget.client!.firstName as String;
-        values['last_name'] = this.widget.client!.lastName == null
+            : this.widget.args.client!.firstName as String;
+        values['last_name'] = this.widget.args.client!.lastName == null
             ? ''
-            : this.widget.client!.lastName as String;
-        values['mobile'] = this.widget.client!.mobile == null
+            : this.widget.args.client!.lastName as String;
+        values['mobile'] = this.widget.args.client!.mobile == null
             ? ''
-            : this.widget.client!.mobile as String;
-        values['email'] = this.widget.client!.email == null
+            : this.widget.args.client!.mobile as String;
+        values['email'] = this.widget.args.client!.email == null
             ? ''
-            : this.widget.client!.email as String;
+            : this.widget.args.client!.email as String;
         firstNameController.text = values['first_name'];
         lastNameController.text = values['last_name'];
         emailController.text = values['email'];
         mobileController.text = values['mobile'];
-        values['city'] = this.widget.client!.city == null
+        values['city'] = this.widget.args.client!.city == null
             ? ''
-            : this.widget.client!.city as String;
+            : this.widget.args.client!.city as String;
 
-        addresses = this.widget.client!.addresses == null
+        addresses = this.widget.args.client!.addresses == null
             ? []
-            : this.widget.client!.addresses as List<Addresses>;
+            : this.widget.args.client!.addresses as List<Addresses>;
       });
       // print(values['first_name']);
 
-      if (this.widget.client!.addresses != null) {
-        for (var addr in this.widget.client!.addresses!) {
+      if (this.widget.args.client!.addresses != null) {
+        for (var addr in this.widget.args.client!.addresses!) {
           Map<String, dynamic> adress = {};
 
           adress['id'] = addr.id == null ? '' : addr.id;
@@ -224,9 +230,9 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
       documents: documents,
       uploadedPhoto: photoController.text,
     );
-    if (widget.client != null) {
-      if (widget.client!.id != null) {
-        data.id = widget.client!.id.toString();
+    if (widget.args.client != null) {
+      if (widget.args.client!.id != null) {
+        data.id = widget.args.client!.id.toString();
         UpdateClientEvent updateClientEvent = new UpdateClientEvent(data: data);
         BlocProvider.of<ClientsBloc>(context, listen: false)
             .add(updateClientEvent);
@@ -341,7 +347,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
           emailController.text == '') {
         return;
       }
-      if (widget.client == null) {
+      if (widget.args.client == null) {
         var currTime = DateTime.now();
         var timeStamp = currTime.millisecondsSinceEpoch;
         FetchCurrentLocationEvent fetchLocationEvent =
@@ -460,6 +466,10 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   }
 
   void navigateToClientScreen(BuildContext context) {
+    if (widget.args.from == "checkout") {
+      Navigator.popAndPushNamed(context, AddClient.routeName);
+      return;
+    }
     FetchClientsEvent fetchClientEvent = new FetchClientsEvent(loadMore: false);
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
     Navigator.popAndPushNamed(context, ClientsScreen.routeName);
@@ -520,8 +530,8 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
     widgetContext = context;
     late Widget title;
     late String progresstitle;
-    if (this.widget.client != null) {
-      if (this.widget.client!.id != null) {
+    if (this.widget.args.client != null) {
+      if (this.widget.args.client!.id != null) {
         title = Text('Update Client');
         progresstitle = 'Updating';
       } else {
@@ -544,6 +554,11 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
           ),
           onPressed: () {
             ///
+            ///
+            if (widget.args.from == "checkout") {
+              Navigator.popAndPushNamed(context, AddClient.routeName);
+              return;
+            }
             FetchClientsEvent fetchClientEvent =
                 new FetchClientsEvent(loadMore: false);
             BlocProvider.of<ClientsBloc>(context, listen: false)
@@ -582,6 +597,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
               List<String> recipents = ["916897173", "0939546094"];
 
               _sendSMS("message", recipents);
+
               navigateToClientScreen(widgetContext);
 
               // Navigator.of(context).pop();
@@ -688,8 +704,6 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
     );
   }
 
-  
-
   List<Step> getSteps() {
     return [
       getClientAddStep(
@@ -759,7 +773,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
           onBillingAddressPressed: billingAddressHandler,
           isBilling: values['addresses'][currentIdx]['is_billing'],
           isDefault: values['addresses'][currentIdx]['is_default'],
-          isCreating: (widget.client == null),
+          isCreating: (widget.args.client == null),
           // isDefault: _isDefault,
           // isBilling: _isBilling,
           textInput: [

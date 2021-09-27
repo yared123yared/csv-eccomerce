@@ -9,6 +9,7 @@ import 'package:app/models/client.dart' as Client;
 import 'package:app/models/login_info.dart';
 import 'package:app/models/navigation/navigation.dart';
 import 'package:app/models/product/data.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/preferences/user_preference_data.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
@@ -114,10 +115,12 @@ class AppRoutes {
         // print("--route ----${settings.arguments}");
         return MaterialPageRoute(
             builder: (context) => ClientEditScreen(
-                  client: settings.arguments as Client.Client,
+                  args: settings.arguments as ClientEditArgs,
                 ));
       }
-      return MaterialPageRoute(builder: (context) => ClientEditScreen());
+      return MaterialPageRoute(builder: (context) => ClientEditScreen(
+                  args: settings.arguments as ClientEditArgs,
+      ));
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ResetPasswordScreen(

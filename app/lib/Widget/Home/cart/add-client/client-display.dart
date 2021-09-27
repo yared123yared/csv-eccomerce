@@ -3,6 +3,7 @@ import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/screens/cart_screens/add_client.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
@@ -91,7 +92,12 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
                 onTap: () {
                   print("Add new client button have been cliecked");
                   Navigator.popAndPushNamed(
-                      context, ClientEditScreen.routeName);
+                    context,
+                    ClientEditScreen.routeName,
+                    arguments: ClientEditArgs(
+                      from: "checkout",
+                    ),
+                  );
                 },
                 child: Container(
                     width: MediaQuery.of(context).size.width * 0.3,
