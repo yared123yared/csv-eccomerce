@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:app/db/db.dart';
 import 'package:app/models/category/categories.dart';
@@ -76,6 +77,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
           List<Data> productsFromServer =
               await this.productRepository.getProducts(page, this.categoryId);
+          // JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+          // String prettyprint = encoder.convert();
+          // print(prettyprint);
           productList = productsFromServer;
           // print("This is the data that come from the repository $products");
           if (productsFromServer == [] || productsFromServer == null) {
@@ -199,12 +203,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           print("+++++++++++Product existed in the cart list");
           if (event.increment == true) {
             cart_product[i].order += 1;
-          } else if(event.increment==false){
+          } else if (event.increment == false) {
             cart_product[i].order -= 1;
-          }else{
-            int order=event.singleProduct.order;
-              cart_product[i].order -= order;
-            }
+          } else {
+            int order = event.singleProduct.order;
+            cart_product[i].order -= order;
+          }
         }
       }
       yield ProductLoadSuccess(
