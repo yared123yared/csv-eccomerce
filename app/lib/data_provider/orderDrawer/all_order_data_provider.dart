@@ -29,8 +29,7 @@ class AllOrderDataProvider {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode(
-              {
+            body: jsonEncode({
               "tableColumns": [
                 "created_at",
                 "order_number",
@@ -48,15 +47,14 @@ class AllOrderDataProvider {
               "relationship": false,
               "relationship_field": "",
               "dir": "desc"
-            }
-            ));
+            }));
 
         if (response.statusCode == 200) {
-        //   APICacheDBModel cacheDBModel = new APICacheDBModel(
-        //     key: "AllOrder",
-        //     syncData: response.body,
-        //   );
-        //   await APICacheManager().addCacheData(cacheDBModel);
+          APICacheDBModel cacheDBModel = new APICacheDBModel(
+            key: "AllOrder",
+            syncData: response.body,
+          );
+          await APICacheManager().addCacheData(cacheDBModel);
           final extractedData =
               json.decode(response.body) as Map<String, dynamic>;
 
@@ -69,20 +67,20 @@ class AllOrderDataProvider {
           throw Exception('Failed to load courses');
         }
       } else {
-      //   var cacheData = await APICacheManager().getCacheData("AllOrder");
+        var cacheData = await APICacheManager().getCacheData("AllOrder");
 
-      //   final extractedData =
-      //       json.decode(cacheData.syncData) as Map<String, dynamic>;
+        final extractedData =
+            json.decode(cacheData.syncData) as Map<String, dynamic>;
 
-      //   final data = extractedData['orders']['data'];
+        final data = extractedData['orders']['data'];
 
-      //   if (data != null && data.isNotEmpty) {
-      //     return data
-      //         .map((salesReport) =>
-      //             allOrdersData.add(DataAllOrders.fromJson(salesReport)))
-      //         .toList();
-      //   }
-      throw Exception('Failed to load orders');
+        if (data != null && data.isNotEmpty) {
+          return data
+              .map((salesReport) =>
+                  allOrdersData.add(DataAllOrders.fromJson(salesReport)))
+              .toList();
+        }
+        throw Exception('Failed to load orders');
       }
     } catch (e) {
       print("Exception throuwn $e");
