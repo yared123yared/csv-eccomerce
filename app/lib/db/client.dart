@@ -12,7 +12,7 @@ extension ClientLocalDB on CsvDatabse {
           print("db--cl--create---1");
           clientId = await txn.insert(
             tableClients,
-            clientX.toJson(),
+            clientX.toDbJson(),
             conflictAlgorithm: ConflictAlgorithm.replace,
           );
           print("db-cl--create---2");
@@ -75,7 +75,7 @@ extension ClientLocalDB on CsvDatabse {
           print("db--cl--update---1");
           clientId = await txn.update(
             tableClients,
-            clientX.toJson(),
+            clientX.toDbJson(),
             where: '${ClientFields.id} = ?',
             whereArgs: [int.parse(clientX.id.toString())],
           );
@@ -174,6 +174,84 @@ extension ClientLocalDB on CsvDatabse {
           columns: ClientFields.values,
           // where: '${ClientFields.id} = ?',
           // whereArgs: [id],
+        );
+
+        if (clientMap.isNotEmpty) {
+          clients =
+              clientMap.map((json) => CreateEditData.fromJson(json)).toList();
+        } else {
+          // throw Exception('ID  not found');
+        }
+        ;
+        if (clients != null) {
+          for (var cl in clients!) {
+            List<Addresses> adresses = [];
+            List<Docs> documents = [];
+            List<Orders> orders = [];
+            final adressMap = await txn.query(
+              tableAddresses,
+              where: '${AddressFields.clientId} = ?',
+              whereArgs: [cl.id],
+            );
+
+            adresses = adressMap
+                .map(
+                  (json) => Addresses.fromJson(json),
+                )
+                .toList();
+
+            final docsMap = await txn.query(
+              tableDocuments,
+              where: '${DocFields.clientId} = ?',
+              whereArgs: [cl.id],
+            );
+
+            documents = docsMap
+                .map(
+                  (json) => Docs.fromJson(json),
+                )
+                .toList();
+            if (cl.id != null) {
+              final ordersMap = await txn.query(
+                tableOrders,
+                where: '${OrderFields.clientId} = ?',
+                whereArgs: [int.parse(cl.id as String)],
+              );
+
+              orders = ordersMap
+                  .map(
+                    (json) => Orders.fromJson(json),
+                  )
+                  .toList();
+            }
+
+            // print("addresses");
+            // print(jsonEncode(adresses).toString());
+            // print("documents");
+            // print(jsonEncode(documents).toString());
+            cl.addresses = adresses;
+            cl.documents = documents;
+            cl.orders = orders;
+          }
+        }
+      });
+      // print("clients");
+      // print(jsonEncode(clients).toString());
+      return clients;
+    }
+  }
+
+  Future<List<CreateEditData>?> searchClients(String key) async {
+    // Future<List<CreateEditData>?> readClient(int id) async {
+    final db = await CsvDatabse.instance.database;
+    List<CreateEditData>? clients;
+    if (db != null) {
+      await db.transaction((txn) async {
+        final clientMap = await txn.query(
+          tableClients,
+          columns: ClientFields.values,
+          where: '${ClientFields.firstname} Like ?',
+          whereArgs: ["%${key}%"],
         );
 
         if (clientMap.isNotEmpty) {

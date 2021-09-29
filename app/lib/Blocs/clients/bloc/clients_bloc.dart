@@ -19,7 +19,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
 
   List<Client> clients = [];
   int page = 1;
-  bool endOfPage = false;
+  int endOfPage = 1;
   bool syncing = false;
   bool isFirstFetch = false;
   ClientsBloc({
@@ -65,7 +65,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   ) async* {
     yield ClientFetchingState();
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    print("-s--connected--${connected}");
     if (!connected) {
       List<CreateEditData>? clts = await CsvDatabse.instance.readClients();
       if (clts == null) {
@@ -75,9 +74,10 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       } else {
         List<Client> cl2 = [];
         for (var c in clts) {
+          print("client -- id---${c.id}--debt--${c.debt}");
           cl2.add(
             Client(
-              id: c.id == null ? int.parse(c.id as String) : 0,
+              id: c.id == null ? 0:  int.parse(c.id as String),
               addresses: c.addresses,
               firstName: c.firstName,
               email: c.email,
@@ -92,6 +92,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         yield ClientFetchingSuccessState(
           clients: cl2,
         );
+
         return;
       }
     }
@@ -106,39 +107,56 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
         page = 1;
       }
       if (loadMore) {
-        if (endOfPage) {
-          isFirstFetch = false;
-          yield ClientFetchingSuccessState(
-            clients: this.clients,
-          );
+        // if (endOfPage) {
+        //   isFirstFetch = false;
+        //   yield ClientFetchingSuccessState(
+        //     clients: this.clients,
+        //   );
 
-          return;
-        }
+        //   return;
+        // }
         final reqData = await clientsRepository.getClients(dataX, page);
-
+        print("page $page");
+        print(reqData.clients.client!.length);
         if (reqData.clients.client != null) {
           for (var i = 0; i < reqData.clients.client!.length; i++) {
-            await CsvDatabse.instance.create(
-              CreateEditData(
-                id: reqData.clients.client![i].id.toString(),
-                type: '',
-                uploadedPhoto: reqData.clients.client![i].photo?.filePath ?? "",
-                documents: reqData.clients.client![i].documents,
-                firstName: reqData.clients.client![i].firstName.toString(),
-                lastName: reqData.clients.client![i].lastName.toString(),
-                mobile: reqData.clients.client![i].mobile.toString(),
-                email: reqData.clients.client![i].email.toString(),
-                addresses: reqData.clients.client![i].addresses == null
-                    ? []
-                    : (reqData.clients.client![i].addresses as List<Addresses>),
-              ),
-            );
-            this.clients.add(reqData.clients.client![i]);
+            bool isFound = false;
+            for (var j = 0; j < this.clients.length; j++) {
+              if (reqData.clients.client![i].id == this.clients[j].id) {
+                isFound = true;
+                break;
+              }
+            }
+            if (!isFound) {
+              await CsvDatabse.instance.create(
+                CreateEditData(
+                  id: reqData.clients.client![i].id.toString(),
+                  type: '',
+                  uploadedPhoto:
+                      reqData.clients.client![i].photo?.filePath ?? "",
+                  documents: reqData.clients.client![i].documents,
+                  firstName: reqData.clients.client![i].firstName.toString(),
+                  lastName: reqData.clients.client![i].lastName.toString(),
+                  mobile: reqData.clients.client![i].mobile.toString(),
+                  email: reqData.clients.client![i].email.toString(),
+                  debt: reqData.clients.client![i].debts,
+                  addresses: reqData.clients.client![i].addresses == null
+                      ? []
+                      : (reqData.clients.client![i].addresses
+                          as List<Addresses>),
+                ),
+              );
+              this.clients.add(reqData.clients.client![i]);
+            }
           }
-          if (reqData.clients.client!.length < 5) {
-            endOfPage = true;
-          }
-          page++;
+          // if (reqData.clients.client!.length < 5) {
+          //   endOfPage = true;
+          // }
+          // if(isFirstFetch){
+
+          // }
+          // page++;
+          page = reqData.clients.lastPage as int;
         }
       }
       isFirstFetch = false;
@@ -163,16 +181,41 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       bool connected = await ConnectionChecker.CheckInternetConnection();
       print("-s--connected--${connected}");
       if (!connected) {
-        yield ClientFetchingSuccessState(
-          clients: this
-              .clients
-              .where((element) => (element.firstName == key ||
-                  element.mobile == key ||
-                  element.email == key ||
-                  element.lastName == key))
-              .toList(),
-        );
-        return;
+        List<CreateEditData>? clts =
+            await CsvDatabse.instance.searchClients(key);
+        if (clts == null) {
+          yield ClientFetchingSuccessState(
+            clients: this
+                .clients
+                .where((element) => (element.firstName == key ||
+                    element.mobile == key ||
+                    element.email == key ||
+                    element.lastName == key))
+                .toList(),
+          );
+          return;
+        } else {
+          List<Client> cl2 = [];
+          for (var c in clts) {
+            cl2.add(
+              Client(
+                id: c.id == null ? int.parse(c.id as String) : 0,
+                addresses: c.addresses,
+                firstName: c.firstName,
+                email: c.email,
+                lastName: c.lastName,
+                mobile: c.mobile,
+                photo: Photo(id: 0, filePath: c.uploadedPhoto),
+                debts: c.debt,
+                documents: c.documents,
+              ),
+            );
+          }
+          yield ClientFetchingSuccessState(
+            clients: cl2,
+          );
+          return;
+        }
       }
       List<Client>? cl = [];
       cl = await clientsRepository.searchClients(key);
@@ -212,6 +255,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
             mobile: clientCreated.mobile,
             email: clientCreated.email,
             status: 1,
+            debts: 0,
             id: int.parse(
               clientCreated.id.toString(),
             ));
@@ -393,6 +437,9 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
           for (var req in requests) {
             try {
               await this.orderRepository.createOrder(req);
+              int? id =
+                  await CsvDatabse.instance.deleteRequest(req.id!);
+              print("deleted--request--order--${id}");
             } catch (e) {
               print("syncing--create--req--failed");
               print(e);

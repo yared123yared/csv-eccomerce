@@ -11,7 +11,7 @@ class UserPreferences {
     await prefs.setString('user_info', jsonEncode(info));
   }
 
-  Future<LoggedUserInfo?> getUserInformation() async {
+  Future<LoggedUserInfo> getUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? u_info = prefs.getString('user_info');
     Map<String, dynamic> json = jsonDecode(u_info!) as Map<String, dynamic>;
@@ -85,4 +85,3 @@ class UserPreferences {
     return language = pref.getString(value) as String;
   }
 }
- 
