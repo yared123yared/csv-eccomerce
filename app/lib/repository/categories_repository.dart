@@ -11,7 +11,7 @@ class CategoryRepository {
 
   Future<List<Categories>> getCategories() async {
     List<Categories> data = await categoryDataProvider.getCategories();
-    print("Data arrived at the data provider $data");
+    // print("Data arrived at the data provider $data");
     return data;
   }
 }

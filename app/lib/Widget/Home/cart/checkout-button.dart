@@ -48,7 +48,7 @@ class Checkout extends StatelessWidget {
                       },
                       btnOkOnPress: () {
                         Navigator.popAndPushNamed(
-                            context, MainScreen.routeName);
+                            context, MainScreen.routeName, arguments:1);
                       },
                     )..show();
                   } else {

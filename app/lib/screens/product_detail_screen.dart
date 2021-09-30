@@ -8,6 +8,7 @@ import 'package:app/models/product/attributes.dart';
 
 import 'package:app/models/product/data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -203,9 +204,18 @@ class _ProductDetailState extends State<ProductDetail> {
                       itemCount: photos.length,
                       itemBuilder: (context, index, realIndex) => Container(
                         width: double.infinity,
-                        child: new Image.network(
-                          photos[index],
+                        child: CachedNetworkImage(
+                          imageUrl: photos[index],
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          width: double.infinity,
                           fit: BoxFit.fill,
+                          placeholder: (context, url) => Container(
+                            color: Colors.white,
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.black,
+                            child: Icon(Icons.error),
+                          ),
                         ),
                       ),
                       options: CarouselOptions(
@@ -224,7 +234,6 @@ class _ProductDetailState extends State<ProductDetail> {
                         enlargeStrategy: CenterPageEnlargeStrategy.scale,
                       ),
                     )),
-
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

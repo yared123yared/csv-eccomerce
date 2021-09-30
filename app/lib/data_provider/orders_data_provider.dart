@@ -147,7 +147,7 @@ class OrderDataProvider {
       } else {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
-        // print(extractedData);
+        print(extractedData);
         addressId = extractedData["address"]["id"];
         client = Client.fromJson(extractedData["client"]);
         if (extractedData['products'] != null) {

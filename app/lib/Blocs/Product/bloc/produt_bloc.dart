@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:app/db/db.dart';
 import 'package:app/models/category/categories.dart';
@@ -52,6 +53,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       try {
         if (!connected) {
           List<Data>? products = await CsvDatabse.instance.readProducts(null);
+          print("products offline length ${products?.length}");
           if (products == null || products == []) {
             print("bloc--fetch--product--2");
             yield ProductOperationFailure(
@@ -76,6 +78,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
           List<Data> productsFromServer =
               await this.productRepository.getProducts(page, this.categoryId);
+          // JsonEncoder encoder = new JsonEncoder.withIndent('  ');
+          // String prettyprint = encoder.convert();
+          // print(prettyprint);
           productList = productsFromServer;
           // print("This is the data that come from the repository $products");
           if (productsFromServer == [] || productsFromServer == null) {
@@ -199,12 +204,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           print("+++++++++++Product existed in the cart list");
           if (event.increment == true) {
             cart_product[i].order += 1;
-          } else if(event.increment==false){
+          } else if (event.increment == false) {
             cart_product[i].order -= 1;
-          }else{
-            int order=event.singleProduct.order;
-              cart_product[i].order -= order;
-            }
+          } else {
+            int order = event.singleProduct.order;
+            cart_product[i].order -= order;
+          }
         }
       }
       yield ProductLoadSuccess(
@@ -232,7 +237,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           } else {
             print("bloc--fetch--lazy--3");
 
-            productList = products;
+            // productList = products;
+            for (var item in products) {
+              bool isFound = false;
+              for (var p in productList) {
+                if (item.id == p.id) {
+                  isFound = true;
+                  break;
+                }
+              }
+              if (!isFound) {
+                productList.add(item);
+              }
+            }
             yield ProductLoadSuccess(
               products: productList,
               selectedCategoryId: state.selectedCategoryId,

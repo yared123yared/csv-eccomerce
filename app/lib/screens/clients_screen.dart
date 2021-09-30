@@ -5,6 +5,7 @@ import 'package:app/Widget/clients/clients_list/client.dart';
 import 'package:app/Widget/clients/clients_list/searchBar.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/screens/client_detail_screen.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:app/screens/drawer.dart';
@@ -162,7 +163,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed(
               ClientEditScreen.routeName,
-              // arguments: state.user,
+              arguments: ClientEditArgs(from: "clients"),
             ),
             icon: Icon(
               Icons.add_outlined,
@@ -215,15 +216,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     }
                   }
                 } else if (state is ClientFetchingState) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  // SnackBar snackBar =
+                  //     new SnackBar(content: CircularProgressIndicator());
+                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  // return CircularProgressIndicator();
                 } else if (state is ClientFetchingFailedState) {
                   return Center(
                     child: Text('Client Fetch Failed'),
                   );
                 }
-
                 return Container(
                   height: MediaQuery.of(context).size.height -
                       AppBar().preferredSize.height -
@@ -258,7 +259,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     ClientDetailScreen.routeName,
-                                    arguments: clients![index],
                                   );
                                 },
                                 child: ClientCard(
@@ -279,12 +279,21 @@ class _ClientsScreenState extends State<ClientsScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: BlocBuilder<ClientsBloc, ClientsState>(
+        builder: (context, state) {
+          if (state is ClientFetchingState) {
+            return Container(
+              height: 20,
+              child: Center(
+                child: Text("fetching"),
+              ),
+            );
+          }
+          return Container(
+            height: 0,
+          );
+        },
+      ),
     );
   }
-}
-
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  throw UnimplementedError();
 }

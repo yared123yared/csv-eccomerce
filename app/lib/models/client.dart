@@ -197,7 +197,7 @@ class Client {
     this.addresses,
     this.documents,
     this.isLocal,
-    // this.photo,
+    this.photo,
   });
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -460,12 +460,12 @@ class Links {
 class ClientFields {
   static final List<String> values = [
     /// Add all fields
-    id, firstname, lastname, mobile, email, uploadedPhoto, type,
+    id, firstname, lastname, mobile, email, uploadedPhoto, type,debt
     //  status,
     // quantity,
   ];
 
-  static final String id = '_id';
+  static final String id = 'id';
   static final String firstname = 'firstname';
   static final String lastname = 'lastname';
   static final String mobile = 'mobile';
@@ -474,6 +474,7 @@ class ClientFields {
   static final String type = 'type';
   static final String status = 'status';
   static final String quantity = 'quantity';
+  static final String debt = 'debt';
 }
 
 class CreateEditData {
@@ -489,7 +490,8 @@ class CreateEditData {
   String? uploadedPhoto;
   String? type;
   // int? status;
-  // int? quantity;
+  int? debt;
+
   CreateEditData({
     this.id,
     required this.firstName,
@@ -502,7 +504,7 @@ class CreateEditData {
     this.type,
     this.orders,
     // this.status,
-    // this.quantity,
+    this.debt,
   });
 
   CreateEditData copy({
@@ -513,21 +515,23 @@ class CreateEditData {
     String? email,
     String? uploadedPhoto,
     String? type,
+    String? debt,
+
   }) =>
       CreateEditData(
-        id: id ?? this.id,
-        firstName: firstname ?? this.firstName,
-        lastName: lastname ?? this.lastName,
-        mobile: mobile ?? this.mobile,
-        email: email ?? this.email,
-        uploadedPhoto: uploadedPhoto ?? this.uploadedPhoto,
-        addresses: this.addresses,
-        documents: this.documents,
-        type: this.type,
-      );
+          id: id ?? this.id,
+          firstName: firstname ?? this.firstName,
+          lastName: lastname ?? this.lastName,
+          mobile: mobile ?? this.mobile,
+          email: email ?? this.email,
+          uploadedPhoto: uploadedPhoto ?? this.uploadedPhoto,
+          addresses: this.addresses,
+          documents: this.documents,
+          type: this.type,
+          debt: this.debt);
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
+    data['id'] = this.id;
     data['firstname'] = this.firstName;
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
@@ -537,14 +541,28 @@ class CreateEditData {
     return data;
   }
 
+  Map<String, dynamic> toDbJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['firstname'] = this.firstName;
+    data['lastname'] = this.lastName;
+    data['mobile'] = this.mobile;
+    data['email'] = this.email;
+    data['uploaded_photo'] = this.uploadedPhoto;
+    data['type'] = this.type;
+    data['debt'] = this.debt;
+    return data;
+  }
+
   CreateEditData.fromJson(Map<String, dynamic> json) {
-    id = json['_id'].toString();
+    id = json['id'].toString();
     firstName = json['firstname'];
     lastName = json['lastname'];
     email = json['email'];
     mobile = json['mobile'];
     uploadedPhoto = json['uploaded_photo'];
     type = json['type'];
+    debt = json['debt'];
     addresses = [];
     documents = [];
     orders = [];

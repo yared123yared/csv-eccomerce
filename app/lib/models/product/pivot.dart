@@ -1,7 +1,7 @@
 class PivotFields {
   static final List<String> values = [
     /// Add all fields
-    productId, attributeId, value,unitId,unitName, createdAt, updatedAt
+    productId, attributeId, value,unitId,unitName, id,createdAt, updatedAt
   ];
 
   static final String productId = 'product_id';
@@ -11,6 +11,7 @@ class PivotFields {
   static final String unitName = 'unit_name';
   static final String createdAt = 'created_at';
   static final String updatedAt = 'updated_at';
+  static final String id = 'id';
 }
 
 

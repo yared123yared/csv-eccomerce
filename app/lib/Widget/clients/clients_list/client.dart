@@ -5,6 +5,7 @@ import 'package:app/Widget/clients/clients_list/deleteButton.dart';
 import 'package:app/Widget/clients/clients_list/edit_button.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/client.dart';
+import 'package:app/models/route_args.dart';
 import 'package:app/screens/client_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +67,10 @@ class ClientCard extends StatelessWidget {
                       Navigator.of(context)
                           .pushNamed(
                         ClientEditScreen.routeName,
-                        arguments: this.client,
+                        arguments: ClientEditArgs(
+                          client: this.client,
+                          from: "clients",
+                        ),
                       )
                           .then((value) {
                         SyncDataToServerEvent syncClientEvent =
