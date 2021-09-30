@@ -60,7 +60,7 @@ class CsvDatabse {
     return deleteDatabase(path);
   }
 
-  final idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+  final idType = 'INTEGER PRIMARY KEY';
   final textType = 'TEXT NOT NULL';
   final boolType = 'BOOLEAN NOT NULL';
   final integerType = 'INTEGER NOT NULL';

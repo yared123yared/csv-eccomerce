@@ -465,7 +465,7 @@ class ClientFields {
     // quantity,
   ];
 
-  static final String id = '_id';
+  static final String id = 'id';
   static final String firstname = 'firstname';
   static final String lastname = 'lastname';
   static final String mobile = 'mobile';
@@ -515,6 +515,8 @@ class CreateEditData {
     String? email,
     String? uploadedPhoto,
     String? type,
+    String? debt,
+
   }) =>
       CreateEditData(
           id: id ?? this.id,
@@ -529,7 +531,7 @@ class CreateEditData {
           debt: this.debt);
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
+    data['id'] = this.id;
     data['firstname'] = this.firstName;
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
@@ -541,7 +543,7 @@ class CreateEditData {
 
   Map<String, dynamic> toDbJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
+    data['id'] = this.id;
     data['firstname'] = this.firstName;
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
@@ -553,7 +555,7 @@ class CreateEditData {
   }
 
   CreateEditData.fromJson(Map<String, dynamic> json) {
-    id = json['_id'].toString();
+    id = json['id'].toString();
     firstName = json['firstname'];
     lastName = json['lastname'];
     email = json['email'];

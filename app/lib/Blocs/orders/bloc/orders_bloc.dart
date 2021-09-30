@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
@@ -25,7 +26,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   // late Request request;
   // late CreditBloc creditBloc;
   final OrderRepository orderRepository;
-  OrdersBloc({required this.orderRepository}) : super(OrdersInitial());
+  final UserPreferences preferences;
+  OrdersBloc({
+    required this.orderRepository,
+    required this.preferences,
+  }) : super(OrdersInitial());
   // CartBloc cartbloc;
   int total = 0;
   List<Cart> carts = [];
@@ -53,8 +58,6 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           //   print(onError);
           // });
           // print(_result);
-//
-
           carts = [];
           yield (OrderCreatedSuccess(request: state.request));
           yield (OrdersInitial());
@@ -66,11 +69,33 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         if (event.request != null) {
           bool value =
               (await CsvDatabse.instance.createRequest(event.request!));
+          print("is created");
+          print(value);
           if (value == true) {
+            if (event.request?.paymentWhen == "now") {
+              try {
+                LoggedUserInfo info =
+                    await this.preferences.getUserInformation();
+                int previosCredit =
+                    double.parse(info.user?.credit as String).toInt();
+                print("previos credit---${previosCredit}");
+                int updatedCredit =
+                    previosCredit - (event.request?.amountPaid as int);
+                info.user?.credit = updatedCredit.toString();
+                await this.preferences.storeUserInformation(info);
+                info = await this.preferences.getUserInformation();
+                int currentCredit =
+                    double.parse(info.user?.credit as String).toInt();
+                print("current credit---${currentCredit}");
+              } catch (e) {
+                print("error offline order create");
+                print(e);
+              }
+            }
             print("Order Successfully created locally");
             yield (OrderCreatedSuccess(request: state.request));
+            return;
           } else {
-            print("failed to create order locally");
             yield (OrderCreatingFailed(message: "Failed to create order"));
           }
         } else {
@@ -201,7 +226,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is AddPaidAmountEvent) {
-       UserPreferences userPreference = new UserPreferences();
+      UserPreferences userPreference = new UserPreferences();
       LoggedUserInfo loggedUserInfo =
           await userPreference.getUserInformation() as LoggedUserInfo;
       User user = loggedUserInfo.user as User;
@@ -219,8 +244,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
       yield RequestUpdateSuccess(request: request, credit: credit);
       return;
-    } else if (event is AddRemainingAmountEvent){
-       UserPreferences userPreference = new UserPreferences();
+    } else if (event is AddRemainingAmountEvent) {
+      UserPreferences userPreference = new UserPreferences();
       LoggedUserInfo loggedUserInfo =
           await userPreference.getUserInformation() as LoggedUserInfo;
       User user = loggedUserInfo.user as User;
@@ -337,7 +362,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         state.request.amountPaid = 0;
         state.request.transactionId = "";
       }
-      yield OrderUpdating(request: state.request,credit: credit);
+      yield OrderUpdating(request: state.request, credit: credit);
       if (connected) {
         // yield OrderUpdateSuccess(request: event.request);
         // return;
@@ -348,12 +373,12 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-          yield (OrderUpdateSuccess(request: event.request,credit: credit));
+          yield (OrderUpdateSuccess(request: event.request, credit: credit));
           return;
         } else {
           print("failed to create--order");
           yield (OrderUpdatingFailed(
-              request: state.request,credit: credit, message: value.Message));
+              request: state.request, credit: credit, message: value.Message));
         }
         return;
       } else {
@@ -361,14 +386,17 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             (await CsvDatabse.instance.createUpdateOrderRequest(event.request));
         if (value == true) {
           print("Order Successfully updated locally");
-          yield (OrderCreatedSuccess(request: state.request,));
+          yield (OrderCreatedSuccess(
+            request: state.request,
+          ));
           return;
         } else {
           print("failed to updated order locally");
           // yield (OrderCreatingFailed(message: "Failed to updated order"));
           yield (OrderUpdatingFailed(
-            credit: credit,
-              request: state.request, message: "Failed to update order"));
+              credit: credit,
+              request: state.request,
+              message: "Failed to update order"));
           return;
         }
       }

@@ -216,15 +216,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     }
                   }
                 } else if (state is ClientFetchingState) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  // SnackBar snackBar =
+                  //     new SnackBar(content: CircularProgressIndicator());
+                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  // return CircularProgressIndicator();
                 } else if (state is ClientFetchingFailedState) {
                   return Center(
                     child: Text('Client Fetch Failed'),
                   );
                 }
-
                 return Container(
                   height: MediaQuery.of(context).size.height -
                       AppBar().preferredSize.height -
@@ -279,12 +279,21 @@ class _ClientsScreenState extends State<ClientsScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: BlocBuilder<ClientsBloc, ClientsState>(
+        builder: (context, state) {
+          if (state is ClientFetchingState) {
+            return Container(
+              height: 20,
+              child: Center(
+                child: Text("fetching"),
+              ),
+            );
+          }
+          return Container(
+            height: 0,
+          );
+        },
+      ),
     );
   }
-}
-
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  throw UnimplementedError();
 }

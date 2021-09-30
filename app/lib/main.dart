@@ -68,8 +68,7 @@ void main() async {
 
   await userPreferences.getLanguagePref("language");
 
- 
-final UserRepository userRepository = UserRepository(
+  final UserRepository userRepository = UserRepository(
     userDataProvider: UserDataProvider(
       httpClient: httpClient,
       userPreferences: userPreferences,
@@ -183,14 +182,16 @@ class App extends StatelessWidget {
               orderRepository: this.orderRepository,
             )..add(FetchClientsEvent(loadMore: true)),
           ),
-          BlocProvider<CategoriesBloc>( 
+          BlocProvider<CategoriesBloc>(
             create: (_) =>
                 CategoriesBloc(categoryRepository: this.categoryRepository)
                   ..add(FetchCategories()),
           ),
           BlocProvider<OrdersBloc>(
-            create: (_) => OrdersBloc(orderRepository: this.orderRepository)
-              ..add(PaymentInitialization()),
+            create: (_) => OrdersBloc(
+              orderRepository: this.orderRepository,
+              preferences: this.userPreferences,
+            )..add(PaymentInitialization()),
           ),
           //
           BlocProvider<AddClientBloc>(
