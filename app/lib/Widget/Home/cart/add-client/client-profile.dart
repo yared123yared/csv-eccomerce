@@ -8,9 +8,7 @@ import 'change-client-button.dart';
 class ClientProfile extends StatelessWidget {
   final ClientProfileData client;
   ClientProfile({required this.client});
-  void editClient() {
-}
-
+  void editClient() {}
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +64,8 @@ class ClientProfile extends StatelessWidget {
                         property: 'EMAIL', value: '${this.client.email}'),
                     ClientDataRow(
                         property: 'PHONE', value: '${this.client.phone}'),
+                    ClientDataRow(
+                        property: 'CREDIT', value: '${this.client.credit}'),
                   ],
                 ),
               ),

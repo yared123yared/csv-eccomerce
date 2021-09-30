@@ -259,6 +259,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     ClientDetailScreen.routeName,
+                                    arguments: clients![index]
                                   );
                                 },
                                 child: ClientCard(

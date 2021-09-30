@@ -89,7 +89,7 @@ class UpdatePaymentContainer extends StatelessWidget {
                 UpdatePaymentTimeDropDown(),
                 BlocBuilder<OrdersBloc, OrdersState>(
                   builder: (context, state) {
-                    if (state.request.paymentWhen == 'Pay Later') {
+                    if (state.request.paymentWhen == 'later') {
                       print("pay--later");
                       return Container();
                     } else {
@@ -160,34 +160,6 @@ class UpdatePaymentContainer extends StatelessWidget {
                               );
                             },
                           ),
-                          // UpdatePaymentFieldContainer(
-                          //   paid: true,
-                          //   initialValue: state.request.amountPaid.toString(),
-                          //   hintName: 'Paid Amount',
-                          //   readOnly: false,
-                          //   onChanged: this.addPaidAmount,
-                          // ),
-                          // if(state is RequestUpdateSuccess){
-                          //   return Container();
-                          // },
-                          // UpdatePaymentFieldContainer(
-                          //   paid: false,
-                          //   // initialValue: this.paymentValues.Remaining.toString(),
-                          //   hintName: 'Remaining Amount',
-                          //   readOnly: true,
-                          //   controller: this.paymentValues.controller,
-                          //   onChanged: this.addRemainingAmount,
-                          // ),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
-                          // Row(
-                          //   children: [
-                          //     Text("Remaining Amount:"),
-                          //     SizedBox(width: 5.0,),
-                          //     Text('${this.paymentValues.Remaining}')
-                          //   ],
-                          // )
                         ],
                       );
                     }

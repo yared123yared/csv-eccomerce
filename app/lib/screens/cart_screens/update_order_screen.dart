@@ -377,39 +377,46 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       onAddPaidPressed: this.addPaidAmount,
                       // paymentValues: values,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Material(
-                        elevation: 1,
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          // padding: EdgeInsets.all(16.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              bottomRight: Radius.circular(30),
-                            ),
-                          ),
-                          child: Container(
-                            padding: EdgeInsets.only(left: 4.0),
-                            child: Row(
-                              children: [
-                                Text(
-                                  cubit.tRemainingAmount(),
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                    state.request.paymentWhen == "now"
+                        ? Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Material(
+                              elevation: 1,
+                              borderRadius: BorderRadius.circular(30),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                                // padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                  ),
                                 ),
-                                SizedBox(
-                                  width: 5.0,
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 4.0),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        cubit.tRemainingAmount(),
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      Text('${state.request.amountRemaining}')
+                                    ],
+                                  ),
                                 ),
-                                Text('${state.request.amountRemaining}')
-                              ],
+                              ),
                             ),
+                          )
+                        : SizedBox(
+                            height: 0,
                           ),
-                        ),
-                      ),
-                    ),
                     ConditionalButton(
                       name: cubit.tUPDATEORDER(),
                       onPressed: () {

@@ -38,6 +38,7 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFf2f6f9),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: FutureBuilder<LoggedUserInfo>(
@@ -71,7 +72,9 @@ class _ClientProfileCopyState extends State<ClientProfileCopy> {
                     phone = snapshot.data!.user!.phone!;
                   }
                   if (snapshot.data!.user!.credit != null) {
-                    credit = snapshot.data!.user!.credit!;
+                    if (snapshot.data!.user!.credit != "null") {
+                      credit = snapshot.data!.user!.credit!;
+                    }
                   }
                   if (snapshot.data!.user!.photo != null) {
                     if (snapshot.data!.user!.photo!.filePath != null) {

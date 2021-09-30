@@ -68,7 +68,7 @@ class ClientBasicProfile extends StatelessWidget {
               elevation: 5,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 555,
+                height: 300,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -106,17 +106,14 @@ class ClientBasicProfile extends StatelessWidget {
                     //     fgColor: Colors.grey.shade700,
                     //   ),
                     // ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
                     ClientDataRow(
                         property: cubit.tNAME(), value: this.client.name),
                     ClientDataRow(
                         property: cubit.tCREDIT(),
                         value: '${this.client.credit}'),
-                    ClientDataRow(
-                        property: cubit.tLEVEL(),
-                        value: '${this.client.level}'),
+                    // ClientDataRow(
+                    //     property: cubit.tLEVEL(),
+                    //     value: '${this.client.level}'),
                     ClientDataRow(
                         property: cubit.tEMAIL(),
                         value: '${this.client.email}'),

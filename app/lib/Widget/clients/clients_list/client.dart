@@ -40,10 +40,9 @@ class ClientCard extends StatelessWidget {
           child: Column(
             children: [
               ClientDataRow(
-                  property: cubit.tNAME(),
-                  value: this.client.firstName == null
-                      ? ""
-                      : this.client.firstName!),
+                property: cubit.tNAME(),
+                value: "${client.firstName} ${client.lastName}",
+              ),
               ClientDataRow(
                   property: 'Mobile',
                   value: this.client.mobile == null ? "" : this.client.mobile!),
