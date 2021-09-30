@@ -30,7 +30,7 @@ class ClientProfile extends StatelessWidget {
               elevation: 1,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 300,
+                height: 400,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,

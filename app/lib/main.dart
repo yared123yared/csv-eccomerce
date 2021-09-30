@@ -212,6 +212,7 @@ class App extends StatelessWidget {
                   CollectionReportCubit(userPreferences)),
           BlocProvider<CollectionBloc>(
             create: (_) => CollectionBloc(
+              
               CollectionDataProvider(userPreferences),
             ),
           ),
