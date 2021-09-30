@@ -138,6 +138,7 @@ class ClientsDataProvider {
       request.fields['last_name'] = data.lastName;
       request.fields['mobile'] = data.mobile;
       request.fields['email'] = data.email;
+      request.fields['company_name'] = data.companyname;
       if (data.uploadedPhoto != null) {
         request.files.add(await http.MultipartFile.fromPath(
             'uploaded_photo', data.uploadedPhoto!));
@@ -203,6 +204,7 @@ class ClientsDataProvider {
       request.fields['last_name'] = data.lastName;
       request.fields['mobile'] = data.mobile;
       request.fields['email'] = data.email;
+      request.fields['company_name'] = data.companyname;
       request.fields['id'] = data.id as String;
       request.fields['_method'] = 'PUT';
       if (data.uploadedPhoto != null && data.uploadedPhoto != '') {

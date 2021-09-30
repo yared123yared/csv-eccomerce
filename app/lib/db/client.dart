@@ -40,10 +40,13 @@ extension ClientLocalDB on CsvDatabse {
           });
           print("db--cl--create---3");
           if (documents != null) {
-            documents.forEach((doc) {
-              doc.clientID = clientId.toString();
-              batch.insert(tableDocuments, doc.toDBJson());
-            });
+            if (documents.length > 0) {
+              documents.forEach((doc) {
+                doc.clientID = clientId.toString();
+                print(doc.toDBJson());
+                batch.insert(tableDocuments, doc.toDBJson());
+              });
+            }
           }
           print("db--cl--create---4");
           if (orders != null) {
