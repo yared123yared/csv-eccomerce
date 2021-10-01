@@ -38,7 +38,7 @@ class _CustomerByDebtScreenState extends State<CustomerByDebtScreen> {
         ),
         title: Text(
           cubit.tCustomerByDebt(),
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),

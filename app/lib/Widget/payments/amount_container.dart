@@ -26,10 +26,8 @@ class AmountContainer extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: TextFormField(
-                  //controller: cubit.searchController,
-
+                  controller: cubit.controller,
                   keyboardType: TextInputType.text,
-
                   onFieldSubmitted: (String value) {
                     cubit.amount = int.parse(value);
                     cubit.uploadImage(

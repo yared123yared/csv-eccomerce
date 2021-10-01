@@ -36,7 +36,7 @@ class _AllOrdersScreenState extends State<AllOrdersScreen> {
         ),
         title: Text(
           cubit.tAllOrders(),
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),

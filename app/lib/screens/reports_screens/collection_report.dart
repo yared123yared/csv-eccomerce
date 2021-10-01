@@ -32,7 +32,7 @@ class CollectionReportScreen extends StatelessWidget {
         ),
         title: Text(
           cubit.tCollectionReport(),
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),

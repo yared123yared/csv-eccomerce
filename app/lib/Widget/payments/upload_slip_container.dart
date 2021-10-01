@@ -51,12 +51,12 @@ class _UploadSlipContainerState extends State<UploadSlipContainer> {
                               Text(
                                 cubits.tUploadSlip(),
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: Colors.black,
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 10, left: 10),
+                                padding: EdgeInsets.only(bottom: 10, left: 5),
                                 child: Icon(
                                   Icons.star,
                                   color: Colors.red,

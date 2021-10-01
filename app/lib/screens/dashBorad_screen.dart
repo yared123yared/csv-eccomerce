@@ -77,8 +77,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           image: "assets/images/calendar-icon.png",
                           color: Color(0xFF263238),
                           imagebackgroundcolor: Color(0xFF263238),
-                          fontValue: 11,
-                          fonttext: 14,
+                          fontValue: 10,
+                          fonttext: 12,
                         ),
                       ],
                     );
