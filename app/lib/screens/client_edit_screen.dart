@@ -64,6 +64,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
   final TextEditingController cityController = new TextEditingController();
   final TextEditingController stateController = new TextEditingController();
   final TextEditingController countryController = new TextEditingController();
+  final TextEditingController companyController = new TextEditingController();
 
   final TextEditingController documentNameController =
       new TextEditingController();
@@ -94,6 +95,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
     List<Map<String, dynamic>> initAdresses = [];
     if (widget.args.client != null) {
       print("79");
+
       setState(() {
         values['first_name'] = this.widget.args.client!.firstName == null
             ? ''
@@ -107,10 +109,14 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
         values['email'] = this.widget.args.client!.email == null
             ? ''
             : this.widget.args.client!.email as String;
+        values['company_name'] = this.widget.args.client!.companyName == null
+            ? ''
+            : this.widget.args.client!.companyName as String;
         firstNameController.text = values['first_name'];
         lastNameController.text = values['last_name'];
         emailController.text = values['email'];
         mobileController.text = values['mobile'];
+        companyController.text = values['company_name'];
         values['city'] = this.widget.args.client!.city == null
             ? ''
             : this.widget.args.client!.city as String;
@@ -227,6 +233,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
       lastName: lastNameController.text,
       mobile: mobileController.text,
       email: emailController.text,
+      companyname: companyController.text,
       addresses: addresses,
       documents: documents,
       uploadedPhoto: photoController.text,
@@ -345,7 +352,8 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
       if (firstNameController.text == '' ||
           lastNameController.text == '' ||
           mobileController.text == '' ||
-          emailController.text == '') {
+          emailController.text == '' ||
+          companyController.text == '') {
         return;
       }
       if (widget.args.client == null) {
@@ -491,7 +499,6 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
 
   void clear() {
     setState(() {
-      countryController.clear();
       stateController.clear();
       streetController.clear();
       cityController.clear();
@@ -748,6 +755,15 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
               obsecureText: false,
               isRequired: true,
             ),
+            CustomTextField(
+              minLength: 3,
+              textFieldName: 'Company Name',
+              initialValue: values['company_name'],
+              controller: companyController,
+              validator: null,
+              obsecureText: false,
+              isRequired: true,
+            ),
             CustomFileInput(
               textFieldName: 'Photo',
               controller: photoController,
@@ -778,15 +794,15 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
           // isDefault: _isDefault,
           // isBilling: _isBilling,
           textInput: [
-            CustomTextField(
-              minLength: 0,
-              textFieldName: 'Shipping Address',
-              controller: shipAddrController,
-              initialValue: '',
-              validator: null,
-              obsecureText: false,
-              isRequired: false,
-            ),
+            // CustomTextField(
+            //   minLength: 0,
+            //   textFieldName: 'Shipping Address',
+            //   controller: shipAddrController,
+            //   initialValue: '',
+            //   validator: null,
+            //   obsecureText: false,
+            //   isRequired: false,
+            // ),
             CustomTextField(
               minLength: 0,
               textFieldName: 'Street',
@@ -885,7 +901,7 @@ class _ClientEditScreenState extends State<ClientEditScreen> {
 
   void _sendSMS(String message, List<String> recipents) async {
     bool connected = await ConnectionChecker.CheckInternetConnection();
-    if(!connected){}
+    if (!connected) {}
     UserPreferences userPreference = new UserPreferences();
     LoggedUserInfo loggedUserInfo =
         await userPreference.getUserInformation() as LoggedUserInfo;

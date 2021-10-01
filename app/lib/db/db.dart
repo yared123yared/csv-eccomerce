@@ -154,6 +154,7 @@ CREATE TABLE $tableClients (
   ${ClientFields.lastname} $textType,
   ${ClientFields.mobile} $textType,
   ${ClientFields.email} $textType,
+  ${ClientFields.companyName} $textType,
   ${ClientFields.uploadedPhoto} $textTypeNullable,
   type $textType,
   ${ClientFields.debt} $integerTypeNullable

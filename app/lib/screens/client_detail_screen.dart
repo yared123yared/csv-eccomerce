@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/Widget/clients/client_profile/address_info.dart';
 import 'package:app/Widget/clients/client_profile/basic_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
@@ -27,20 +29,38 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     List<Orders> orders = [];
     List<AddressInfo> shippingAddresses = [];
     List<AddressInfo> billingAddresses = [];
+    List<AddressInfo> documents = [];
+
     if (widget.client.orders != null) {
       orders = widget.client.orders!;
     }
     if (widget.client.addresses != null) {
-      widget.client.addresses!.forEach((address) {
-        if (address.isBilling != null) {
-          if (address.isBilling == true) {
-            billingAddresses.add(AddressInfo(address: address));
+      print(widget.client.addresses?.length);
+      widget.client.addresses?.forEach(
+        (address) {
+          if (address.isBilling != null) {
+            if (address.isBilling == true) {
+              billingAddresses.add(AddressInfo(address: address));
+            } else {
+              shippingAddresses.add(AddressInfo(address: address));
+            }
           } else {
             shippingAddresses.add(AddressInfo(address: address));
           }
-        } else {
-          shippingAddresses.add(AddressInfo(address: address));
-        }
+        },
+      );
+    }
+    if (widget.client.documents != null) {
+      widget.client.documents!.forEach((doc) {
+        // if (address.isBilling != null) {
+        //   if (address.isBilling == true) {
+        // billingAddresses.add(AddressInfo(address: address));
+        //   } else {
+        //     shippingAddresses.add(AddressInfo(address: address));
+        //   }
+        // } else {
+        //   shippingAddresses.add(AddressInfo(address: address));
+        // }
       });
     }
 
@@ -64,7 +84,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             ClientBasicProfile(
               client: ClientProfileData(
                 name: '${widget.client.firstName} ${widget.client.lastName}',
-                credit: "${widget.client.debts==null?0: widget.client.debts == null}",
+                credit:
+                    "${widget.client.debts == null ? 0 : widget.client.debts == null}",
                 level: 'Premiem',
                 email: '${widget.client.email}',
                 phone: '${widget.client.mobile}',

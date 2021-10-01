@@ -166,6 +166,7 @@ class Client {
   String? city;
   String? state;
   String? country;
+  String? companyName;
   int? createdBy;
   int? updatedBy;
   int? companyId;
@@ -198,6 +199,7 @@ class Client {
     this.documents,
     this.isLocal,
     this.photo,
+    this.companyName,
   });
 
   Client.fromJson(Map<String, dynamic> json) {
@@ -207,17 +209,18 @@ class Client {
       lastName = json['last_name'];
       mobile = json['mobile'];
       email = json['email'];
-      streetAddress = json['street_address'];
-      zipCode = json['zip_code'];
-      locality = json['locality'];
-      city = json['city'];
-      state = json['state'];
-      country = json['country'];
+      // streetAddress = json['street_address'];
+      // zipCode = json['zip_code'];
+      // locality = json['locality'];
+      // city = json['city'];
+      // state = json['state'];
+      // country = json['country'];
       createdBy = json['created_by'];
       updatedBy = json['updated_by'];
       companyId = json['company_id'];
       status = json['status'];
       debts = json['debts'];
+      companyName = json['company_name'];
       photo = Photo.fromJson(json['photo']);
       if (json['orders'] != null) {
         orders = [];
@@ -232,7 +235,7 @@ class Client {
         });
       }
       if (json['documents'] != null) {
-        addresses = [];
+        documents = [];
         json['documents'].forEach((v) {
           documents!.add(new Docs.fromJson(v));
         });
@@ -460,7 +463,8 @@ class Links {
 class ClientFields {
   static final List<String> values = [
     /// Add all fields
-    id, firstname, lastname, mobile, email, uploadedPhoto, type,debt
+    id, firstname, lastname, mobile, email, companyName, uploadedPhoto, type,
+    debt
     //  status,
     // quantity,
   ];
@@ -470,6 +474,7 @@ class ClientFields {
   static final String lastname = 'lastname';
   static final String mobile = 'mobile';
   static final String email = 'email';
+  static final String companyName = 'company_name';
   static final String uploadedPhoto = 'uploaded_photo';
   static final String type = 'type';
   static final String status = 'status';
@@ -483,6 +488,7 @@ class CreateEditData {
   late String lastName;
   late String mobile;
   late String email;
+  late String companyname;
   late List<Addresses> addresses;
   late List<Docs>? documents;
   List<Orders>? orders;
@@ -499,6 +505,7 @@ class CreateEditData {
     required this.mobile,
     required this.email,
     required this.addresses,
+    required this.companyname,
     this.documents,
     this.uploadedPhoto,
     this.type,
@@ -513,10 +520,10 @@ class CreateEditData {
     String? lastname,
     String? mobile,
     String? email,
+    String? companyName,
     String? uploadedPhoto,
     String? type,
     String? debt,
-
   }) =>
       CreateEditData(
           id: id ?? this.id,
@@ -524,6 +531,7 @@ class CreateEditData {
           lastName: lastname ?? this.lastName,
           mobile: mobile ?? this.mobile,
           email: email ?? this.email,
+          companyname: companyName ?? this.companyname,
           uploadedPhoto: uploadedPhoto ?? this.uploadedPhoto,
           addresses: this.addresses,
           documents: this.documents,
@@ -536,6 +544,7 @@ class CreateEditData {
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
     data['email'] = this.email;
+    data['company_name'] = this.companyname;
     data['uploaded_photo'] = this.uploadedPhoto;
     data['type'] = this.type;
     return data;
@@ -548,6 +557,7 @@ class CreateEditData {
     data['lastname'] = this.lastName;
     data['mobile'] = this.mobile;
     data['email'] = this.email;
+    data['company_name'] = this.companyname;
     data['uploaded_photo'] = this.uploadedPhoto;
     data['type'] = this.type;
     data['debt'] = this.debt;
@@ -563,6 +573,7 @@ class CreateEditData {
     uploadedPhoto = json['uploaded_photo'];
     type = json['type'];
     debt = json['debt'];
+    companyname = json['company_name'];
     addresses = [];
     documents = [];
     orders = [];
@@ -726,6 +737,30 @@ class Addresses {
     return data;
   }
 }
+class DocsCopy {
+  String? id;
+  late String name;
+  late String path;
+  int? clientID;
+  DocsCopy({
+    this.id,
+    required this.name,
+    required this.path,
+    this.clientID,
+  });
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.id != null && this.id != "" && this.id != "null") {
+      data['_id'] = int.parse(this.id.toString());
+    }
+    data['name'] = this.name;
+    data['path'] = this.path;
+    if (this.clientID != null) {
+      data['client_id'] = this.clientID;
+    }
+    return data;
+  }
+}
 
 class Docs {
   String? id;
@@ -767,7 +802,7 @@ class Docs {
   Docs.fromJson(Map<String, dynamic> json) {
     id = json['_id'].toString();
     name = json['name'];
-    path = json['path'];
+    path = json['file_path'];
     clientID = json['client_id'].toString();
     // try {
 
