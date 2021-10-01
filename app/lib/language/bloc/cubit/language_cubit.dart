@@ -39,7 +39,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tOrders() {
     if (getLanguage() == "🇫🇷") {
-      return "Ordres";
+      return "Commandes";
     } else {
       return "Orders";
     }
@@ -63,7 +63,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tClientManagement() {
     if (getLanguage() == "🇫🇷") {
-      return "La gestion des clients";
+      return "Gestion des clients";
     } else {
       return "Client Management";
     }
@@ -81,7 +81,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tAllOrders() {
     if (getLanguage() == "🇫🇷") {
-      return "Tous les ordres";
+      return "Toutes les commandes";
     } else {
       return "All Orders";
     }
@@ -89,7 +89,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tOrdersByDebt() {
     if (getLanguage() == "🇫🇷") {
-      return "Commandes par dette";
+      return "Commande par dettes";
     } else {
       return "Orders By Debt";
     }
@@ -107,7 +107,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tCollectionReport() {
     if (getLanguage() == "🇫🇷") {
-      return "Rapport de collecte";
+      return "Rapport d’encaissement";
     } else {
       return "Collection Report";
     }
@@ -135,7 +135,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tClients() {
     if (getLanguage() == "🇫🇷") {
-      return "clientes";
+      return "Clients";
     } else {
       return "Clients";
     }
@@ -291,7 +291,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tCheckout() {
     if (getLanguage() == "🇫🇷") {
-      return "Vérifier";
+      return "Enregistrer";
     } else {
       return "Checkout";
     }
@@ -310,7 +310,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tORDER() {
     if (getLanguage() == "🇫🇷") {
-      return "ORDRE";
+      return "COMMANDER";
     } else {
       return "ORDER";
     }
@@ -622,7 +622,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tOrder() {
     if (getLanguage() == "🇫🇷") {
-      return "Ordre";
+      return "Commander";
     } else {
       return "Order";
     }

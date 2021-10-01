@@ -78,10 +78,7 @@ class PaymentsScreen extends StatelessWidget {
                     shape: const StadiumBorder(),
                   ),
                   onPressed: () {
-                    cubit.uploadImage(
-                      date: cubit.dateFromText,
-                    );
-                    if (cubit.dateFromText.isEmpty) {
+                    if (cubit.dateFromText.isEmpty || cubit.amount == 0) {
                       Fluttertoast.showToast(
                           msg: cubits.tPleaseUploadInfo(),
                           toastLength: Toast.LENGTH_SHORT,
@@ -90,7 +87,11 @@ class PaymentsScreen extends StatelessWidget {
                           backgroundColor: Colors.red,
                           textColor: Colors.white,
                           fontSize: 16.0);
+                      cubit.clealuploade();
                     } else {
+                      cubit.uploadImage(
+                        date: cubit.dateFromText,
+                      );
                       Fluttertoast.showToast(
                           msg: cubits.tSuccessfulUploaded(),
                           toastLength: Toast.LENGTH_SHORT,
@@ -100,7 +101,6 @@ class PaymentsScreen extends StatelessWidget {
                           textColor: Colors.white,
                           fontSize: 16.0);
                     }
-
                     cubit.clealuploade();
                   },
                   child: Text(

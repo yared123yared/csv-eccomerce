@@ -108,7 +108,7 @@ class PaymentsCubit extends Cubit<PaymentsState> {
           quality: 60,
           name: "${payMentContainerModel.data![index].photo!.name}");
       isImageLoding = true;
-  
+
       emit(PaymentsImageDowanloadedState());
 
       print(result);
@@ -157,15 +157,21 @@ class PaymentsCubit extends Cubit<PaymentsState> {
   }
 
   void clealuploade() {
+    dateFromText = "";
+
     isFormDate = false;
     isComeImageName = false;
+    controller.clear();
 
     emit(ClearPaymentSubmint());
   }
 
-  int? amount;
+  int amount = 0;
+  TextEditingController controller = TextEditingController();
 
-  Future uploadImage({required String date}) async {
+  Future uploadImage({
+    required String date,
+  }) async {
     String? token = await this.userPreferences.getUserToken();
     if (file == null) return;
 

@@ -10,7 +10,7 @@ class DateContainer extends StatelessWidget {
     return BlocBuilder<PaymentsCubit, PaymentsState>(
       builder: (context, state) {
         final cubit = PaymentsCubit.get(context);
-        final cubits = BlocProvider.of<LanguageCubit>(context);
+        // final cubits = BlocProvider.of<LanguageCubit>(context);
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(40),
@@ -57,6 +57,8 @@ class DateContainer extends StatelessWidget {
                     cubit.selectFormTimePicker(context);
                     cubit.uploadImage(
                       date: cubit.dateFromText,
+                      
+                     
                     );
                   },
                   icon: Image.asset(
