@@ -1,6 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/location/bloc/location_bloc.dart';
 
@@ -45,9 +46,12 @@ class _AddClientState extends State<AddClient> {
   late ProductBloc productBloc;
   late AddClientBloc addClientBloc;
   late CreditBloc creditBloc;
+  late ClientsBloc clientBloc;
   @override
   Widget build(BuildContext context) {
     // this.isShowing = false;
+    clientBloc = BlocProvider.of<ClientsBloc>(context);
+
     creditBloc = BlocProvider.of<CreditBloc>(context);
     ordersbloc = BlocProvider.of<OrdersBloc>(context);
     cartbloc = BlocProvider.of<CartBloc>(context);
@@ -57,6 +61,7 @@ class _AddClientState extends State<AddClient> {
     ScrollController _scrollController = ScrollController();
     TextEditingController payingTimeController = new TextEditingController();
     ordersbloc.add(PaymentInitialization());
+    clientBloc.add(FetchClientsEvent(loadMore: false));
     final _formKey = GlobalKey<FormState>();
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(

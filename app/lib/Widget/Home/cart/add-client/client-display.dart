@@ -80,6 +80,32 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
               if (state.clients!.length == 0) {
                 start = 0;
                 end = 0;
+                return Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      print("Add new client button have been cliecked");
+                      Navigator.popAndPushNamed(
+                        context,
+                        ClientEditScreen.routeName,
+                        arguments: ClientEditArgs(
+                          from: "checkout",
+                        ),
+                      );
+                    },
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Center(
+                          child: Text(
+                            cubit.tAddNewClient(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
+                  ),
+                );
               }
             } else {}
           } else if (state is ClientFetchingState) {
@@ -89,7 +115,7 @@ class _ClientsDisplayState extends State<ClientsDisplay> {
           } else if (state is ClientFetchingFailedState) {
             return Center(
               child: GestureDetector(
-                onTap: () { 
+                onTap: () {
                   print("Add new client button have been cliecked");
                   Navigator.popAndPushNamed(
                     context,
