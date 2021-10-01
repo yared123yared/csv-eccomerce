@@ -21,7 +21,7 @@ class ClientProfile extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         textDirection: TextDirection.rtl,
-        fit: StackFit.loose,
+        fit: StackFit.loose, 
         clipBehavior: Clip.none,
         children: [
           Container(
