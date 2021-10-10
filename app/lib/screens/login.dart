@@ -99,7 +99,7 @@ class _LoginState extends State<Login> {
           listener: (context, state) {
             if (state is LoginSuccessState) {
               callFetchEvents();
-              productBloc.add(FetchProduct());
+              // productBloc.add(FetchProduct());
               cartBloc.add(InitializeCart());
               Navigator.of(context)
                   .pushReplacementNamed(MainScreen.routeName, arguments: 1);
