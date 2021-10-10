@@ -89,7 +89,7 @@ class _ProductItemState extends State<ProductItem> {
   void onClicked() {
     print("item add method have called");
     setState(() {
-      print("Products: ${widget.product.attributes!.length}");
+      // print("Products: ${widget.product.attributes!.length}");
       widget.product.order += 1;
     });
   }

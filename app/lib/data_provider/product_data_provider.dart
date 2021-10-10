@@ -23,7 +23,7 @@ class ProductDataProvider {
     print("This is the caategory Id");
     try {
       final url = Uri.parse(
-          'http://csv.jithvar.com/api/v1/catalog-products?page=$page');
+          'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
 
       final response = await http.post(url,
           headers: {
@@ -46,11 +46,11 @@ class ProductDataProvider {
         final extractedData =
             json.decode(response.body) as Map<String, dynamic>;
 
-        // print("Extracted value $extractedData");
-        // print("This is the data value ${extractedData['products']['data']}");
+        print("Extracted value $extractedData");
+        print("This is the data value ${extractedData['products']['data']}");
         final data = extractedData['products']['data'];
 
-        // print("Data:${data}");
+        print("Data:${data}");
 
         return data
             .map((product) => Data.fromJson(product))

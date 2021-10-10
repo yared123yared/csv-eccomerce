@@ -100,10 +100,10 @@ class _SingleCartItemState extends State<SingleCartItem> {
                             height: MediaQuery.of(context).size.height * 0.01),
                         // Text("${product.name}"),
                         ProductCategory(
-                          productCategory:
-                              widget.product.categories!.length != 0
-                                  ? widget.product.categories![0].name
-                                  : "",
+                          productCategory: widget.product.categories != null &&
+                                  widget.product.categories!.length != 0
+                              ? widget.product.categories![0].name
+                              : "",
                         ),
 
                         SizedBox(

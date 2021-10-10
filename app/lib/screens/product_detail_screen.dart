@@ -115,11 +115,12 @@ class _ProductDetailState extends State<ProductDetail> {
     // check the size here.
     List<String?> size = [];
     List<Attributes> color = [];
-
-    if (product.attributes!.length != 0) {
+  // if(product.)
+    if (product.attributes!=null&&product.attributes!.length != 0) {
       print("++++++++entered to the attribute selection loop");
 
       // print("Attributes Size: ${product.attributes![0].name}");
+
       for (int i = 0; i < product.attributes!.length; i++) {
         print("Attributes: ${product.attributes}");
         print("products.attributes: ${product.attributes![i].name}");
@@ -262,7 +263,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   child: AutoSizeText(
-                    product.categories!.length != 0
+                      product.categories!=null&&product.categories!.length != 0
                         ? "${product.categories![0].fullName}"
                         : "",
                     style: TextStyle(
