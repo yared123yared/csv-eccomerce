@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
@@ -35,6 +37,9 @@ class _MainScreenState extends State<MainScreen> {
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late ProductBloc productBloc;
+  late CartBloc cartBloc;
+  late CategoriesBloc categoriesBloc;
 
   @override
   void initState() {
@@ -93,11 +98,13 @@ class _MainScreenState extends State<MainScreen> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  late CartBloc cartBloc;
+  // late CartBloc cartBloc;
   int check = 1;
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
+    productBloc = BlocProvider.of<ProductBloc>(context);
+    categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
@@ -117,7 +124,7 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: EdgeInsets.only(right: 40),
             child: DropdownButton<String>(
               value: selectedLang,
               onChanged: (String? langValue) async {
@@ -140,6 +147,16 @@ class _MainScreenState extends State<MainScreen> {
               }).toList(),
             ),
           ),
+          Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: IconButton(
+                  onPressed: () {
+                    print("REFRESH ICON BUTTON HAVE BEEN CLIEKCED");
+                    productBloc.add(FetchProduct());
+                    cartBloc.add(InitializeCart());
+                    categoriesBloc.add(FetchCategories());
+                  },
+                  icon: Icon(Icons.refresh))),
         ],
         leading: GestureDetector(
           onTap: () {

@@ -41,11 +41,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     print("-is--connected--${connected}");
     if (event is FetchProduct) {
       print("bloc--fetch--product--1");
-      // productList = [];
+      productList = [];
       selectedCategories = [];
       categoryId = null;
       searchProductName = null;
-      // page = 1;
+      page = 1;
       categoryPage = 1;
       yield ProductLoading();
       //  int page = state.page;
@@ -65,7 +65,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             return;
           } else {
             print("bloc--fetch--product--3");
-
             productList = products;
             yield ProductLoadSuccess(
               products: productList,
@@ -82,7 +81,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           // JsonEncoder encoder = new JsonEncoder.withIndent('  ');
           // String prettyprint = encoder.convert();
           // print(prettyprint);
-          // productList = productsFromServer;
+          productList = productsFromServer;
           // print("This is the data that come from the repository $products");
           if (productsFromServer == [] || productsFromServer == null) {
             print("bloc--fetch--product--5");
@@ -106,17 +105,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             //     productList.add(products[i]);
             //   }
             // }
-            List<int> productId = [];
-            for (int i = 0; i < productList.length; i++) {
-              productId.add(productList[i].id as int);
-            }
-            for (int i = 0; i < productsFromServer.length; i++) {
-              if (productId.contains(productsFromServer[i].id)) {
-                print("+++++++THIS PRODUCT IS ALREADY EXISTED+++++++");
-              } else {
-                productList.add(productsFromServer[i]);
-              }
-            }
             productsFromServer.forEach((product) async {
               await CsvDatabse.instance.createProduct(product);
             });
@@ -130,7 +118,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             print("bloc--fetch--product--8");
 
             yield ProductLoadSuccess(
-              products: productList,
+              products: productsFromServer,
               selectedCategoryId: state.selectedCategoryId,
               page: page,
             );
@@ -154,30 +142,23 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       this.selectedCategories = [];
       print("Select event i scalled");
       this.categoryId = event.categories.id;
-      print("+++++++Selected Category Id ${this.categoryId}");
       // this.page = 1;
 
       //  filter from the cache
       for (int i = 0; i < productList.length; i++) {
-        print("Product");
-        if (productList[i].categories != null) {
-          print(
-              "+++++++++have categories {productList[i].categories!.map((e) => e.id).cast<int>()}");
-          Iterable<int> productCatID =
-              productList[i].categories!.map((e) => e.id).cast<int>();
-          print("This is the category ID for the product: ${productCatID}");
-          if (productCatID.contains(event.categories.id)) {
-            this.selectedCategories.add(productList[i]);
-          }
+        Iterable<int> productCatID =
+            productList[i].categories!.map((e) => e.id).cast<int>();
+        print("This is the category ID for th product: ${productCatID}");
+        if (productCatID.contains(event.categories.id)) {
+          this.selectedCategories.add(productList[i]);
         }
-
         print("Products: ${this.selectedCategories}");
         yield (ProductLoadSuccess(
             page: page,
             products: this.selectedCategories,
             selectedCategoryId: event.categories.id!.toInt()));
       }
-      // print("Products: ${this.selectedCategories[0].order}");
+      print("Products: ${this.selectedCategories[0].order}");
     } else if (event is SearchEvent) {
       //
       this.searchedProducts = [];
@@ -194,7 +175,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           this.searchedProducts.add(productList[i]);
         }
       }
-
       // if (event.isSubmited) {
       //   List<Data> products =
       //       (await this.productRepository.getProducts(page, this.categoryId));

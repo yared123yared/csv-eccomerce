@@ -70,8 +70,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget build(BuildContext context) {
     productBloc = BlocProvider.of<ProductBloc>(context);
     categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
-    categoriesBloc.add(FetchCategories());
-    productBloc.add(FetchProduct());
+    // categoriesBloc.add(FetchCategories());
+    // productBloc.add(FetchProduct());
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       // bottomNavigationBar: HomeBottomNavigation(),

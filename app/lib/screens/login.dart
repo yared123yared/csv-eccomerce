@@ -1,5 +1,6 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/categories/bloc/categories_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/orderDrawer/AllOrder/bloc/allorderr_bloc.dart';
 import 'package:app/Blocs/reports/CollectionReport_cubit/bloc/collection_bloc.dart';
@@ -30,6 +31,7 @@ class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
   late ProductBloc productBloc;
   late CartBloc cartBloc;
+  late CategoriesBloc categoriesBloc;
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
@@ -87,6 +89,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     productBloc = BlocProvider.of<ProductBloc>(context);
     cartBloc = BlocProvider.of<CartBloc>(context);
+    categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
     Size screenSize = MediaQuery.of(context).size;
     double height = screenSize.height;
     double width = screenSize.width;
@@ -99,8 +102,10 @@ class _LoginState extends State<Login> {
           listener: (context, state) {
             if (state is LoginSuccessState) {
               callFetchEvents();
-              // productBloc.add(FetchProduct());
+              productBloc.add(FetchProduct());
               cartBloc.add(InitializeCart());
+              categoriesBloc.add(FetchCategories());
+
               Navigator.of(context)
                   .pushReplacementNamed(MainScreen.routeName, arguments: 1);
             }
