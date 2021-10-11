@@ -165,6 +165,26 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("ClientAddEvent bloc");
       Request request = state.request;
       request.clientId = event.client.id;
+      // int addressId=event.client.addresses.map((e) => e.isBilling)
+
+      for (int i = 0; i < event.client.addresses!.length; i++) {
+        // print("Address:${event.client.addresses![i].id} and ");
+        // if (event.client.addresses![i].isBilling == 0) {
+        //   print("CLIENT ADDRESS ID: ${event.client.addresses![i]}");
+        //   // request.addressId = event.client.addresses![i].id;
+        // }
+        print("hi");
+      }
+      List<int> addressId = [];
+      // addressId.add(int.parse(event.client.addresses!.map((e) => e.id) as String));
+      event.client.addresses!
+          .map((e) => addressId.add(int.parse(e.id as String)));
+          
+      print("Adress length: ${addressId.length}");
+      for (int i = 0; i < addressId.length; i++) {
+        print("Adress Id: ${addressId[i]}");
+      }
+      // event.client.addresses!.map((e) => {print("Hi")});
       // print('Request: ${state.request.toJson()}');
       print("credit--:--${state.credit}");
       yield RequestUpdateSuccess(request: request, credit: state.credit);

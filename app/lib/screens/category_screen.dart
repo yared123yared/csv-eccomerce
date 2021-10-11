@@ -71,7 +71,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     productBloc = BlocProvider.of<ProductBloc>(context);
     categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
     categoriesBloc.add(FetchCategories());
-    // productBloc.add(FetchProduct(categoryId: 12, isAnotherPageAsked: false));
+    productBloc.add(FetchProduct());
     return Scaffold(
       backgroundColor: Theme.of(context).accentColor,
       // bottomNavigationBar: HomeBottomNavigation(),
