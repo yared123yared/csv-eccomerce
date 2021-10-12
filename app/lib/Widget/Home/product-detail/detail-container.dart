@@ -1,3 +1,4 @@
+import 'package:app/Blocs/currency/bloc/currencysymbol_bloc.dart';
 import 'package:app/Widget/Home/product-detail/select_option.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/product/data.dart';
@@ -5,9 +6,24 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DetailContainer extends StatelessWidget {
+class DetailContainer extends StatefulWidget {
   final Data product;
   DetailContainer({required this.product});
+
+  @override
+  State<DetailContainer> createState() => _DetailContainerState();
+}
+
+class _DetailContainerState extends State<DetailContainer> {
+  late CurrencySymbolbloc bloc;
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CurrencySymbolbloc>(context);
+    bloc.add(FeatchCurrencysymbolEvent());
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +43,19 @@ class DetailContainer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-            Text(
-              "\$${product.price}",
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300),
+            BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
+              builder: (context, state) {
+                if (state is CurrencysymbolSuccessState) {
+                  return Text(
+                    "${state.symbolModel.symbol}${widget.product.price}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300),
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),
@@ -52,7 +75,7 @@ class DetailContainer extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.6,
               child: AutoSizeText(
-                "${product.model}",
+                "${widget.product.model}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,

@@ -6,6 +6,7 @@ import 'package:app/Widget/dashboard/recent_total_container.dart';
 import 'package:app/Widget/dashboard/monthly_debt.dart';
 import 'package:app/Widget/dashboard/search_container.dart';
 import 'package:app/Widget/dashboard/title_containers.dart';
+import 'package:app/Widget/dashboard/title_no_symbol.dart';
 import 'package:app/constants/constants.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       children: [
                         TitleContainers(
                           text: cubit.tCreditLimit(),
-                          number: '\$${state.credit}',
+                          number: '${state.credit}',
                           image: "assets/images/debit-card.png",
                           color: Color(0xFFAEEA00),
                           imagebackgroundcolor: Color(0xFFAEEA00),
@@ -70,7 +71,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        TitleContainers(
+                        TitleNoSymbol(
                           text: cubit.tActivityPeriod(),
                           number:
                               '${state.creditLimitStartDate}  -  ${state.creditLimitEndDate}',
@@ -85,7 +86,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   }
                   return TitleContainers(
                     text: cubit.tCreditLimit(),
-                    number: '\$${state.credit}',
+                    number: '${state.credit}',
                     image: "assets/images/debit-card.png",
                     color: Color(0xFFAEEA00),
                     imagebackgroundcolor: Color(0xFFAEEA00),
@@ -106,7 +107,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   } else if (state is NumberDashSuccessState) {
                     return Column(
                       children: [
-                        TitleContainers(
+                        TitleNoSymbol(
                           text: cubit.tCLIENT(),
                           number: '${state.numberdash.clientsCount}',
                           image: "assets/images/value.png",
@@ -120,7 +121,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         TitleContainers(
                           text: cubit.tTotalDebts(),
-                          number: "\$ ${state.numberdash.totalDebt}",
+                          number: "${state.numberdash.totalDebt}",
                           image: "assets/images/graph.png",
                           color: orangDashBoard,
                           imagebackgroundcolor: Color(0xFFf2a24e),
@@ -132,7 +133,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                         TitleContainers(
                           text: cubit.tTotalPayments(),
-                          number: "\$ ${state.numberdash.totalPayment}",
+                          number: "${state.numberdash.totalPayment}",
                           image: "assets/images/debit-card.png",
                           color: purpleDashBoard,
                           imagebackgroundcolor: Color(0xFFaa4cec),

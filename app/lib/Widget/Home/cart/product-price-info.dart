@@ -1,3 +1,4 @@
+import 'package:app/Blocs/currency/bloc/currencysymbol_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/logic/cart_logic.dart';
@@ -8,13 +9,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'checkout-button.dart';
 
-class ProductPriceInfo extends StatelessWidget {
+class ProductPriceInfo extends StatefulWidget {
   final List<Data> products;
 
   ProductPriceInfo({required this.products});
+
+  @override
+  State<ProductPriceInfo> createState() => _ProductPriceInfoState();
+}
+
+class _ProductPriceInfoState extends State<ProductPriceInfo> {
+  late CurrencySymbolbloc bloc;
+  
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CurrencySymbolbloc>(context);
+    bloc.add(FeatchCurrencysymbolEvent());
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    CartLogic cartLogic = new CartLogic(products: this.products);
+    CartLogic cartLogic = new CartLogic(products: this.widget.products);
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.42,

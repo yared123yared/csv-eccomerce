@@ -1,6 +1,8 @@
+import 'package:app/Blocs/currency/bloc/currencysymbol_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TitleContainers extends StatelessWidget {
+class TitleContainers extends StatefulWidget {
   final String text;
   final String number;
   final String image;
@@ -20,12 +22,25 @@ class TitleContainers extends StatelessWidget {
   });
 
   @override
+  State<TitleContainers> createState() => _TitleContainersState();
+}
+
+class _TitleContainersState extends State<TitleContainers> {
+  late CurrencySymbolbloc bloc;
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CurrencySymbolbloc>(context);
+    bloc.add(FeatchCurrencysymbolEvent());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 60,
       decoration: BoxDecoration(
-        color: color,
+        color: widget.color,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -36,9 +51,9 @@ class TitleContainers extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: CircleAvatar(
-                  backgroundColor: imagebackgroundcolor,
+                  backgroundColor: widget.imagebackgroundcolor,
                   child: Image.asset(
-                    image,
+                    widget.image,
                     fit: BoxFit.cover,
                     width: 32,
                   ),
@@ -48,10 +63,10 @@ class TitleContainers extends StatelessWidget {
                 width: 20,
               ),
               Text(
-                text,
+                widget.text,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: fonttext,
+                  fontSize: widget.fonttext,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -59,13 +74,22 @@ class TitleContainers extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: Text(
-              number,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: fontValue,
-                fontWeight: FontWeight.bold,
-              ),
+            child: BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
+              builder: (context, state) {
+                if (state is CurrencysymbolLoadingState) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is CurrencysymbolSuccessState) {
+                  return Text(
+                    "${state.symbolModel.symbol} ${widget.number}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: widget.fontValue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ),
         ],

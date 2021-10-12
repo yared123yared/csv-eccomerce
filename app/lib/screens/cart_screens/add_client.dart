@@ -1,6 +1,7 @@
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
+import 'package:app/Blocs/client_address/address/bloc/address_id_bloc.dart';
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/Blocs/location/bloc/location_bloc.dart';
@@ -47,8 +48,20 @@ class _AddClientState extends State<AddClient> {
   late AddClientBloc addClientBloc;
   late CreditBloc creditBloc;
   late ClientsBloc clientBloc;
+   int ? adreessyy;
   @override
   Widget build(BuildContext context) {
+    late AddressIdBloc bloc;
+   
+    final cubit = BlocProvider.of<LanguageCubit>(context);
+    @override
+    void initState() {
+      bloc = BlocProvider.of<AddressIdBloc>(context);
+      bloc.add(FeatchAddressIdEvent(cubit.addersIdy));
+
+      super.initState();
+    }
+
     // this.isShowing = false;
     clientBloc = BlocProvider.of<ClientsBloc>(context);
 
@@ -63,7 +76,7 @@ class _AddClientState extends State<AddClient> {
     ordersbloc.add(PaymentInitialization());
     clientBloc.add(FetchClientsEvent(loadMore: false));
     final _formKey = GlobalKey<FormState>();
-    final cubit = BlocProvider.of<LanguageCubit>(context);
+
     return Scaffold(
         appBar: AppBar(title: Text(cubit.tAddClient())),
         // bottomNavigationBar: ,
@@ -166,41 +179,54 @@ class _AddClientState extends State<AddClient> {
                           ),
                         ),
                       ),
-                      ConditionalButton(
-                        name: cubit.tOrder(),
-                        onPressed: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState!.validate()) {
-                            if (state.request.clientId != null) {
-                              // If the form is valid, display a snackbar. In the real world,
-                              // you'd often call a server or save the information in a database.
+                      BlocListener<AddressIdBloc, AddressIdState>(
+                        listener: (context, statey) {
+                          if (statey is AddressIdLoadedState) {
+                            adreessyy = statey.addressesId[0].id;
+                          }
+                        },
+                        child: ConditionalButton(
+                          name: cubit.tOrder(),
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false otherwise.
+                            if (_formKey.currentState!.validate()) {
+                              if (state.request.clientId != null) {
+                                // If the form is valid, display a snackbar. In the real world,
+                                // you'd often call a server or save the information in a database.
 
-                              print("Order method is invoked");
-
-                              ordersbloc.add(
-                                  CreateOrderEvent(request: state.request));
-                              addClientBloc.add(ClientSearchEvent());
-                              // ordersbloc
-                              //     .add(PaymentAddEvent(payment: this.payment));
-
-                              if (state is RequestUpdateSuccess) {
+                                print("Order method is invoked");
+                                ordersbloc
+                                    .add(AddAddressIdEvent(id: adreessyy!));
+                                print(
+                                //     "adreessyy adreessyy adreessyy adreessyy ");
+                                // print(adreessyy);
+                                // print(
+                                //     "adreessyy adreessyy adreessyy adreessyy ");
                                 // ordersbloc.add(
-                                //     CreateOrderEvent(request: state.request));
+                                    CreateOrderEvent(request: state.request));
+                                addClientBloc.add(ClientSearchEvent());
+                                // ordersbloc
+                                //     .add(PaymentAddEvent(payment: this.payment));
+
+                                if (state is RequestUpdateSuccess) {
+                                  // ordersbloc.add(
+                                  //     CreateOrderEvent(request: state.request));
+                                }
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Please Select Client')),
+                                );
                               }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Please Select Client')),
+                                    content:
+                                        Text('Fill All the required fields')),
                               );
                             }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Fill All the required fields')),
-                            );
-                          }
-                        },
+                          },
+                        ),
                       )
                     ],
                   ),
