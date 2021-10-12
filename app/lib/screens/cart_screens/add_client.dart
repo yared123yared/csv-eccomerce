@@ -48,11 +48,11 @@ class _AddClientState extends State<AddClient> {
   late AddClientBloc addClientBloc;
   late CreditBloc creditBloc;
   late ClientsBloc clientBloc;
-   int ? adreessyy;
+  int? adreessyy;
   @override
   Widget build(BuildContext context) {
     late AddressIdBloc bloc;
-   
+
     final cubit = BlocProvider.of<LanguageCubit>(context);
     @override
     void initState() {
@@ -78,7 +78,12 @@ class _AddClientState extends State<AddClient> {
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
-        appBar: AppBar(title: Text(cubit.tAddClient())),
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: Text(
+            cubit.tAddClient(),
+          ),
+        ),
         // bottomNavigationBar: ,
         backgroundColor: Theme.of(context).accentColor,
         body: ProgressHUD(
@@ -197,12 +202,12 @@ class _AddClientState extends State<AddClient> {
                                 print("Order method is invoked");
                                 ordersbloc
                                     .add(AddAddressIdEvent(id: adreessyy!));
-                                print(
+                                // print(
                                 //     "adreessyy adreessyy adreessyy adreessyy ");
                                 // print(adreessyy);
                                 // print(
                                 //     "adreessyy adreessyy adreessyy adreessyy ");
-                                // ordersbloc.add(
+                                ordersbloc.add(
                                     CreateOrderEvent(request: state.request));
                                 addClientBloc.add(ClientSearchEvent());
                                 // ordersbloc
