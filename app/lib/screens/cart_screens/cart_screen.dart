@@ -22,21 +22,22 @@ class CartScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
-                      child: ListView.separated(
-                        separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 0,
-                          );
-                        },
-                        itemBuilder: (context, index) =>
-                            index >= state.cartProducts.length
-                                ? Container(child: Text("The end"))
-                                : SingleCartItem(
-                                    product: state.cartProducts[index],
-                                  ),
-                        itemCount: state.cartProducts.length,
-                      )),
+                    height: MediaQuery.of(context).size.height * 0.65,
+                    child: ListView.separated(
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      },
+                      itemBuilder: (context, index) =>
+                          index >= state.cartProducts.length
+                              ? Container(child: Text("The end"))
+                              : SingleCartItem(
+                                  product: state.cartProducts[index],
+                                ),
+                      itemCount: state.cartProducts.length,
+                    ),
+                  ),
                   //
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.001,

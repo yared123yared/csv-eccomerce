@@ -79,8 +79,8 @@ class _SingleCartItemState extends State<SingleCartItem> {
           child: Container(
             // margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
             // width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.2,
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
+            height: MediaQuery.of(context).size.height * 0.3,
+            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.001),
             child: Row(
               children: [
                 LeadingImage(image: image),

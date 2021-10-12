@@ -1,11 +1,14 @@
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangeClientButton extends StatelessWidget {
   late AddClientBloc addClientBloc;
+
   @override
   Widget build(BuildContext context) {
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
@@ -17,7 +20,7 @@ class ChangeClientButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
             ),
             child: Center(
-              child: Text("Change Client",
+              child: Text(cubit.tChangeClient(),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
