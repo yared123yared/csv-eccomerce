@@ -256,11 +256,12 @@ class App extends StatelessWidget {
               create: (_) => DailyChartBloc(
                     DailyChartDataProvider(userPreferences),
                   )),
-          BlocProvider<MonthlyChartBloc>(
+          BlocProvider<MonthlyChartBloc>(   
             create: (_) => MonthlyChartBloc(
               MOnthlyChartDataProvider(userPreferences),
             ),
           ),
+
           BlocProvider<LanguageCubit>(create: (_) => LanguageCubit()),
           BlocProvider<AllorderdetailsBloc>(
               create: (_) => AllorderdetailsBloc(
