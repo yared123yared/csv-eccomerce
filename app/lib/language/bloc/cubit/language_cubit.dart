@@ -923,7 +923,7 @@ class LanguageCubit extends Cubit<LanguageState> {
   }
 
   String tAddtoCart() {
-    if (getLanguage() == "🇬🇧") {
+    if (getLanguage() == "🇫🇷") {
       return "Ajouter au chariot";
     } else {
       return "Add to Cart";
@@ -940,9 +940,9 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String tDescriptioncomeshere() {
     if (getLanguage() == "🇫🇷") {
-      return "La description vient ici";
+      return "Pas de description";
     } else {
-      return "Description comes here";
+      return "No have Description";
     }
   }
 

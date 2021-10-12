@@ -12,6 +12,8 @@ class ProductDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<LanguageCubit>(context);
-    return Text(cubit.tDescriptioncomeshere());
+    return product.description == null
+        ? Text(cubit.tDescriptioncomeshere())
+        : Text("${product.description}");
   }
 }

@@ -126,8 +126,8 @@ class _ProductDetailState extends State<ProductDetail> {
     // check the size here.
     List<String?> size = [];
     List<Attributes> color = [];
-  // if(product.)
-    if (product.attributes!=null&&product.attributes!.length != 0) {
+    // if(product.)
+    if (product.attributes != null && product.attributes!.length != 0) {
       print("++++++++entered to the attribute selection loop");
 
       // print("Attributes Size: ${product.attributes![0].name}");
@@ -199,6 +199,7 @@ class _ProductDetailState extends State<ProductDetail> {
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(cubit.tProduct(), style: TextStyle()),
         ),
         backgroundColor: Theme.of(context).accentColor,
@@ -261,29 +262,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         maxLines: 2,
                       ),
                     ),
-                    Text(
-                      "\$${product.price}",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: AutoSizeText(
-                      product.categories!=null&&product.categories!.length != 0
-                        ? "${product.categories![0].fullName}"
-                        : "",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                    ),
-                    maxLines: 2,
-                  ),
-                ),
-                BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
+                    BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
                       builder: (context, state) {
                         if (state is CurrencysymbolLoadingState) {
                           return Center(child: CircularProgressIndicator());
@@ -299,6 +278,22 @@ class _ProductDetailState extends State<ProductDetail> {
                         return Container();
                       },
                     ),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: AutoSizeText(
+                    product.categories != null &&
+                            product.categories!.length != 0
+                        ? "${product.categories![0].fullName}"
+                        : "",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                    ),
+                    maxLines: 2,
+                  ),
+                ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

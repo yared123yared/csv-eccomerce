@@ -42,6 +42,7 @@ class OrderToBeUpdated {
 class Data {
   int? id;
   String? name;
+  String? description;
   String? model;
   String? price;
   int? quantity;
@@ -76,6 +77,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    description = json['description'];
     model = json['model'];
     price = json['price'];
     quantity = json['quantity'];
@@ -165,7 +167,6 @@ class Data {
     this.status = data.status;
     // photos:
     // data.photos,
-    this.selectedAttributes=
-    data.selectedAttributes;
+    this.selectedAttributes = data.selectedAttributes;
   }
 }

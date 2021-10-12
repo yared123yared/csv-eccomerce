@@ -25,7 +25,7 @@ class _ProductInfoState extends State<ProductInfo> {
       color: Colors.white,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.23,
-        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
         // decoration: BoxDecoration(
         //   borderRadius: BorderRadius.circular(20),
         //   // shape:

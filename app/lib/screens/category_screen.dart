@@ -152,8 +152,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         itemCount: state.products.length,
                         itemBuilder: (BuildContext ctx, index) {
                           return Container(
-                              child:
-                                  ProductItem(product: state.products[index]));
+                            child: ProductItem(product: state.products[index]),
+                          );
                         });
                   } else if (state is ProductLoading) {
                     return Center(
