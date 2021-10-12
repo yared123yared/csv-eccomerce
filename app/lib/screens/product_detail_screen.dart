@@ -1,3 +1,4 @@
+import 'package:app/Blocs/currency/bloc/currencysymbol_bloc.dart';
 import 'package:app/Widget/Home/product-detail/add-cart-button.dart';
 import 'package:app/Widget/Home/product-detail/color-container.dart';
 import 'package:app/Widget/Home/product-detail/custome-drop-down.dart';
@@ -63,6 +64,16 @@ class _ProductDetailState extends State<ProductDetail> {
     // } else {
     //   print("Updating the attribute");
     // }
+  }
+
+  late CurrencySymbolbloc bloc;
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<CurrencySymbolbloc>(context);
+    bloc.add(FeatchCurrencysymbolEvent());
+
+    super.initState();
   }
 
   @override
@@ -272,6 +283,22 @@ class _ProductDetailState extends State<ProductDetail> {
                     maxLines: 2,
                   ),
                 ),
+                BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
+                      builder: (context, state) {
+                        if (state is CurrencysymbolLoadingState) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is CurrencysymbolSuccessState) {
+                          return Text(
+                            "${state.symbolModel.symbol}${product.price}",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 19),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

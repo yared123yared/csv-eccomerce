@@ -59,7 +59,7 @@ class Conditional extends StatelessWidget {
                 //     fit: BoxFit.fill),
                 child: CachedNetworkImage(
                   imageUrl: image,
-                  height: MediaQuery.of(context).size.height * 0.18 ,
+                  height: MediaQuery.of(context).size.height * 0.18,
                   width: double.infinity,
                   fit: BoxFit.fill,
                   placeholder: (context, url) => Container(

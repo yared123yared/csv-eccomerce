@@ -52,7 +52,7 @@ class OrderDataProvider {
             "transaction_id": request.transactionId,
             "amount_paid": request.amountPaid,
             "amount_remaining": request.amountRemaining,
-            "address_id": 324,
+            "address_id": request.addressId,
             "client_id": request.clientId,
             "cart": request.cart
           }));

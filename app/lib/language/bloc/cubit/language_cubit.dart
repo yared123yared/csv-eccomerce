@@ -10,6 +10,8 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   String langy = language;
 
+  int addersIdy = 0;
+
   getLanguage() {
     return langy;
   }
@@ -208,7 +210,7 @@ class LanguageCubit extends Cubit<LanguageState> {
   }
 
   String tMonthlyDebtCollection() {
-    if (getLanguage() == "🇬🇧") {
+    if (getLanguage() == "🇫🇷") {
       return "Recouvrement mensuel de créances";
     } else {
       return "Monthly Debt Collection";

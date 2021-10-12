@@ -1,3 +1,4 @@
+import 'package:app/Blocs/currency/bloc/currencysymbol_bloc.dart';
 import 'package:app/Blocs/orderDrawer/OrderByDebt/bloc/orderbydebt_bloc.dart';
 import 'package:app/Widget/Orders/orderbyDebt/data_container.dart';
 import 'package:app/Widget/Orders/orderbyDebt/search_container.dart';
@@ -23,11 +24,14 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
   late List<DataOrderByDebt> orderByDebtdata = [];
 
   late OrderbydebtBloc bloc;
+  late CurrencySymbolbloc blocs;
 
   @override
   void initState() {
     bloc = BlocProvider.of<OrderbydebtBloc>(context);
     bloc.add(FeatchOrderbydebtEvent());
+    blocs = BlocProvider.of<CurrencySymbolbloc>(context);
+    blocs.add(FeatchCurrencysymbolEvent());
     // bloc.add(grandTotalEvent());
 
     super.initState();
@@ -133,14 +137,14 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: "GRAND TOTAL"),
-                            buildText(text: "\$ ${state.grandTotalInt.sum}")
+                            buildTextSymbol(text: "\$ ${state.grandTotalInt.sum}")
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: cubit.tDEBT()),
-                            buildText(text: "\$ ${state.debtTotalInt.sum}")
+                            buildTextSymbol(text: "\$ ${state.debtTotalInt.sum}")
                           ],
                         ),
                       ],
@@ -153,7 +157,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: "GRAND TOTAL"),
-                            buildText(
+                            buildTextSymbol(
                                 text: "\$ ${state.searchgrandTotalInt.sum}")
                           ],
                         ),
@@ -161,7 +165,7 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: cubit.tDEBT()),
-                            buildText(
+                            buildTextSymbol(
                                 text: "\$ ${state.searchdebtTotalInt.sum}")
                           ],
                         ),
@@ -175,14 +179,14 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: "GRAND TOTAL"),
-                            buildText(text: "\$ 00.00")
+                            
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             buildText(text: cubit.tDEBT()),
-                            buildText(text: "\$ 00.00")
+                           
                           ],
                         ),
                       ],
@@ -204,5 +208,23 @@ class _OrdersByDebtScreenState extends State<OrdersByDebtScreen> {
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
+      );
+  Widget buildTextSymbol({required String text}) =>
+      BlocBuilder<CurrencySymbolbloc, CurrencysymbolState>(
+        builder: (context, state) {
+          if (state is CurrencysymbolLoadingState) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is CurrencysymbolSuccessState) {
+            return Text(
+              "${state.symbolModel.symbol} $text",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            );
+          }
+          return Container();
+        },
       );
 }
