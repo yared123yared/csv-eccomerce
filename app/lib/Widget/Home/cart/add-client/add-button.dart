@@ -31,7 +31,7 @@ class _AddButtonState extends State<AddButton> {
         // print("walid mahmoud rageb ");
         // print(widget.client.id!);
         // print("walid mahmoud rageb ");
-        cubit.addersIdy = widget.client.id!;
+        // cubit.addersIdy = widget.client.id!;
         addClientBloc.add(ClientDisplayEvent(client: this.widget.client));
         ordersBloc.add(ClientAddEvent(client: this.widget.client));
       },

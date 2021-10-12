@@ -100,6 +100,7 @@ class Data {
         categories!.add(new Categories.fromJson(v));
       });
     }
+    print(" CATEGORIES DATA IS PARSED WELL");
     if (json['attributes'] != null) {
       print("Length: ${json['attributes'].length}");
       attributes = <Attributes>[];
@@ -107,6 +108,7 @@ class Data {
         attributes!.add(new Attributes.fromJson(v));
       });
     }
+      print(" ATTRIBUTES DATA IS PARSED WELL");
   }
 
   Map<String, dynamic> toJson() {
@@ -165,7 +167,6 @@ class Data {
     this.status = data.status;
     // photos:
     // data.photos,
-    this.selectedAttributes=
-    data.selectedAttributes;
+    this.selectedAttributes = data.selectedAttributes;
   }
 }

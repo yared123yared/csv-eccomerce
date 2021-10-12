@@ -21,9 +21,10 @@ class ProductDataProvider {
     String? token = await this.userPreferences.getUserToken();
     late List<Data> products_return = [];
     print("This is the caategory Id");
+    print("page number value: ${page}");
     try {
       final url = Uri.parse(
-          'http://csv.jithvar.com/api/v1/paginated-products?page=$page');
+          'https://csv.jithvar.com/api/v1/catalog-products?page=$page');
 
       final response = await http.post(url,
           headers: {

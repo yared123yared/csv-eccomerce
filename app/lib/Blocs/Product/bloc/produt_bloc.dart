@@ -158,7 +158,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             products: this.selectedCategories,
             selectedCategoryId: event.categories.id!.toInt()));
       }
-      print("Products: ${this.selectedCategories[0].order}");
+      // print("Products: ${this.selectedCategories[0].order}");
     } else if (event is SearchEvent) {
       //
       this.searchedProducts = [];
