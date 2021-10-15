@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:app/Blocs/clients/bloc/clients_bloc.dart';
 import 'package:app/Widget/clients/clients_list/client.dart';
@@ -92,6 +93,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
     }
   }
 
+  double size1 = 0.0;
+  double size2 = 0.0;
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initConnectivity() async {
     late ConnectivityResult result;
@@ -134,6 +137,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
   void editClient() {}
   @override
   Widget build(BuildContext context) {
+    size1 = MediaQuery.of(context).size.height -
+        AppBar().preferredSize.height -
+        110;
+    size2 =
+        MediaQuery.of(context).size.height - AppBar().preferredSize.height - 90;
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
@@ -177,12 +185,16 @@ class _ClientsScreenState extends State<ClientsScreen> {
       // 90,
 
       body: Container(
+        height: MediaQuery.of(context).size.height,
         color: Color(0xFFf2f6f9),
         child: Column(
           children: [
-            SearchBar(),
+            Container(
+              height: 75.0,
+              child: SearchBar(),
+            ),
             SizedBox(
-              height: 8.0,
+              height: 10.0,
             ),
             BlocConsumer<ClientsBloc, ClientsState>(
               // buildWhen: (previous, current) => current.check != false,
@@ -203,6 +215,13 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     btnOkOnPress: () {},
                   )..show();
                 }
+                if (state is ClientFetchingState) {
+                  // SnackBar snackBar = new SnackBar(
+                  //   content: Text("Fetching"),
+                  // );
+                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                // ScaffoldMessenger.of(context).removeCurrentSnackBar();
               },
               builder: (context, state) {
                 if (state is ClientFetchingSuccessState) {
@@ -216,8 +235,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     }
                   }
                 } else if (state is ClientFetchingState) {
-                  // SnackBar snackBar =
-                  //     new SnackBar(content: CircularProgressIndicator());
+                  // SnackBar snackBar = new SnackBar(
+                  //   content: Text("Fetching"),
+                  // );
                   // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   // return CircularProgressIndicator();
                 } else if (state is ClientFetchingFailedState) {
@@ -226,10 +246,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                   );
                 }
                 return Container(
-                  height: MediaQuery.of(context).size.height -
-                      AppBar().preferredSize.height -
-                      MediaQuery.of(context).size.height * 0.12 -
-                      4.9,
+                  height: size1,
                   child: Column(
                     children: [
                       Text(
@@ -259,7 +276,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 onTap: () {
                                   Navigator.of(context).pushNamed(
                                     ClientDetailScreen.routeName,
-                                    arguments: clients![index]
+                                    arguments: clients![index],
                                   );
                                 },
                                 child: ClientCard(
@@ -284,10 +301,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
         builder: (context, state) {
           if (state is ClientFetchingState) {
             return Container(
-              height: 20,
-              child: Center(
-                child: Text("fetching"),
-              ),
+              height: 0,
+              // child: Center(
+              //   child: Text("fetching"),
+              // ),
             );
           }
           return Container(

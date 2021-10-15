@@ -282,7 +282,27 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                 when: 'later'));
 
                                             print("333");
+                                            // if (state.allorderdata[index].client
+                                            //         !.addresses !=
+                                            //     null) {
+                                            //   if (state
+                                            //           .allorderdata[index]
+                                            //           .client!
+                                            //           .addresses!
+                                            //           .length >
+                                            //       0) {
 
+                                            //     int addrID = int.parse(state
+                                            //         .allorderdata[index]
+                                            //         .client!
+                                            //         .addresses![0]
+                                            //         .id
+                                            //         .toString());
+                                            //     ordersBloc.add(
+                                            //         AddAddressIdEvent(
+                                            //             id: addrID));
+                                            //   }
+                                            // }
                                             ordersBloc.add(
                                               SetRequestEvent(
                                                 request: Request(

@@ -32,7 +32,7 @@ class ClientProfile extends StatelessWidget {
               elevation: 1,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 400,
+                height: 370,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -68,9 +68,6 @@ class ClientProfile extends StatelessWidget {
                     ClientDataRow(
                         property: cubit.tPHONE(),
                         value: '${this.client.phone}'),
-                    ClientDataRow(
-                        property: cubit.tCREDIT(),
-                        value: '${this.client.credit}'),
                   ],
                 ),
               ),

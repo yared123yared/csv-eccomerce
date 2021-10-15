@@ -64,3 +64,7 @@ class ConfirmOTPFailedState extends AuthState {
   late final String message;
   ConfirmOTPFailedState({required this.message});
 }
+
+class Loggingout extends AuthState{}
+
+class LogoutSuccess extends AuthState{}

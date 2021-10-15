@@ -16,6 +16,7 @@ import 'package:app/screens/reports_screens/customer_by_debt_screen.dart';
 import 'package:app/screens/reports_screens/salesReport_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -376,8 +377,16 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, Login.routeName);
+                        onTap: () async {
+                          UserPreferences pref =
+                              await UserPreferences();
+                          pref.logOut(true);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => Login(),
+                              ),
+                              (route) => false);
                         },
                         child: Container(
                           height: 60.0,
@@ -692,7 +701,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: ()async {
+                        onTap: () async {
                           await CsvDatabse.instance.DeleteDatabase();
                           Navigator.pushNamed(context, Login.routeName);
                         },

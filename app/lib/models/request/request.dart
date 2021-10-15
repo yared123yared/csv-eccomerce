@@ -91,6 +91,7 @@ class Request {
     amountRemaining = json[RequestFields.amountRemaining];
     addressId = json[RequestFields.addressId];
     clientId = json[RequestFields.clientId];
+    
     // type = json[RequestFields.type];
     // isLocal = json[RequestFields.isLocal];
   }

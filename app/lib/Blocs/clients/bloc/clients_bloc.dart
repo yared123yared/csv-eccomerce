@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:app/db/db.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/repository/orders_repository.dart';
@@ -74,7 +75,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       } else {
         List<Client> cl2 = [];
         for (var c in clts) {
-          print("client -- id---${c.id}--debt--${c.debt}");
           cl2.add(
             Client(
               id: c.id == null ? 0 : int.parse(c.id as String),

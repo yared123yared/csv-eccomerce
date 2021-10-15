@@ -260,7 +260,7 @@ class App extends StatelessWidget {
               create: (_) => DailyChartBloc(
                     DailyChartDataProvider(userPreferences),
                   )),
-          BlocProvider<MonthlyChartBloc>(   
+          BlocProvider<MonthlyChartBloc>(
             create: (_) => MonthlyChartBloc(
               MOnthlyChartDataProvider(userPreferences),
             ),
@@ -325,3 +325,4 @@ class App extends StatelessWidget {
 }
 
 //flutter run --no-sound-null-safety
+//adrain.beahan@mailinator.com  

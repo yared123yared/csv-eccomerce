@@ -11,12 +11,24 @@ class UserPreferences {
     await prefs.setString('user_info', jsonEncode(info));
   }
 
-  Future<LoggedUserInfo> getUserInformation() async {
+  Future<void> logOut( bool loggedOut)async{
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     await prefs.setBool('logout', loggedOut);
+  }
+  Future<bool?> IsLoggedOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.getBool('logout');
+  }
+
+  Future<LoggedUserInfo?> getUserInformation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? u_info = prefs.getString('user_info');
-    Map<String, dynamic> json = jsonDecode(u_info!) as Map<String, dynamic>;
-    var user = LoggedUserInfo.fromJson(json);
-    return user;
+    if (u_info != null) {
+      Map<String, dynamic> json = jsonDecode(u_info) as Map<String, dynamic>;
+      var user = LoggedUserInfo.fromJson(json);
+      return user;
+    }
+    return null;
   }
 
   Future<void> storeTokenAndExpiration(String token, String expiry) async {

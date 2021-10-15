@@ -57,6 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (connected) {
         LoggedUserInfo u = await userRepository.login(user);
         await CsvDatabse.instance.deleteAllClients();
+        await this.userPreference.logOut(false);
         yield LoginSuccessState(user: u);
       } else {
         LoggedUserInfo? u = await userRepository.offlineLogin(user);
@@ -64,6 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield LoginFailedState(message: "unable to read user-credential");
           return;
         }
+        await this.userPreference.logOut(false);
         yield LoginSuccessState(user: u);
       }
     } on HttpException catch (e) {
@@ -76,6 +78,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapAutoLoginEventToState() async* {
     yield AutoLoginState();
     try {
+      print("auto login 0");
+      bool? isLoggedOut = await this.userPreference.IsLoggedOut();
+      if (isLoggedOut == null) {
+        yield AutoLoginFailedState();
+        return;
+      }
+      if (isLoggedOut == true) {
+        yield AutoLoginFailedState();
+        return;
+      }
+
       print(" auto log 1");
       String? token = await this.userPreference.getUserToken();
       if (token == null) {
@@ -94,12 +107,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       print("expiry--${expiry}");
       bool isExpired = this.userPreference.isExpired(expiry);
       if (isExpired) {
-      print(" auto log 4");
+        print(" auto log 4");
 
         yield AutoLoginFailedState();
         return;
       } else {
-      print(" auto log 5");
+        print(" auto log 5");
 
         LoggedUserInfo? user = await this.userPreference.getUserInformation();
         if (user == null) {
