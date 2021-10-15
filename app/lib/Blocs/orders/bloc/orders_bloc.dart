@@ -58,8 +58,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           //   print(onError);
           // });
           // print(_result);
-            LoggedUserInfo? info = await this.preferences.getUserInformation();
-          int previosCredit = double.parse(info?.user?.credit as String).toInt();
+          LoggedUserInfo? info = await this.preferences.getUserInformation();
+          int previosCredit =
+              double.parse(info?.user?.credit as String).toInt();
           print("previos credit---${previosCredit}");
           int updatedCredit =
               previosCredit - (event.request?.amountPaid as int);
@@ -297,6 +298,17 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         User user = loggedUserInfo?.user as User;
         double credit = double.parse(user.credit ?? 0 as String);
         print("credit---${credit}");
+        // bool connected = await ConnectionChecker.CheckInternetConnection();
+        // if (!connected) {
+        //   Data? data = await CsvDatabse.instance.readProduct(int.parse(event.id));
+        //   yield FetchingOrderToBeUpdatedSuccess(
+        //     data: data,
+        //     addressId: data.addressId,
+        //     request: state.request,
+        //     client: data.client,
+        //     credit: credit,
+        //   );
+        // }
         OrderDetail data = await this.orderRepository.OrderData(event.id);
         yield FetchingOrderToBeUpdatedSuccess(
           data: data.data,
@@ -314,7 +326,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("setting request");
       // state.request = event.request;
       UserPreferences userPreference = new UserPreferences();
-      LoggedUserInfo? loggedUserInfo = await userPreference.getUserInformation();
+      LoggedUserInfo? loggedUserInfo =
+          await userPreference.getUserInformation();
       User user = loggedUserInfo?.user as User;
       double credit = double.parse(user.credit ?? 0 as String);
       print("credit---${credit}");
@@ -409,11 +422,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
-            LoggedUserInfo? info = await this.preferences.getUserInformation();
-          int previosCredit = double.parse(info?.user?.credit as String).toInt();
+          LoggedUserInfo? info = await this.preferences.getUserInformation();
+          int previosCredit =
+              double.parse(info?.user?.credit as String).toInt();
           print("previos credit---${previosCredit}");
-          int updatedCredit =
-              previosCredit - (event.request.amountPaid as int);
+          int updatedCredit = previosCredit - (event.request.amountPaid as int);
           info?.user?.credit = updatedCredit.toString();
           await this.preferences.storeUserInformation(info!);
           yield (OrderUpdateSuccess(request: event.request, credit: credit));
@@ -429,11 +442,11 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
             (await CsvDatabse.instance.createUpdateOrderRequest(event.request));
         if (value == true) {
           print("Order Successfully updated locally");
-            LoggedUserInfo? info = await this.preferences.getUserInformation();
-          int previosCredit = double.parse(info?.user?.credit as String).toInt();
+          LoggedUserInfo? info = await this.preferences.getUserInformation();
+          int previosCredit =
+              double.parse(info?.user?.credit as String).toInt();
           print("previos credit---${previosCredit}");
-          int updatedCredit =
-              previosCredit - (event.request.amountPaid as int);
+          int updatedCredit = previosCredit - (event.request.amountPaid as int);
           info?.user?.credit = updatedCredit.toString();
           await this.preferences.storeUserInformation(info!);
           yield (OrderCreatedSuccess(

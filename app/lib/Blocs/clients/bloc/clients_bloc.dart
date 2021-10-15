@@ -23,6 +23,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   int endOfPage = 1;
   bool syncing = false;
   bool isFirstFetch = false;
+  bool lassConnectionStatus = true;
   ClientsBloc({
     required this.clientsRepository,
     required this.orderRepository,
@@ -65,8 +66,14 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     bool loadMore,
   ) async* {
     yield ClientFetchingState();
+    if (lassConnectionStatus = false) {
+      page = 1;
+      loadMore = true;
+    }
     bool connected = await ConnectionChecker.CheckInternetConnection();
+    lassConnectionStatus = connected;
     if (!connected) {
+      print("11");
       List<CreateEditData>? clts = await CsvDatabse.instance.readClients();
       if (clts == null) {
         yield ClientFetchingSuccessState(
@@ -106,7 +113,11 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       if (page <= 0) {
         page = 1;
       }
+      print("22");
+
       if (loadMore) {
+        print("33");
+
         // if (endOfPage) {
         //   isFirstFetch = false;
         //   yield ClientFetchingSuccessState(
