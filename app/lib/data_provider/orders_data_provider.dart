@@ -73,18 +73,9 @@ class OrderDataProvider {
 
   Future<APIResponse> updateOrder(Request req) async {
     String? token = await this.userPreferences.getUserToken();
-    // late List<Data> products_return = [];
     print("---update order data provider");
-    // print(jsonEncode(request).toString());
     print("req--id--${req.id}");
     try {
-      // final url = Uri.parse('https://csv.jithvar.com/api/v1/orders/${req.id}');
-
-      // req.transactionId = "123";
-      // req.total = 2134;
-      // req.amountPaid = 32;
-      // req.amountRemaining = 10;
-      // Map<String, dynamic> jsonData = request.toJson();
       print(jsonEncode(req));
       print("------------");
       var headers = {
@@ -119,6 +110,7 @@ class OrderDataProvider {
       }
     } catch (e) {
       print("Exception thrown $e");
+      
     }
     return APIResponse(IsSuccess: false, Message: "Failed To Update Order");
   }

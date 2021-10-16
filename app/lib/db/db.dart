@@ -16,7 +16,7 @@ part 'client.dart';
 part 'order.dart';
 part 'product.dart';
 part 'category.dart';
-part 'table_mgmt.dart';
+part 'table.dart';
 
 final String tableClients = 'clients';
 final String tableAddresses = 'addresses';
@@ -102,97 +102,97 @@ CREATE TABLE $tablePhotos (
 ''');
       print("table create--3");
 
-      await db.execute('''
-CREATE TABLE $tableCategories (
-  ${CategoryFields.id} $idType,
-  ${CategoryFields.name} $textTypeNullable,
-  ${CategoryFields.parentId} $integerTypeNullable,
-  ${CategoryFields.fullname} $textTypeNullable
-  )
-''');
+  await db.execute('''
+  CREATE TABLE $tableCategories (
+    ${CategoryFields.id} $idType,
+    ${CategoryFields.name} $textTypeNullable,
+    ${CategoryFields.parentId} $integerTypeNullable,
+    ${CategoryFields.fullname} $textTypeNullable
+    )
+  ''');
       print("table create--4");
 
-      await db.execute('''
-CREATE TABLE $tableProductCategories (
-  ${CategoryFields.id} $idType,
-  ${CategoryFields.name} $textTypeNullable,
-  ${CategoryFields.parentId} $integerTypeNullable,
-  ${CategoryFields.fullname} $textTypeNullable,
-  ${CategoryFields.productId} $integerTypeNullable
-  )
-''');
+  await db.execute('''
+    CREATE TABLE $tableProductCategories (
+      ${CategoryFields.id} $idType,
+      ${CategoryFields.name} $textTypeNullable,
+      ${CategoryFields.parentId} $integerTypeNullable,
+      ${CategoryFields.fullname} $textTypeNullable,
+      ${CategoryFields.productId} $integerTypeNullable
+      )
+    ''');
       print("table create--5");
 
-      await db.execute('''
-CREATE TABLE $tableAttributes (
-  ${AttributeFields.id} $idType,
-  ${AttributeFields.name} $textTypeNullable,
-  ${AttributeFields.companyId} $integerTypeNullable,
-  ${AttributeFields.createdAt} $textTypeNullable,
-  ${AttributeFields.updatedAt} $textTypeNullable
-  )
-''');
+  await db.execute('''
+  CREATE TABLE $tableAttributes (
+    ${AttributeFields.id} $idType,
+    ${AttributeFields.name} $textTypeNullable,
+    ${AttributeFields.companyId} $integerTypeNullable,
+    ${AttributeFields.createdAt} $textTypeNullable,
+    ${AttributeFields.updatedAt} $textTypeNullable
+    )
+  ''');
       print("table create--6");
 
-      await db.execute('''
-CREATE TABLE $tablePivot (
-  ${PivotFields.productId} $idTypeNullable,
-  ${PivotFields.attributeId} $integerTypeNullable,
-  ${PivotFields.value} $textTypeNullable,
-  ${PivotFields.unitId} $integerTypeNullable,
-  ${PivotFields.unitName} $textTypeNullable,
-  ${PivotFields.id} $integerTypeNullable,
-  ${PivotFields.createdAt} $textTypeNullable,
-  ${PivotFields.updatedAt} $textTypeNullable
-  )
-''');
+  await db.execute('''
+  CREATE TABLE $tablePivot (
+    ${PivotFields.productId} $idTypeNullable,
+    ${PivotFields.attributeId} $integerTypeNullable,
+    ${PivotFields.value} $textTypeNullable,
+    ${PivotFields.unitId} $integerTypeNullable,
+    ${PivotFields.unitName} $textTypeNullable,
+    ${PivotFields.id} $integerTypeNullable,
+    ${PivotFields.createdAt} $textTypeNullable,
+    ${PivotFields.updatedAt} $textTypeNullable
+    )
+  ''');
       print("table create--7");
 
-      await db.execute('''
-CREATE TABLE $tableClients (
-  ${ClientFields.id} $idType,
-  ${ClientFields.firstname} $textType,
-  ${ClientFields.lastname} $textType,
-  ${ClientFields.mobile} $textType,
-  ${ClientFields.email} $textType,
-  ${ClientFields.companyName} $textType,
-  ${ClientFields.uploadedPhoto} $textTypeNullable,
-  type $textType,
-  ${ClientFields.debt} $integerTypeNullable
-  )
-''');
+  await db.execute('''
+    CREATE TABLE $tableClients (
+      ${ClientFields.id} $idType,
+      ${ClientFields.firstname} $textType,
+      ${ClientFields.lastname} $textType,
+      ${ClientFields.mobile} $textType,
+      ${ClientFields.email} $textType,
+      ${ClientFields.companyName} $textType,
+      ${ClientFields.uploadedPhoto} $textTypeNullable,
+      type $textType,
+      ${ClientFields.debt} $integerTypeNullable
+      )
+    ''');
       print("table create--8");
 
-      await db.execute('''
-CREATE TABLE $tableAddresses (
-  ${AddressFields.id} $idType,
-  ${AddressFields.clientId} $integerTypeNullable,
-  ${AddressFields.streetAddress} $textTypeNullable,
-  ${AddressFields.zipCode} $textTypeNullable,
-  ${AddressFields.locality} $textTypeNullable,
-  ${AddressFields.city} $textTypeNullable,
-  ${AddressFields.state} $textTypeNullable,
-  ${AddressFields.country} $textType,
-  ${AddressFields.isDefault} $boolType,
-  ${AddressFields.isBilling} $boolType,
-  ${AddressFields.companyId} $textTypeNullable,
-  FOREIGN KEY (${AddressFields.clientId})
-       REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
-  )
-''');
-      print("table create--9");
+  await db.execute('''
+    CREATE TABLE $tableAddresses (
+      ${AddressFields.id} $idType,
+      ${AddressFields.clientId} $integerTypeNullable,
+      ${AddressFields.streetAddress} $textTypeNullable,
+      ${AddressFields.zipCode} $textTypeNullable,
+      ${AddressFields.locality} $textTypeNullable,
+      ${AddressFields.city} $textTypeNullable,
+      ${AddressFields.state} $textTypeNullable,
+      ${AddressFields.country} $textType,
+      ${AddressFields.isDefault} $boolType,
+      ${AddressFields.isBilling} $boolType,
+      ${AddressFields.companyId} $textTypeNullable,
+      FOREIGN KEY (${AddressFields.clientId})
+          REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
+      )
+    ''');
+    print("table create--9");
 
-      await db.execute('''
-CREATE TABLE $tableDocuments (
-  ${DocFields.id} $idType,
-  ${DocFields.name} $textType,
-  ${DocFields.path} $textType,
-  ${DocFields.clientId} $integerTypeNullable,
-  FOREIGN KEY (${DocFields.clientId})
-       REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
+    await db.execute('''
+      CREATE TABLE $tableDocuments (
+        ${DocFields.id} $idType,
+        ${DocFields.name} $textType,
+        ${DocFields.path} $textType,
+        ${DocFields.clientId} $integerTypeNullable,
+        FOREIGN KEY (${DocFields.clientId})
+            REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
 
-  )
-''');
+        )
+      ''');
       print("table create--10");
 
       await db.execute('''
