@@ -96,7 +96,7 @@ void main() async {
         httpClient: httpClient, userPreferences: userPreferences),
   );
   final OrderRepository orderRepository = OrderRepository(
-    orderDataProvider: OrderDataProvider(
+    orderDataProvider: OrderDataProvider( 
         httpClient: httpClient, userPreferences: userPreferences),
   );
   final CreditRepository creditRepository = CreditRepository(
