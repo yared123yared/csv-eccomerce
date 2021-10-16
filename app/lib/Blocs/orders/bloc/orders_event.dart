@@ -78,6 +78,10 @@ class AddToCart extends OrdersEvent {
   final CartItem cart;
   AddToCart({required this.cart});
 }
+class DecreaseAmountInCart extends OrdersEvent {
+  final CartItem cart;
+  DecreaseAmountInCart({required this.cart});
+}
 class RemoveFromCart extends OrdersEvent {
   final CartItem cart;
   RemoveFromCart({required this.cart});

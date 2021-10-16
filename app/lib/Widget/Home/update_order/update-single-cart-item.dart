@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
 import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
+import 'package:app/Blocs/orders/bloc/orders_bloc.dart';
 import 'package:app/Widget/Home/cart/image.dart';
 import 'package:app/Widget/Home/cart/minimize-button.dart';
 import 'package:app/Widget/Home/cart/price.dart';
@@ -23,6 +25,7 @@ class UpdateSingleCartItem extends StatefulWidget {
   // final Data product;
   final Function increasePrice;
   final Function decreasePrice;
+  final Function remove;
   // int cartID;
   // int quantity;
   // double total;
@@ -31,6 +34,7 @@ class UpdateSingleCartItem extends StatefulWidget {
   UpdateSingleCartItem({
     required this.increasePrice,
     required this.decreasePrice,
+    required this.remove,
     // required this.product,
     // required this.cartID,
     // required this.price,
@@ -172,9 +176,11 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
         --old;
         widget.order.quantity = old;
         orderBloc.add(
-          RemoveFromCart(
+          DecreaseAmountInCart(
             cart: CartItem(
-                productId: widget.order.data.id, quantity: 0, id: widget.order.cartId),
+                productId: widget.order.data.id,
+                quantity: 0,
+                id: widget.order.cartId),
           ),
         );
         widget.decreasePrice(widget.order.price);
@@ -182,8 +188,17 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
     });
   }
 
-  //TODO remove item
   void removeItem() {
+    orderBloc.add(
+      RemoveFromCart(
+        cart: CartItem(
+            productId: widget.order.data.id,
+            quantity: widget.order.quantity,
+            id: widget.order.cartId),
+      ),
+    );
+    double itemPrice = widget.order.price * widget.order.quantity;
+    widget.remove(widget.order, itemPrice);
     // cartBloc.add(RemoveProduct(singleProduct: widget.product));
     // setState(() {
     //   widget.product.quantity = 0;

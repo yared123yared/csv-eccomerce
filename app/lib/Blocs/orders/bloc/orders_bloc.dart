@@ -371,7 +371,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
-    } else if (event is RemoveFromCart) {
+    } else if (event is DecreaseAmountInCart) {
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
@@ -380,11 +380,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
               .where((element) => element.productId == event.cart.productId)
               .first;
           carts.remove(car);
-          if (car.quantity != null) {
-            int x = car.quantity;
-            --x;
-            car.quantity = x;
-          }
+          int x = car.quantity;
+          --x;
+          car.quantity = x;
           carts.add(car);
           request.cartItem = carts;
         } catch (e) {
@@ -394,7 +392,23 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
-    } else if (event is UpdateOrderEvent) {
+    }else if(event is RemoveFromCart){
+      Request request = state.request;
+      List<CartItem>? carts = request.cartItem;
+      if (carts != null) {
+        try {
+          CartItem car = carts
+              .where((element) => element.productId == event.cart.productId)
+              .first;
+          carts.remove(car);
+          request.cartItem = carts;
+        } catch (e) {
+          request.cartItem = carts;
+        }
+      }
+      yield RequestUpdateSuccess(request: request, credit: state.credit);
+      return;
+    }else if (event is UpdateOrderEvent) {
       UserPreferences userPreference = new UserPreferences();
       LoggedUserInfo loggedUserInfo =
           await userPreference.getUserInformation() as LoggedUserInfo;

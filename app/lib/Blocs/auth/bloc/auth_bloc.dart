@@ -56,7 +56,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       if (connected) {
         LoggedUserInfo u = await userRepository.login(user);
-        await CsvDatabse.instance.deleteAllClients();
+        await CsvDatabse.instance.clearData();
         await this.userPreference.logOut(false);
         yield LoginSuccessState(user: u);
       } else {
