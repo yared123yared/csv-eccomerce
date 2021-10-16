@@ -8,6 +8,7 @@ import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/screens/cart_screens/update_order_screen.dart';
 import 'package:app/screens/orders_screen/allorder_details_screen.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -247,7 +248,32 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                           Icons.edit,
                                           color: Colors.white,
                                         ),
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          bool connected =
+                                              await ConnectionChecker
+                                                  .CheckInternetConnection();
+                                          if (!connected) {
+                                            SnackBar snackBar = new SnackBar(
+                                              action: SnackBarAction(
+                                                label: "dismis",
+                                                disabledTextColor: Colors.green[200],
+                                                textColor: Colors.red,
+                                                onPressed: () {},
+                                              ),
+                                              content: Container(
+                                                height: 30,
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Please connect to internet",
+                                                  textAlign: TextAlign.center,
+
+                                                ),
+                                              ),
+                                            );
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(snackBar);
+                                            return;
+                                          }
                                           print(
                                               "orders data:${state.allorderdata[index].id}");
                                           // AddClientBloc addCBloc =
@@ -266,23 +292,43 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                 "--------invoked data--container ---120");
                                             // print(jsonEncode(state
                                             //     .allorderdata[index].client!));
-                                            addClientBloc.add(
-                                                ClientDisplayEvent(
-                                                    client: state
-                                                        .allorderdata[index]
-                                                        .client!));
-                                            print("111");
-                                            ordersBloc.add(ClientAddEvent(
-                                                client: state
-                                                    .allorderdata[index]
-                                                    .client!));
-                                            print("222");
+                                            // addClientBloc.add(
+                                            //     ClientDisplayEvent(
+                                            //         client: state
+                                            //             .allorderdata[index]
+                                            //             .client!));
+                                            // print("111");
+                                            // ordersBloc.add(ClientAddEvent(
+                                            //     client: state
+                                            //         .allorderdata[index]
+                                            //         .client!));
+                                            // print("222");
 
                                             ordersBloc.add(AddPaymentWhenEvent(
                                                 when: 'later'));
 
                                             print("333");
+                                            // if (state.allorderdata[index].client
+                                            //         !.addresses !=
+                                            //     null) {
+                                            //   if (state
+                                            //           .allorderdata[index]
+                                            //           .client!
+                                            //           .addresses!
+                                            //           .length >
+                                            //       0) {
 
+                                            //     int addrID = int.parse(state
+                                            //         .allorderdata[index]
+                                            //         .client!
+                                            //         .addresses![0]
+                                            //         .id
+                                            //         .toString());
+                                            //     ordersBloc.add(
+                                            //         AddAddressIdEvent(
+                                            //             id: addrID));
+                                            //   }
+                                            // }
                                             ordersBloc.add(
                                               SetRequestEvent(
                                                 request: Request(

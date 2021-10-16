@@ -961,4 +961,13 @@ class LanguageCubit extends Cubit<LanguageState> {
       return "Model";
     }
   }
+  //Client profile
+
+ String tChangeClient() {
+    if (getLanguage() == "🇫🇷") {
+      return "Changer de client";
+    } else {
+      return "Change Client";
+    }
+  }
 }

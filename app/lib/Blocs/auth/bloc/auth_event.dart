@@ -60,3 +60,5 @@ class CreditLimitUpdate extends AuthEvent{
   final int credit;
   CreditLimitUpdate({required this.credit});
 }
+
+class LogoutEvent extends AuthEvent {}

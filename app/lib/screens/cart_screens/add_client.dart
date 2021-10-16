@@ -200,8 +200,8 @@ class _AddClientState extends State<AddClient> {
                                 // you'd often call a server or save the information in a database.
 
                                 print("Order method is invoked");
-                                ordersbloc
-                                    .add(AddAddressIdEvent(id: adreessyy!));
+                                // ordersbloc
+                                    // .add(AddAddressIdEvent(id: adreessyy!));
                                 // print(
                                 //     "adreessyy adreessyy adreessyy adreessyy ");
                                 // print(adreessyy);

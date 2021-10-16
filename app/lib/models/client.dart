@@ -221,23 +221,25 @@ class Client {
       status = json['status'];
       debts = json['debts'];
       companyName = json['company_name'];
-      photo = Photo.fromJson(json['photo']);
+      if (json['photo'] != null) {
+        photo = Photo.fromJson(json['photo']);
+      }
       if (json['orders'] != null) {
         orders = [];
-        json['orders'].forEach((v) {
-          orders!.add(new Orders.fromJson(v));
+        json['orders']?.forEach((v) {
+          orders?.add(new Orders.fromJson(v));
         });
       }
       if (json['addresses'] != null) {
         addresses = [];
-        json['addresses'].forEach((v) {
-          addresses!.add(new Addresses.fromJson(v));
+        json['addresses']?.forEach((v) {
+          addresses?.add(new Addresses.fromJson(v));
         });
       }
       if (json['documents'] != null) {
         documents = [];
-        json['documents'].forEach((v) {
-          documents!.add(new Docs.fromJson(v));
+        json['documents']?.forEach((v) {
+          documents?.add(new Docs.fromJson(v));
         });
       }
     } catch (e) {
@@ -595,7 +597,7 @@ class AddressFields {
     companyId,
   ];
 
-  static final String id = '_id';
+  static final String id = 'id';
   static final String clientId = 'client_id';
   static final String streetAddress = 'street_address';
   static final String zipCode = 'zip_code';
@@ -637,7 +639,7 @@ class Addresses {
 
   Addresses.fromJson(Map<String, dynamic> json) {
     try {
-      id = json['_id'].toString();
+      id = json['id'].toString();
       streetAddress = json['street_address'];
       zipCode = json['zip_code'];
       locality = json['locality'];
@@ -654,7 +656,8 @@ class Addresses {
   }
   Addresses.fromSqliteJson(Map<String, dynamic> json) {
     try {
-      id = json['_id']?.toString();
+      int idX = json['id'];
+      id = idX.toString();
       clientID = json['client_id']?.toString();
       streetAddress = json['street_address'];
       zipCode = json['zip_code'];
@@ -672,7 +675,7 @@ class Addresses {
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.id;
+    data['id'] = this.id;
     data['street_address'] = this.streetAddress;
     data['zip_code'] = this.zipCode;
     data['locality'] = this.locality;
@@ -687,12 +690,13 @@ class Addresses {
 
   Map<String, dynamic> toSqliteJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    // print("ad--1");
+    print("ad--1");
+    print("addr-id--${this.id}");
     if (this.id != null && this.id != "" && this.id != "null") {
       print("this.id---${this.id == null}");
       print("this.id---${this.id != null}");
       print("${this.id}");
-      data['_id'] = int.parse(this.id.toString());
+      data['id'] = int.parse(this.id.toString());
     }
     // print("ad--2");
 
@@ -737,6 +741,7 @@ class Addresses {
     return data;
   }
 }
+
 class DocsCopy {
   String? id;
   late String name;

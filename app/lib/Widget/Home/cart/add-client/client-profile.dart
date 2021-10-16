@@ -1,7 +1,9 @@
 import 'package:app/Widget/clients/Common/client_data_row.dart';
+import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/navigation/profile_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'change-client-button.dart';
 
@@ -14,14 +16,14 @@ class ClientProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final String baseUrl = 'http://csv.jithvar.com/storage';
     print("Client Photo path: ${client.photoPath}");
-
     // String image = 'https://csv.jithvar.com/storage/${this.client.photoPath}';
+    final cubit = BlocProvider.of<LanguageCubit>(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Stack(
         alignment: Alignment.center,
         textDirection: TextDirection.rtl,
-        fit: StackFit.loose, 
+        fit: StackFit.loose,
         clipBehavior: Clip.none,
         children: [
           Container(
@@ -30,7 +32,7 @@ class ClientProfile extends StatelessWidget {
               elevation: 1,
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                height: 400,
+                height: 370,
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -59,13 +61,13 @@ class ClientProfile extends StatelessWidget {
                     SizedBox(
                       height: 20.0,
                     ),
-                    ClientDataRow(property: 'NAME', value: this.client.name),
+                    ClientDataRow(
+                        property: cubit.tNAME(), value: this.client.name),
                     ClientDataRow(
                         property: 'EMAIL', value: '${this.client.email}'),
                     ClientDataRow(
-                        property: 'PHONE', value: '${this.client.phone}'),
-                    ClientDataRow(
-                        property: 'CREDIT', value: '${this.client.credit}'),
+                        property: cubit.tPHONE(),
+                        value: '${this.client.phone}'),
                   ],
                 ),
               ),

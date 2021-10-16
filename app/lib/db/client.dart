@@ -30,11 +30,12 @@ extension ClientLocalDB on CsvDatabse {
           adresses.forEach((adress) {
             adress.clientID = clientId.toString();
             print("-----db 2.4");
-            print("client-id${clientId}");
+            // print("client-id${clientId}");
 
             batch.insert(
               tableAddresses,
               adress.toSqliteJson(),
+              conflictAlgorithm: ConflictAlgorithm.replace,
             );
             print("client-id${clientId}");
           });
@@ -51,7 +52,11 @@ extension ClientLocalDB on CsvDatabse {
           print("db--cl--create---4");
           if (orders != null) {
             orders.forEach((ord) {
-              batch.insert(tableOrders, ord.toJson());
+              batch.insert(
+                tableOrders,
+                ord.toJson(),
+                conflictAlgorithm: ConflictAlgorithm.replace,
+              );
             });
           }
 
@@ -188,6 +193,7 @@ extension ClientLocalDB on CsvDatabse {
         ;
         if (clients != null) {
           for (var cl in clients!) {
+            print(cl.firstName);
             List<Addresses> adresses = [];
             List<Docs> documents = [];
             List<Orders> orders = [];
@@ -196,36 +202,38 @@ extension ClientLocalDB on CsvDatabse {
               where: '${AddressFields.clientId} = ?',
               whereArgs: [cl.id],
             );
-
-            adresses = adressMap
-                .map(
-                  (json) => Addresses.fromJson(json),
-                )
-                .toList();
-
+            adresses = adressMap.map(
+              (json) {
+                // print(json);
+                return Addresses.fromSqliteJson(json);
+              },
+            ).toList();
+            // print(adresses);
+            // print("------------");
             final docsMap = await txn.query(
               tableDocuments,
               where: '${DocFields.clientId} = ?',
               whereArgs: [cl.id],
             );
 
-            documents = docsMap
-                .map(
-                  (json) => Docs.fromJson(json),
-                )
-                .toList();
+            documents = docsMap.map(
+              (json) {
+                return Docs.fromJson(json);
+              },
+            ).toList();
             if (cl.id != null) {
               final ordersMap = await txn.query(
                 tableOrders,
                 where: '${OrderFields.clientId} = ?',
                 whereArgs: [int.parse(cl.id as String)],
               );
-
-              orders = ordersMap
-                  .map(
-                    (json) => Orders.fromJson(json),
-                  )
-                  .toList();
+              print("fetching orders");
+              orders = ordersMap.map(
+                (json) {
+                  print(json);
+                  return Orders.fromJson(json);
+                },
+              ).toList();
             }
 
             // print("addresses");

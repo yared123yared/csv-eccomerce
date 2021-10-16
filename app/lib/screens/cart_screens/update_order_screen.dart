@@ -13,6 +13,7 @@ import 'package:app/Widget/Home/update_order/update-product-price-info.dart';
 import 'package:app/Widget/Home/update_order/update-single-cart-item.dart';
 import 'package:app/Widget/clients/client_profile/address_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
+import 'package:app/constants/constants.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 // import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
@@ -83,14 +84,6 @@ class _UpdateOrderState extends State<UpdateOrder> {
     productBloc = BlocProvider.of<ProductBloc>(context);
     addClientBloc = BlocProvider.of<AddClientBloc>(context);
     allorderrBloc = BlocProvider.of<AllorderrBloc>(context);
-    // ordersbloc.add(CartCheckoutEvent(cartProducts: data));
-    // ordersbloc.add(PaymentInitialization());
-
-    // this.isShowing = false;
-
-    // CartLogic cartLogic = new CartLogic(products: []);
-    // ScrollController _scrollController = ScrollController();
-    // TextEditingController payingTimeController = new TextEditingController();
     AwesomeDialog dialog = AwesomeDialog(
       context: context,
       dialogType: DialogType.ERROR,
@@ -108,6 +101,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: primaryColor,
         title: Text(cubit.tUpdateOrder()),
         leading: IconButton(
           onPressed: () {
@@ -411,7 +405,9 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                     ],
                                   ),
                                 ),
-                              ),
+                              ), // ClientDataRow(
+                              //     property: cubit.tCREDIT(),
+                              //     value: '${this.client.credit}'),
                             ),
                           )
                         : SizedBox(

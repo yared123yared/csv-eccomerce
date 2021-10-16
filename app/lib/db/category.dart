@@ -6,15 +6,12 @@ extension CategoryLocalStore on CsvDatabse {
     List<Categories> categories = [];
 
     if (db != null) {
-      print("db-cat--read---1");
       final categoryMap = await db.query(
         tableCategories,
       );
-      print("db-cat--read---2");
       categories =
           categoryMap.map((json) => Categories.fromDb(json)).toList();
 
-      print("db-cat--read---3");
     }
     return categories;
   }
@@ -22,7 +19,6 @@ extension CategoryLocalStore on CsvDatabse {
   Future<void> storeCategories(List<Categories> categories) async {
     final db = await CsvDatabse.instance.database;
     if (db != null) {
-      print("db-cat--create---1");
       await db.transaction((txn) async {
         Batch batch = txn.batch();
         categories.forEach((category) {
@@ -32,9 +28,7 @@ extension CategoryLocalStore on CsvDatabse {
             conflictAlgorithm: ConflictAlgorithm.replace,
           );
         });
-        print("db-cat--create---2");
         batch.commit();
-        print("db-cat--create---3");
       });
     }
   }

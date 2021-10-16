@@ -1,6 +1,89 @@
 part of 'db.dart';
 
 extension ProductLocalStore on CsvDatabse {
+  Future<Data?> readProduct(int id) async {
+    final db = await CsvDatabse.instance.database;
+    try {
+      if (db != null) {
+        Data? product;
+        await db.transaction((txn) async {
+          final maps = await txn.query(
+            tableProduct,
+            columns: ProductDataFields.values,
+            where: '${ProductDataFields.id} = ?',
+            whereArgs: [id],
+          );
+          if (maps.isEmpty || maps.first.isEmpty) {
+            return null;
+          }
+          product = Data.fromJson(maps.first);
+          List<Photos> photos = [];
+          List<Categories> categories = [];
+          List<Attributes> attributes = [];
+          List<Pivot> pivots = [];
+          final photMap = await txn.query(
+            tablePhotos,
+            where: '${PhotoFields.referenceId} = ?',
+            whereArgs: [product?.id],
+          );
+          // print("db-pro--read---4");
+
+          photos = photMap.map((json) => Photos.fromJson(json)).toList();
+          // print("db-pro--read---5");
+
+          final categoryMap = await txn.query(
+            tableProductCategories,
+            where: '${CategoryFields.productId} = ?',
+            whereArgs: [product?.id],
+          );
+          // print("db-pro--read---6");
+
+          categories =
+              categoryMap.map((json) => Categories.fromJson(json)).toList();
+
+          // print("db-pro--read---7");
+
+          final pivotMap = await txn.query(
+            tablePivot,
+            where: '${PivotFields.productId} = ?',
+            whereArgs: [product?.id],
+            // groupBy: PivotFields.attributeId,
+          );
+          // print("db-pro--read---8");
+
+          pivots = pivotMap.map((json) => Pivot.fromJson(json)).toList();
+          // print("db-pro--read---9");
+
+          pivots.forEach((piv) async {
+            final datas = await txn.query(
+              tableAttributes,
+              where: '${AttributeFields.id} = ?',
+              whereArgs: [piv.attributeId],
+            );
+            // print("db-pro--read---10");
+
+            Attributes atr =
+                datas.map((json) => Attributes.fromJson(json)).first;
+            // print("db-pro--read---11");
+
+            atr.pivot = piv;
+            // print("db-pro--read---12");
+
+            attributes.add(atr);
+            // print("db-pro--read---13");
+          });
+          product?.photos = photos;
+          product?.categories = categories;
+          product?.attributes = attributes;
+        });
+        return product;
+      }
+    } catch (e) {
+      print("error read product detail");
+      print(e);
+    }
+  }
+
   Future<void> createProduct(Data product) async {
     final db = await CsvDatabse.instance.database;
 
@@ -190,7 +273,7 @@ extension ProductLocalStore on CsvDatabse {
       });
       if (categoryId != null) {
         if (products != null) {
-           return products!
+          return products!
               .where((prod) => containsCategoryId(prod.categories, categoryId))
               .toList();
         }

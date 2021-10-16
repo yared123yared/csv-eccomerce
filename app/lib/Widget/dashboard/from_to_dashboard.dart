@@ -89,7 +89,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                       ? Text(
                           dateFromText.toString(),
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Color(0xff414e79),
                               fontWeight: FontWeight.bold),
                         )
@@ -142,7 +142,7 @@ class _FromToDashBoardState extends State<FromToDashBoard> {
                       ? Text(
                           dateToText.toString(),
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                               color: Color(0xff414e79),
                               fontWeight: FontWeight.bold),
                         )

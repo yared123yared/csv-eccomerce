@@ -53,9 +53,14 @@ class FetchingOrderToBeUpdatedSuccess extends OrdersState {
   final List<OrderToBeUpdated> data;
   int? addressId;
   Client? client;
-  FetchingOrderToBeUpdatedSuccess(
-      {required this.data, required this.request, this.addressId, this.client})
-      : super(orderCreated: false, request: Request());
+  final double? credit;
+  FetchingOrderToBeUpdatedSuccess({
+    required this.data,
+    required this.request,
+    this.addressId,
+    this.client,
+    this.credit,
+  }) : super(orderCreated: false, request: Request());
 }
 
 class OrderUpdateSuccess extends OrdersState {

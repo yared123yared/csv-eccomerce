@@ -34,6 +34,14 @@ class _AddButtonState extends State<AddButton> {
         // cubit.addersIdy = widget.client.id!;
         addClientBloc.add(ClientDisplayEvent(client: this.widget.client));
         ordersBloc.add(ClientAddEvent(client: this.widget.client));
+        int addID = 0;
+        if (this.widget.client.addresses != null) {
+          if (this.widget.client.addresses!.length > 0) {
+            addID = int.parse(this.widget.client.addresses![0].id??"");
+          }
+        }
+        ordersBloc.add(AddAddressIdEvent(id: addID));
+        // this.widget.client.addresses[0].id;
       },
       child: Container(
           width: MediaQuery.of(context).size.width * 0.16,

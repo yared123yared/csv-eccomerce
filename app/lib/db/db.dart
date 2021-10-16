@@ -16,6 +16,7 @@ part 'client.dart';
 part 'order.dart';
 part 'product.dart';
 part 'category.dart';
+part 'table_mgmt.dart';
 
 final String tableClients = 'clients';
 final String tableAddresses = 'addresses';
