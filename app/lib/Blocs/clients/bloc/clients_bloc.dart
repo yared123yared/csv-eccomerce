@@ -33,6 +33,15 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   Stream<ClientsState> mapEventToState(
     ClientsEvent event,
   ) async* {
+    if (event is ClientInitialize) {
+      clients = [];
+      page = 1;
+      endOfPage = 1;
+      syncing = false;
+      isFirstFetch = false;
+      lassConnectionStatus = true;
+      return;
+    }
     if (event is FetchClientsEvent) {
       SearchData dataX = SearchData(
         draw: 0,

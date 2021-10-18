@@ -174,6 +174,7 @@ extension ClientLocalDB on CsvDatabse {
   Future<List<CreateEditData>?> readClients() async {
     // Future<List<CreateEditData>?> readClient(int id) async {
     final db = await CsvDatabse.instance.database;
+    
     List<CreateEditData>? clients;
     if (db != null) {
       await db.transaction((txn) async {

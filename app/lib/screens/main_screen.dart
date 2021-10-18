@@ -8,6 +8,7 @@ import 'package:app/Blocs/dashBoard/numbers/bloc/number_dashboard_bloc.dart';
 import 'package:app/Blocs/dashBoard/recentOrder/bloc/recent_order_bloc.dart';
 import 'package:app/Widget/Home/bottom-navigation/cart.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/db/db.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/screens/cart_screens/cart_screen.dart';
 import 'package:app/screens/category_screen.dart';
@@ -40,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
   late ProductBloc productBloc;
   late CartBloc cartBloc;
   late CategoriesBloc categoriesBloc;
+  late ClientsBloc clientsBloc;
 
   @override
   void initState() {
@@ -105,6 +107,7 @@ class _MainScreenState extends State<MainScreen> {
     cartBloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
     categoriesBloc = BlocProvider.of<CategoriesBloc>(context);
+    clientsBloc = BlocProvider.of<ClientsBloc>(context);
     final cubit = BlocProvider.of<LanguageCubit>(context);
     return Scaffold(
       key: _scaffoldKey,
@@ -150,13 +153,23 @@ class _MainScreenState extends State<MainScreen> {
           Padding(
               padding: EdgeInsets.only(right: 10),
               child: IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     print("REFRESH ICON BUTTON HAVE BEEN CLIEKCED");
+                    //  CsvDatabse.instance.DeleteDatabase();
+                    // await  CsvDatabse.instance.clearProductsAndCategories();
+                    // await CsvDatabse.instance.deletePhot();
+                    // await CsvDatabse.instance.deletePiv();
+                    // await CsvDatabse.instance.deleteAttr();
+                    // await CsvDatabse.instance.deletePro();
+                    // await CsvDatabse.instance.deleteProCat();
+                    await CsvDatabse.instance.clearData();
                     productBloc.add(FetchProduct());
                     cartBloc.add(InitializeCart());
                     categoriesBloc.add(FetchCategories());
+                    clientsBloc.add(ClientInitialize());
+                    clientsBloc.add(FetchClientsEvent(loadMore: true));
                   },
-                  icon: Icon(Icons.refresh))),
+                  icon: Icon(Icons.refresh),),),
         ],
         leading: GestureDetector(
           onTap: () {
@@ -256,7 +269,10 @@ class _MainScreenState extends State<MainScreen> {
   getLanguagePref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      selectedLang = pref.getString("language")!;
+      String? lang = pref.getString("language");
+      if (lang != null) {
+        selectedLang = lang;
+      }
     });
   }
 

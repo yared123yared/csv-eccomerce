@@ -180,122 +180,114 @@ class _ClientsScreenState extends State<ClientsScreen> {
           )
         ],
       ),
-      //         height: MediaQuery.of(context).size.height -
-      // AppBar().preferredSize.height -
-      // 90,
-
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        color: Color(0xFFf2f6f9),
-        child: Column(
-          children: [
-            Container(
-              height: 75.0,
-              child: SearchBar(),
+      backgroundColor: Color(0xFFf2f6f9),
+      body: Column(
+        children: [
+          Container(
+            height: 75.0,
+            child: SearchBar(),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text(
+            '${cubit.tshowing()}  ${start} ${cubit.tTo()} ${end} ${cubit.tOf()} ${total} ${cubit.tentries()}',
+            style: TextStyle(
+              color: Colors.black54,
             ),
-            SizedBox(
-              height: 10.0,
-            ),
-            BlocConsumer<ClientsBloc, ClientsState>(
-              // buildWhen: (previous, current) => current.check != false,
-              listener: (context, state) {
-                if (state is ClientDeleteSuccesstate) {
-                  FetchClientsEvent refechEvent =
-                      new FetchClientsEvent(loadMore: false);
-                  BlocProvider.of<ClientsBloc>(context, listen: false)
-                      .add(refechEvent);
-                } else if (state is ClientDeleteFailedState) {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.NO_HEADER,
-                    animType: AnimType.BOTTOMSLIDE,
-                    title: 'Delete Error',
-                    desc: state.message,
-                    btnCancelOnPress: () {},
-                    btnOkOnPress: () {},
-                  )..show();
-                }
-                if (state is ClientFetchingState) {
-                  // SnackBar snackBar = new SnackBar(
-                  //   content: Text("Fetching"),
-                  // );
-                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-                // ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              },
-              builder: (context, state) {
-                if (state is ClientFetchingSuccessState) {
-                  // state.products.map((product) {});
-                  clients = state.clients;
-                  if (state.clients != null) {
-                    total = state.clients!.length;
-                    if (state.clients!.length == 0) {
-                      start = 0;
-                      end = 0;
-                    }
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          BlocConsumer<ClientsBloc, ClientsState>(
+            // buildWhen: (previous, current) => current.check != false,
+            listener: (context, state) {
+              if (state is ClientDeleteSuccesstate) {
+                FetchClientsEvent refechEvent =
+                    new FetchClientsEvent(loadMore: false);
+                BlocProvider.of<ClientsBloc>(context, listen: false)
+                    .add(refechEvent);
+              } else if (state is ClientDeleteFailedState) {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.NO_HEADER,
+                  animType: AnimType.BOTTOMSLIDE,
+                  title: 'Delete Error',
+                  desc: state.message,
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () {},
+                )..show();
+              }
+              if (state is ClientFetchingState) {
+                // SnackBar snackBar = new SnackBar(
+                //   content: Text("Fetching"),
+                // );
+                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
+              // ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            },
+            builder: (context, state) {
+              if (state is ClientFetchingSuccessState) {
+                // state.products.map((product) {});
+                clients = state.clients;
+                if (state.clients != null) {
+                  total = state.clients!.length;
+                  if (state.clients!.length == 0) {
+                    start = 0;
+                    end = 0;
                   }
-                } else if (state is ClientFetchingState) {
-                  // SnackBar snackBar = new SnackBar(
-                  //   content: Text("Fetching"),
-                  // );
-                  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  // return CircularProgressIndicator();
-                } else if (state is ClientFetchingFailedState) {
-                  return Center(
-                    child: Text('Client Fetch Failed'),
-                  );
                 }
+              } else if (state is ClientFetchingState) {
+                // SnackBar snackBar = new SnackBar(
+                //   content: Text("Fetching"),
+                // );
+                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                // return CircularProgressIndicator();
+              } else if (state is ClientFetchingFailedState) {
                 return Container(
-                  height: size1,
-                  child: Column(
-                    children: [
-                      Text(
-                        '${cubit.tshowing()}  ${start} ${cubit.tTo()} ${end} ${cubit.tOf()} ${total} ${cubit.tentries()}',
-                        style: TextStyle(
-                          color: Colors.black54,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
-                      Expanded(
-                        child: LazyLoadScrollView(
-                          onEndOfPage: () {
-                            FetchClientsEvent refechEvent =
-                                new FetchClientsEvent(loadMore: true);
-                            BlocProvider.of<ClientsBloc>(context, listen: false)
-                                .add(refechEvent);
-                          },
-                          scrollOffset: 70,
-                          child: ScrollablePositionedList.builder(
-                            itemCount: clients!.length,
-                            itemScrollController: itemScrollController,
-                            itemPositionsListener: itemPositionsListener,
-                            itemBuilder: (BuildContext ctx, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                    ClientDetailScreen.routeName,
-                                    arguments: clients![index],
-                                  );
-                                },
-                                child: ClientCard(
-                                  client: clients![index],
-                                  deleteClient: () {},
-                                  editClient: editClient,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+                  height: 400,
+                  child: Text(
+                    'Client Fetch Failed',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
                   ),
                 );
-              },
-            ),
-          ],
-        ),
+              }
+              return Expanded(
+                child: LazyLoadScrollView(
+                  onEndOfPage: () {
+                    FetchClientsEvent refechEvent =
+                        new FetchClientsEvent(loadMore: true);
+                    BlocProvider.of<ClientsBloc>(context, listen: false)
+                        .add(refechEvent);
+                  },
+                  scrollOffset: 70,
+                  child: ScrollablePositionedList.builder(
+                    itemCount: clients!.length,
+                    itemScrollController: itemScrollController,
+                    itemPositionsListener: itemPositionsListener,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            ClientDetailScreen.routeName,
+                            arguments: clients![index],
+                          );
+                        },
+                        child: ClientCard(
+                          client: clients![index],
+                          deleteClient: () {},
+                          editClient: editClient,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BlocBuilder<ClientsBloc, ClientsState>(
         builder: (context, state) {

@@ -102,7 +102,7 @@ CREATE TABLE $tablePhotos (
 ''');
       print("table create--3");
 
-  await db.execute('''
+      await db.execute('''
   CREATE TABLE $tableCategories (
     ${CategoryFields.id} $idType,
     ${CategoryFields.name} $textTypeNullable,
@@ -112,7 +112,7 @@ CREATE TABLE $tablePhotos (
   ''');
       print("table create--4");
 
-  await db.execute('''
+      await db.execute('''
     CREATE TABLE $tableProductCategories (
       ${CategoryFields.id} $idType,
       ${CategoryFields.name} $textTypeNullable,
@@ -123,7 +123,7 @@ CREATE TABLE $tablePhotos (
     ''');
       print("table create--5");
 
-  await db.execute('''
+      await db.execute('''
   CREATE TABLE $tableAttributes (
     ${AttributeFields.id} $idType,
     ${AttributeFields.name} $textTypeNullable,
@@ -134,7 +134,7 @@ CREATE TABLE $tablePhotos (
   ''');
       print("table create--6");
 
-  await db.execute('''
+      await db.execute('''
   CREATE TABLE $tablePivot (
     ${PivotFields.productId} $idTypeNullable,
     ${PivotFields.attributeId} $integerTypeNullable,
@@ -148,7 +148,7 @@ CREATE TABLE $tablePhotos (
   ''');
       print("table create--7");
 
-  await db.execute('''
+      await db.execute('''
     CREATE TABLE $tableClients (
       ${ClientFields.id} $idType,
       ${ClientFields.firstname} $textType,
@@ -163,7 +163,7 @@ CREATE TABLE $tablePhotos (
     ''');
       print("table create--8");
 
-  await db.execute('''
+      await db.execute('''
     CREATE TABLE $tableAddresses (
       ${AddressFields.id} $idType,
       ${AddressFields.clientId} $integerTypeNullable,
@@ -180,9 +180,9 @@ CREATE TABLE $tablePhotos (
           REFERENCES $tableClients (${ClientFields.id}) ON DELETE CASCADE
       )
     ''');
-    print("table create--9");
+      print("table create--9");
 
-    await db.execute('''
+      await db.execute('''
       CREATE TABLE $tableDocuments (
         ${DocFields.id} $idType,
         ${DocFields.name} $textType,
@@ -293,8 +293,14 @@ CREATE TABLE $tableCartItem (
     }
   }
 
-  Future close() async {
+  // Future close() async {
+  //   final db = await instance.database;
+  //   if (db != null) db.close();
+  // }
+  Future<void> close() async {
     final db = await instance.database;
-    if (db != null) db.close();
+    _database = null;
+
+    return db?.close();
   }
 }

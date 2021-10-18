@@ -473,7 +473,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
     } catch (e) {
       print(e);
     }
-    val = price - paid-currentPaid;
+    val = price - paid- currentPaid;
     print("-------");
     print(val.toInt());
     ordersbloc.add(AddPaidAmountEvent(amount: int.parse(value)));
