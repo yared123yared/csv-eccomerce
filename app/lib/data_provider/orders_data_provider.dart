@@ -8,6 +8,20 @@ import 'package:app/preferences/user_preference_data.dart';
 
 import 'package:http/http.dart' as http;
 
+class ProductAttribute {
+  ProductAttribute({
+    required this.name,
+    required this.value,
+  });
+  late final String name;
+  late final String value;
+
+  ProductAttribute.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    value = json['value'];
+  }
+}
+
 class OrderDetail {
   List<OrderToBeUpdated> data;
   Client? client;
@@ -110,7 +124,6 @@ class OrderDataProvider {
       }
     } catch (e) {
       print("Exception thrown $e");
-      
     }
     return APIResponse(IsSuccess: false, Message: "Failed To Update Order");
   }
@@ -118,6 +131,8 @@ class OrderDataProvider {
   Future<OrderDetail> OrderData(String id) async {
     String? token = await this.userPreferences.getUserToken();
     List<OrderToBeUpdated> data = [];
+    List<ProductAttribute> productAttribute = [];
+
     int? addressId;
     Client? client;
     try {
@@ -155,8 +170,15 @@ class OrderDataProvider {
                 int quantity = v["quantity"];
                 double price = double.parse(v["price"]);
                 double total = double.parse(v["total"]);
-                // double remaining = double.parse(v["amount_remaining"]);
-                // double paid = double.parse(v["amount_paid"]);
+                if (v['product_attributes'] != null) {
+                  productAttribute = List.from(v['product_attributes'])
+                      .map((e) => ProductAttribute.fromJson(e))
+                      .toList();
+                }
+                // print("---------product attributes");
+                // for (var item in productAttribute) {
+                //   print("${item.name}   ${item.value}");
+                // }
 
                 OrderToBeUpdated cartX = new OrderToBeUpdated(
                   cartId: cartId,
@@ -164,7 +186,7 @@ class OrderDataProvider {
                   quantity: quantity,
                   total: total,
                   price: price,
-                  // amountRemaining: remaining,
+                  productAttributes: productAttribute,
                 );
                 data.add(cartX);
               }
@@ -174,12 +196,20 @@ class OrderDataProvider {
         // print("----ordered product items---");
         // print(json.encode(data).toString);
         // print(data.length);
-        return OrderDetail(data: data, addressId: addressId, client: client);
+        return OrderDetail(
+          data: data,
+          addressId: addressId,
+          client: client,
+        );
       }
     } catch (e) {
       print("Exception fetching order detail");
       print(e);
     }
-    return OrderDetail(data: data, addressId: addressId, client: client);
+    return OrderDetail(
+      data: data,
+      addressId: addressId,
+      client: client,
+    );
   }
 }

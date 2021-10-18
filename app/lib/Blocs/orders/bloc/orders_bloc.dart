@@ -311,7 +311,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         // }
         OrderDetail data = await this.orderRepository.OrderData(event.id);
         yield FetchingOrderToBeUpdatedSuccess(
-          data: data.data,
+          data: data,
           addressId: data.addressId,
           request: state.request,
           client: data.client,

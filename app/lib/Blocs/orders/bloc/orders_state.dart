@@ -50,7 +50,7 @@ class FetchingOrderToBeUpdatedFailed extends OrdersState {
 
 class FetchingOrderToBeUpdatedSuccess extends OrdersState {
   final Request request;
-  final List<OrderToBeUpdated> data;
+  final OrderDetail data;
   int? addressId;
   Client? client;
   final double? credit;

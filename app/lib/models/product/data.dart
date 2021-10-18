@@ -1,15 +1,19 @@
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/models/category/categories.dart';
 import 'package:app/models/product/photo.dart';
-import 'package:app/models/product/product.dart';
-
 import 'attributes.dart';
-import 'brand.dart';
-import 'currency.dart';
 
 class ProductDataFields {
   static final List<String> values = [
-    /// Add all fields
-    id, name, model, price, quantity, manufacturerId, status, currencyId, order
+    id,
+    name,
+    model,
+    price,
+    quantity,
+    manufacturerId,
+    status,
+    currencyId,
+    order,
   ];
 
   static final String id = 'id';
@@ -29,13 +33,14 @@ class OrderToBeUpdated {
   double total;
   double price;
   Data data;
-
+  List<ProductAttribute>? productAttributes;
   OrderToBeUpdated({
     required this.cartId,
     required this.data,
     required this.price,
     required this.total,
     required this.quantity,
+    this.productAttributes,
   });
 }
 
@@ -110,7 +115,7 @@ class Data {
         attributes!.add(new Attributes.fromJson(v));
       });
     }
-      print(" ATTRIBUTES DATA IS PARSED WELL");
+    print(" ATTRIBUTES DATA IS PARSED WELL");
   }
 
   Map<String, dynamic> toJson() {

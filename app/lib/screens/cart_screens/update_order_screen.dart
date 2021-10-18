@@ -14,9 +14,11 @@ import 'package:app/Widget/Home/update_order/update-single-cart-item.dart';
 import 'package:app/Widget/clients/client_profile/address_info.dart';
 import 'package:app/Widget/clients/client_profile/menu.dart';
 import 'package:app/constants/constants.dart';
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/language/bloc/cubit/language_cubit.dart';
 // import 'package:app/logic/cart_logic.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
+import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
@@ -49,6 +51,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
   late AddClientBloc addClientBloc;
   late AllorderrBloc allorderrBloc;
   List<OrderToBeUpdated> orderToBeUpdated = [];
+  List<ProductAttribute> productAttributed = [];
   List<Data> data = [];
   double price = 0;
   int paid = 0;
@@ -143,7 +146,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
             } else if (state is FetchingOrderToBeUpdatedSuccess) {
               request = state.request;
               progress?.dismiss();
-              orderToBeUpdated = state.data;
+              orderToBeUpdated = state.data.data;
               ordersbloc.add(
                 SetRequestEvent(
                   request: Request(
@@ -216,6 +219,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       price: cartItemPrice,
                       total: cartItemPrice * item.order,
                       quantity: item.order,
+                      productAttributes: getProductAttribute(item),
                     ));
                   }
                   ordersbloc.add(
@@ -237,8 +241,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
               setState(() {
                 paid = state.request.amountPaid?.toInt() ?? 0;
               });
-              ordersbloc
-                  .add(AddRemainingAmountEvent(amount: (price - paid-currentPaid).toInt()));
+              ordersbloc.add(AddRemainingAmountEvent(
+                  amount: (price - paid - currentPaid).toInt()));
               int addrId = 0;
               if (state.addressId != null) {
                 addrId = state.addressId!;
@@ -331,6 +335,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                   index >= orderToBeUpdated.length
                                       ? Container(child: Text("The end"))
                                       : UpdateSingleCartItem(
+                                          attribute: getAttribute(orderToBeUpdated[index].productAttributes??[]),
                                           remove: remove,
                                           decreasePrice: decreasePrice,
                                           increasePrice: addPrice,
@@ -443,7 +448,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
       price += priceX;
     });
     ordersbloc.add(AddTotalEvent(total: price.toInt()));
-    ordersbloc.add(AddRemainingAmountEvent(amount: (price - paid-currentPaid).toInt()));
+    ordersbloc.add(
+        AddRemainingAmountEvent(amount: (price - paid - currentPaid).toInt()));
   }
 
   void remove(OrderToBeUpdated data, double priceY) {
@@ -464,16 +470,14 @@ class _UpdateOrderState extends State<UpdateOrder> {
       value = "0";
     }
     double val = 0;
-    // double paid = 0;
     try {
       setState(() {
-        // paid = double.parse(value).toInt();
         currentPaid = double.parse(value).toInt();
       });
     } catch (e) {
       print(e);
     }
-    val = price - paid- currentPaid;
+    val = price - paid - currentPaid;
     print("-------");
     print(val.toInt());
     ordersbloc.add(AddPaidAmountEvent(amount: int.parse(value)));
@@ -506,4 +510,39 @@ class _UpdateOrderState extends State<UpdateOrder> {
       this.payment = payment;
     });
   }
+}
+
+List<ProductAttribute> getProductAttribute(Data product) {
+  List<ProductAttribute> attr = [];
+  for (int i = 0; i < product.selectedAttributes!.length; i++) {
+    List<Attributes> attributes =
+        product.selectedAttributes as List<Attributes>;
+    attr.add(ProductAttribute(
+      name: attributes[i].name ?? "",
+      value: attributes[i].pivot?.value ?? "",
+    ));
+  }
+  return attr;
+}
+
+class Attribute {
+  String color;
+  String size;
+  Attribute({
+    required this.color,
+    required this.size,
+  });
+}
+
+Attribute getAttribute(List<ProductAttribute> attributes) {
+  String selectedColor = '';
+  String size = '';
+  for (int i = 0; i < attributes.length; i++) {
+    if (attributes[i].name == "Color") {
+      selectedColor = attributes[i].value;
+    } else if (attributes[i].name == "Size") {
+      size = attributes[i].value;
+    }
+  }
+  return Attribute(color: selectedColor, size: size);
 }

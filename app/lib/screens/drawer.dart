@@ -53,18 +53,18 @@ class _AppDrawerState extends State<AppDrawer> {
   void navigateToHomeScreen(
       BuildContext context, LoggedUserInfo? loggedUserInfo) {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.pushNamed(context, MainScreen.routeName,
+    Navigator.pushReplacementNamed(context, MainScreen.routeName,
         arguments: loggedUserInfo);
   }
 
   void navigateToClientScreen(BuildContext context) {
     BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.pushNamed(context, ClientsScreen.routeName);
+    Navigator.popAndPushNamed(context, ClientsScreen.routeName);
   }
 
   void navigateToInvoiceClientScreen(BuildContext context) {
     // BlocProvider.of<ClientsBloc>(context, listen: false).add(fetchClientEvent);
-    Navigator.pushReplacementNamed(context, InvoiceClientSearch.routeName);
+    Navigator.popAndPushNamed(context, InvoiceClientSearch.routeName);
   }
 
   String photoPath = "assets/images/circular.png";
@@ -167,24 +167,13 @@ class _AppDrawerState extends State<AppDrawer> {
                                 padding: EdgeInsets.all(16.0),
                                 child: InkWell(
                                   onTap: () {
-                                    // Navigator.of(context).pushNamed(
-                                    //   ClientProfile.routeName,
-                                    //   arguments: state.user,
-                                    // );
                                   },
                                   child: Container(
                                     child: Column(
                                       children: [
                                         photo,
-                                        // CircleAvatar(
-                                        //   radius: 45.0,
-                                        //   backgroundImage:
-                                        //       AssetImage(photoPath),
-                                        // ),
-                                        // ignore: todo
-                                        //TODO nullcheck
                                         Text(
-                                          '${state.user.user!.firstName}',
+                                          '${state.user.user?.firstName}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
@@ -202,27 +191,12 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(right: 25),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: BorderRadius.only(
-                                //     topRight: Radius.circular(30),
-                                //     bottomRight: Radius.circular(30),
-                                //   ),
-                                // ),
                                 child: ListTile(
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(
-                                  //       context, MainScreen.routeName);
-                                  // },
                                   onTap: () {
                                     setState(() {
-                                      //
-
-                                      Navigator.pushNamed(
+                                      Navigator.popAndPushNamed(
                                           context, MainScreen.routeName,
                                           arguments: 0);
-
-                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
@@ -240,60 +214,14 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              // DrawerListTile(
-                              //   'Shop',
-                              //   0,
-                              //   Icons.list_alt,
-                              //   () => {},
-                              // ),
-                              // DrawerListTile(
-                              //     'Products', 4, Icons.shop, () => {}),
-                              // DrawerListTile(
-                              //   'Clients',
-                              //   0,
-                              //   Icons.person,
-                              //   // () => setState(() {
-                              //   // this.check = 7;
-                              //   // BlocProvider.of<ClientsBloc>(context,
-                              //   //         listen: false)
-                              //   //     .add(fetchClientEvent);
-                              //   // }),
-                              //   () => navigateToClientScreen(context),
-                              // ),
-
-                              // DrawerListTile(
-                              //     'Shop',
-                              //     0,
-                              //     Icons.production_quantity_limits_sharp,
-                              //     () => () {
-                              //           Navigator.pushNamed(
-                              //               context, MainScreen.routeName,
-                              //               arguments: 1);
-                              //         }),
-                              //walid
                               Container(
                                 margin: EdgeInsets.only(right: 25),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: BorderRadius.only(
-                                //     topRight: Radius.circular(30),
-                                //     bottomRight: Radius.circular(30),
-                                //   ),
-                                // ),
                                 child: ListTile(
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(
-                                  //       context, MainScreen.routeName);
-                                  // },
                                   onTap: () {
                                     setState(() {
-                                      //
-
-                                      Navigator.pushNamed(
+                                      Navigator.popAndPushNamed(
                                           context, MainScreen.routeName,
                                           arguments: 1);
-
-                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
@@ -316,10 +244,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 [
                                   ExapandedListItem(cubit.tAllOrders(), () {
                                     Navigator.of(context)
-                                        .pushNamed(AllOrdersScreen.routeName);
+                                        .popAndPushNamed(AllOrdersScreen.routeName);
                                   }),
                                   ExapandedListItem(cubit.tOrdersByDebt(), () {
-                                    Navigator.of(context).pushNamed(
+                                    Navigator.of(context).popAndPushNamed(
                                         OrdersByDebtScreen.routeName);
                                   }),
                                 ],
@@ -331,7 +259,7 @@ class _AppDrawerState extends State<AppDrawer> {
                                 [
                                   ExapandedListItem(cubit.tBankDeposit(), () {
                                     Navigator.of(context)
-                                        .pushNamed(PaymentsScreen.routeName);
+                                        .popAndPushNamed(PaymentsScreen.routeName);
                                   }),
                                 ],
                                 0,
@@ -490,25 +418,13 @@ class _AppDrawerState extends State<AppDrawer> {
                               DrawerHeader(
                                 padding: EdgeInsets.all(16.0),
                                 child: InkWell(
-                                  onTap: () {
-                                    // Navigator.of(context).pushNamed(
-                                    //   ClientProfile.routeName,
-                                    //   arguments: state.user,
-                                    // );
-                                  },
+                                  onTap: () { },
                                   child: Container(
                                     child: Column(
                                       children: [
                                         photo,
-                                        // CircleAvatar(
-                                        //   radius: 45.0,
-                                        //   backgroundImage:
-                                        //       AssetImage(photoPath),
-                                        // ),
-                                        // ignore: todo
-                                        //TODO nullcheck
                                         Text(
-                                          '${state.user.user!.firstName}',
+                                          '${state.user.user?.firstName}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
@@ -526,27 +442,12 @@ class _AppDrawerState extends State<AppDrawer> {
                               ),
                               Container(
                                 margin: EdgeInsets.only(right: 25),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: BorderRadius.only(
-                                //     topRight: Radius.circular(30),
-                                //     bottomRight: Radius.circular(30),
-                                //   ),
-                                // ),
                                 child: ListTile(
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(
-                                  //       context, MainScreen.routeName);
-                                  // },
                                   onTap: () {
                                     setState(() {
-                                      //
-
-                                      Navigator.pushNamed(
+                                      Navigator.popAndPushNamed(
                                           context, MainScreen.routeName,
                                           arguments: 0);
-
-                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
@@ -564,60 +465,14 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                 ),
                               ),
-                              // DrawerListTile(
-                              //   'Shop',
-                              //   0,
-                              //   Icons.list_alt,
-                              //   () => {},
-                              // ),
-                              // DrawerListTile(
-                              //     'Products', 4, Icons.shop, () => {}),
-                              // DrawerListTile(
-                              //   'Clients',
-                              //   0,
-                              //   Icons.person,
-                              //   // () => setState(() {
-                              //   // this.check = 7;
-                              //   // BlocProvider.of<ClientsBloc>(context,
-                              //   //         listen: false)
-                              //   //     .add(fetchClientEvent);
-                              //   // }),
-                              //   () => navigateToClientScreen(context),
-                              // ),
-
-                              // DrawerListTile(
-                              //     'Shop',
-                              //     0,
-                              //     Icons.production_quantity_limits_sharp,
-                              //     () => () {
-                              //           Navigator.pushNamed(
-                              //               context, MainScreen.routeName,
-                              //               arguments: 1);
-                              //         }),
-                              //walid
                               Container(
                                 margin: EdgeInsets.only(right: 25),
-                                // decoration: BoxDecoration(
-                                //   color: Colors.white,
-                                //   borderRadius: BorderRadius.only(
-                                //     topRight: Radius.circular(30),
-                                //     bottomRight: Radius.circular(30),
-                                //   ),
-                                // ),
                                 child: ListTile(
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(
-                                  //       context, MainScreen.routeName);
-                                  // },
                                   onTap: () {
                                     setState(() {
-                                      //
-
-                                      Navigator.pushNamed(
+                                      Navigator.popAndPushNamed(
                                           context, MainScreen.routeName,
                                           arguments: 1);
-
-                                      // widget.onPressed();
                                     });
                                   },
                                   leading: Icon(
@@ -702,8 +557,14 @@ class _AppDrawerState extends State<AppDrawer> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          await CsvDatabse.instance.DeleteDatabase();
-                          Navigator.pushNamed(context, Login.routeName);
+                          UserPreferences pref = await UserPreferences();
+                          pref.logOut(true);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute<dynamic>(
+                                builder: (BuildContext context) => Login(),
+                              ),
+                              (route) => false);
                         },
                         child: Container(
                           height: 60.0,
