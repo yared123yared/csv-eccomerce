@@ -256,6 +256,7 @@ class App extends StatelessWidget {
               create: (_) => RecentOrderBloc(
                     RecentDataProvider(userPreferences),
                   )),
+                  
           BlocProvider<DailyChartBloc>(
               create: (_) => DailyChartBloc(
                     DailyChartDataProvider(userPreferences),

@@ -25,7 +25,7 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
-    String image =
+    String image = 
         'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}';
     // print(image);
     return InkWell(
