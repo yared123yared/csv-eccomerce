@@ -125,8 +125,8 @@ class _AddClientState extends State<AddClient> {
                   context: context,
                   dialogType: DialogType.ERROR,
                   animType: AnimType.BOTTOMSLIDE,
-                  title: cubit.tOrderCreatingfailed(),
-                  desc: cubit.tRemainingamountgreaterthanyourcreditlimit(),
+                  title: "Failed to create order",
+                  desc:  state.message!=null? state.message:"There is not description",
                   // btnCancelOnPress: () {
                   //   Navigator.popAndPushNamed(context, AddClient.routeName);
                   //   //      setState(() {
