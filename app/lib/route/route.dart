@@ -1,3 +1,4 @@
+import 'package:app/Widget/Auth/Common/welcome.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/client.dart';
 import 'package:app/models/client.dart';
@@ -118,11 +119,11 @@ class AppRoutes {
             builder: (context) => ClientEditScreen(
                   args: settings.arguments as ClientEditArgs,
                 ));
-
       }
-      return MaterialPageRoute(builder: (context) => ClientEditScreen(
-                  args: settings.arguments as ClientEditArgs,
-      ));
+      return MaterialPageRoute(
+          builder: (context) => ClientEditScreen(
+                args: settings.arguments as ClientEditArgs,
+              ));
     } else if (settings.name == ResetPasswordScreen.routeName) {
       return MaterialPageRoute(
         builder: (context) => ResetPasswordScreen(

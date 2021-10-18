@@ -260,7 +260,7 @@ class App extends StatelessWidget {
               create: (_) => DailyChartBloc(
                     DailyChartDataProvider(userPreferences),
                   )),
-          BlocProvider<MonthlyChartBloc>(   
+          BlocProvider<MonthlyChartBloc>(
             create: (_) => MonthlyChartBloc(
               MOnthlyChartDataProvider(userPreferences),
             ),

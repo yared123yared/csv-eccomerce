@@ -68,6 +68,8 @@ class DataAllOrders {
   late String status;
   late int clientId;
   Client? client;
+  List<ProductsA>? products;
+
   DataAllOrders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
@@ -80,6 +82,59 @@ class DataAllOrders {
     clientId = json['client_id'];
     client =
         json['client'] != null ? new Client.fromJson(json['client']) : null;
+    if (json['products'] != null) {
+      products = [];
+      json['products'].forEach((v) {
+        products?.add(new ProductsA.fromJson(v));
+      });
+    }
+  }
+}
+
+class ProductsA {
+  late int id;
+  late int orderId;
+  late int productId;
+  late int quantity;
+  late String price;
+  late String total;
+  List<int>? attributes;
+  late int companyId;
+  late int createdBy;
+  late int updatedBy;
+  late String createdAt;
+  late String updatedAt;
+  List<ProductAttributes>? productAttributes;
+
+  ProductsA.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    orderId = json['order_id'];
+    productId = json['product_id'];
+    quantity = json['quantity'];
+    price = json['price'];
+    total = json['total'];
+    attributes = json['attributes'].cast<int>();
+    companyId = json['company_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['product_attributes'] != null) {
+      productAttributes = [];
+      json['product_attributes'].forEach((v) {
+        productAttributes?.add(new ProductAttributes.fromJson(v));
+      });
+    }
+  }
+}
+
+class ProductAttributes {
+  late String name;
+  late String value;
+
+  ProductAttributes.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    value = json['value'];
   }
 }
 
