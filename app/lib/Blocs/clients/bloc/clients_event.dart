@@ -3,6 +3,11 @@ part of 'clients_bloc.dart';
 @immutable
 abstract class ClientsEvent {}
 
+class ClientInitialize extends ClientsEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class FetchClientsEvent extends ClientsEvent {
   final bool loadMore;
   FetchClientsEvent({
@@ -41,6 +46,7 @@ class DeleteClientEvent extends ClientsEvent {
   @override
   List<Object> get props => [id];
 }
+
 class SyncDataToServerEvent extends ClientsEvent {
   SyncDataToServerEvent();
   @override
