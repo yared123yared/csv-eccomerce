@@ -39,7 +39,7 @@ class OrderDataProvider {
 
   OrderDataProvider({required this.httpClient, required this.userPreferences});
 
-  Future<bool> createOrder(Request? request) async {
+  Future<APIResponse> createOrder(Request? request) async {
     String? token = await this.userPreferences.getUserToken();
     // late List<Data> products_return = [];
     // print(
@@ -74,15 +74,24 @@ class OrderDataProvider {
       print(
           "Http response ${response.statusCode} and response body ${response.body}");
       if (response.statusCode == 201) {
-        return true;
+
+         return APIResponse(
+            IsSuccess: true, Message: "ORDER CREATED SUCCESSFULLY");
       } else {
         // print(response.body);
-        throw Exception('Failed to load courses');
+        final extractedData =
+            json.decode(response.body) as Map<String, dynamic>;
+          return APIResponse(IsSuccess: false, Message: extractedData["message"]);
+        // throw Exception('Failed to load courses');
+        
+
+
       }
     } catch (e) {
       print("Exception throuwn $e");
     }
-    return false;
+
+      return APIResponse(IsSuccess: false, Message: "Failed To Create Order");
   }
 
   Future<APIResponse> updateOrder(Request req) async {
@@ -105,14 +114,14 @@ class OrderDataProvider {
       );
       request.body = json.encode(req);
       request.headers.addAll(headers);
-
       http.Response response =
           await http.Response.fromStream(await request.send());
 
       if (response.statusCode == 200) {
         // print(await response.stream.bytesToString());
         return APIResponse(
-            IsSuccess: true, Message: "ORDER UPDATED SUCCESSFULLY");
+            IsSuccess: true, Message: "ORDER UPDATED SUCCE SSFULLY");
+
       } else {
         print("failed to update order");
         final extractedData =

@@ -10,10 +10,10 @@ class OrderRepository {
 
   OrderRepository({required this.orderDataProvider});
 
-  Future<bool> createOrder(Request? request) async {
-    bool data = (await orderDataProvider.createOrder(request));
-    print("Data arrived at the data provider $data");
-    return data;
+  Future<APIResponse> createOrder(Request? request) async {
+    // bool data = (await orderDataProvider.createOrder(request));
+    // print("Data arrived at the data provider $data");
+    return await orderDataProvider.createOrder(request);
   }
 
   Future<OrderDetail> OrderData(String id) async {

@@ -46,8 +46,9 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
 
       yield OrderIsBeingCreating(request: state.request);
       if (connected) {
-        bool value = (await this.orderRepository.createOrder(event.request));
-        if (value == true) {
+        APIResponse value =
+            (await this.orderRepository.createOrder(event.request));
+        if (value.IsSuccess == true) {
           print("Order---Successfully created");
           // cartbloc=BlocProvider.of(context)<CartBloc>();
           // InitializeCart
@@ -71,7 +72,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           yield (OrdersInitial());
         } else {
           print("failed to create--order");
-          yield (OrderCreatingFailed(message: "Failed to create order"));
+          print("Message from the servre: ${value.Message}");
+          yield (OrderCreatingFailed(message: value.Message));
         }
       } else {
         if (event.request != null) {
@@ -392,7 +394,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
-    }else if(event is RemoveFromCart){
+    } else if (event is RemoveFromCart) {
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
@@ -408,7 +410,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       }
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
-    }else if (event is UpdateOrderEvent) {
+    } else if (event is UpdateOrderEvent) {
       UserPreferences userPreference = new UserPreferences();
       LoggedUserInfo loggedUserInfo =
           await userPreference.getUserInformation() as LoggedUserInfo;
