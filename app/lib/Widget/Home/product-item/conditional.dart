@@ -47,30 +47,40 @@ class Conditional extends StatelessWidget {
                 ],
               ),
               ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(
-                    (15),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(
+                      (15),
+                    ),
                   ),
-                ),
-                // child: Image.network(image,
-                //     height: MediaQuery.of(context).size.height * 0.18,
-                //     width: double.infinity,
-                //     fit: BoxFit.fill),
-                child: CachedNetworkImage(
-                  imageUrl: image,
-                  height: MediaQuery.of(context).size.height * 0.18,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => Container(
-                    color: Colors.white,
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.black,
-                    child: Icon(Icons.error),
-                  ),
-                ),
-              ),
+                  // child: Image.network(image,
+                  //     height: MediaQuery.of(context).size.height * 0.18,
+                  //     width: double.infinity,
+                  //     fit: BoxFit.fill),
+                  child: this.image != ''
+                      ? CachedNetworkImage(
+                          imageUrl: image,
+                          height: MediaQuery.of(context).size.height * 0.18,
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => Container(
+                            color: Colors.white,
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.black,
+                            child: Icon(Icons.error),
+                          ),
+                        )
+                      : Container(
+                          child: Center(
+                              child: Column(children: [
+                            Image.asset(
+                              'assets/images/image-not-available.png',
+                              height: MediaQuery.of(context).size.height * 0.15,
+                            ),
+                            Text("Image not available")
+                          ])),
+                        )),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Container(
                 // alignment: Alignment.bottomLeft,

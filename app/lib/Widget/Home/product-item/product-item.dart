@@ -25,8 +25,16 @@ class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     cartBloc = BlocProvider.of<CartBloc>(context);
-    String image = 
-        'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}';
+    // String image = '';
+    // if (this.widget.product.photos!.length != 0) {
+    //   image =
+    //       'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}';
+    // } else {
+    //   image = '';
+    // }
+    String image = this.widget.product.photos!.length != 0
+        ? 'https://csv.jithvar.com/storage/${this.widget.product.photos![0].filePath.toString()}'
+        : '';
     // print(image);
     return InkWell(
       onTap: () {

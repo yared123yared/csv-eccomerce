@@ -113,16 +113,18 @@ class _ProductDetailState extends State<ProductDetail> {
     print("Converted data: ${product.toJson()}");
 //  Data  product = Data.copyWith(product);
     // Data? products = ModalRoute.of(context)!.settings.arguments as Data;
-    String image =
-        'https://csv.jithvar.com/storage/${product.photos![0].filePath.toString()}';
+    // String image =
+    //     'https://csv.jithvar.com/storage/${product.photos![0].filePath.toString()}';
     List<String> photos = [];
-    if (product.photos != []) {
+    if ( product.photos!.length!=0) {
       for (int i = 0; i < product.photos!.length; i++) {
         photos.add(
             'https://csv.jithvar.com/storage/${product.photos![i].filePath.toString()}');
       }
     }
+
     print("photos parsed well");
+
     // check the size here.
     List<String?> size = [];
     List<Attributes> color = [];
@@ -217,8 +219,8 @@ class _ProductDetailState extends State<ProductDetail> {
                       itemCount: photos.length,
                       itemBuilder: (context, index, realIndex) => Container(
                         width: double.infinity,
-                        child: CachedNetworkImage(
-                          imageUrl: photos[index],
+                        child:photos.length!=0? CachedNetworkImage(
+                          imageUrl: photos.length!=0?photos[index]:'',
                           height: MediaQuery.of(context).size.height * 0.18,
                           width: double.infinity,
                           fit: BoxFit.fill,
@@ -229,7 +231,16 @@ class _ProductDetailState extends State<ProductDetail> {
                             color: Colors.black,
                             child: Icon(Icons.error),
                           ),
-                        ),
+                        ):Container(
+                          child: Center(
+                              child: Column(children: [
+                            Image.asset(
+                              'assets/images/image-not-available.png',
+                              height: MediaQuery.of(context).size.height * 0.15,
+                            ),
+                            Text("Image not available")
+                          ])),
+                        )
                       ),
                       options: CarouselOptions(
                         height: MediaQuery.of(context).size.height * 0.35,

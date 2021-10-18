@@ -63,7 +63,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
     cartBloc = BlocProvider.of<CartBloc>(context);
     productBloc = BlocProvider.of<ProductBloc>(context);
     String image = "";
-    if (widget.product.photos != null) {
+    if (widget.product.photos!.length != 0) {
       image =
           'https://csv.jithvar.com/storage/${widget.product.photos![0].filePath.toString()}';
     }

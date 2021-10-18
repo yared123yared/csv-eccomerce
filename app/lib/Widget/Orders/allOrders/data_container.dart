@@ -256,7 +256,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                             SnackBar snackBar = new SnackBar(
                                               action: SnackBarAction(
                                                 label: "dismis",
-                                                disabledTextColor: Colors.green[200],
+                                                disabledTextColor:
+                                                    Colors.green[200],
                                                 textColor: Colors.red,
                                                 onPressed: () {},
                                               ),
@@ -266,7 +267,6 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                                 child: Text(
                                                   "Please connect to internet",
                                                   textAlign: TextAlign.center,
-
                                                 ),
                                               ),
                                             );
@@ -372,7 +372,8 @@ class _DataContainerAllOrdersState extends State<DataContainerAllOrders> {
                                               ),
                                             );
                                             print("555");
-
+                                            print(  
+                                                "_______+++++++_____Order number ${index} with detail ${state.allorderdata[index]}");
                                             Navigator.pushNamed(
                                               context,
                                               UpdateOrder.routeName,
