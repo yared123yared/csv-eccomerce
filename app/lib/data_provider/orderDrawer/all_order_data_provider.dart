@@ -29,8 +29,7 @@ class AllOrderDataProvider {
               'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
-            body: jsonEncode(
-              {
+            body: jsonEncode({
               "tableColumns": [
                 "created_at",
                 "order_number",
@@ -48,8 +47,7 @@ class AllOrderDataProvider {
               "relationship": false,
               "relationship_field": "",
               "dir": "desc"
-            }
-            ));
+            }));
 
         if (response.statusCode == 200) {
           APICacheDBModel cacheDBModel = new APICacheDBModel(
@@ -59,7 +57,7 @@ class AllOrderDataProvider {
           await APICacheManager().addCacheData(cacheDBModel);
           final extractedData =
               json.decode(response.body) as Map<String, dynamic>;
-
+          print("+++++++++Extracted data: ${extractedData}");
           final data = extractedData['orders']['data'];
           return data
               .map((allorders) =>

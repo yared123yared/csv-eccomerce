@@ -20,6 +20,7 @@ class CategoriesDataProvider {
 
   Future<List<Categories>> getCategories() async {
     String? token = await this.userPreferences.getUserToken();
+    print("Token: ${token}");
     late List<Categories> categories_return = [];
     try {
       final url = Uri.parse('https://csv.jithvar.com/api/v1/categories');
@@ -43,9 +44,12 @@ class CategoriesDataProvider {
             .map((category) => Categories.fromJson(category))
             .toList()
             .cast<Categories>());
-      } else {
+      } 
+      
+      else {
         // print(response.body);
         throw Exception('Failed to load courses');
+        
       }
     } catch (e) {
       print("Exception throuwn $e");

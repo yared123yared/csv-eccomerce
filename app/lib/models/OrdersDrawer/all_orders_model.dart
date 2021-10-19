@@ -113,7 +113,7 @@ class ProductsA {
     quantity = json['quantity'];
     price = json['price'];
     total = json['total'];
-    attributes = json['attributes'].cast<int>();
+    attributes = json['attributes']!=null?json['attributes'].cast<int>():null;
     companyId = json['company_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -127,6 +127,7 @@ class ProductsA {
     }
   }
 }
+
 
 class ProductAttributes {
   late String name;

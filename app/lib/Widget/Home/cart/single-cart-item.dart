@@ -52,7 +52,7 @@ class _SingleCartItemState extends State<SingleCartItem> {
           widget.product.selectedAttributes as List<Attributes>;
       print(
           "Entered to the attribute selection with name: ${attributes[i].name}");
-      if (attributes[i].name == "Size") {
+      if (attributes[i].name == "Screen Size") {
         print(
             "-----------------------++++Color selcted: ${attributes[i].pivot!.value}");
         size = attributes[i].pivot!.value as String;
