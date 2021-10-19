@@ -1,3 +1,4 @@
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/models/client.dart';
 
 class AllOrdersModel {
@@ -26,7 +27,7 @@ class CartItem {
   late int quantity;
   int? productId;
   int? orderId;
-  List<int>? slectedIds;
+  List<ProductAttribute>? slectedIds;
   CartItem({
     required this.id,
     required this.quantity,
@@ -39,6 +40,13 @@ class CartItem {
     data['id'] = this.id;
     data['quantity'] = this.quantity;
     data['product_id'] = this.productId;
+    List<int> selectedIds = [];
+    if (slectedIds != null) {
+      for (var item in slectedIds!) {
+        selectedIds.add(item.id);
+      }
+    }
+    data['selectedAttributes'] = selectedIds;
     return data;
   }
 
@@ -115,7 +123,8 @@ class ProductsA {
     quantity = json['quantity'];
     price = json['price'];
     total = json['total'];
-    attributes = json['attributes']!=null?json['attributes'].cast<int>():null;
+    attributes =
+        json['attributes'] != null ? json['attributes'].cast<int>() : null;
     companyId = json['company_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -129,7 +138,6 @@ class ProductsA {
     }
   }
 }
-
 
 class ProductAttributes {
   late String name;

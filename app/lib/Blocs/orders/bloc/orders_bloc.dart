@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:collection/collection.dart';
 
 import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
@@ -343,22 +344,47 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
-          CartItem car = carts
-              .where(
-                (element) => (element.productId == event.cart.productId &&
-                    element.slectedIds == event.cart.slectedIds),
-              )
-              .first;
-
-          carts.remove(car);
-          if (car.quantity != null) {
-            int x = car.quantity;
-            ++x;
-            car.quantity = x;
+          List<CartItem> filtered = carts
+              .where((element) => element.productId == event.cart.productId)
+              .toList();
+          List<int> eventIds = getSelectedAttrId2(event.cart.slectedIds);
+          Function eq = const ListEquality().equals;
+          for (var car in filtered) {
+            List<int> itemIds = getSelectedAttrId2(car.slectedIds);
+            if (eq(eventIds == itemIds)) {
+              carts.remove(car);
+              if (car.quantity != null) {
+                int x = car.quantity;
+                ++x;
+                car.quantity = x;
+              }
+              car.id = -1;
+              carts.add(car);
+              request.cartItem = carts;
+              yield RequestUpdateSuccess(
+                request: request,
+                credit: state.credit,
+              );
+              break;
+            }
           }
-          car.id = -1;
-          carts.add(car);
-          request.cartItem = carts;
+
+          // CartItem car = carts
+          //     .where(
+          //       (element) => (element.productId == event.cart.productId &&
+          //           element.slectedIds == event.cart.slectedIds),
+          //     )
+          //     .first;
+
+          // carts.remove(car);
+          // if (car.quantity != null) {
+          //   int x = car.quantity;
+          //   ++x;
+          //   car.quantity = x;
+          // }
+          // car.id = -1;
+          // carts.add(car);
+          // request.cartItem = carts;
           yield RequestUpdateSuccess(
             request: request,
             credit: state.credit,
@@ -381,16 +407,34 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
-          CartItem car = carts
-              .where((element) => element.productId == event.cart.productId &&
-                  element.slectedIds == event.cart.slectedIds)
-              .first;
-          carts.remove(car);
-          int x = car.quantity;
-          --x;
-          car.quantity = x;
-          carts.add(car);
-          request.cartItem = carts;
+          List<CartItem> filtered = carts
+              .where((element) => element.productId == event.cart.productId)
+              .toList();
+          List<int> eventIds = getSelectedAttrId2(event.cart.slectedIds);
+          Function eq = const ListEquality().equals;
+          for (var car in filtered) {
+            List<int> itemIds = getSelectedAttrId2(car.slectedIds);
+            if (eq(eventIds == itemIds)) {
+              carts.remove(car);
+              int x = car.quantity;
+              --x;
+              car.quantity = x;
+              carts.add(car);
+              request.cartItem = carts;
+              break;
+            }
+          }
+          // CartItem car = carts
+          //     .where((element) =>
+          //         element.productId == event.cart.productId &&
+          //         element.slectedIds == event.cart.slectedIds)
+          //     .first;
+          // carts.remove(car);
+          // int x = car.quantity;
+          // --x;
+          // car.quantity = x;
+          // carts.add(car);
+          // request.cartItem = carts;
         } catch (e) {
           // carts.add(event.cart);
           request.cartItem = carts;
@@ -403,12 +447,26 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
-          CartItem car = carts
-              .where((element) => element.productId == event.cart.productId &&
-                  element.slectedIds == event.cart.slectedIds)
-              .first;
-          carts.remove(car);
-          request.cartItem = carts;
+          List<CartItem> filtered = carts
+              .where((element) => element.productId == event.cart.productId)
+              .toList();
+          List<int> eventIds = getSelectedAttrId2(event.cart.slectedIds);
+          Function eq = const ListEquality().equals;
+          for (var car in filtered) {
+            List<int> itemIds = getSelectedAttrId2(car.slectedIds);
+            if (eq(eventIds == itemIds)) {
+              carts.remove(car);
+              request.cartItem = carts;
+              break;
+            }
+          }
+          // CartItem car = carts
+          //     .where((element) =>
+          //         element.productId == event.cart.productId &&
+          //         element.slectedIds == event.cart.slectedIds)
+          //     .first;
+          // carts.remove(car);
+          // request.cartItem = carts;
         } catch (e) {
           request.cartItem = carts;
         }
@@ -509,4 +567,14 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     // double taxedValue = total - 20;
     return total;
   }
+}
+
+List<int> getSelectedAttrId2(List<ProductAttribute>? atr) {
+  List<int> ids = [];
+  if (atr != null) {
+    for (var item in atr) {
+      ids.add(item.id);
+    }
+  }
+  return ids;
 }

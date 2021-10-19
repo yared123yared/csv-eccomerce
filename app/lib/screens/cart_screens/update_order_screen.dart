@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:collection/collection.dart';
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
@@ -20,7 +19,6 @@ import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
-import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/screens/main_screen.dart';
@@ -177,10 +175,11 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 ordersbloc.add(
                   AddToCart(
                     cart: CartItem(
-                        quantity: item.quantity,
-                        id: -1,
-                        productId: item.data.id,
-                        slectedIds: getSelectedAttrId2(item.productAttributes)),
+                      quantity: item.quantity,
+                      id: -1,
+                      productId: item.data.id,
+                      slectedIds: item.productAttributes,
+                    ),
                   ),
                 );
               }
@@ -203,17 +202,34 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   }
 
                   bool itemFoundInOrderToBeUpdated = false;
-                  List<int> itemSelectedIds =
-                      getSelectedAttrId1(item.selectedAttributes);
-                  print("item ---selected --ids");
-                  print(itemSelectedIds);
+                  List<ProductAttribute>? itemAttrr = getProductAttribute(item);
+                  List<int> itemSelectedAttrId = getSelectedAttrId2(itemAttrr);
+                  print("cart--item--attributes");
+                  print(itemSelectedAttrId);
+                  // if (itemAttrr != null) {
+                  //   for (var dt in itemAttrr) {
+                  //     print("${dt.id} ${dt.name} ${dt.value}");
+                  //   }
+                  // } else {
+                  //   print("null");
+                  // }
+
                   for (var i = 0; i < orderToBeUpdated.length; i++) {
-                    List<int> selectedIds = getSelectedAttrId2(
+                    print("product attributes");
+                    List<int> prodSelectedAttrId = getSelectedAttrId2(
                         orderToBeUpdated[i].productAttributes);
-                    print("here ---selected --ids---");
-                    print(selectedIds);
+                    print(prodSelectedAttrId);
+                    // if (orderToBeUpdated[i].productAttributes != null) {
+                    //   for (var dt in orderToBeUpdated[i].productAttributes!) {
+                    //     print("${dt.id} ${dt.name} ${dt.value}");
+                    //   }
+                    // } else {
+                    //   print("null");
+                    // }
+                    // print("prod id--${orderToBeUpdated[i].data.id }       cart id--${item.id}");
+                    Function eq = const ListEquality().equals;
                     if (orderToBeUpdated[i].data.id == item.id &&
-                        selectedIds == itemSelectedIds) {
+                        eq(prodSelectedAttrId,itemSelectedAttrId)) {
                       int quant = orderToBeUpdated[i].quantity + item.order;
                       orderToBeUpdated[i].quantity = quant;
                       double tot = (quant.toDouble() * cartItemPrice);
@@ -237,7 +253,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                         quantity: item.order,
                         id: -1,
                         productId: item.id,
-                        slectedIds: itemSelectedIds,
+                        slectedIds: getProductAttribute(item),
                       ),
                     ),
                   );
@@ -525,13 +541,16 @@ class _UpdateOrderState extends State<UpdateOrder> {
   }
 }
 
-List<ProductAttribute> getProductAttribute(Data product) {
+List<ProductAttribute>? getProductAttribute(Data product) {
   List<ProductAttribute> attr = [];
+  if (product.selectedAttributes == null) {
+    return null;
+  }
   for (int i = 0; i < product.selectedAttributes!.length; i++) {
     List<Attributes> attributes =
         product.selectedAttributes as List<Attributes>;
     attr.add(ProductAttribute(
-      id: attributes[i].id ?? 0,
+      id: attributes[i].pivot?.id ?? 0,
       name: attributes[i].name ?? "",
       value: attributes[i].pivot?.value ?? "",
     ));
