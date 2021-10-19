@@ -26,11 +26,13 @@ class CartItem {
   late int quantity;
   int? productId;
   int? orderId;
+  List<int>? slectedIds;
   CartItem({
     required this.id,
     required this.quantity,
     required this.productId,
     this.orderId,
+    this.slectedIds,
   });
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

@@ -344,7 +344,10 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where(
+                (element) => (element.productId == event.cart.productId &&
+                    element.slectedIds == event.cart.slectedIds),
+              )
               .first;
 
           carts.remove(car);
@@ -379,7 +382,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where((element) => element.productId == event.cart.productId &&
+                  element.slectedIds == event.cart.slectedIds)
               .first;
           carts.remove(car);
           int x = car.quantity;
@@ -400,7 +404,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where((element) => element.productId == event.cart.productId &&
+                  element.slectedIds == event.cart.slectedIds)
               .first;
           carts.remove(car);
           request.cartItem = carts;

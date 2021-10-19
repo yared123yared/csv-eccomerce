@@ -177,10 +177,10 @@ class _UpdateOrderState extends State<UpdateOrder> {
                 ordersbloc.add(
                   AddToCart(
                     cart: CartItem(
-                      quantity: item.quantity,
-                      id: -1,
-                      productId: item.data.id,
-                    ),
+                        quantity: item.quantity,
+                        id: -1,
+                        productId: item.data.id,
+                        slectedIds: getSelectedAttrId2(item.productAttributes)),
                   ),
                 );
               }
@@ -203,8 +203,17 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   }
 
                   bool itemFoundInOrderToBeUpdated = false;
+                  List<int> itemSelectedIds =
+                      getSelectedAttrId1(item.selectedAttributes);
+                  print("item ---selected --ids");
+                  print(itemSelectedIds);
                   for (var i = 0; i < orderToBeUpdated.length; i++) {
-                    if (orderToBeUpdated[i].data.id == item.id) {
+                    List<int> selectedIds = getSelectedAttrId2(
+                        orderToBeUpdated[i].productAttributes);
+                    print("here ---selected --ids---");
+                    print(selectedIds);
+                    if (orderToBeUpdated[i].data.id == item.id &&
+                        selectedIds == itemSelectedIds) {
                       int quant = orderToBeUpdated[i].quantity + item.order;
                       orderToBeUpdated[i].quantity = quant;
                       double tot = (quant.toDouble() * cartItemPrice);
@@ -228,6 +237,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
                         quantity: item.order,
                         id: -1,
                         productId: item.id,
+                        slectedIds: itemSelectedIds,
                       ),
                     ),
                   );
@@ -335,7 +345,10 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                   index >= orderToBeUpdated.length
                                       ? Container(child: Text("The end"))
                                       : UpdateSingleCartItem(
-                                          attribute: getAttribute(orderToBeUpdated[index].productAttributes??[]),
+                                          attribute: getAttribute(
+                                              orderToBeUpdated[index]
+                                                      .productAttributes ??
+                                                  []),
                                           remove: remove,
                                           decreasePrice: decreasePrice,
                                           increasePrice: addPrice,
@@ -518,6 +531,7 @@ List<ProductAttribute> getProductAttribute(Data product) {
     List<Attributes> attributes =
         product.selectedAttributes as List<Attributes>;
     attr.add(ProductAttribute(
+      id: attributes[i].id ?? 0,
       name: attributes[i].name ?? "",
       value: attributes[i].pivot?.value ?? "",
     ));
@@ -545,4 +559,26 @@ Attribute getAttribute(List<ProductAttribute> attributes) {
     }
   }
   return Attribute(color: selectedColor, size: size);
+}
+
+List<int> getSelectedAttrId1(List<Attributes>? atr) {
+  List<int> ids = [];
+  if (atr != null) {
+    for (var item in atr) {
+      if (item.id != null) {
+        ids.add(item.id as int);
+      }
+    }
+  }
+  return ids;
+}
+
+List<int> getSelectedAttrId2(List<ProductAttribute>? atr) {
+  List<int> ids = [];
+  if (atr != null) {
+    for (var item in atr) {
+      ids.add(item.id);
+    }
+  }
+  return ids;
 }
