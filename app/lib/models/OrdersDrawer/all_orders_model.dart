@@ -27,26 +27,22 @@ class CartItem {
   late int quantity;
   int? productId;
   int? orderId;
-  List<ProductAttribute>? slectedIds;
+  List<ProductAttribute>? productAttribute;
+  List<int>? selectedAttribute;
   CartItem({
     required this.id,
     required this.quantity,
     required this.productId,
     this.orderId,
-    this.slectedIds,
+    this.productAttribute,
+    this.selectedAttribute,
   });
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['quantity'] = this.quantity;
     data['product_id'] = this.productId;
-    List<int> selectedIds = [];
-    if (slectedIds != null) {
-      for (var item in slectedIds!) {
-        selectedIds.add(item.id);
-      }
-    }
-    data['selectedAttributes'] = selectedIds;
+    data['selectedAttributes'] = selectedAttribute==null?[]:selectedAttribute;
     return data;
   }
 

@@ -178,7 +178,9 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       quantity: item.quantity,
                       id: -1,
                       productId: item.data.id,
-                      slectedIds: item.productAttributes,
+                      productAttribute: item.productAttributes,
+                      selectedAttribute:
+                          getSelectedAttrId2(item.productAttributes),
                     ),
                   ),
                 );
@@ -206,30 +208,14 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   List<int> itemSelectedAttrId = getSelectedAttrId2(itemAttrr);
                   print("cart--item--attributes");
                   print(itemSelectedAttrId);
-                  // if (itemAttrr != null) {
-                  //   for (var dt in itemAttrr) {
-                  //     print("${dt.id} ${dt.name} ${dt.value}");
-                  //   }
-                  // } else {
-                  //   print("null");
-                  // }
-
                   for (var i = 0; i < orderToBeUpdated.length; i++) {
                     print("product attributes");
                     List<int> prodSelectedAttrId = getSelectedAttrId2(
                         orderToBeUpdated[i].productAttributes);
                     print(prodSelectedAttrId);
-                    // if (orderToBeUpdated[i].productAttributes != null) {
-                    //   for (var dt in orderToBeUpdated[i].productAttributes!) {
-                    //     print("${dt.id} ${dt.name} ${dt.value}");
-                    //   }
-                    // } else {
-                    //   print("null");
-                    // }
-                    // print("prod id--${orderToBeUpdated[i].data.id }       cart id--${item.id}");
                     Function eq = const ListEquality().equals;
                     if (orderToBeUpdated[i].data.id == item.id &&
-                        eq(prodSelectedAttrId,itemSelectedAttrId)) {
+                        eq(prodSelectedAttrId, itemSelectedAttrId)) {
                       int quant = orderToBeUpdated[i].quantity + item.order;
                       orderToBeUpdated[i].quantity = quant;
                       double tot = (quant.toDouble() * cartItemPrice);
@@ -253,7 +239,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
                         quantity: item.order,
                         id: -1,
                         productId: item.id,
-                        slectedIds: getProductAttribute(item),
+                        productAttribute: getProductAttribute(item),
+                        selectedAttribute: itemSelectedAttrId,
                       ),
                     ),
                   );
