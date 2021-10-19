@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:app/Blocs/credit/bloc/credit_bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/db/db.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
@@ -338,13 +336,18 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: credit);
       return;
     } else if (event is AddToCart) {
+      Function eq = const ListEquality().equals;
       print("----add to cart --invoked--");
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where(
+                (element) => (element.productId == event.cart.productId &&
+                    eq(element.selectedAttribute,
+                        event.cart.selectedAttribute)),
+              )
               .first;
 
           carts.remove(car);
@@ -374,12 +377,17 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is DecreaseAmountInCart) {
+      Function eq = const ListEquality().equals;
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where(
+                (element) =>
+                    element.productId == event.cart.productId &&
+                    eq(element.selectedAttribute, event.cart.selectedAttribute),
+              )
               .first;
           carts.remove(car);
           int x = car.quantity;
@@ -395,12 +403,21 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is RemoveFromCart) {
+      Function eq = const ListEquality().equals;
+
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
         try {
           CartItem car = carts
-              .where((element) => element.productId == event.cart.productId)
+              .where(
+                (element) =>
+                    element.productId == event.cart.productId &&
+                    eq(
+                      element.selectedAttribute,
+                      event.cart.selectedAttribute,
+                    ),
+              )
               .first;
           carts.remove(car);
           request.cartItem = carts;

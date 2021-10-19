@@ -1,3 +1,4 @@
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/models/client.dart';
 
 class AllOrdersModel {
@@ -26,17 +27,22 @@ class CartItem {
   late int quantity;
   int? productId;
   int? orderId;
+  List<ProductAttribute>? productAttribute;
+  List<int>? selectedAttribute;
   CartItem({
     required this.id,
     required this.quantity,
     required this.productId,
     this.orderId,
+    this.productAttribute,
+    this.selectedAttribute,
   });
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['quantity'] = this.quantity;
     data['product_id'] = this.productId;
+    data['selectedAttributes'] = selectedAttribute==null?[]:selectedAttribute;
     return data;
   }
 
@@ -113,7 +119,8 @@ class ProductsA {
     quantity = json['quantity'];
     price = json['price'];
     total = json['total'];
-    attributes = json['attributes']!=null?json['attributes'].cast<int>():null;
+    attributes =
+        json['attributes'] != null ? json['attributes'].cast<int>() : null;
     companyId = json['company_id'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
@@ -127,7 +134,6 @@ class ProductsA {
     }
   }
 }
-
 
 class ProductAttributes {
   late String name;

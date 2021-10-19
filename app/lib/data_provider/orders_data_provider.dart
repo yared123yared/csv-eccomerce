@@ -10,13 +10,16 @@ import 'package:http/http.dart' as http;
 
 class ProductAttribute {
   ProductAttribute({
+    required this.id,
     required this.name,
     required this.value,
   });
+  late final int id;
   late final String name;
   late final String value;
 
   ProductAttribute.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     value = json['value'];
   }
@@ -74,8 +77,7 @@ class OrderDataProvider {
       print(
           "Http response ${response.statusCode} and response body ${response.body}");
       if (response.statusCode == 201) {
-
-         return APIResponse(
+        return APIResponse(
             IsSuccess: true, Message: "ORDER CREATED SUCCESSFULLY");
       } else {
         // print(response.body);
@@ -83,19 +85,17 @@ class OrderDataProvider {
             json.decode(response.body) as Map<String, dynamic>;
 
             // if(extractedData["message"]=='Unauthenticated.' && response.statusCode ==401){
-              
+
             // }
           return APIResponse(IsSuccess: false, Message: extractedData["message"]);
         // throw Exception('Failed to load courses');
-        
-
 
       }
     } catch (e) {
       print("Exception throuwn $e");
     }
 
-      return APIResponse(IsSuccess: false, Message: "Failed To Create Order");
+    return APIResponse(IsSuccess: false, Message: "Failed To Create Order");
   }
 
   Future<APIResponse> updateOrder(Request req) async {
@@ -125,7 +125,6 @@ class OrderDataProvider {
         // print(await response.stream.bytesToString());
         return APIResponse(
             IsSuccess: true, Message: "ORDER UPDATED SUCCE SSFULLY");
-
       } else {
         print("failed to update order");
         final extractedData =

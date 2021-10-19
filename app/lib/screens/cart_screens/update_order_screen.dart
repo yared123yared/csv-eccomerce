@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:collection/collection.dart';
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
 import 'package:app/Blocs/cart/bloc/cart_bloc.dart';
@@ -20,7 +19,6 @@ import 'package:app/language/bloc/cubit/language_cubit.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/product/attributes.dart';
 import 'package:app/models/product/data.dart';
-import 'package:app/models/request/cart.dart';
 import 'package:app/models/request/payment.dart';
 import 'package:app/models/request/request.dart';
 import 'package:app/screens/main_screen.dart';
@@ -180,6 +178,9 @@ class _UpdateOrderState extends State<UpdateOrder> {
                       quantity: item.quantity,
                       id: -1,
                       productId: item.data.id,
+                      productAttribute: item.productAttributes,
+                      selectedAttribute:
+                          getSelectedAttrId2(item.productAttributes),
                     ),
                   ),
                 );
@@ -203,8 +204,18 @@ class _UpdateOrderState extends State<UpdateOrder> {
                   }
 
                   bool itemFoundInOrderToBeUpdated = false;
+                  List<ProductAttribute>? itemAttrr = getProductAttribute(item);
+                  List<int> itemSelectedAttrId = getSelectedAttrId2(itemAttrr);
+                  print("cart--item--attributes");
+                  print(itemSelectedAttrId);
                   for (var i = 0; i < orderToBeUpdated.length; i++) {
-                    if (orderToBeUpdated[i].data.id == item.id) {
+                    print("product attributes");
+                    List<int> prodSelectedAttrId = getSelectedAttrId2(
+                        orderToBeUpdated[i].productAttributes);
+                    print(prodSelectedAttrId);
+                    Function eq = const ListEquality().equals;
+                    if (orderToBeUpdated[i].data.id == item.id &&
+                        eq(prodSelectedAttrId, itemSelectedAttrId)) {
                       int quant = orderToBeUpdated[i].quantity + item.order;
                       orderToBeUpdated[i].quantity = quant;
                       double tot = (quant.toDouble() * cartItemPrice);
@@ -228,6 +239,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
                         quantity: item.order,
                         id: -1,
                         productId: item.id,
+                        productAttribute: getProductAttribute(item),
+                        selectedAttribute: itemSelectedAttrId,
                       ),
                     ),
                   );
@@ -335,7 +348,10 @@ class _UpdateOrderState extends State<UpdateOrder> {
                                   index >= orderToBeUpdated.length
                                       ? Container(child: Text("The end"))
                                       : UpdateSingleCartItem(
-                                          attribute: getAttribute(orderToBeUpdated[index].productAttributes??[]),
+                                          attribute: getAttribute(
+                                              orderToBeUpdated[index]
+                                                      .productAttributes ??
+                                                  []),
                                           remove: remove,
                                           decreasePrice: decreasePrice,
                                           increasePrice: addPrice,
@@ -512,12 +528,16 @@ class _UpdateOrderState extends State<UpdateOrder> {
   }
 }
 
-List<ProductAttribute> getProductAttribute(Data product) {
+List<ProductAttribute>? getProductAttribute(Data product) {
   List<ProductAttribute> attr = [];
+  if (product.selectedAttributes == null) {
+    return null;
+  }
   for (int i = 0; i < product.selectedAttributes!.length; i++) {
     List<Attributes> attributes =
         product.selectedAttributes as List<Attributes>;
     attr.add(ProductAttribute(
+      id: attributes[i].pivot?.id ?? 0,
       name: attributes[i].name ?? "",
       value: attributes[i].pivot?.value ?? "",
     ));
@@ -545,4 +565,26 @@ Attribute getAttribute(List<ProductAttribute> attributes) {
     }
   }
   return Attribute(color: selectedColor, size: size);
+}
+
+List<int> getSelectedAttrId1(List<Attributes>? atr) {
+  List<int> ids = [];
+  if (atr != null) {
+    for (var item in atr) {
+      if (item.id != null) {
+        ids.add(item.id as int);
+      }
+    }
+  }
+  return ids;
+}
+
+List<int> getSelectedAttrId2(List<ProductAttribute>? atr) {
+  List<int> ids = [];
+  if (atr != null) {
+    for (var item in atr) {
+      ids.add(item.id);
+    }
+  }
+  return ids;
 }
