@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/db/db.dart';
@@ -341,6 +342,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
       if (carts != null) {
+        print("1");
         try {
           CartItem car = carts
               .where(
@@ -351,32 +353,37 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
               .first;
 
           carts.remove(car);
-          if (car.quantity != null) {
-            int x = car.quantity;
-            ++x;
-            car.quantity = x;
-          }
+          int x = car.quantity;
+          x=x+event.cart.quantity;
+          car.quantity = x;
           car.id = -1;
+          print(jsonEncode(car));
           carts.add(car);
           request.cartItem = carts;
+          print(jsonEncode(state.request).toString());
           yield RequestUpdateSuccess(
             request: request,
             credit: state.credit,
           );
+          return;
         } catch (e) {
           CartItem car = event.cart;
           car.id = -1;
+          print(jsonEncode(car));
           carts.add(event.cart);
           request.cartItem = carts;
+          print(jsonEncode(state.request).toString());
           yield RequestUpdateSuccess(
             request: request,
             credit: state.credit,
           );
+          return;
         }
       }
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is DecreaseAmountInCart) {
+      print("----remove to cart --invoked--");
       Function eq = const ListEquality().equals;
       Request request = state.request;
       List<CartItem>? carts = request.cartItem;
@@ -393,6 +400,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           int x = car.quantity;
           --x;
           car.quantity = x;
+          print(jsonEncode(car));
           carts.add(car);
           request.cartItem = carts;
         } catch (e) {
@@ -400,6 +408,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
           request.cartItem = carts;
         }
       }
+      print(jsonEncode(state.request).toString());
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     } else if (event is RemoveFromCart) {
@@ -436,7 +445,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       print("Entered to the update order event");
       // print("State Request: ${state.request.toJson()}");
       // print("Eve Request: ${event.request.toJson()}");
-
+      print(jsonEncode(state.request).toString());
       bool connected = await ConnectionChecker.CheckInternetConnection();
       // print("-update order--connected--${connected}");
       if (state.request.paymentWhen == "later") {
@@ -508,6 +517,14 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       yield RequestUpdateSuccess(request: request, credit: state.credit);
       return;
     }
+  }
+
+  double getCartTotalPrice(List<CartItem>? carts) {
+    double total = 0.0;
+    if (carts != null) {
+      for (var item in carts) {}
+    }
+    return total;
   }
 
   double getTotalPrice(List<Data> products) {

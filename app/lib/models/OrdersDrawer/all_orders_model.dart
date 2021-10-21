@@ -42,7 +42,7 @@ class CartItem {
     data['id'] = this.id;
     data['quantity'] = this.quantity;
     data['product_id'] = this.productId;
-    data['selectedAttributes'] = selectedAttribute==null?[]:selectedAttribute;
+    data['selectedAttributes'] = this.selectedAttribute;
     return data;
   }
 

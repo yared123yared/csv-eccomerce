@@ -17,6 +17,7 @@ import 'package:app/screens/client_profile_copy.dart';
 import 'package:app/screens/drawer.dart';
 import 'package:app/screens/dashBorad_screen.dart';
 import 'package:app/screens/setting_screen.dart';
+import 'package:app/utils/connection_checker.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -151,25 +152,31 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: IconButton(
-                  onPressed: () async {
-                    print("REFRESH ICON BUTTON HAVE BEEN CLIEKCED");
-                    //  CsvDatabse.instance.DeleteDatabase();
-                    // await  CsvDatabse.instance.clearProductsAndCategories();
-                    // await CsvDatabse.instance.deletePhot();
-                    // await CsvDatabse.instance.deletePiv();
-                    // await CsvDatabse.instance.deleteAttr();
-                    // await CsvDatabse.instance.deletePro();
-                    // await CsvDatabse.instance.deleteProCat();
-                    await CsvDatabse.instance.clearData();
-                    productBloc.add(FetchProduct());
-                    cartBloc.add(InitializeCart());
-                    categoriesBloc.add(FetchCategories());
-                    clientsBloc.add(ClientInitialize());
-                    clientsBloc.add(FetchClientsEvent(loadMore: true));
-                  },
-                  icon: Icon(Icons.refresh),),),
+            padding: EdgeInsets.only(right: 10),
+            child: IconButton(
+              onPressed: () async {
+                print("REFRESH ICON BUTTON HAVE BEEN CLIEKCED");
+                //  CsvDatabse.instance.DeleteDatabase();
+                // await  CsvDatabse.instance.clearProductsAndCategories();
+                // await CsvDatabse.instance.deletePhot();
+                // await CsvDatabse.instance.deletePiv();
+                // await CsvDatabse.instance.deleteAttr();
+                // await CsvDatabse.instance.deletePro();
+                // await CsvDatabse.instance.deleteProCat();
+                bool connected =
+                    await ConnectionChecker.CheckInternetConnection();
+                if (connected) {
+                  await CsvDatabse.instance.clearData();
+                }
+                productBloc.add(FetchProduct());
+                cartBloc.add(InitializeCart());
+                categoriesBloc.add(FetchCategories());
+                clientsBloc.add(ClientInitialize());
+                clientsBloc.add(FetchClientsEvent(loadMore: true));
+              },
+              icon: Icon(Icons.refresh),
+            ),
+          ),
         ],
         leading: GestureDetector(
           onTap: () {

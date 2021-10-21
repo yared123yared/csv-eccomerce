@@ -101,9 +101,10 @@ class OrderDataProvider {
   Future<APIResponse> updateOrder(Request req) async {
     String? token = await this.userPreferences.getUserToken();
     print("---update order data provider");
-    print("req--id--${req.id}");
+    print(jsonEncode(req));
+    // print("req--id--${req.id}");
+    // return APIResponse(IsSuccess: true, Message: "ORDER UPDATED SUCCE SSFULLY");
     try {
-      print(jsonEncode(req));
       print("------------");
       var headers = {
         'Accept': 'application/json',
@@ -116,7 +117,7 @@ class OrderDataProvider {
           'https://csv.jithvar.com/api/v1/orders/${req.id}',
         ),
       );
-      request.body = json.encode(req);
+      request.body = jsonEncode(req);
       request.headers.addAll(headers);
       http.Response response =
           await http.Response.fromStream(await request.send());

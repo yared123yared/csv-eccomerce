@@ -42,6 +42,17 @@ class OrderToBeUpdated {
     required this.quantity,
     this.productAttributes,
   });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['cart_id'] = this.cartId;
+    data['quantity'] = this.quantity;
+    data['total'] = this.total;
+    data['price'] = this.price;
+    // data['data'] = this.data;
+    data['product_attribute'] = this.productAttributes;
+    return data;
+  }
 }
 
 class Data {

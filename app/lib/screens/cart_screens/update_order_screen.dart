@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:app/Blocs/Product/bloc/produt_bloc.dart';
 import 'package:app/Blocs/cart/bloc/add-client/bloc/add_client_bloc.dart';
@@ -145,6 +147,8 @@ class _UpdateOrderState extends State<UpdateOrder> {
               request = state.request;
               progress?.dismiss();
               orderToBeUpdated = state.data.data;
+              // print("----order to be updated");
+              // print(jsonEncode(orderToBeUpdated).toString());
               ordersbloc.add(
                 SetRequestEvent(
                   request: Request(
@@ -423,10 +427,11 @@ class _UpdateOrderState extends State<UpdateOrder> {
                             _formKey.currentState?.save();
                             if (state.request.clientId != null) {
                               int total = price.toInt();
-                              ordersbloc.add(AddTotalEvent(total: total));
+                              ordersbloc
+                                  .add(AddTotalEvent(total: price.toInt()));
                               print("Order method is invoked");
-                              ordersbloc.add(AddRemainingAmountEvent(
-                                  amount: values.Remaining.toInt()));
+                              // ordersbloc.add(AddRemainingAmountEvent(
+                              //     amount: values.Remaining.toInt()));
 
                               ordersbloc.add(
                                   UpdateOrderEvent(request: state.request));
@@ -493,6 +498,7 @@ class _UpdateOrderState extends State<UpdateOrder> {
     } catch (e) {
       print(e);
     }
+    print("--paid from textfield--${currentPaid}");
     val = price - paid - currentPaid;
     print("-------");
     print(val.toInt());
@@ -558,9 +564,10 @@ Attribute getAttribute(List<ProductAttribute> attributes) {
   String selectedColor = '';
   String size = '';
   for (int i = 0; i < attributes.length; i++) {
-    if (attributes[i].name == "Color") {
+    if (attributes[i].name.toLowerCase().contains("color")||
+    attributes[i].name.toLowerCase().contains("colour") ) {
       selectedColor = attributes[i].value;
-    } else if (attributes[i].name == "Size") {
+    } else if (attributes[i].name.toLowerCase().contains("size")) {
       size = attributes[i].value;
     }
   }

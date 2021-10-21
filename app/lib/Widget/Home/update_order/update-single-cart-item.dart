@@ -11,6 +11,7 @@ import 'package:app/Widget/Home/cart/price.dart';
 import 'package:app/Widget/Home/cart/remove-cart.dart';
 import 'package:app/Widget/Home/cart/sub-title.dart';
 import 'package:app/Widget/Home/cart/title.dart';
+import 'package:app/data_provider/orders_data_provider.dart';
 import 'package:app/models/OrdersDrawer/all_orders_model.dart';
 import 'package:app/models/product/data.dart';
 import 'package:app/models/request/cart.dart';
@@ -46,35 +47,6 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
   late OrdersBloc orderBloc;
   @override
   Widget build(BuildContext context) {
-    // String selectedColor = '';
-    // String size = '';
-    // // filter if there is Color here.
-    // print(
-    //     "++++++____-----++Single product have been called,with attribtue length of  ${widget.order.data.selectedAttributes!.length}");
-    // for (int i = 0; i < widget.order.data.selectedAttributes!.length; i++) {
-    //   List<Attributes> attributes =
-    //       widget.order.data.selectedAttributes as List<Attributes>;
-    //   print(
-    //       "Entered to the attribute selection with name: ${attributes[i].name}");
-    //   if (attributes[i].name == "Color") {
-    //     print(
-    //         "-----------------------++++Color selcted: ${attributes[i].pivot!.value}");
-    //     selectedColor = attributes[i].pivot!.value as String;
-    //   }
-    // }
-
-    // // filter if there is Size here
-    // for (int i = 0; i < widget.order.data.selectedAttributes!.length; i++) {
-    //   List<Attributes> attributes =
-    //       widget.order.data.selectedAttributes as List<Attributes>;
-    //   print(
-    //       "Entered to the attribute selection with name: ${attributes[i].name}");
-    //   if (attributes[i].name == "Size") {
-    //     print(
-    //         "-----------------------++++Color selcted: ${attributes[i].pivot!.value}");
-    //     size = attributes[i].pivot!.value as String;
-    //   }
-    // }
     cartBloc = BlocProvider.of<CartBloc>(context);
     orderBloc = BlocProvider.of<OrdersBloc>(context);
     String image = "";
@@ -87,9 +59,9 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
         }
       }
     }
-     print("-----------attribute");
-     print("color--${widget.attribute.color}");
-     print("size--${widget.attribute.size}");
+    print("-----------attribute");
+    print("color--${widget.attribute.color}");
+    print("size--${widget.attribute.size}");
     if (widget.order.data.attributes != null) {
       if (widget.order.data.attributes!.length > 0) {
         productCategory = widget.order.data.name ?? "unknown product";
@@ -175,7 +147,9 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
                   Row(
                     children: [
                       Text("Size: "),
-                      widget.attribute.size != '' ? Text("${widget.attribute.size}") : Text("")
+                      widget.attribute.size != ''
+                          ? Text("${widget.attribute.size}")
+                          : Text("")
                     ],
                   ),
                   Container(
@@ -225,8 +199,10 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
       orderBloc.add(
         AddToCart(
           cart: CartItem(
+            selectedAttribute:
+                getSelectedAttrId2(widget.order.productAttributes),
             productId: widget.order.data.id,
-            quantity: widget.order.quantity,
+            quantity: 1,
             id: widget.order.cartId,
           ),
         ),
@@ -244,6 +220,8 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
         orderBloc.add(
           DecreaseAmountInCart(
             cart: CartItem(
+                selectedAttribute:
+                    getSelectedAttrId2(widget.order.productAttributes),
                 productId: widget.order.data.id,
                 quantity: 0,
                 id: widget.order.cartId),
@@ -258,6 +236,8 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
     orderBloc.add(
       RemoveFromCart(
         cart: CartItem(
+            selectedAttribute:
+                getSelectedAttrId2(widget.order.productAttributes),
             productId: widget.order.data.id,
             quantity: widget.order.quantity,
             id: widget.order.cartId),
@@ -269,5 +249,15 @@ class _UpdateSingleCartItemState extends State<UpdateSingleCartItem> {
     // setState(() {
     //   widget.product.quantity = 0;
     // });
+  }
+
+  List<int> getSelectedAttrId2(List<ProductAttribute>? atr) {
+    List<int> ids = [];
+    if (atr != null) {
+      for (var item in atr) {
+        ids.add(item.id);
+      }
+    }
+    return ids;
   }
 }
