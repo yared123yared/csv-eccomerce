@@ -139,6 +139,7 @@ class ProductAttributes {
   late String name;
   late String value;
 
+
   ProductAttributes.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     value = json['value'];
